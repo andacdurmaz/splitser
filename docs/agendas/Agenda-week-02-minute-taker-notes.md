@@ -47,15 +47,15 @@ seperate class seems to be the best due to complexity of the admin requirements.
 
 is the admin also a user or is it an independent entity? A (TA) : ask the lecturer.
 
--Splitup of tasks (15-20 min)
+- Splitup of tasks (15-20 min)
 we have an event class, homepage class, user and admin class, expenses class, server class.
 
-user: Andac,
-admin: Storm,
-event: Jort,
-expenses: Ivan,
-homepage: Mete,
-server: Tudor,
+user: Andac,\
+admin: Storm,\
+event: Jort,\
+expenses: Ivan,\
+homepage: Mete,\
+server: Tudor,\
 
 no login page for user
 have a common interface for admin and user if they have same functionality
