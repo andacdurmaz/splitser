@@ -4,15 +4,23 @@ public class Event {
     private String title;
     private int amountOfParticipants;
 
+    private String eventCode;
+
     /*
     not in use yet, for when the Expense class has been made
      */
     //private List<Expense> Expenses;
 
     /*
-    Constructor for the Event class
-    @param title, amountOfParticipants
-     */
+      Constructor for the Event class
+    */
+    public Event(String title, int amountOfParticipants, String eventCode) {
+        this.title = title;
+        this.amountOfParticipants = amountOfParticipants;
+        this.eventCode = eventCode;
+    }
+
+
     public Event(String title, int amountOfParticipants) {
         this.title = title;
         this.amountOfParticipants = amountOfParticipants;
@@ -43,5 +51,12 @@ public class Event {
      */
     public void setAmountOfParticipants(int amountOfParticipants) {
         this.amountOfParticipants = amountOfParticipants;
+    }
+
+    /*
+    lets the user see the event code for the event and share it eventually
+     */
+    public String getEventCode() {
+        return eventCode;
     }
 }
