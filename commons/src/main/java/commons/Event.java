@@ -70,8 +70,22 @@ public class Event {
     }
 
     /*
-    lets the user add expenses to the event
+    shows all expenses
      */
+    public List<Object> getExpenses() {
+        return expenses;
+    }
+
+    /*
+    shows the number of expenses
+     */
+    public int getNumberOfExpenses() {
+        return numberOfExpenses;
+    }
+
+    /*
+            lets the user add expenses to the event
+             */
     public void addExpense(Object expense){
         expenses.add(expense);
         numberOfExpenses++;
