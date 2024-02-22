@@ -50,7 +50,7 @@ class EventTest {
     }
 
     @Test
-    void testRemoveExpenses() {
+    void testRemoveExpenses() throws Exception {
         Event event = new Event("test", 3, "123456abc");
         event.addExpense("hello");
         event.addExpense("test");
