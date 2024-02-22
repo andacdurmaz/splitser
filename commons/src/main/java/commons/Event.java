@@ -7,7 +7,7 @@ public class Event {
     private String title;
     private int amountOfParticipants;
 
-    private String eventCode;
+    private final String eventCode;
 
     /*
     not in use yet, for when the Expense class has been made
