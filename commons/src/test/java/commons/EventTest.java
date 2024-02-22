@@ -20,5 +20,18 @@ class EventTest {
         assertEquals(3, event.getAmountOfParticipants());
     }
 
+    @Test
+    void testTitleSetter() {
+        Event event = new Event("test", 3, "123456abc");
+        event.setTitle("newTitle");
+        assertEquals("newTitle", event.getTitle());
+    }
+
+    @Test
+    void testAmountOfParticipantsSetter() {
+        Event event = new Event("test", 3, "123456abc");
+        event.setAmountOfParticipants(4);
+        assertEquals(4, event.getAmountOfParticipants());
+    }
     
 }
