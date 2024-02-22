@@ -26,10 +26,13 @@ public class Event {
         this.expenses = new ArrayList<>();
     }
 
-
+    /*
+    constructor for when no eventcode was specified
+     */
     public Event(String title, int amountOfParticipants) {
         this.title = title;
         this.amountOfParticipants = amountOfParticipants;
+        this.eventCode = "Temp";
     }
 
     /*
