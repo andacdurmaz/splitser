@@ -1,9 +1,9 @@
 package commons;
 
 import org.junit.jupiter.api.Test;
-//
-//import java.util.ArrayList;
-//import java.util.List;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -38,7 +38,7 @@ class EventTest {
         event.setAmountOfParticipants(4);
         assertEquals(4, event.getAmountOfParticipants());
     }
-/*
+
     @Test
     void testAddExpenses() {
         List<Object> list = new ArrayList<>();
@@ -56,7 +56,7 @@ class EventTest {
         event.addExpense("test");
         List<Object> list = new ArrayList<>();
         list.add("hello");
-        assertEquals("test", event.removeExpense("test"));
+        assertTrue(event.removeExpense("test"));
         assertEquals(list, event.getExpenses());
     }
 
@@ -71,7 +71,4 @@ class EventTest {
         assertEquals("newTest", event.setExpense("test", "newTest"));
         assertEquals(list, event.getExpenses());
     }
-
- */
-
 }

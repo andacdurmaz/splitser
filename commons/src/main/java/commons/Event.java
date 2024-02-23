@@ -95,7 +95,7 @@ public class Event {
     lets the user remove some expenses that the user wants
     throws exception if the expense is not in the event
      */
-    public Object removeExpense(Object expense) throws Exception {
+    public boolean removeExpense(Object expense) throws Exception {
         if(!expenses.contains(expense)){
             throw new Exception("This expense does not exist");
         }
