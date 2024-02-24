@@ -7,7 +7,7 @@ public class Event {
     private String title;
     private int amountOfParticipants;
 
-    private String eventCode;
+    private final String eventCode;
 
     /*
     not in use yet, for when the Expense class has been made
@@ -26,10 +26,13 @@ public class Event {
         this.expenses = new ArrayList<>();
     }
 
-
+    /*
+    constructor for when no eventcode was specified
+     */
     public Event(String title, int amountOfParticipants) {
         this.title = title;
         this.amountOfParticipants = amountOfParticipants;
+        this.eventCode = "Temp";
     }
 
     /*
@@ -67,8 +70,22 @@ public class Event {
     }
 
     /*
-    lets the user add expenses to the event
+    shows all expenses
      */
+    public List<Object> getExpenses() {
+        return expenses;
+    }
+
+    /*
+    shows the number of expenses
+     */
+    public int getNumberOfExpenses() {
+        return numberOfExpenses;
+    }
+
+    /*
+            lets the user add expenses to the event
+             */
     public void addExpense(Object expense){
         expenses.add(expense);
         numberOfExpenses++;
@@ -78,7 +95,7 @@ public class Event {
     lets the user remove some expenses that the user wants
     throws exception if the expense is not in the event
      */
-    public Object removeExpense(Object expense) throws Exception {
+    public boolean removeExpense(Object expense) throws Exception {
         if(!expenses.contains(expense)){
             throw new Exception("This expense does not exist");
         }
