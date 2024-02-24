@@ -9,7 +9,8 @@ public class Event {
     /*
     not in use yet, for when the Expense class has been made
      */
-    //private List<Expense> Expenses;
+//    private List<Expense> Expenses;
+    private int numberOfExpenses;
 
     /*
       Constructor for the Event class
@@ -18,6 +19,7 @@ public class Event {
         this.title = title;
         this.amountOfParticipants = amountOfParticipants;
         this.eventCode = eventCode;
+        numberOfExpenses = 0;
     }
 
 
@@ -59,4 +61,11 @@ public class Event {
     public String getEventCode() {
         return eventCode;
     }
+//
+//    public void addExpense(Expense expense){
+//        expenses.add(expense);
+//        numberOfExpenses++;
+//    }
+//
+
 }
