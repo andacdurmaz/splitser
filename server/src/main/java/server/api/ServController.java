@@ -15,15 +15,12 @@
  */
 package server.api;
 
-import commons.Quote;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.Serv;
-import server.database.QuoteRepository;
 import server.database.ServRepository;
 
 import java.util.List;
-import java.util.Random;
 
 @RestController
 @RequestMapping("/api/servers")
