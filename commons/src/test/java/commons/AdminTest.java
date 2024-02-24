@@ -25,6 +25,7 @@ class AdminTest {
         Admin adminA = new Admin("123@email.com","Password123");
         String password = adminA.getPassword();
         assertEquals("Password123",password);
+
     }
 
     @Test
@@ -32,6 +33,7 @@ class AdminTest {
         Admin adminA = new Admin("123@email.com","Password123");
         adminA.setPassword("PasswordABC");
         assertEquals("PasswordABC",adminA.getPassword());
+
     }
 
     @Test
