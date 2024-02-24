@@ -3,14 +3,21 @@ import com.google.inject.Inject;
 
 import client.utils.ServerUtils;
 import commons.Quote;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
-public class HomePage {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class HomePage implements Initializable {
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
     private ObservableList<Quote> data;
@@ -36,16 +43,27 @@ public class HomePage {
     /**
      * Initializing starting page
      */
-    public void initialize() {
-        updateLabelVisibility();
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        Event.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().person.firstName));
+        CreatedBy.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().person.lastName));
+        CreationDate.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().quote));
 
-        // Add an event listener to see changes in the List "EventsList" to see if it is empty or not.
-        // If it is empty make the emptyLabel visible again
-        //
+        // Listen for changes to the items in the TableView
+        EventsList.getItems().addListener(new InvalidationListener() {
+            @Override
+            public void invalidated(Observable observable) {
+                updateLabelVisibility();
+            }
+        });
     }
+        // for now the implementation of initialization is false but i'm not sure how to fix it.
+        // I will come back to this. The lambda expression uses attributes from person like firstName that shouldn't
+        // exist
+        //
 
     /**
-     *     If the ListView is empty, make the label visible; otherwise, make it invisible
+     *     If the ListView is empty, make the label visible. If it isn't make it invisible
       */
     private void updateLabelVisibility() {
         emptyLabel.setVisible(EventsList.getItems().isEmpty());

@@ -1,4 +1,5 @@
 package client.scenes;
 
-public class HomePageTest {
+public class HomePageTest{
+
 }
