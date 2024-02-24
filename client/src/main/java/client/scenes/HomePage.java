@@ -3,7 +3,6 @@ import com.google.inject.Inject;
 
 import client.utils.ServerUtils;
 import commons.Quote;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -40,7 +39,7 @@ public class HomePage {
     public void initialize() {
         updateLabelVisibility();
 
-        // Add an event listener to see changes in the List "EventsList" to see if its empty or not.
+        // Add an event listener to see changes in the List "EventsList" to see if it is empty or not.
         // If it is empty make the emptyLabel visible again
         //
     }
