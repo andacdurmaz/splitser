@@ -102,7 +102,7 @@ public class User {
      * @throws IBANFormatException
      */
     public void setIBAN(String IBAN) throws IBANFormatException {
-        if (IBAN.length() != 11) {
+        if (IBAN.length() != 34) {
             throw new IBANFormatException();
         }
         this.IBAN = IBAN;
@@ -121,7 +121,7 @@ public class User {
      * @throws BICFormatException
      */
     public void setBIC(String BIC) throws BICFormatException {
-        if (IBAN.length() != 34) {
+        if (BIC.length() != 11) {
             throw new BICFormatException();
         }
         this.BIC = BIC;
@@ -157,13 +157,13 @@ public class User {
                 "\n";
     }
 
-    private static class IBANFormatException extends Exception {
+    static class IBANFormatException extends Exception {
 
     }
 
-    private class BICFormatException extends Exception {
+    class BICFormatException extends Exception {
     }
 
-    private class EmailFormatException extends Exception {
+    class EmailFormatException extends Exception {
     }
 }
