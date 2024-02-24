@@ -12,6 +12,7 @@ public class SomeController {
     @GetMapping("/")
     @ResponseBody
     public String index() {
-        return "Hello world!";
+        Config config = new Config();
+        return config.getRandom().toString();
     }
 }
