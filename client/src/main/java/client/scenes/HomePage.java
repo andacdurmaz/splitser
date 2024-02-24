@@ -42,7 +42,7 @@ public class HomePage {
 
         // Add an event listener to see changes in the List "EventsList" to see if its empty or not.
         // If it is empty make the emptyLabel visible again
-        
+        //
     }
 
     /**
