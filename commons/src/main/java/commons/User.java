@@ -14,7 +14,7 @@ public class User {
     private Language language;
 
     /**
-     * Constructor method for an User
+     * Constructor method for a User
      * @param username the username of the User
      * @param email the email of the User
      * @param password the password of the User
@@ -48,11 +48,16 @@ public class User {
     public String getEmail() {
         return email;
     }
+
     /**
      * Setter method for an User's e-mail
      * @param email new e-mail of the User
+     * @throws EmailFormatException
      */
-    public void setEmail(String email) {
+    public void setEmail(String email) throws EmailFormatException {
+        if (email.indexOf('@') == -1) {
+            throw new EmailFormatException();
+        }
         this.email = email;
     }
     /**
@@ -90,11 +95,16 @@ public class User {
     public String getIBAN() {
         return IBAN;
     }
+
     /**
      * Setter method for an User's IBAN
      * @param IBAN new IBAN of the User
+     * @throws IBANFormatException
      */
-    public void setIBAN(String IBAN) {
+    public void setIBAN(String IBAN) throws IBANFormatException {
+        if (IBAN.length() != 11) {
+            throw new IBANFormatException();
+        }
         this.IBAN = IBAN;
     }
     /**
@@ -104,11 +114,16 @@ public class User {
     public String getBIC() {
         return BIC;
     }
+
     /**
      * Setter method for an User's BIC
      * @param BIC new BIC of the User
+     * @throws BICFormatException
      */
-    public void setBIC(String BIC) {
+    public void setBIC(String BIC) throws BICFormatException {
+        if (IBAN.length() != 34) {
+            throw new BICFormatException();
+        }
         this.BIC = BIC;
     }
     /**
@@ -140,5 +155,15 @@ public class User {
                 "BIC: " + BIC + "\n" +
                 "Preferred Language: " + language +
                 "\n";
+    }
+
+    private static class IBANFormatException extends Exception {
+
+    }
+
+    private class BICFormatException extends Exception {
+    }
+
+    private class EmailFormatException extends Exception {
     }
 }
