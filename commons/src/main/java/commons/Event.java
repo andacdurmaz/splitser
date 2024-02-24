@@ -1,5 +1,8 @@
 package commons;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Event {
     private String title;
     private int amountOfParticipants;
@@ -9,7 +12,7 @@ public class Event {
     /*
     not in use yet, for when the Expense class has been made
      */
-//    private List<Expense> Expenses;
+    private List<Object> expenses;
     private int numberOfExpenses;
 
     /*
@@ -19,7 +22,8 @@ public class Event {
         this.title = title;
         this.amountOfParticipants = amountOfParticipants;
         this.eventCode = eventCode;
-        numberOfExpenses = 0;
+        this.numberOfExpenses = 0;
+        this.expenses = new ArrayList<>();
     }
 
 
@@ -61,11 +65,38 @@ public class Event {
     public String getEventCode() {
         return eventCode;
     }
-//
-//    public void addExpense(Expense expense){
-//        expenses.add(expense);
-//        numberOfExpenses++;
-//    }
-//
 
+    /*
+    lets the user add expenses to the event
+     */
+    public void addExpense(Object expense){
+        expenses.add(expense);
+        numberOfExpenses++;
+    }
+
+    /*
+    lets the user remove some expenses that the user wants
+    throws exception if the expense is not in the event
+     */
+    public Object removeExpense(Object expense) throws Exception {
+        if(!expenses.contains(expense)){
+            throw new Exception("This expense does not exist");
+        }
+        return expenses.remove(expense);
+    }
+
+    /*
+    edits or sets the expense based on the oldExpense index
+    the newExpense will have the same location as the oldExpense
+    throws exception if the expense is not in the event
+    returns the newExpense
+     */
+    public Object setExpense(Object oldExpense, Object newExpense) throws Exception {
+        if(!expenses.contains(oldExpense)){
+            throw new Exception("This expense does not exist");
+        }
+        int index = expenses.indexOf(oldExpense);
+        expenses.set(index, newExpense);
+        return newExpense;
+    }
 }
