@@ -61,6 +61,7 @@ public class HomePage implements Initializable {
             }
         });
     }
+
     // for now the implementation of initialization is false, but I'm not sure how to fix it.
     // I will come back to this. The lambda expression uses attributes from person like firstName that shouldn't
     // exist
@@ -69,6 +70,7 @@ public class HomePage implements Initializable {
     /**
      *     If the ListView is empty, make the label visible. If it isn't make it invisible
      */
+
     private void updateLabelVisibility() {
         emptyLabel.setVisible(EventsList.getItems().isEmpty());
     }
