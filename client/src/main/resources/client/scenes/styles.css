@@ -1,0 +1,7 @@
+.circular-button {
+    -fx-background-color: #007bff; /* Background color */
+    -fx-text-fill: white; /* Text color */
+    -fx-background-radius: 50; /* Make it circular */
+    -fx-min-width: 60px; /* Set a minimum width */
+    -fx-min-height: 60px; /* Set a minimum height */
+}
