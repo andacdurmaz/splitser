@@ -27,7 +27,7 @@ class ServTest {
 
     @Test
     void TestAdmins1Admin() {
-        Admin admin = new Admin();
+        Admin admin = new Admin("email", "password");
         Serv server = new Serv(admin);
         Assertions.assertTrue(
                 server.getAdmins().get(0) != null
@@ -47,8 +47,8 @@ class ServTest {
 
     @Test
     void testNotEquals() {
-        Admin admin1 = new Admin();
-        Admin admin2 = new Admin();
+        Admin admin1 = new Admin("email", "password");
+        Admin admin2 = new Admin("noEmail", "passwordB");
         Serv server1 = new Serv(admin1);
         Serv server2 = new Serv(admin2);
         Assertions.assertNotEquals(server1, server2);
