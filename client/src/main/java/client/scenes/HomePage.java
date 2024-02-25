@@ -1,11 +1,11 @@
 package client.scenes;
 import com.google.inject.Inject;
-
 import client.utils.ServerUtils;
 import commons.Quote;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -72,5 +72,76 @@ public class HomePage implements Initializable {
     private void updateLabelVisibility() {
         emptyLabel.setVisible(EventsList.getItems().isEmpty());
     }
+    public void refresh() {
+        var events = server.getQuotes();
+        data = FXCollections.observableList(events);
+        table.setItems(data);
+    }
+    public void addEvent() {
+        mainCtrl.showAdd();
+    }
 
+    public ServerUtils getServer() {
+        return server;
+    }
+
+    public MainCtrl getMainCtrl() {
+        return mainCtrl;
+    }
+
+    public ObservableList<Quote> getData() {
+        return data;
+    }
+
+    public void setData(ObservableList<Quote> data) {
+        this.data = data;
+    }
+
+    public Label getEmptyLabel() {
+        return emptyLabel;
+    }
+
+    public void setEmptyLabel(Label emptyLabel) {
+        this.emptyLabel = emptyLabel;
+    }
+
+    public ListView<String> getEventsList() {
+        return EventsList;
+    }
+
+    public void setEventsList(ListView<String> eventsList) {
+        EventsList = eventsList;
+    }
+
+    public TableView<Quote> getTable() {
+        return table;
+    }
+
+    public void setTable(TableView<Quote> table) {
+        this.table = table;
+    }
+
+    public TableColumn<Quote, String> getEvent() {
+        return Event;
+    }
+
+    public void setEvent(TableColumn<Quote, String> event) {
+        Event = event;
+    }
+
+    public TableColumn<Quote, String> getCreatedBy() {
+        return CreatedBy;
+    }
+
+    public void setCreatedBy(TableColumn<Quote, String> createdBy) {
+        CreatedBy = createdBy;
+    }
+
+    public TableColumn<Quote, String> getCreationDate() {
+        return CreationDate;
+    }
+
+    public void setCreationDate(TableColumn<Quote, String> creationDate) {
+        CreationDate = creationDate;
+    }
 }
