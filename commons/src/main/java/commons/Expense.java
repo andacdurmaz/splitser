@@ -15,12 +15,20 @@ public class Expense {
     public long id;
     private String name;
     private double amount;
-
     private List<User> payingParticipants;
 
     /*
         Constructor for the expense class
      */
+    public Expense (String name, double amount, List<User> payingParticipants) {
+        this.name = name;
+        this.amount = amount;
+        this.payingParticipants = payingParticipants;
+    }
+
+    /*
+        Partial constructor for the expense class
+    */
     public Expense (String name, double amount) {
         this.name = name;
         this.amount = amount;
@@ -37,7 +45,7 @@ public class Expense {
     /*
         Setter for the name attribute
      */
-    public void setName(String title) {
+    public void setName(String name) {
         this.name = name;
     }
 
@@ -92,9 +100,8 @@ public class Expense {
      */
     @Override
     public String toString() {
-        return "Expense{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
+        return "Expense{"+
+                "name='" + name + '\'' +
                 ", amount=" + amount +
                 ", payingParticipants=" + payingParticipants +
                 '}';
