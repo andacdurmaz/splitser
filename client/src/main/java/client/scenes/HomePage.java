@@ -34,6 +34,11 @@ public class HomePage implements Initializable {
     @FXML
     private TableColumn<Quote, String> CreationDate;
 
+    /**
+     * Constructor
+     * @param server
+     * @param mainCtrl
+     */
     @Inject
     public HomePage(ServerUtils server, MainCtrl mainCtrl) {
         this.mainCtrl = mainCtrl;
@@ -48,7 +53,6 @@ public class HomePage implements Initializable {
         Event.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().person.firstName));
         CreatedBy.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().person.lastName));
         CreationDate.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().quote));
-
         // Listen for changes to the items in the TableView
         EventsList.getItems().addListener(new InvalidationListener() {
             @Override
@@ -57,7 +61,7 @@ public class HomePage implements Initializable {
             }
         });
     }
-        // for now the implementation of initialization is false but i'm not sure how to fix it.
+        // for now the implementation of initialization is false, but I'm not sure how to fix it.
         // I will come back to this. The lambda expression uses attributes from person like firstName that shouldn't
         // exist
         //
