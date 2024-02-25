@@ -12,7 +12,7 @@ public class Event {
     /*
     not in use yet, for when the Expense class has been made
      */
-    private List<Object> expenses;
+    private List<Expense> expenses;
     private int numberOfExpenses;
 
     /*
@@ -72,7 +72,7 @@ public class Event {
     /*
     shows all expenses
      */
-    public List<Object> getExpenses() {
+    public List<Expense> getExpenses() {
         return expenses;
     }
 
@@ -86,7 +86,7 @@ public class Event {
     /*
             lets the user add expenses to the event
              */
-    public void addExpense(Object expense){
+    public void addExpense(Expense expense){
         expenses.add(expense);
         numberOfExpenses++;
     }
@@ -95,7 +95,7 @@ public class Event {
     lets the user remove some expenses that the user wants
     throws exception if the expense is not in the event
      */
-    public boolean removeExpense(Object expense) throws Exception {
+    public boolean removeExpense(Expense expense) throws Exception {
         if(!expenses.contains(expense)){
             throw new Exception("This expense does not exist");
         }
@@ -108,7 +108,7 @@ public class Event {
     throws exception if the expense is not in the event
     returns the newExpense
      */
-    public Object setExpense(Object oldExpense, Object newExpense) throws Exception {
+    public Expense setExpense(Expense oldExpense, Expense newExpense) throws Exception {
         if(!expenses.contains(oldExpense)){
             throw new Exception("This expense does not exist");
         }
