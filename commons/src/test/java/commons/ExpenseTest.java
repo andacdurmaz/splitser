@@ -55,6 +55,25 @@ class ExpenseTest {
     }
 
     @Test
+    void getPayingParticipants() {
+        User user = new User("ivan","test","password");
+        List<User> payingParticipants = new ArrayList<>();
+        payingParticipants.add(user);
+        Expense expense = new Expense("Drinks", 3.29,payingParticipants);
+        assertEquals(payingParticipants, expense.getPayingParticipants());
+    }
+
+    @Test
+    void setPayingParticipants() {
+        User user = new User("ivan","test","password");
+        List<User> payingParticipants = new ArrayList<>();
+        payingParticipants.add(user);
+        Expense expense = new Expense("Drinks", 3.29);
+        expense.setPayingParticipants(payingParticipants);
+        assertEquals(payingParticipants, expense.getPayingParticipants());
+    }
+
+    @Test
     void testEquals() {
         Expense expense1 = new Expense("Drinks", 3.29);
         Expense expense2 = new Expense("Drinks", 3.29);
