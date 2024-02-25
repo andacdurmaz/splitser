@@ -31,16 +31,28 @@ public class HomePageTest{
     @BeforeEach
     public void setUp() {
     }
+
+    /**
+     * test for constructor
+     */
     @Test
     public void constructorTest() {
         assertSame(serverMock, homePageMock.getServer());
         assertSame(mainCtrlMock, homePageMock.getMainCtrl());
     }
+
+    /**
+     * test to see if the description of creating or adding an event is visible
+     */
     @Test
     public void updateLabelVisibilityEmptyTest() {
         homePageMock.initialize(null,null);
         assertTrue(emptyLabelMock.isVisible());
     }
+
+    /**
+     * test to see if the description is invisible due to an existence of event
+     */
     @Test
     public void updateLabelVisibilityNotEmptyTest() {
         ObservableList<String> nonEmptyList = FXCollections.observableArrayList("Item 1");
