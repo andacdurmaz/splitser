@@ -16,10 +16,18 @@
 
 package server.database;
 
+import commons.Expense;
+import commons.User;
+
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
-import commons.Event
+import commons.Event;
 
 public interface EventRepository extends JpaRepository<Event, Long>  {
-
+    Event getEventById(long Id);
+    User getCreatorById(long Id);
+    String getEventTitleById(long Id);
+    List<Expense> getExpensesByEventId(long Id);
 }
 
