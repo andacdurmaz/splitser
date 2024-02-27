@@ -20,12 +20,10 @@ public class Serv {
     public long id;
 
     @ElementCollection
-    @CollectionTable(name = "admin_Map", joinColumns = @JoinColumn(name = "id")) // 2
     @Column(name = "admins")
     List<Long> admins;
 
     @ElementCollection
-    @CollectionTable(name = "admin_Map", joinColumns = @JoinColumn(name = "id")) // 2
     @Column(name = "events")
     List<Long> events = new ArrayList<>();
     public Serv() {
