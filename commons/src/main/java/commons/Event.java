@@ -75,6 +75,7 @@ public class Event {
 
     /*
     lets the user change the description of an event
+    @param String description new description
      */
     public void setDescription(String description){
         this.description = description;
