@@ -15,15 +15,18 @@ public class Event {
     private List<Expense> expenses;
     private int numberOfExpenses;
 
+    private String description;
+
     /*
       Constructor for the Event class
     */
-    public Event(String title, int amountOfParticipants, String eventCode) {
+    public Event(String title, int amountOfParticipants, String eventCode, String description) {
         this.title = title;
         this.amountOfParticipants = amountOfParticipants;
         this.eventCode = eventCode;
         this.numberOfExpenses = 0;
         this.expenses = new ArrayList<>();
+        this.description = description;
     }
 
     /*
@@ -67,6 +70,22 @@ public class Event {
      */
     public String getEventCode() {
         return eventCode;
+    }
+
+
+    /*
+    lets the user change the description of an event
+    @param String description new description
+     */
+    public void setDescription(String description){
+        this.description = description;
+    }
+
+    /*
+    shows the event description
+     */
+    public String getDescription(){
+        return description;
     }
 
     /*
