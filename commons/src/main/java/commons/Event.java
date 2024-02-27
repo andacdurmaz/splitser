@@ -72,9 +72,17 @@ public class Event {
         return eventCode;
     }
 
+
+    /*
+    lets the user change the description of an event
+     */
     public void setDescription(String description){
         this.description = description;
     }
+
+    /*
+    shows the event description
+     */
     public String getDescription(){
         return description;
     }
