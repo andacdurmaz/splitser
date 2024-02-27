@@ -22,6 +22,12 @@ public class UserTest {
         user.setUsername("mete");
         assertEquals("mete", user.getUsername());
     }
+    @Test
+    public void testID() {
+        User user = new User("andac", "andac@gmail.com", "123");
+        user.setUserID(486);
+        assertEquals(486, user.getUserID());
+    }
 
     @Test
     public void emailTest() throws User.EmailFormatException {

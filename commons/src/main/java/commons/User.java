@@ -1,10 +1,18 @@
 package commons;
 
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
 public class User {
     enum Language {
         EN,
         NL
     }
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long userID;
     private String username;
     private String email;
     private String password;
@@ -139,6 +147,20 @@ public class User {
      */
     public void setLanguage(Language language) {
         this.language = language;
+    }
+    /**
+     * Getter method for User's ID
+     * @return the ID of the User
+     */
+    public long getUserID() {
+        return userID;
+    }
+    /**
+     * Setter method for an User's ID
+     * @param userID new ID of the User
+     */
+    public void setUserID(long userID) {
+        this.userID = userID;
     }
 
     /**
