@@ -25,6 +25,14 @@ public class Admin {
     }
 
     /**
+     * Method that returns the ID of the admin
+     * @return the id of the admin
+     */
+    public long getId() {
+        return id;
+    }
+
+    /**
      * Method that returns the email of the admin
      * @return the email of the admin
      */
@@ -66,8 +74,9 @@ public class Admin {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Admin admin = (Admin) o;
-        return Objects.equals(email, admin.email) && Objects.equals(password, admin.password);
+        return id == admin.id && Objects.equals(email, admin.email) && Objects.equals(password, admin.password);
     }
+
 
     /**
      * Method to generate a hashcode
@@ -75,7 +84,7 @@ public class Admin {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(email, password);
+        return Objects.hash(id, email, password);
     }
 
     /**
@@ -85,7 +94,8 @@ public class Admin {
     @Override
     public String toString() {
         return "Admin{" +
-                "email='" + email + '\'' +
+                "id=" + id +
+                ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 '}';
     }
