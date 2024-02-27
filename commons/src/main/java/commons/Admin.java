@@ -1,10 +1,20 @@
 package commons;
 
+import jakarta.persistence.*;
+
 import java.util.Objects;
 
+@Entity
+@Table(name = "ADMIN")
 public class Admin {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "id", nullable = false)
+    public long id;
+    @Column(name = "email", nullable = false)
     public String email;
+    @Column(name = "password", nullable = false)
     public String password;
 
     /**
@@ -15,6 +25,14 @@ public class Admin {
     public Admin(String email, String password) {
         this.email = email;
         this.password = password;
+    }
+
+    public Admin() {
+
+    }
+
+    public long getId() {
+        return id;
     }
 
     /**

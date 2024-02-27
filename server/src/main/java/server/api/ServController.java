@@ -21,7 +21,7 @@ public class ServController {
     }
 
     @GetMapping(path = { "", "/" })
-    public List<Serv> getAll() {
+    public List<Serv> getAllServ() {
         return repo.findAll();
     }
 
