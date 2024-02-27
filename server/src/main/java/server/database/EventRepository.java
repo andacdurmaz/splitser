@@ -25,9 +25,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import commons.Event;
 
 public interface EventRepository extends JpaRepository<Event, Long>  {
-    Event getEventById(long Id);
-    User getCreatorById(long Id);
-    String getEventTitleById(long Id);
-    List<Expense> getExpensesByEventId(long Id);
+    Event getEventById(long id);
+    User getCreatorById(long id);
+    String getEventTitleById(long id);
+    List<Expense> getExpensesByEventId(long id);
+    String getDescriptionByEventId(long id);
 }
 
