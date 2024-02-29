@@ -1,7 +1,7 @@
 package client.scenes;
 import com.google.inject.Inject;
 import client.utils.ServerUtils;
-import commons.Quote;
+import commons.Event;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.property.SimpleStringProperty;
@@ -20,19 +20,19 @@ import java.util.ResourceBundle;
 public class HomePage implements Initializable {
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
-    private ObservableList<Quote> data;
+    private ObservableList<Event> data;
     @FXML
     private Label emptyLabel;
     @FXML
     private ListView<String> EventsList;
     @FXML
-    private TableView<Quote> table;
+    private TableView<Event> table;
     @FXML
-    private TableColumn<Quote, String> Event;
+    private TableColumn<Event, String> Event;
     @FXML
-    private TableColumn<Quote, String> CreatedBy;
+    private TableColumn<Event, String> EventCode;
     @FXML
-    private TableColumn<Quote, String> CreationDate;
+    private TableColumn<Event, String> Description;
 
     /**
      * Constructor
@@ -50,9 +50,9 @@ public class HomePage implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Event.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().person.firstName));
-        CreatedBy.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().person.lastName));
-        CreationDate.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().quote));
+        Event.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().getTitle()));
+        EventCode.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().getEventCode()));
+        Description.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().getDescription()));
         // Listen for changes to the items in the TableView
         EventsList.getItems().addListener(new InvalidationListener() {
             @Override
@@ -62,11 +62,6 @@ public class HomePage implements Initializable {
         });
     }
 
-    // for now the implementation of initialization is false, but I'm not sure how to fix it.
-    // I will come back to this. The lambda expression uses attributes from person like firstName that shouldn't
-    // exist
-    //
-
     /**
      *     If the ListView is empty, make the label visible. If it isn't make it invisible
      */
@@ -75,7 +70,7 @@ public class HomePage implements Initializable {
         emptyLabel.setVisible(EventsList.getItems().isEmpty());
     }
     public void refresh() {
-        var events = server.getQuotes();
+        var events = server.getEvents();
         data = FXCollections.observableList(events);
         table.setItems(data);
     }
@@ -91,11 +86,11 @@ public class HomePage implements Initializable {
         return mainCtrl;
     }
 
-    public ObservableList<Quote> getData() {
+    public ObservableList<Event> getData() {
         return data;
     }
 
-    public void setData(ObservableList<Quote> data) {
+    public void setData(ObservableList<Event> data) {
         this.data = data;
     }
 
@@ -115,35 +110,35 @@ public class HomePage implements Initializable {
         EventsList = eventsList;
     }
 
-    public TableView<Quote> getTable() {
+    public TableView<Event> getTable() {
         return table;
     }
 
-    public void setTable(TableView<Quote> table) {
+    public void setTable(TableView<Event> table) {
         this.table = table;
     }
 
-    public TableColumn<Quote, String> getEvent() {
+    public TableColumn<Event, String> getEvent() {
         return Event;
     }
 
-    public void setEvent(TableColumn<Quote, String> event) {
+    public void setEvent(TableColumn<Event, String> event) {
         Event = event;
     }
 
-    public TableColumn<Quote, String> getCreatedBy() {
-        return CreatedBy;
+    public TableColumn<Event, String> getEventCode() {
+        return EventCode;
     }
 
-    public void setCreatedBy(TableColumn<Quote, String> createdBy) {
-        CreatedBy = createdBy;
+    public void setEventCode(TableColumn<Event, String> eventCode) {
+        EventCode = eventCode;
     }
 
-    public TableColumn<Quote, String> getCreationDate() {
-        return CreationDate;
+    public TableColumn<Event, String> getDescription() {
+        return Description;
     }
 
-    public void setCreationDate(TableColumn<Quote, String> creationDate) {
-        CreationDate = creationDate;
+    public void setDescription(TableColumn<Event, String> description) {
+        Description = description;
     }
 }

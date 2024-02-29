@@ -25,8 +25,8 @@
         <TableView fixedCellSize="1.0" layoutX="74.0" layoutY="120.0" prefHeight="200.0" prefWidth="310.0">
             <columns>
                 <TableColumn fx:id="Event" prefWidth="130.4000244140625" text="Event" />
-                <TableColumn fx:id="CreatedBy" prefWidth="80.8" text="CreatedBy" />
-                <TableColumn fx:id="CreationDate" prefWidth="97.60001220703123" text="CreationDate" />
+                <TableColumn fx:id="EventCode" prefWidth="80.8" text="Event Code" />
+                <TableColumn fx:id="Description" prefWidth="97.60001220703123" text="Description" />
             </columns>
         </TableView>
     </children>
