@@ -1,16 +1,22 @@
 package commons;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Event {
+
+    @Id
+    private final String eventCode;
     private String title;
     private int amountOfParticipants;
-    private final String eventCode;
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
     private List<Expense> expenses;
-    private int numberOfExpenses;
-
     private String description;
+
 
     /**
      * Constructor for the Event class
@@ -23,7 +29,6 @@ public class Event {
         this.title = title;
         this.amountOfParticipants = amountOfParticipants;
         this.eventCode = eventCode;
-        this.numberOfExpenses = 0;
         this.expenses = new ArrayList<>();
         this.description = description;
     }
@@ -109,7 +114,7 @@ public class Event {
      * @return amount of expenses
      */
     public int getNumberOfExpenses() {
-        return numberOfExpenses;
+        return expenses.size();
     }
 
     /**
@@ -118,7 +123,6 @@ public class Event {
      */
     public void addExpense(Expense expense){
         expenses.add(expense);
-        numberOfExpenses++;
     }
 
     /**
