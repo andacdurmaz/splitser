@@ -1,12 +1,14 @@
 package commons;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public class Event {
 
     @Id
@@ -17,6 +19,12 @@ public class Event {
     private List<Expense> expenses;
     private String description;
 
+    /**
+     * this constructor is needed for JPA
+     */
+    public Event() {
+        this.eventCode = "Temp";
+    }
 
     /**
      * Constructor for the Event class
