@@ -8,11 +8,6 @@ import java.util.List;
 @Entity
 public class User {
 
-    enum Language {
-        EN,
-        NL
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long userID;
@@ -28,6 +23,14 @@ public class User {
 
     public User() {
 
+    }
+
+    public List<Expense> getExpenses() {
+        return expenses;
+    }
+
+    public void setExpenses(List<Expense> expenses) {
+        this.expenses = expenses;
     }
 
     /**
