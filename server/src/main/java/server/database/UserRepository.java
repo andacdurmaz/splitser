@@ -31,44 +31,38 @@ public interface UserRepository extends JpaRepository<User, Long> {
      * @param Id of the User
      * @return the User given its id
      */
-    User getUserById(long Id);
+    User getUserById(long Id) throws UserRepo.NoUserFoundException;
 
     /**
      * Retrieves the username of a User from the database given its id
      * @param Id of the User
      * @return the username of the User
      */
-    String getUsernameById(long Id);
+    String getUsernameById(long Id) throws UserRepo.NoUserFoundException;
     /**
      * Retrieves the e-mail of a User from the database given its id
      * @param Id of the User
      * @return the e-mail of the User
      */
-    String getEmailById(long Id);
-    /**
-     * Retrieves the password of a User from the database given its id
-     * @param Id of the User
-     * @return the password of the User
-     */
-    String getPasswordById(long Id);
+    String getEmailById(long Id) throws UserRepo.NoUserFoundException;
     /**
      * Retrieves the IBAN of a User from the database given its id
      * @param Id of the User
      * @return the IBAN of the User
      */
-    String getIbanById(long Id);
+    String getIbanById(long Id) throws UserRepo.NoUserFoundException;
     /**
      * Retrieves the BIC of a User from the database given its id
      * @param Id of the User
      * @return the BIC of the User
      */
-    String getBicById(long Id);
+    String getBicById(long Id) throws UserRepo.NoUserFoundException;
     /**
      * Retrieves the server URL of a User from the database given its id
      * @param Id of the User
      * @return the server URL of the User
      */
-    String getServerURLById(long Id);
+    String getServerURLById(long Id) throws UserRepo.NoUserFoundException;
 
 
 }

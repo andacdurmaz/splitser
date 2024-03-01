@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class User {
@@ -13,7 +14,6 @@ public class User {
     private long userID;
     private String username;
     private String email;
-    private String password;
     private String serverURL;
     private String IBAN;
     private String BIC;
@@ -39,10 +39,9 @@ public class User {
      * @param email the email of the User
      * @param password the password of the User
      */
-    public User(String username, String email, String password) {
+    public User(String username, String email) {
         this.username = username;
         this.email = email;
-        this.password = password;
         this.language = Language.EN;
         this.expenses = new ArrayList<>();
     }
@@ -81,20 +80,7 @@ public class User {
         }
         this.email = email;
     }
-    /**
-     * Getter method for User password
-     * @return the password of the User
-     */
-    public String getPassword() {
-        return password;
-    }
-    /**
-     * Setter method for an User's password
-     * @param password new password of the User
-     */
-    public void setPassword(String password) {
-        this.password = password;
-    }
+
     /**
      * Getter method for User's connected server
      * @return the server of the User
@@ -191,6 +177,20 @@ public class User {
                 "Preferred Language: " + language +
                 "\n";
     }
+
+    /**
+     * Checks whether an object is equal to a User
+     * @param o the compared object
+     * @return true if the object is equal to an object
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return userID == user.userID;
+    }
+
 
     static class IBANFormatException extends Exception {
 
