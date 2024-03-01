@@ -1,16 +1,27 @@
 package commons;
 
+import jakarta.persistence.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public class Event {
+
+    @Id
+    private final String eventCode;
     private String title;
     private int amountOfParticipants;
-    private final String eventCode;
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
     private List<Expense> expenses;
-    private int numberOfExpenses;
-
     private String description;
+
+    /**
+     * this constructor is needed for JPA
+     */
+    public Event() {
+        this.eventCode = "Temp";
+    }
 
     /**
      * Constructor for the Event class
@@ -23,7 +34,6 @@ public class Event {
         this.title = title;
         this.amountOfParticipants = amountOfParticipants;
         this.eventCode = eventCode;
-        this.numberOfExpenses = 0;
         this.expenses = new ArrayList<>();
         this.description = description;
     }
@@ -54,6 +64,7 @@ public class Event {
     public void setTitle(String title) {
         this.title = title;
     }
+
 
     /**
      * shows the amount of participants
@@ -109,7 +120,7 @@ public class Event {
      * @return amount of expenses
      */
     public int getNumberOfExpenses() {
-        return numberOfExpenses;
+        return expenses.size();
     }
 
     /**
@@ -118,7 +129,6 @@ public class Event {
      */
     public void addExpense(Expense expense){
         expenses.add(expense);
-        numberOfExpenses++;
     }
 
     /**
