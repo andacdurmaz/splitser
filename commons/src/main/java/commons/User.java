@@ -1,14 +1,12 @@
 package commons;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
 public class User {
-    enum Language {
-        EN,
-        NL
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -20,6 +18,20 @@ public class User {
     private String IBAN;
     private String BIC;
     private Language language;
+    @ManyToMany(mappedBy = "payingParticipants")
+    private List<Expense> expenses;
+
+    public User() {
+
+    }
+
+    public List<Expense> getExpenses() {
+        return expenses;
+    }
+
+    public void setExpenses(List<Expense> expenses) {
+        this.expenses = expenses;
+    }
 
     /**
      * Constructor method for a User
@@ -32,6 +44,7 @@ public class User {
         this.email = email;
         this.password = password;
         this.language = Language.EN;
+        this.expenses = new ArrayList<>();
     }
 
     /**
@@ -60,7 +73,7 @@ public class User {
     /**
      * Setter method for an User's e-mail
      * @param email new e-mail of the User
-     * @throws EmailFormatException
+     * @throws EmailFormatException if the format isn inccorrect
      */
     public void setEmail(String email) throws EmailFormatException {
         if (email.indexOf('@') == -1) {
@@ -107,7 +120,7 @@ public class User {
     /**
      * Setter method for an User's IBAN
      * @param IBAN new IBAN of the User
-     * @throws IBANFormatException
+     * @throws IBANFormatException if the format is incorrect
      */
     public void setIBAN(String IBAN) throws IBANFormatException {
         if (IBAN.length() != 34) {
@@ -126,7 +139,7 @@ public class User {
     /**
      * Setter method for an User's BIC
      * @param BIC new BIC of the User
-     * @throws BICFormatException
+     * @throws BICFormatException if the format is incorrect
      */
     public void setBIC(String BIC) throws BICFormatException {
         if (BIC.length() != 11) {

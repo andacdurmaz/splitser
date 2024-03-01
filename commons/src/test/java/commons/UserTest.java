@@ -13,7 +13,7 @@ public class UserTest {
         assertEquals("andac", user.getUsername());
         assertEquals("andac@gmail.com", user.getEmail());
         assertEquals("123", user.getPassword());
-        assertEquals(User.Language.EN, user.getLanguage());
+        assertEquals(Language.EN, user.getLanguage());
     }
 
     @Test
@@ -70,8 +70,8 @@ public class UserTest {
     @Test
     public void languageTest() {
         User user = new User("andac", "andac@gmail.com", "123");
-        user.setLanguage(User.Language.NL);
-        assertEquals(User.Language.NL, user.getLanguage());
+        user.setLanguage(Language.NL);
+        assertEquals(Language.NL, user.getLanguage());
     }
 
     @Test

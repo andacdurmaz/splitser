@@ -5,18 +5,23 @@ import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public class Event {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private final String eventCode;
     private String title;
     private int amountOfParticipants;
-    private final long eventCode;
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
     private List<Expense> expenses;
-
     private String description;
+
+    /**
+     * this constructor is needed for JPA
+     */
+    public Event() {
+        this.eventCode = "Temp";
+    }
 
     /**
      * Constructor for the Event class
@@ -59,6 +64,7 @@ public class Event {
     public void setTitle(String title) {
         this.title = title;
     }
+
 
     /**
      * shows the amount of participants
@@ -107,6 +113,14 @@ public class Event {
      */
     public List<Expense> getExpenses() {
         return expenses;
+    }
+
+    /**
+     * shows the amount of expenses
+     * @return amount of expenses
+     */
+    public int getNumberOfExpenses() {
+        return expenses.size();
     }
 
     /**
