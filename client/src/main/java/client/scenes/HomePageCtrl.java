@@ -16,7 +16,7 @@ import javafx.scene.control.TableView;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class HomePage implements Initializable {
+public class HomePageCtrl implements Initializable {
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
     private ObservableList<Event> data;
@@ -39,7 +39,7 @@ public class HomePage implements Initializable {
      * @param mainCtrl main controller
      */
     @Inject
-    public HomePage(ServerUtils server, MainCtrl mainCtrl) {
+    public HomePageCtrl(ServerUtils server, MainCtrl mainCtrl) {
         this.mainCtrl = mainCtrl;
         this.server = server;
     }
@@ -52,7 +52,7 @@ public class HomePage implements Initializable {
         Event.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().getTitle()));
         EventCode.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().getEventCode()));
         Description.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().getDescription()));
-        // Listen for changes to the items in the TableView
+        // Listen for changes to the items in the ListView
         EventsList.getItems().addListener(
                 (InvalidationListener) observable -> updateLabelVisibility());
     }
@@ -102,7 +102,7 @@ public class HomePage implements Initializable {
     }
 
     public void setEventsList(ListView<String> eventsList) {
-        EventsList = eventsList;
+        this.EventsList = eventsList;
     }
 
     public TableView<Event> getTable() {
@@ -118,7 +118,7 @@ public class HomePage implements Initializable {
     }
 
     public void setEvent(TableColumn<Event, String> event) {
-        Event = event;
+        this.Event = event;
     }
 
     public TableColumn<Event, String> getEventCode() {
@@ -126,7 +126,7 @@ public class HomePage implements Initializable {
     }
 
     public void setEventCode(TableColumn<Event, String> eventCode) {
-        EventCode = eventCode;
+        this.EventCode = eventCode;
     }
 
     public TableColumn<Event, String> getDescription() {
@@ -134,6 +134,6 @@ public class HomePage implements Initializable {
     }
 
     public void setDescription(TableColumn<Event, String> description) {
-        Description = description;
+        this.Description = description;
     }
 }

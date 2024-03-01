@@ -25,7 +25,7 @@ public class HomePageTest{
     private MainCtrl mainCtrlMock;
 
     @InjectMocks
-    private HomePage homePageMock;
+    private HomePageCtrl homePageCtrlMock;
 
 //    @BeforeEach
 //    public void setUp() {
