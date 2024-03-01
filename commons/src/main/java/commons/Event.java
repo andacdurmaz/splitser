@@ -1,9 +1,6 @@
 package commons;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,6 +64,7 @@ public class Event {
     public void setTitle(String title) {
         this.title = title;
     }
+
 
     /**
      * shows the amount of participants

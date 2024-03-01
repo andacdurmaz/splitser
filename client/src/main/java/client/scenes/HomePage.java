@@ -3,7 +3,6 @@ import com.google.inject.Inject;
 import client.utils.ServerUtils;
 import commons.Event;
 import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -36,8 +35,8 @@ public class HomePage implements Initializable {
 
     /**
      * Constructor
-     * @param server
-     * @param mainCtrl
+     * @param server server
+     * @param mainCtrl main controller
      */
     @Inject
     public HomePage(ServerUtils server, MainCtrl mainCtrl) {
@@ -54,12 +53,8 @@ public class HomePage implements Initializable {
         EventCode.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().getEventCode()));
         Description.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().getDescription()));
         // Listen for changes to the items in the TableView
-        EventsList.getItems().addListener(new InvalidationListener() {
-            @Override
-            public void invalidated(Observable observable) {
-                updateLabelVisibility();
-            }
-        });
+        EventsList.getItems().addListener(
+                (InvalidationListener) observable -> updateLabelVisibility());
     }
 
     /**
