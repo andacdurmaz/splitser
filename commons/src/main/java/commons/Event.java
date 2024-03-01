@@ -9,7 +9,9 @@ import java.util.List;
 public class Event {
 
     @Id
-    private final String eventCode;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
+    private final long eventCode;
     private String title;
     private int amountOfParticipants;
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
@@ -18,9 +20,10 @@ public class Event {
 
     /**
      * this constructor is needed for JPA
+     *
      */
     public Event() {
-        this.eventCode = "Temp";
+        this.eventCode =9876543210L;
     }
 
     /**
@@ -115,13 +118,6 @@ public class Event {
         return expenses;
     }
 
-    /**
-     * shows the amount of expenses
-     * @return amount of expenses
-     */
-    public int getNumberOfExpenses() {
-        return expenses.size();
-    }
 
     /**
      * lets the user add expenses to the event

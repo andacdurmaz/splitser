@@ -50,7 +50,7 @@ public class HomePageCtrl implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Event.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().getTitle()));
-        EventCode.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().getEventCode()));
+        EventCode.setCellValueFactory(q -> new SimpleStringProperty(String.valueOf(q.getValue().getEventCode())));
         Description.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().getDescription()));
         // Listen for changes to the items in the ListView
         EventsList.getItems().addListener(
