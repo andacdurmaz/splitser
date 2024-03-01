@@ -146,6 +146,10 @@ public class Event {
         return newExpense;
     }
 
+    /**
+     * gets the sum of all expenses in this event
+     * @return the sum
+     */
     public double getSumOfExpenses(){
         return this.expenses
                 .stream()
