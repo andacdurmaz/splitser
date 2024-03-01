@@ -14,7 +14,7 @@ class EventTest {
         assertEquals("test", event.getTitle());
         assertEquals(3, event.getAmountOfParticipants());
         assertEquals(123456, event.getEventCode());
-        assertEquals(0, event.getNumberOfExpenses());
+        assertEquals(0, event.getExpenses().size());
         assertEquals(0, event.getExpenses().size());
         assertEquals("this is for a test", event.getDescription());
     }
@@ -47,7 +47,7 @@ class EventTest {
         Event event = new Event("test", 3, 123456, "this is for a test");
         event.addExpense(new Expense("Drinks",3.29));
         assertEquals(list, event.getExpenses());
-        assertEquals(1, event.getNumberOfExpenses());
+        assertEquals(1, event.getExpenses().size());
     }
 
     @Test
