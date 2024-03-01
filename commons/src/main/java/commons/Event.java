@@ -146,6 +146,13 @@ public class Event {
         return newExpense;
     }
 
+    public double getSumOfExpenses(){
+        return this.expenses
+                .stream()
+                .mapToDouble(Expense::getAmount)
+                .sum();
+    }
+
     /**
      * hashes the ID using the recommended hash calculation from java to get a unique eventCode
      * @param id the id of the event

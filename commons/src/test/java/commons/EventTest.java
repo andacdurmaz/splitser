@@ -81,6 +81,19 @@ class EventTest {
     }
 
     @Test
+    void testExpensesSum() throws Exception {
+        Event event = new Event("test", 3, 123456, "this is for a test");
+        Expense expense1 = new Expense("Drinks",3.29);
+        Expense expense2 = new Expense("Food",15);
+        event.addExpense(expense1);
+        event.addExpense(expense2);
+
+        assertEquals(18.29, event.getSumOfExpenses());
+        event.removeExpense(expense1);
+        assertEquals(15, event.getSumOfExpenses());
+    }
+
+    @Test
     void testDescriptionSetter() {
         Event event = new Event("test", 3, 123456, "this is for a test");
         event.setDescription("This is a new description");
