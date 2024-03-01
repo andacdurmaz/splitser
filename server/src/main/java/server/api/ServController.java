@@ -1,10 +1,11 @@
 package server.api;
 
+import commons.Event;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import server.Serv;
 import server.database.ServRepository;
+import server.service.ServService;
 
 import java.util.List;
 
@@ -13,27 +14,42 @@ import java.util.List;
 public class ServController {
 
 
-    private final ServRepository repo;
+    private ServRepository repo1;
+
+    private transient final ServService sserv;
 
     @Autowired
-    public ServController(ServRepository repo) {
-        this.repo = repo;
+    public ServController(ServService sserv) {
+        this.sserv = sserv;
     }
 
     @GetMapping(path = { "", "/" })
-    public List<Serv> getAllServ() {
-        return repo.findAll();
+    public List<Event> getAllEvents() {
+        return sserv.findAll();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable("id") long id) {
-        if (id < 0 || !repo.existsById(id)) {
+        if (id < 0 || !sserv.existsById(id)) {
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok(repo.findById(id).get());
+        return ResponseEntity.ok(sserv.findById(id).get());
     }
 
+    @PutMapping("/")
+    public ResponseEntity<?> addEvent(@RequestBody Event e) {
+        sserv.addEvent(e);
+        return ResponseEntity.ok().build();
+    }
 
+    @PostMapping("/login")
+    public ResponseEntity<?> login
+            (@RequestBody String email, @RequestBody String password)
+    {
+        if(sserv.login(email, password))
+            return ResponseEntity.ok("Login successful!");
+        return ResponseEntity.badRequest().body(401);
+    }
 
     private static boolean isNullOrEmpty(String s) {
         return s == null || s.isEmpty();
