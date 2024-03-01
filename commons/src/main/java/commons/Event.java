@@ -1,14 +1,20 @@
 package commons;
 
+import jakarta.persistence.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Event {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
     private String title;
     private int amountOfParticipants;
-    private final String eventCode;
+    private final long eventCode;
+    @OneToMany(cascade = CascadeType.PERSIST)
     private List<Expense> expenses;
-    private int numberOfExpenses;
 
     private String description;
 
@@ -19,11 +25,10 @@ public class Event {
      * @param eventCode the code that the event has (could be the ID after hashing)
      * @param description the event description
      */
-    public Event(String title, int amountOfParticipants, String eventCode, String description) {
+    public Event(String title, int amountOfParticipants, int eventCode, String description) {
         this.title = title;
         this.amountOfParticipants = amountOfParticipants;
         this.eventCode = eventCode;
-        this.numberOfExpenses = 0;
         this.expenses = new ArrayList<>();
         this.description = description;
     }
@@ -36,7 +41,7 @@ public class Event {
     public Event(String title, int amountOfParticipants) {
         this.title = title;
         this.amountOfParticipants = amountOfParticipants;
-        this.eventCode = "Temp";
+        this.eventCode = hashEventCode(id);
     }
 
     /**
@@ -75,7 +80,7 @@ public class Event {
      * shows the user the eventCode for the given event
      * @return eventCode
      */
-    public String getEventCode() {
+    public long getEventCode() {
         return eventCode;
     }
 
@@ -105,20 +110,11 @@ public class Event {
     }
 
     /**
-     * shows the amount of expenses
-     * @return amount of expenses
-     */
-    public int getNumberOfExpenses() {
-        return numberOfExpenses;
-    }
-
-    /**
      * lets the user add expenses to the event
      * @param expense to be added
      */
     public void addExpense(Expense expense){
         expenses.add(expense);
-        numberOfExpenses++;
     }
 
     /**
@@ -149,4 +145,14 @@ public class Event {
         expenses.set(index, newExpense);
         return newExpense;
     }
+
+    /**
+     * hashes the ID using the recommended hash calculation from java to get a unique eventCode
+     * @param id the id of the event
+     * @return the new event-code
+     */
+    private long hashEventCode(long id){
+        return id^(id >>> 32);
+    }
+
 }

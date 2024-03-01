@@ -10,10 +10,10 @@ import static org.junit.jupiter.api.Assertions.*;
 class EventTest {
     @Test
     void fullConstructorTest() {
-        Event event = new Event("test", 3, "123456abc", "this is for a test");
+        Event event = new Event("test", 3, 123456, "this is for a test");
         assertEquals("test", event.getTitle());
         assertEquals(3, event.getAmountOfParticipants());
-        assertEquals("123456abc", event.getEventCode());
+        assertEquals(123456, event.getEventCode());
         assertEquals(0, event.getNumberOfExpenses());
         assertEquals(0, event.getExpenses().size());
         assertEquals("this is for a test", event.getDescription());
@@ -28,14 +28,14 @@ class EventTest {
 
     @Test
     void testTitleSetter() {
-        Event event = new Event("test", 3, "123456abc", "this is for a test");
+        Event event = new Event("test", 3, 123456, "this is for a test");
         event.setTitle("newTitle");
         assertEquals("newTitle", event.getTitle());
     }
 
     @Test
     void testAmountOfParticipantsSetter() {
-        Event event = new Event("test", 3, "123456abc", "this is for a test");
+        Event event = new Event("test", 3, 123456, "this is for a test");
         event.setAmountOfParticipants(4);
         assertEquals(4, event.getAmountOfParticipants());
     }
@@ -44,7 +44,7 @@ class EventTest {
     void testAddExpenses() {
         List<Expense> list = new ArrayList<>();
         list.add(new Expense("Drinks",3.29));
-        Event event = new Event("test", 3, "123456abc", "this is for a test");
+        Event event = new Event("test", 3, 123456, "this is for a test");
         event.addExpense(new Expense("Drinks",3.29));
         assertEquals(list, event.getExpenses());
         assertEquals(1, event.getNumberOfExpenses());
@@ -52,7 +52,7 @@ class EventTest {
 
     @Test
     void testRemoveExpenses() throws Exception {
-        Event event = new Event("test", 3, "123456abc", "this is for a test");
+        Event event = new Event("test", 3, 123456, "this is for a test");
         Expense expense1 = new Expense("Drinks",3.29);
         Expense expense2 = new Expense("Food",15);
         event.addExpense(expense1);
@@ -66,7 +66,7 @@ class EventTest {
 
     @Test
     void testExpenseSetter() throws Exception {
-        Event event = new Event("test", 3, "123456abc", "this is for a test");
+        Event event = new Event("test", 3, 123456, "this is for a test");
         Expense expense1 = new Expense("Drinks",3.29);
         Expense expense2 = new Expense("Food",15);
         event.addExpense(expense1);
@@ -82,7 +82,7 @@ class EventTest {
 
     @Test
     void testDescriptionSetter() {
-        Event event = new Event("test", 3, "123456abc", "this is for a test");
+        Event event = new Event("test", 3, 123456, "this is for a test");
         event.setDescription("This is a new description");
         assertEquals("This is a new description", event.getDescription());
     }
