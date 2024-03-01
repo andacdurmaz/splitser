@@ -57,7 +57,7 @@ public class AddEventCtrl {
         return new Event(
                 title.getText(),
                 Integer.parseInt(numberOfParticipants.getText()),
-                eventCode.getText(),
+                Integer.parseInt(eventCode.getText()),
                 description.getText());
     }
 
