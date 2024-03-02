@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
 public class User {
@@ -37,7 +36,6 @@ public class User {
      * Constructor method for a User
      * @param username the username of the User
      * @param email the email of the User
-     * @param password the password of the User
      */
     public User(String username, String email) {
         this.username = username;

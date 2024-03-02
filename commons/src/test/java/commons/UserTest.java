@@ -12,7 +12,6 @@ public class UserTest {
         assertNotNull(user);
         assertEquals("andac", user.getUsername());
         assertEquals("andac@gmail.com", user.getEmail());
-        assertEquals("123", user.getPassword());
         assertEquals(Language.EN, user.getLanguage());
     }
 
