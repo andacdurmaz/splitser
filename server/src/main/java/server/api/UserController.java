@@ -15,6 +15,7 @@
  */
 package server.api;
 
+import commons.Quote;
 import commons.User;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +29,14 @@ public class UserController {
 
 
     private final UserRepository repo;
+
+    /**
+     * getter method for the repository
+     * @return repo
+     */
+    public UserRepository getRepo() {
+        return repo;
+    }
 
     /**
      * sets the repository for the User database
@@ -59,6 +68,15 @@ public class UserController {
         return ResponseEntity.ok(repo.findById(id).get());
     }
 
+    @PostMapping(path = { "", "/" })
+    public ResponseEntity<User> add(@RequestBody User user) {
+        if ((user == null) ) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        User saved = repo.save(user);
+        return ResponseEntity.ok(saved);
+    }
 
 
 

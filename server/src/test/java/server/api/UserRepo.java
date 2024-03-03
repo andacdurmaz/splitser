@@ -1,4 +1,4 @@
-package server.database;
+package server.api;
 
 import commons.User;
 import org.springframework.data.domain.Example;
@@ -6,16 +6,33 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.query.FluentQuery;
+import server.database.UserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
-public class UserRepo implements UserRepository{
+public class UserRepo implements UserRepository {
 
     public List<User> users = new ArrayList<>();
     public final List<String> calledMethods = new ArrayList<>();
+
+    /**
+     * getter method for the users in the repository
+     * @return users
+     */
+    public List<User> getUsers() {
+        return users;
+    }
+
+    /**
+     * getter method for the called methods for the repository
+     * @return calledMethods
+     */
+    public List<String> getCalledMethods() {
+        return calledMethods;
+    }
 
     private void call(String name) {
         calledMethods.add(name);
@@ -44,7 +61,6 @@ public class UserRepo implements UserRepository{
      * returns a user given its id
      * @param Id of the User
      * @return the user that is searched for
-     * @throws NoUserFoundException thrown if no user with such id is found
      */
     @Override
     public User getUserById(long Id) throws NoUserFoundException {
@@ -204,7 +220,9 @@ public class UserRepo implements UserRepository{
 
     @Override
     public <S extends User> S save(S entity) {
-        return null;
+        call("New User added.");
+        users.add(entity);
+        return entity;
     }
 
     @Override
@@ -273,6 +291,5 @@ public class UserRepo implements UserRepository{
     }
 
 
-    class NoUserFoundException extends Exception {
-    }
+
 }
