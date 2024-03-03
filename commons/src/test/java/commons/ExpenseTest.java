@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ExpenseTest {
     @Test
     void ConstructorTest() {
-        User user = new User("ivan","test","password");
+        User user = new User("ivan","test");
         List<User> payingParticipants = new ArrayList<>();
         payingParticipants.add(user);
         Expense expense = new Expense("Drinks", 3.29, payingParticipants);
@@ -56,7 +56,7 @@ class ExpenseTest {
 
     @Test
     void getPayingParticipants() {
-        User user = new User("ivan","test","password");
+        User user = new User("ivan","test");
         List<User> payingParticipants = new ArrayList<>();
         payingParticipants.add(user);
         Expense expense = new Expense("Drinks", 3.29,payingParticipants);
@@ -65,7 +65,7 @@ class ExpenseTest {
 
     @Test
     void setPayingParticipants() {
-        User user = new User("ivan","test","password");
+        User user = new User("ivan","test");
         List<User> payingParticipants = new ArrayList<>();
         payingParticipants.add(user);
         Expense expense = new Expense("Drinks", 3.29);
