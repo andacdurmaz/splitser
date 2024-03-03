@@ -9,7 +9,9 @@ import java.util.List;
 public class Event {
 
     @Id
-    private final String eventCode;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
+    private final long eventCode;
     private String title;
     private int amountOfParticipants;
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
@@ -18,9 +20,10 @@ public class Event {
 
     /**
      * this constructor is needed for JPA
+     *
      */
     public Event() {
-        this.eventCode = "Temp";
+        this.eventCode =9876543210L;
     }
 
     /**
@@ -30,7 +33,7 @@ public class Event {
      * @param eventCode the code that the event has (could be the ID after hashing)
      * @param description the event description
      */
-    public Event(String title, int amountOfParticipants, String eventCode, String description) {
+    public Event(String title, int amountOfParticipants, int eventCode, String description) {
         this.title = title;
         this.amountOfParticipants = amountOfParticipants;
         this.eventCode = eventCode;
@@ -46,7 +49,7 @@ public class Event {
     public Event(String title, int amountOfParticipants) {
         this.title = title;
         this.amountOfParticipants = amountOfParticipants;
-        this.eventCode = "Temp";
+        this.eventCode = hashEventCode(id);
     }
 
     /**
@@ -86,7 +89,7 @@ public class Event {
      * shows the user the eventCode for the given event
      * @return eventCode
      */
-    public String getEventCode() {
+    public long getEventCode() {
         return eventCode;
     }
 
@@ -115,13 +118,6 @@ public class Event {
         return expenses;
     }
 
-    /**
-     * shows the amount of expenses
-     * @return amount of expenses
-     */
-    public int getNumberOfExpenses() {
-        return expenses.size();
-    }
 
     /**
      * lets the user add expenses to the event
@@ -159,4 +155,25 @@ public class Event {
         expenses.set(index, newExpense);
         return newExpense;
     }
+
+    /**
+     * gets the sum of all expenses in this event
+     * @return the sum
+     */
+    public double getSumOfExpenses(){
+        return this.expenses
+                .stream()
+                .mapToDouble(Expense::getAmount)
+                .sum();
+    }
+
+    /**
+     * hashes the ID using the recommended hash calculation from java to get a unique eventCode
+     * @param id the id of the event
+     * @return the new event-code
+     */
+    private long hashEventCode(long id){
+        return id^(id >>> 32);
+    }
+
 }
