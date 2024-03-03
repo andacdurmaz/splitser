@@ -45,12 +45,13 @@ public class EventService {
 
     /**
      * Method to get the title of an event by its id
+     * commented out as it is not really needed and the speed increase is not that noticable compared to getEventById().getTitle()
      * @param id of the event
      * @return the title of the event
      */
-    public String getEventTitleById(long id) {
-        return eventRepository.getEventTitleById(id);
-    }
+    // public String getEventTitleById(long id) {
+    //     return eventRepository.getEventTitleById(id);
+    // }
 
     /**
      * Method to get the creator of an event by its id
