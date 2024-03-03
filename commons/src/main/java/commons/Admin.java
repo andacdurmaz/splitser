@@ -1,5 +1,6 @@
 package commons;
 
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -17,6 +18,11 @@ public class Admin {
     public long id;
     public String email;
     public String password;
+
+    @SuppressWarnings("unused")
+    public Admin() {
+        // for object mapper
+    }
 
     /**
      * Constructor of the admin class
