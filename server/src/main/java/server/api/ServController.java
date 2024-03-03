@@ -1,24 +1,11 @@
-/*
- * Copyright 2021 Delft University of Technology
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package server.api;
 
+import commons.Event;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import server.Serv;
 import server.database.ServRepository;
+import server.service.ServService;
 
 import java.util.List;
 
@@ -27,26 +14,42 @@ import java.util.List;
 public class ServController {
 
 
-    private final ServRepository repo;
+    private ServRepository repo1;
 
-    public ServController(ServRepository repo) {
-        this.repo = repo;
+    private transient final ServService sserv;
+
+    @Autowired
+    public ServController(ServService sserv) {
+        this.sserv = sserv;
     }
 
     @GetMapping(path = { "", "/" })
-    public List<Serv> getAll() {
-        return repo.findAll();
+    public List<Event> getAllEvents() {
+        return sserv.findAll();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable("id") long id) {
-        if (id < 0 || !repo.existsById(id)) {
+        if (id < 0 || !sserv.existsById(id)) {
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok(repo.findById(id).get());
+        return ResponseEntity.ok(sserv.findById(id).get());
     }
 
+    @PutMapping("/")
+    public ResponseEntity<?> addEvent(@RequestBody Event e) {
+        sserv.addEvent(e);
+        return ResponseEntity.ok().build();
+    }
 
+    @PostMapping("/login")
+    public ResponseEntity<?> login
+            (@RequestBody String email, @RequestBody String password)
+    {
+        if(sserv.login(email, password))
+            return ResponseEntity.ok("Login successful!");
+        return ResponseEntity.badRequest().body(401);
+    }
 
     private static boolean isNullOrEmpty(String s) {
         return s == null || s.isEmpty();
