@@ -8,9 +8,12 @@ import javafx.scene.control.ListView;
 //import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+//import java.net.URL;
+//import java.util.ResourceBundle;
 //import static org.junit.jupiter.api.Assertions.*;
+//import static org.mockito.Mockito.mock;
 
-public class HomePageTest{
+public class HomePageCtrlTest {
 
     @Mock
     private ListView<String> eventsListMock;
@@ -29,6 +32,9 @@ public class HomePageTest{
 
 //    @BeforeEach
 //    public void setUp() {
+//        URL mockUrl = mock(URL.class);
+//        ResourceBundle mockResource = mock(ResourceBundle.class);
+//        homePageCtrlMock.initialize(mockUrl, mockResource);
 //    }
 //
 //    /**
@@ -36,8 +42,8 @@ public class HomePageTest{
 //     */
 //    @Test
 //    public void constructorTest() {
-//        assertSame(serverMock, homePageMock.getServer());
-//        assertSame(mainCtrlMock, homePageMock.getMainCtrl());
+//        assertSame(serverMock, homePageCtrlMock.getServer());
+//        assertSame(mainCtrlMock, homePageCtrlMock.getMainCtrl());
 //    }
 //
 //    /**
@@ -45,7 +51,7 @@ public class HomePageTest{
 //     */
 //    @Test
 //    public void updateLabelVisibilityEmptyTest() {
-//        homePageMock.initialize(null,null);
+//        homePageCtrlMock.initialize(null,null);
 //        assertTrue(emptyLabelMock.isVisible());
 //    }
 //
@@ -56,7 +62,7 @@ public class HomePageTest{
 //    public void updateLabelVisibilityNotEmptyTest() {
 //        ObservableList<String> nonEmptyList = FXCollections.observableArrayList("Item 1");
 //        eventsListMock.setItems(nonEmptyList);
-//        homePageMock.initialize(null,null);
+//        homePageCtrlMock.initialize(null,null);
 //        assertFalse(emptyLabelMock.isVisible());
 //    }
 
