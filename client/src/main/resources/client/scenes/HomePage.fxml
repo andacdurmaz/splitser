@@ -15,7 +15,7 @@
                 <Font size="32.0" />
             </font>
         </Label>
-        <Button layoutX="806.0" layoutY="21.0" mnemonicParsing="false" styleClass="circular-button" text="+" textAlignment="CENTER" wrapText="true">
+        <Button layoutX="806.0" layoutY="21.0" mnemonicParsing="false" onAction="#addEvent" styleClass="circular-button" text="+" textAlignment="CENTER" wrapText="true">
             <font>
                 <Font name="Calibri" size="12.0" />
             </font>
