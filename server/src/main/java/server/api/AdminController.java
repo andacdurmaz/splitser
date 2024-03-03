@@ -17,10 +17,7 @@ package server.api;
 
 import commons.Admin;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import server.database.AdminRepository;
 
 import java.util.List;
@@ -45,6 +42,17 @@ public class AdminController {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok(repo.findById(id).get());
+    }
+
+    @PostMapping(path = { "", "/" })
+    public ResponseEntity<Admin> add(@RequestBody Admin admin) {
+
+        if (isNullOrEmpty(admin.getEmail()) || isNullOrEmpty(admin.getPassword())){
+            return ResponseEntity.badRequest().build();
+        }
+
+        Admin saved = repo.save(admin);
+        return ResponseEntity.ok(saved);
     }
 
     private static boolean isNullOrEmpty(String s) {
