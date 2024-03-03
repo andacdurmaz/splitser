@@ -18,9 +18,7 @@ package server.database;
 import commons.Expense;
 import commons.User;
 import java.util.List;
-
 import org.springframework.data.jpa.repository.JpaRepository;
-import commons.Event;
 
 public interface ExpenseRepository extends JpaRepository<Expense, Long>  {
 
