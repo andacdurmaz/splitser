@@ -12,6 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -23,7 +24,7 @@ public class HomePageCtrl implements Initializable {
     @FXML
     private Label emptyLabel;
     @FXML
-    private ListView<String> EventsList;
+    private ListView<Event> EventsList;
     @FXML
     private TableView<Event> table;
     @FXML
@@ -55,8 +56,25 @@ public class HomePageCtrl implements Initializable {
         // Listen for changes to the items in the ListView
         EventsList.getItems().addListener(
                 (InvalidationListener) observable -> updateLabelVisibility());
+        EventsList.setOnMouseClicked(this::onEventClicked);
+        table.setOnMouseClicked(this::onEventClicked);
     }
 
+    private void onEventClicked(MouseEvent event) {
+        Event selectedEvent;
+        if(event.getSource() == EventsList) {
+            selectedEvent = EventsList.getSelectionModel().getSelectedItem();
+        }
+        else if(event.getSource() == table) {
+            selectedEvent = table.getSelectionModel().getSelectedItem();
+        }
+        else {
+            return;
+        }
+        if(selectedEvent != null) {
+            mainCtrl.showEventInfo(selectedEvent);
+        }
+    }
     /**
      *     If the ListView is empty, make the label visible. If it isn't make it invisible
      */
@@ -97,11 +115,11 @@ public class HomePageCtrl implements Initializable {
         this.emptyLabel = emptyLabel;
     }
 
-    public ListView<String> getEventsList() {
+    public ListView<Event> getEventsList() {
         return EventsList;
     }
 
-    public void setEventsList(ListView<String> eventsList) {
+    public void setEventsList(ListView<Event> eventsList) {
         this.EventsList = eventsList;
     }
 

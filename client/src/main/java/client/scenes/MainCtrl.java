@@ -15,6 +15,7 @@
  */
 package client.scenes;
 
+import commons.Event;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -29,15 +30,19 @@ public class MainCtrl {
 
     private AddEventCtrl addCtrl;
     private Scene add;
+    private EventInfoCtrl eventInfoCtrl;
+    private Scene eventInfo;
+
 
     public void initialize(Stage primaryStage, Pair<HomePageCtrl, Parent> overview,
-            Pair<AddEventCtrl, Parent> add) {
+            Pair<AddEventCtrl, Parent> add, Pair<EventInfoCtrl, Parent> eventInfo) {
         this.primaryStage = primaryStage;
         this.homePageCtrl = overview.getKey();
         this.overview = new Scene(overview.getValue());
-
         this.addCtrl = add.getKey();
         this.add = new Scene(add.getValue());
+        this.eventInfoCtrl = eventInfo.getKey();
+        this.eventInfo = new Scene(eventInfo.getValue());
 
         showOverview();
         primaryStage.show();
@@ -53,5 +58,11 @@ public class MainCtrl {
         primaryStage.setTitle("Events: Adding Event");
         primaryStage.setScene(add);
         add.setOnKeyPressed(e -> addCtrl.keyPressed(e));
+    }
+
+    public void showEventInfo(Event event) {
+        primaryStage.setTitle("Event Information");
+        primaryStage.setScene(eventInfo);
+        eventInfoCtrl.setEvent(event);
     }
 }
