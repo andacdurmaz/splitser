@@ -37,10 +37,13 @@ public class MainCtrl {
     public void initialize(Stage primaryStage, Pair<HomePageCtrl, Parent> overview,
             Pair<AddEventCtrl, Parent> add, Pair<EventInfoCtrl, Parent> eventInfo) {
         this.primaryStage = primaryStage;
+
         this.homePageCtrl = overview.getKey();
         this.overview = new Scene(overview.getValue());
+
         this.addCtrl = add.getKey();
         this.add = new Scene(add.getValue());
+
         this.eventInfoCtrl = eventInfo.getKey();
         this.eventInfo = new Scene(eventInfo.getValue());
 
@@ -61,7 +64,7 @@ public class MainCtrl {
     }
 
     public void showEventInfo(Event event) {
-        primaryStage.setTitle("Event Information");
+        primaryStage.setTitle(event.getTitle());
         primaryStage.setScene(eventInfo);
         eventInfoCtrl.setEvent(event);
     }
