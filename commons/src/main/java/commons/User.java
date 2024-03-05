@@ -10,7 +10,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long userID;
+    private long id;
     private String username;
     private String email;
     private String serverURL;
@@ -150,14 +150,14 @@ public class User {
      * @return the ID of the User
      */
     public long getUserID() {
-        return userID;
+        return id;
     }
     /**
      * Setter method for an User's ID
-     * @param userID new ID of the User
+     * @param id new ID of the User
      */
-    public void setUserID(long userID) {
-        this.userID = userID;
+    public void setUserID(long id) {
+        this.id = id;
     }
 
     /**
@@ -186,7 +186,7 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return userID == user.userID;
+        return id == user.id;
     }
 
 

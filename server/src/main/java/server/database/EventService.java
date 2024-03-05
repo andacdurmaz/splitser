@@ -49,9 +49,9 @@ public class EventService {
      * @param id of the event
      * @return the title of the event
      */
-    // public String getEventTitleById(long id) {
-    //     return eventRepository.getEventTitleById(id);
-    // }
+     public String getEventTitleById(long id) {
+         return eventRepository.getEventTitleById(id);
+     }
 
     /**
      * Method to get the creator of an event by its id
@@ -68,7 +68,7 @@ public class EventService {
      * @return the list of expenses
      */
     public List<Expense> getExpensesByEventId(long id) {
-        return eventRepository.getExpensesByEventId(id);
+        return eventRepository.getExpensesById(id);
     }
 
     /**
@@ -77,6 +77,6 @@ public class EventService {
      * @return the description of the event
      */
     public String getDescriptionByEventId(long id) {
-        return eventRepository.getDescriptionByEventId(id);
+        return eventRepository.getDescriptionById(id);
     }
 }
