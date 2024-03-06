@@ -23,9 +23,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import commons.Event;
-import org.springframework.stereotype.Repository;
 
-@Repository
 public interface EventRepository extends JpaRepository<Event, Long>  {
     /**
      * gets the event by its ID
@@ -53,13 +51,13 @@ public interface EventRepository extends JpaRepository<Event, Long>  {
      * @param id of the event
      * @return expenses in a list
      */
-    List<Expense> getExpensesByEventId(long id);
+    List<Expense> getExpensesById(long id);
 
     /**
      * gets the description of a event by its id
      * @param id of the event
      * @return the description
      */
-    String getDescriptionByEventId(long id);
+    String getDescriptionById(long id);
 }
 

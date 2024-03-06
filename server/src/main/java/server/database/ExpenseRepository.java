@@ -23,7 +23,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface ExpenseRepository extends JpaRepository<Expense, Long>  {
 
     /**
-     * gets expense by its id
+//     * gets expense by its id
      * @param id
      * @return Expense
      */
@@ -34,21 +34,21 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long>  {
      * @param id
      * @return the name of type String
      */
-    String getNameByExpenseId(long id);
+    String getNameById(long id);
 
     /**
      * returns the amount of the expense by its id
      * @param id
      * @return the amount of type double
      */
-    Double getAmountByExpenseId(long id);
+    Double getAmountById(long id);
 
     /**
      * returns a list of the participants of the expense
      * @param id
      * @return List of type User
      */
-    List<User> getParticipantsByExpenseId(long id);
+    List<User> getParticipantsById(long id);
 }
 
 

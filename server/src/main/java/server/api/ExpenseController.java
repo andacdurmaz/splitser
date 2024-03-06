@@ -22,15 +22,12 @@ import server.database.ExpenseRepository;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/servers")
+@RequestMapping("/api/expenses")
 public class ExpenseController {
 
 
     private final ExpenseRepository repo;
 
-    public ExpenseRepository getRepo() {
-        return repo;
-    }
 
     public ExpenseController(ExpenseRepository repo) {
         this.repo = repo;
@@ -42,7 +39,7 @@ public class ExpenseController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getById(@PathVariable("id") long id) {
+    public ResponseEntity<Expense> getById(@PathVariable("id") long id) {
         if (id < 0 || !repo.existsById(id)) {
             return ResponseEntity.badRequest().build();
         }
