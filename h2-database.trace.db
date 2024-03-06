@@ -1,12 +1,18 @@
-2024-03-06 18:15:30.329456+01:00 jdbc[3]: exception
+2024-03-06 16:57:23.693938+01:00 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table [*]user (id bigint not null, bic varchar(255), iban varchar(255), email varchar(255), language tinyint check (language between 0 and 1), serverurl varchar(255), username varchar(255), primary key (id))"; expected "identifier"; SQL statement:
 create table user (id bigint not null, bic varchar(255), iban varchar(255), email varchar(255), language tinyint check (language between 0 and 1), serverurl varchar(255), username varchar(255), primary key (id)) [42001-224]
-2024-03-06 18:15:30.349498+01:00 jdbc[3]: exception
+2024-03-06 16:57:23.708958+01:00 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "alter table if exists expense_paying_participants add constraint FKa7vr7f07rasd5s5fn3f2xqkvr foreign key (paying_participants_id) references [*]user"; expected "identifier"; SQL statement:
 alter table if exists expense_paying_participants add constraint FKa7vr7f07rasd5s5fn3f2xqkvr foreign key (paying_participants_id) references user [42001-224]
-2024-03-06 19:49:08.071527+01:00 jdbc[3]: exception
+2024-03-06 16:58:39.141257+01:00 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table [*]user (id bigint not null, bic varchar(255), iban varchar(255), email varchar(255), language tinyint check (language between 0 and 1), serverurl varchar(255), username varchar(255), primary key (id))"; expected "identifier"; SQL statement:
 create table user (id bigint not null, bic varchar(255), iban varchar(255), email varchar(255), language tinyint check (language between 0 and 1), serverurl varchar(255), username varchar(255), primary key (id)) [42001-224]
-2024-03-06 19:49:08.084415+01:00 jdbc[3]: exception
+2024-03-06 16:58:39.155245+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "alter table if exists expense_paying_participants add constraint FKa7vr7f07rasd5s5fn3f2xqkvr foreign key (paying_participants_id) references [*]user"; expected "identifier"; SQL statement:
+alter table if exists expense_paying_participants add constraint FKa7vr7f07rasd5s5fn3f2xqkvr foreign key (paying_participants_id) references user [42001-224]
+2024-03-06 19:48:40.422399+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table [*]user (id bigint not null, bic varchar(255), iban varchar(255), email varchar(255), language tinyint check (language between 0 and 1), serverurl varchar(255), username varchar(255), primary key (id))"; expected "identifier"; SQL statement:
+create table user (id bigint not null, bic varchar(255), iban varchar(255), email varchar(255), language tinyint check (language between 0 and 1), serverurl varchar(255), username varchar(255), primary key (id)) [42001-224]
+2024-03-06 19:48:40.434309+01:00 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "alter table if exists expense_paying_participants add constraint FKa7vr7f07rasd5s5fn3f2xqkvr foreign key (paying_participants_id) references [*]user"; expected "identifier"; SQL statement:
 alter table if exists expense_paying_participants add constraint FKa7vr7f07rasd5s5fn3f2xqkvr foreign key (paying_participants_id) references user [42001-224]
