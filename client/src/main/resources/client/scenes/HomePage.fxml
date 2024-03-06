@@ -15,14 +15,14 @@
                 <Font size="32.0" />
             </font>
         </Label>
-        <Button layoutX="806.0" layoutY="21.0" mnemonicParsing="false" onAction="#addEvent" styleClass="circular-button" text="+" textAlignment="CENTER" wrapText="true">
+        <Button graphicTextGap="0.0" layoutX="806.0" layoutY="21.0" mnemonicParsing="false" onAction="#addEvent" styleClass="circular-button" text="+" textAlignment="CENTER" wrapText="true">
             <font>
-                <Font name="Calibri" size="12.0" />
+                <Font name="Calibri" size="32.0" />
             </font>
         </Button>
         <Label layoutX="74.0" layoutY="81.0" text="Currently there are no events, please click the button on the top right corner to create or join an event" />
         <ListView fx:id="EventsList" layoutX="384.0" layoutY="120.0" prefHeight="200.0" prefWidth="310.0" />
-        <TableView fixedCellSize="1.0" layoutX="74.0" layoutY="120.0" prefHeight="200.0" prefWidth="310.0">
+        <TableView fixedCellSize="1.0" layoutX="74.0" layoutY="120.0" prefHeight="462.0" prefWidth="310.0">
             <columns>
                 <TableColumn fx:id="Event" prefWidth="130.4000244140625" text="Event" />
                 <TableColumn fx:id="EventCode" prefWidth="80.8" text="Event Code" />

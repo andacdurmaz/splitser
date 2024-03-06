@@ -15,10 +15,10 @@ public class Expense {
     private String name;
     private double amount;
 
-    @ManyToMany(mappedBy = "expenses")
+    @ManyToMany()
     private List<User> payingParticipants;
 
-    @ManyToOne
+    @ManyToOne()
     private Event event;
 
     public Expense() {

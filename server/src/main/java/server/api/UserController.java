@@ -23,7 +23,7 @@ import server.database.UserRepository;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/servers")
+@RequestMapping("/api/users")
 public class UserController {
 
 
@@ -76,8 +76,4 @@ public class UserController {
         User saved = repo.save(user);
         return ResponseEntity.ok(saved);
     }
-
-
-
-
 }
