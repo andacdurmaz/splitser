@@ -53,6 +53,14 @@ public class Event {
     }
 
     /**
+     * gets the ID of the event
+     * @return the ID
+     */
+    public long getId() {
+        return id;
+    }
+
+    /**
      * gets the title for the event
      * @return event title
      */
