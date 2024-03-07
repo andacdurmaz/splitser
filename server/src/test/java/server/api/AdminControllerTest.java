@@ -41,7 +41,6 @@ import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 public class AdminControllerTest {
-    private TestAdminRepository repo;
 
     @InjectMocks
     private AdminController sut;
@@ -52,7 +51,7 @@ public class AdminControllerTest {
 
     @BeforeEach
     public void setup() {
-        repo = new TestAdminRepository();
+        TestAdminRepository repo = new TestAdminRepository();
         sut = new AdminController(service);
         mockMvc = MockMvcBuilders.standaloneSetup(sut).build();
     }
@@ -90,6 +89,17 @@ public class AdminControllerTest {
                         .content("{\"email\": \"" + admin.getEmail() + "\"}"))
                 .andExpect(status().isOk());
     }
+    @Test
+    public void changePasswordIfNoAdminExist() throws Exception {
+        Admin admin = new Admin("test@email.nl", "Password");
+
+        when(service.changePassword("email@email.nl")).thenReturn(badRequest().build());
+
+        mockMvc.perform(put("/api/admin/")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"email\": \"email@email.nl\"}"))
+                .andExpect(status().isBadRequest());
+    }
 
     @Test
     public void getAdminByEmailTest() throws Exception {
@@ -99,6 +109,15 @@ public class AdminControllerTest {
         mockMvc.perform(get("/api/admin/test@email.nl"))
                 .andExpect(status().isOk());
 //                .andExpect(content().string(admin.toString()));
+    }
+
+    @Test
+    public void getAdminByEmailIfNotExistsTest() throws Exception {
+        Admin admin = new Admin("test@email.nl" , "password");
+        when(service.getAdminByEmail("email@email.nl") ).thenReturn(badRequest().build());
+
+        mockMvc.perform(get("/api/admin/email@email.nl"))
+                .andExpect(status().isBadRequest());
     }
 
     @Test
