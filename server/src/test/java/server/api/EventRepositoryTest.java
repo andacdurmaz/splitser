@@ -2,7 +2,6 @@ package server.api;
 
 import commons.Event;
 import commons.Expense;
-import commons.Quote;
 
 import commons.User;
 import org.springframework.data.domain.Example;
