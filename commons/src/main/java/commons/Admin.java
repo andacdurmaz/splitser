@@ -1,8 +1,6 @@
 package commons;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import java.util.Objects;
 
@@ -10,8 +8,6 @@ import java.util.Objects;
 public class Admin {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    public long id;
     public String email;
     public String password;
 
@@ -28,14 +24,6 @@ public class Admin {
     public Admin(String email, String password) {
         this.email = email;
         this.password = password;
-    }
-
-    /**
-     * Method that returns the ID of the admin
-     * @return the id of the admin
-     */
-    public long getId() {
-        return id;
     }
 
     /**
@@ -80,9 +68,8 @@ public class Admin {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Admin admin = (Admin) o;
-        return id == admin.id && Objects.equals(email, admin.email) && Objects.equals(password, admin.password);
+        return Objects.equals(email, admin.email) && Objects.equals(password, admin.password);
     }
-
 
     /**
      * Method to generate a hashcode
@@ -90,7 +77,7 @@ public class Admin {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(id, email, password);
+        return Objects.hash(email, password);
     }
 
     /**
@@ -100,8 +87,7 @@ public class Admin {
     @Override
     public String toString() {
         return "Admin{" +
-                "id=" + id +
-                ", email='" + email + '\'' +
+                "email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 '}';
     }
