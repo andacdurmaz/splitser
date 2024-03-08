@@ -59,6 +59,6 @@ class ServTest {
     @Test
     void testToString() {
         Serv server1 = new Serv();
-        Assertions.assertEquals(server1.toString(), "Serv{id=0, admin=null, admins=[], events=[]}");
+        Assertions.assertEquals(server1.toString(), "Serv{id=0, admins=[], events=[]}");
     }
 }
