@@ -20,14 +20,25 @@ public class User {
     @ManyToMany(mappedBy = "payingParticipants")
     private List<Expense> expenses;
 
+    /**
+     * default constructor for a user object
+     */
     public User() {
 
     }
 
+    /**
+     * getter methods for the expenses a user is a part of
+     * @return the list of expenses for a user
+     */
     public List<Expense> getExpenses() {
         return expenses;
     }
 
+    /**
+     * setter method for the expense list of a user
+     * @param expenses the list of the updated expenses for a user
+     */
     public void setExpenses(List<Expense> expenses) {
         this.expenses = expenses;
     }
@@ -190,13 +201,13 @@ public class User {
     }
 
 
-    static class IBANFormatException extends Exception {
+    public static class IBANFormatException extends Exception {
 
     }
 
-    class BICFormatException extends Exception {
+    public class BICFormatException extends Exception {
     }
 
-    class EmailFormatException extends Exception {
+    public class EmailFormatException extends Exception {
     }
 }
