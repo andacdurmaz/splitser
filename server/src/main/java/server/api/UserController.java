@@ -60,11 +60,11 @@ public class UserController {
      * @return the user with the given id
      */
     @GetMapping("/{id}")
-    public ResponseEntity<?> getById(@PathVariable("id") long id) {
+    public ResponseEntity<?> getById(@PathVariable("id") long id) throws UserRepository.NoUserFoundException {
         if (id < 0 || !repo.existsById(id)) {
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok(repo.findById(id).get());
+        return ResponseEntity.ok(repo.getUserById(id));
     }
 
     @PostMapping(path = { "", "/" })
@@ -72,7 +72,6 @@ public class UserController {
         if ((user == null) ) {
             return ResponseEntity.badRequest().build();
         }
-
         User saved = repo.save(user);
         return ResponseEntity.ok(saved);
     }
