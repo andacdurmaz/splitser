@@ -1,13 +1,12 @@
 package commons;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@Entity
 public class Expense {
 
     @Id
@@ -15,7 +14,16 @@ public class Expense {
     public long id;
     private String name;
     private double amount;
+
+    @ManyToMany()
     private List<User> payingParticipants;
+
+    @ManyToOne()
+    private Event event;
+
+    public Expense() {
+
+    }
 
     /*
         Constructor for the expense class

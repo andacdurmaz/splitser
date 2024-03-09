@@ -16,9 +16,9 @@
 package server.database;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import server.Serv;
+import commons.Admin;
 
-public interface ServRepository extends JpaRepository<Serv, Long> {
+public interface AdminRepository extends JpaRepository<Admin, Long> {
     boolean existsById(long Id);
-    Serv getServById(long Id);
+    Admin getAdminById(long Id);
 }

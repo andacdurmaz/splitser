@@ -15,49 +15,40 @@
  */
 
 package server.database;
-
 import commons.Expense;
 import commons.User;
-
 import java.util.List;
-
 import org.springframework.data.jpa.repository.JpaRepository;
-import commons.Event;
 
-public interface EventRepository extends JpaRepository<Event, Long>  {
-    /**
-     * gets the event by its ID
-     * @param id the id of the event
-     * @return the event of the given id
-     */
-    Event getEventById(long id);
+public interface ExpenseRepository extends JpaRepository<Expense, Long>  {
 
     /**
-     * gets the creator of a certain event
-     * @param id of the event
-     * @return the creator
+//     * gets expense by its id
+     * @param id
+     * @return Expense
      */
-    User getCreatorById(long id);
+    Expense getExpenseById(long id);
 
     /**
-     * gets the title of the event by its id
-     * @param id of the event
-     * @return title
+     * returns the name of the expense by its id
+     * @param id
+     * @return the name of type String
      */
-    String getEventTitleById(long id);
+    String getNameById(long id);
 
     /**
-     * gets the expenses from the event
-     * @param id of the event
-     * @return expenses in a list
+     * returns the amount of the expense by its id
+     * @param id
+     * @return the amount of type double
      */
-    List<Expense> getExpensesById(long id);
+    Double getAmountById(long id);
 
     /**
-     * gets the description of a event by its id
-     * @param id of the event
-     * @return the description
+     * returns a list of the participants of the expense
+     * @param id
+     * @return List of type User
      */
-    String getDescriptionById(long id);
+    List<User> getParticipantsById(long id);
 }
+
 

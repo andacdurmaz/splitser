@@ -1,118 +1,137 @@
 package commons;
 
+import jakarta.persistence.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public class Event {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
+    private final long eventCode;
     private String title;
     private int amountOfParticipants;
-
-    private final String eventCode;
-
-    /*
-    not in use yet, for when the Expense class has been made
-     */
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
     private List<Expense> expenses;
-    private int numberOfExpenses;
-
     private String description;
 
-    /*
-      Constructor for the Event class
-    */
-    public Event(String title, int amountOfParticipants, String eventCode, String description) {
+    /**
+     * this constructor is needed for JPA
+     *
+     */
+    public Event() {
+        this.eventCode =9876543210L;
+    }
+
+    /**
+     * Constructor for the Event class
+     * @param title title of the event
+     * @param amountOfParticipants amount of participants that the event has
+     * @param eventCode the code that the event has (could be the ID after hashing)
+     * @param description the event description
+     */
+    public Event(String title, int amountOfParticipants, int eventCode, String description) {
         this.title = title;
         this.amountOfParticipants = amountOfParticipants;
         this.eventCode = eventCode;
-        this.numberOfExpenses = 0;
         this.expenses = new ArrayList<>();
         this.description = description;
     }
 
-    /*
-    constructor for when no eventcode was specified
+    /**
+     * constructor for when no eventCode was specified
+     * @param title title of the event
+     * @param amountOfParticipants amount of participants that the event has
      */
     public Event(String title, int amountOfParticipants) {
         this.title = title;
         this.amountOfParticipants = amountOfParticipants;
-        this.eventCode = "Temp";
+        this.eventCode = hashEventCode(id);
     }
 
-    /*
-    gets the title of the event
+    /**
+     * gets the title for the event
+     * @return event title
      */
     public String getTitle() {
         return title;
     }
 
-    /*
-    lets the user set the title for the event
+    /**
+     * lets the user change the title for the event
+     * @param title the new title
      */
     public void setTitle(String title) {
         this.title = title;
     }
-    /*
-    shows the amount of participants
+
+
+    /**
+     * shows the amount of participants
+     * @return amount of participants
      */
     public int getAmountOfParticipants() {
         return amountOfParticipants;
     }
 
-    /*
-    lets the user input the amount of participants
+    /**
+     * lets the user change the amount of participants allowed
+     * @param amountOfParticipants the new amount of participants
      */
     public void setAmountOfParticipants(int amountOfParticipants) {
         this.amountOfParticipants = amountOfParticipants;
     }
 
-    /*
-    lets the user see the event code for the event and share it eventually
+    /**
+     * shows the user the eventCode for the given event
+     * @return eventCode
      */
-    public String getEventCode() {
+    public long getEventCode() {
         return eventCode;
     }
 
 
-    /*
-    lets the user change the description of an event
-    @param String description new description
+    /**
+     * lets the user change the description for the event
+     * @param description for the event
      */
     public void setDescription(String description){
         this.description = description;
     }
 
-    /*
-    shows the event description
+    /**
+     * shows the event description
+     * @return event description
      */
     public String getDescription(){
         return description;
     }
 
-    /*
-    shows all expenses
+    /**
+     * shows all expenses
+     * @return list of expenses
      */
     public List<Expense> getExpenses() {
         return expenses;
     }
 
-    /*
-    shows the number of expenses
-     */
-    public int getNumberOfExpenses() {
-        return numberOfExpenses;
-    }
 
-    /*
-            lets the user add expenses to the event
-             */
+    /**
+     * lets the user add expenses to the event
+     * @param expense to be added
+     */
     public void addExpense(Expense expense){
         expenses.add(expense);
-        numberOfExpenses++;
     }
 
-    /*
-    lets the user remove some expenses that the user wants
-    throws exception if the expense is not in the event
+    /**
+     * lets the user remove certain expenses
+     * @param expense to be removed
+     * @return true or false, dependent on if it succeeded
+     * @throws Exception if the expense does not exist
      */
     public boolean removeExpense(Expense expense) throws Exception {
         if(!expenses.contains(expense)){
@@ -121,11 +140,12 @@ public class Event {
         return expenses.remove(expense);
     }
 
-    /*
-    edits or sets the expense based on the oldExpense index
-    the newExpense will have the same location as the oldExpense
-    throws exception if the expense is not in the event
-    returns the newExpense
+    /**
+     * edits an expense
+     * @param oldExpense the old expense that needs to be changed
+     * @param newExpense the new expense
+     * @return the new expense
+     * @throws Exception if the expense does not exist
      */
     public Expense setExpense(Expense oldExpense, Expense newExpense) throws Exception {
         if(!expenses.contains(oldExpense)){
@@ -135,4 +155,25 @@ public class Event {
         expenses.set(index, newExpense);
         return newExpense;
     }
+
+    /**
+     * gets the sum of all expenses in this event
+     * @return the sum
+     */
+    public double getSumOfExpenses(){
+        return this.expenses
+                .stream()
+                .mapToDouble(Expense::getAmount)
+                .sum();
+    }
+
+    /**
+     * hashes the ID using the recommended hash calculation from java to get a unique eventCode
+     * @param id the id of the event
+     * @return the new event-code
+     */
+    private long hashEventCode(long id){
+        return id^(id >>> 32);
+    }
+
 }

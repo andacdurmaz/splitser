@@ -1,11 +1,24 @@
 package commons;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import java.util.Objects;
 
+@Entity
 public class Admin {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    public long id;
     public String email;
     public String password;
+
+    @SuppressWarnings("unused")
+    public Admin() {
+        // for object mapper
+    }
 
     /**
      * Constructor of the admin class
@@ -15,6 +28,14 @@ public class Admin {
     public Admin(String email, String password) {
         this.email = email;
         this.password = password;
+    }
+
+    /**
+     * Method that returns the ID of the admin
+     * @return the id of the admin
+     */
+    public long getId() {
+        return id;
     }
 
     /**
@@ -59,8 +80,9 @@ public class Admin {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Admin admin = (Admin) o;
-        return Objects.equals(email, admin.email) && Objects.equals(password, admin.password);
+        return id == admin.id && Objects.equals(email, admin.email) && Objects.equals(password, admin.password);
     }
+
 
     /**
      * Method to generate a hashcode
@@ -68,7 +90,7 @@ public class Admin {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(email, password);
+        return Objects.hash(id, email, password);
     }
 
     /**
@@ -78,7 +100,8 @@ public class Admin {
     @Override
     public String toString() {
         return "Admin{" +
-                "email='" + email + '\'' +
+                "id=" + id +
+                ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 '}';
     }

@@ -1,37 +1,47 @@
 package commons;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
 public class User {
-    enum Language {
-        EN,
-        NL
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long userID;
+    private long id;
     private String username;
     private String email;
-    private String password;
     private String serverURL;
     private String IBAN;
     private String BIC;
     private Language language;
+    @ManyToMany(mappedBy = "payingParticipants")
+    private List<Expense> expenses;
+
+    public User() {
+
+    }
+
+    public List<Expense> getExpenses() {
+        return expenses;
+    }
+
+    public void setExpenses(List<Expense> expenses) {
+        this.expenses = expenses;
+    }
 
     /**
      * Constructor method for a User
      * @param username the username of the User
      * @param email the email of the User
-     * @param password the password of the User
      */
-    public User(String username, String email, String password) {
+    public User(String username, String email) {
         this.username = username;
         this.email = email;
-        this.password = password;
         this.language = Language.EN;
+        this.expenses = new ArrayList<>();
     }
 
     /**
@@ -60,7 +70,7 @@ public class User {
     /**
      * Setter method for an User's e-mail
      * @param email new e-mail of the User
-     * @throws EmailFormatException
+     * @throws EmailFormatException if the format isn inccorrect
      */
     public void setEmail(String email) throws EmailFormatException {
         if (email.indexOf('@') == -1) {
@@ -68,20 +78,7 @@ public class User {
         }
         this.email = email;
     }
-    /**
-     * Getter method for User password
-     * @return the password of the User
-     */
-    public String getPassword() {
-        return password;
-    }
-    /**
-     * Setter method for an User's password
-     * @param password new password of the User
-     */
-    public void setPassword(String password) {
-        this.password = password;
-    }
+
     /**
      * Getter method for User's connected server
      * @return the server of the User
@@ -107,7 +104,7 @@ public class User {
     /**
      * Setter method for an User's IBAN
      * @param IBAN new IBAN of the User
-     * @throws IBANFormatException
+     * @throws IBANFormatException if the format is incorrect
      */
     public void setIBAN(String IBAN) throws IBANFormatException {
         if (IBAN.length() != 34) {
@@ -126,7 +123,7 @@ public class User {
     /**
      * Setter method for an User's BIC
      * @param BIC new BIC of the User
-     * @throws BICFormatException
+     * @throws BICFormatException if the format is incorrect
      */
     public void setBIC(String BIC) throws BICFormatException {
         if (BIC.length() != 11) {
@@ -153,14 +150,14 @@ public class User {
      * @return the ID of the User
      */
     public long getUserID() {
-        return userID;
+        return id;
     }
     /**
      * Setter method for an User's ID
-     * @param userID new ID of the User
+     * @param id new ID of the User
      */
-    public void setUserID(long userID) {
-        this.userID = userID;
+    public void setUserID(long id) {
+        this.id = id;
     }
 
     /**
@@ -178,6 +175,20 @@ public class User {
                 "Preferred Language: " + language +
                 "\n";
     }
+
+    /**
+     * Checks whether an object is equal to a User
+     * @param o the compared object
+     * @return true if the object is equal to an object
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id == user.id;
+    }
+
 
     static class IBANFormatException extends Exception {
 
