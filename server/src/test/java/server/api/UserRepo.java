@@ -242,7 +242,7 @@ public class UserRepo implements UserRepository {
 
     @Override
     public List<User> findAll() {
-        return null;
+        return users;
     }
 
     @Override
