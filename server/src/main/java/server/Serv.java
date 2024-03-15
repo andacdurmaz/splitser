@@ -21,7 +21,7 @@ public class Serv {
 
     @ElementCollection
     @Column(name = "admins")
-    List<Long> admins;
+    List<String> admins;
 
     @ElementCollection
     @Column(name = "events")
@@ -33,7 +33,7 @@ public class Serv {
 
     public Serv(Admin admin) {
         this.admins = new ArrayList<>();
-        admins.add(admin.getId());
+        admins.add(admin.getEmail());
         events = new ArrayList<>();
     }
 
@@ -49,11 +49,11 @@ public class Serv {
         this.admin = admin;
     }*/
 
-    public List<Long> getAdmins() {
+    public List<String> getAdmins() {
         return admins;
     }
 
-    protected void setAdmins(List<Long> admins) {
+    protected void setAdmins(List<String> admins) {
         this.admins = admins;
     }
 

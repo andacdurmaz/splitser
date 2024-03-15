@@ -16,47 +16,40 @@
 package server.api;
 
 import commons.Admin;
+import server.database.AdminService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import server.database.AdminRepository;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/admin")
 public class AdminController {
-    private final AdminRepository repo;
+    private final AdminService service;
 
-    public AdminController(AdminRepository repo) {
-        this.repo = repo;
+    public AdminController(AdminService service) {
+        this.service = service;
     }
 
     @GetMapping(path = { "", "/" })
     public List<Admin> getAll() {
-        return repo.findAll();
+        return service.getAllAdmins();
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Admin> getById(@PathVariable("id") long id) {
-        if (id < 0 || !repo.existsById(id)) {
-            return ResponseEntity.badRequest().build();
-        }
-        return ResponseEntity.ok(repo.findById(id).get());
+    @GetMapping("/{email}")
+    public ResponseEntity<Admin> getByEmail(@PathVariable("email") String email) {
+        return service.getAdminByEmail(email);
     }
 
     @PostMapping(path = { "", "/" })
-    public ResponseEntity<Admin> add(@RequestBody Admin admin) {
-
-        if (isNullOrEmpty(admin.getEmail()) || isNullOrEmpty(admin.getPassword())){
-            return ResponseEntity.badRequest().build();
-        }
-
-        Admin saved = repo.save(admin);
-        return ResponseEntity.ok(saved);
+    public ResponseEntity<Admin> addNewAdmin(@RequestBody Admin admin) {
+        return service.addNewAdmin(admin);
     }
 
-    private static boolean isNullOrEmpty(String s) {
-        return s == null || s.isEmpty();
+    @PutMapping(path = { "", "/" })
+    public ResponseEntity<Admin> changePassword(@RequestBody Map<String,String> body) {
+        String email = body.get("email");
+        return service.changePassword(email);
     }
-
 }
