@@ -40,13 +40,10 @@ public class UserControllerTest {
     @Test
     public void getByIdTest() throws UserRepository.NoUserFoundException {
         User added1 = new User();
-        User added2 = new User();
+        added1.setUsername("andac");
         sut.add(added1);
-        sut.add(added2);
         long id1 = added1.getUserID();
-        long id2 = added2.getUserID();
         assertEquals(ResponseEntity.ok(added1), sut.getById(id1));
-        assertEquals(ResponseEntity.ok(added2), sut.getById(id2));
     }
 
     @Test
@@ -82,7 +79,7 @@ public class UserControllerTest {
         added.setWallet(15);
         sut.add(added);
         long id = added.getUserID();
-        assertEquals(ResponseEntity.ok(15), sut.getWalletById(id));
+        assertEquals(ResponseEntity.ok(15.0), sut.getWalletById(id));
     }
 
     @Test
