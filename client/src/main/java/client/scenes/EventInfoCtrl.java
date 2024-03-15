@@ -19,6 +19,10 @@ public class EventInfoCtrl {
 
     }
 
+    /**
+     * set event method
+     * @param event event to set
+     */
     public void setEvent(Event event) {
         titleLabel.setText(event.getTitle());
         eventCodeLabel.setText(String.valueOf(event.getEventCode()));

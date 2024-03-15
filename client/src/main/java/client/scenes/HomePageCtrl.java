@@ -53,13 +53,18 @@ public class HomePageCtrl implements Initializable {
         Event.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().getTitle()));
         EventCode.setCellValueFactory(q -> new SimpleStringProperty(String.valueOf(q.getValue().getEventCode())));
         Description.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().getDescription()));
-        // Listen for changes to the items in the ListView
+        // Listen for changes to the items in the ListView, if there are events make the label invisible
         EventsList.getItems().addListener(
                 (InvalidationListener) observable -> updateLabelVisibility());
         EventsList.setOnMouseClicked(this::onEventClicked);
         table.setOnMouseClicked(this::onEventClicked);
     }
 
+    /**
+     * Check what is clicked by the mouse, if it is from the listview, tableview and go to the clicked event, if it's
+     * neither do nothing.
+     * @param event event clicked by mouse
+     */
     private void onEventClicked(MouseEvent event) {
         Event selectedEvent;
         if(event.getSource() == EventsList) {
@@ -75,10 +80,10 @@ public class HomePageCtrl implements Initializable {
             mainCtrl.showEventInfo(selectedEvent);
         }
     }
+
     /**
      *     If the ListView is empty, make the label visible. If it isn't make it invisible
      */
-
     private void updateLabelVisibility() {
         emptyLabel.setVisible(EventsList.getItems().isEmpty());
     }
@@ -87,6 +92,10 @@ public class HomePageCtrl implements Initializable {
         data = FXCollections.observableList(events);
         table.setItems(data);
     }
+
+    /**
+     * Add event method
+     */
     public void addEvent() {
         mainCtrl.showAdd();
     }
