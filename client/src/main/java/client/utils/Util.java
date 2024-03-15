@@ -8,9 +8,10 @@ import org.glassfish.jersey.client.ClientConfig;
 import java.net.InetAddress;
 
 public class Util {
-    protected static String address;
 
-    protected static String server;
+    protected static String serverAddress;
+
+    protected static String address;
     @Resource
     protected Client clientBuilder;
 
@@ -40,9 +41,7 @@ public class Util {
     }
 
     /**
-     * Setter method for the current ClientReturn Object. This is here for testing
-     * purposes to allow overriding the ClientBuilder class. However, normally the
-     * default ClientBuilder is fine and should *not* be changed.
+     * Setter method for the current ClientBuilder Object.
      * @param clientBuilder The new clientBuilder to change to
      */
     public void setClientBuilder(ClientBuilder clientBuilder) {
@@ -51,35 +50,35 @@ public class Util {
 
     /**
      * Sets the address of the server
-     * @param address Server address
+     * @param newAddress Server address
      * @return boolean whether connection was successful
      */
-    public boolean setServer(String address){
-        if(!isValidServerAddress(address)){
+    public boolean setServerAddress(String newAddress){
+        if(!isValidServerAddress(newAddress)){
             return false;
         }
 
-        Util.address = address;
-        Util.server = "http://" + address + "/";
+        Util.address = newAddress;
+        Util.serverAddress = "http://" + address + "/";
         return true;
     }
 
     /**
      * Checks if a server address is valid
-     * @param address Address to check
+     * @param newAddress Address to check
      * @return Boolean whether the address is valid
      */
-    private static boolean isValidServerAddress(String address) {
+    private static boolean isValidServerAddress(String newAddress) {
         try {
-            InetAddress testAddress;
+            InetAddress targetAddress;
 
-            if(address.equals("localhost:8080")){
-                testAddress = InetAddress.getLocalHost();
+            if(newAddress.equals("localhost:8080")){
+                targetAddress = InetAddress.getLocalHost();
             }else{
-                testAddress = InetAddress.getByName("http://" + address + "/");
+                targetAddress = InetAddress.getByName("http://" + address + "/");
             }
 
-            return testAddress.isReachable(1500);
+            return targetAddress.isReachable(1500);
         } catch (Exception e) {
             return false;
         }
@@ -89,8 +88,8 @@ public class Util {
      * Gets the address of the server
      * @return Returns the server address
      */
-    public static String getServer() {
-        return Util.server;
+    public static String getServerAddress() {
+        return Util.serverAddress;
     }
 
 }
