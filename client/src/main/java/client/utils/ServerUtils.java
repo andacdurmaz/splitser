@@ -61,6 +61,15 @@ public class ServerUtils {
 				.accept(APPLICATION_JSON) //
 				.post(Entity.entity(quote, APPLICATION_JSON), Quote.class);
 	}
+	public void getEventsTheHardWay() throws IOException, URISyntaxException {
+		var url = new URI("http://localhost:8080/api/events").toURL();
+		var is = url.openConnection().getInputStream();
+		var br = new BufferedReader(new InputStreamReader(is));
+		String line;
+		while ((line = br.readLine()) != null) {
+			System.out.println(line);
+		}
+	}
 
 	public List<Event> getEvents() {
 		return ClientBuilder.newClient(new ClientConfig())

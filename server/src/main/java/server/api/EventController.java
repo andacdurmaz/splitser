@@ -15,7 +15,7 @@ public class EventController {
 
     /**
      * Constructor for the event controller
-     * @param eventService the event service
+     * @param eventService
      */
     @Autowired
     public EventController(EventService eventService) {
