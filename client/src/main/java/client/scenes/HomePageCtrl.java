@@ -12,6 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -23,7 +24,7 @@ public class HomePageCtrl implements Initializable {
     @FXML
     private Label emptyLabel;
     @FXML
-    private ListView<String> EventsList;
+    private ListView<Event> EventsList;
     @FXML
     private TableView<Event> table;
     @FXML
@@ -52,15 +53,37 @@ public class HomePageCtrl implements Initializable {
         Event.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().getTitle()));
         EventCode.setCellValueFactory(q -> new SimpleStringProperty(String.valueOf(q.getValue().getEventCode())));
         Description.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().getDescription()));
-        // Listen for changes to the items in the ListView
+        // Listen for changes to the items in the ListView, if there are events make the label invisible
         EventsList.getItems().addListener(
                 (InvalidationListener) observable -> updateLabelVisibility());
+        EventsList.setOnMouseClicked(this::onEventClicked);
+        table.setOnMouseClicked(this::onEventClicked);
+    }
+
+    /**
+     * Check what is clicked by the mouse, if it is from the listview, tableview and go to the clicked event, if it's
+     * neither do nothing.
+     * @param event event clicked by mouse
+     */
+    private void onEventClicked(MouseEvent event) {
+        Event selectedEvent;
+        if(event.getSource() == EventsList) {
+            selectedEvent = EventsList.getSelectionModel().getSelectedItem();
+        }
+        else if(event.getSource() == table) {
+            selectedEvent = table.getSelectionModel().getSelectedItem();
+        }
+        else {
+            return;
+        }
+        if(selectedEvent != null) {
+            mainCtrl.showEventInfo(selectedEvent);
+        }
     }
 
     /**
      *     If the ListView is empty, make the label visible. If it isn't make it invisible
      */
-
     private void updateLabelVisibility() {
         emptyLabel.setVisible(EventsList.getItems().isEmpty());
     }
@@ -69,6 +92,10 @@ public class HomePageCtrl implements Initializable {
         data = FXCollections.observableList(events);
         table.setItems(data);
     }
+
+    /**
+     * Add event method
+     */
     public void addEvent() {
         mainCtrl.showAdd();
     }
@@ -97,11 +124,11 @@ public class HomePageCtrl implements Initializable {
         this.emptyLabel = emptyLabel;
     }
 
-    public ListView<String> getEventsList() {
+    public ListView<Event> getEventsList() {
         return EventsList;
     }
 
-    public void setEventsList(ListView<String> eventsList) {
+    public void setEventsList(ListView<Event> eventsList) {
         this.EventsList = eventsList;
     }
 
