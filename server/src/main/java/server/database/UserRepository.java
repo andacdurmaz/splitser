@@ -18,6 +18,8 @@ package server.database;
 import org.springframework.data.jpa.repository.JpaRepository;
 import commons.User;
 
+import java.util.Map;
+
 public interface UserRepository extends JpaRepository<User, Long> {
     /**
      * Checks if a user with a certain id exists
@@ -62,8 +64,18 @@ public interface UserRepository extends JpaRepository<User, Long> {
      * @return the server URL of the User
      */
     String getServerURLById(long Id) throws NoUserFoundException;
-
-
+    /**
+     * Retrieves the money of a User from the database given its id
+     * @param Id of the User
+     * @return the wallet of the User
+     */
+    double getWalletById(long Id) throws NoUserFoundException;
+    /**
+     * Retrieves the debts of a User from the database given its id
+     * @param Id of the User
+     * @return the debts of the User
+     */
+    Map<User, Double> getDebtsById(long Id) throws  NoUserFoundException;
     class NoUserFoundException extends Exception {
     }
 }

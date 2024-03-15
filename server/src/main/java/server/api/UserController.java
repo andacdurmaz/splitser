@@ -131,6 +131,31 @@ public class UserController {
         }
         return ResponseEntity.ok(repo.getUserById(id).getBIC());
     }
+    /**
+     * path to get a specific user's money given its id
+     * @param id of the user
+     * @return the wallet of the user with the given id
+     */
+    @GetMapping("/{id}/wallet")
+    public ResponseEntity<?> getWalletById(@PathVariable("id") long id) throws UserRepository.NoUserFoundException {
+        if (id < 0 || !repo.existsById(id)) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(repo.getUserById(id).getWallet());
+    }
+
+    /**
+     * path to get a specific user's money given its id
+     * @param id of the user
+     * @return the wallet of the user with the given id
+     */
+    @GetMapping("/{id}/debts")
+    public ResponseEntity<?> getDebtsById(@PathVariable("id") long id) throws UserRepository.NoUserFoundException {
+        if (id < 0 || !repo.existsById(id)) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(repo.getUserById(id).getDebts());
+    }
 
     /**
      * path to get a specific user's expenses given its id
@@ -153,4 +178,6 @@ public class UserController {
         User saved = repo.save(user);
         return ResponseEntity.ok(saved);
     }
+
+
 }
