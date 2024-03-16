@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import server.database.ExpenseRepository;
 
 import java.util.List;
+import java.util.Random;
 
 @RestController
 @RequestMapping("/api/expenses")
@@ -27,9 +28,10 @@ public class ExpenseController {
 
 
     private final ExpenseRepository repo;
+    private final Random random;
 
-
-    public ExpenseController(ExpenseRepository repo) {
+    public ExpenseController(Random random, ExpenseRepository repo) {
+        this.random = random;
         this.repo = repo;
     }
 
@@ -54,5 +56,12 @@ public class ExpenseController {
 
         Expense saved = repo.save(expense);
         return ResponseEntity.ok(saved);
+    }
+
+    @GetMapping("random")
+    public ResponseEntity<Expense> getRandom() {
+        var expenses = repo.findAll();
+        var idx = random.nextInt((int) repo.count());
+        return ResponseEntity.ok(expenses.get(idx));
     }
 }
