@@ -1,5 +1,5 @@
-//package server.api;
-//
+package server.api;
+
 //import commons.Expense;
 //import org.junit.jupiter.api.BeforeEach;
 //import org.junit.jupiter.api.Test;
@@ -9,15 +9,15 @@
 //import static org.junit.jupiter.api.Assertions.assertEquals;
 //import static org.junit.jupiter.api.Assertions.assertTrue;
 //import static org.springframework.http.HttpStatus.BAD_REQUEST;
-//
-//public class ExpenseControllerTest {
-//
-//    public int nextInt;
+
+public class ExpenseControllerTest {
+
+    public int nextInt;
 //    private ExpenseControllerTest.MyRandom random;
-//    private TestExpenseRepository repo;
-//
-//    private ExpenseController sut;
-//
+    private TestExpenseRepository repo;
+
+    private ExpenseController sut;
+
 //    @BeforeEach
 //    public void setup() {
 //        random = new ExpenseControllerTest.MyRandom();
@@ -63,4 +63,4 @@
 //            return nextInt;
 //        }
 //    }
-//}
+}
