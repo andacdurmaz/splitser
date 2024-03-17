@@ -16,7 +16,7 @@
 package server.api;
 
 import commons.Admin;
-import server.database.AdminService;
+import server.service.AdminService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
