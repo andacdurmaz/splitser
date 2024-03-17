@@ -136,7 +136,7 @@ public class TestAdminRepository implements AdminRepository {
 
     @Override
     public boolean existsById(String s) {
-        return false;
+        return find(s).isPresent();
     }
 
     @Override
