@@ -41,13 +41,6 @@ public class Serv {
         return id;
     }
 
-   /* public Admin getAdmin() {
-        return admin;
-    }
-
-    public void setAdmin(Admin admin) {
-        this.admin = admin;
-    }*/
 
     public List<String> getAdmins() {
         return admins;
