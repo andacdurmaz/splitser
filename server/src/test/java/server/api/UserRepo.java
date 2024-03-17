@@ -10,6 +10,7 @@ import server.database.UserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -132,6 +133,31 @@ public class UserRepo implements UserRepository {
             throw new NoUserFoundException();
         return find(Id).get().getServerURL();
     }
+    /**
+     * returns the money of a user given its id
+     * @param Id of the User
+     * @return the wallet of the user that is searched for
+     * @throws NoUserFoundException thrown if no user with such id is found
+     */
+    @Override
+    public double getWalletById(long Id) throws NoUserFoundException {
+        if (!existsById(Id))
+            throw new NoUserFoundException();
+        return find(Id).get().getWallet();
+    }
+    /**
+     * returns the debts of a user given its id
+     *
+     * @param Id of the User
+     * @return the debts of the user that is searched for
+     * @throws NoUserFoundException thrown if no user with such id is found
+     */
+    @Override
+    public Map<User, Double> getDebtsById(long Id) throws NoUserFoundException {
+        if (!existsById(Id))
+            throw new NoUserFoundException();
+        return find(Id).get().getDebts();
+    }
 
     @Override
     public void flush() {
@@ -242,7 +268,7 @@ public class UserRepo implements UserRepository {
 
     @Override
     public List<User> findAll() {
-        return null;
+        return users;
     }
 
     @Override

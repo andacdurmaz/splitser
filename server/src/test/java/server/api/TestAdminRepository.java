@@ -35,17 +35,8 @@ public class TestAdminRepository implements AdminRepository {
     public final List<Admin> admins = new ArrayList<>();
     public final List<String> calledMethods = new ArrayList<>();
 
-    private Optional<Admin> find(Long id) {
-        return admins.stream().filter(q -> q.id == id).findFirst();
-    }
-    @Override
-    public boolean existsById(long Id) {
-        return find(Id).isPresent();
-    }
-
-    @Override
-    public Admin getAdminById(long Id) {
-        return null;
+    private Optional<Admin> find(String id) {
+        return admins.stream().filter(q -> q.email.equals(id)).findFirst();
     }
 
     @Override
@@ -69,7 +60,7 @@ public class TestAdminRepository implements AdminRepository {
     }
 
     @Override
-    public void deleteAllByIdInBatch(Iterable<Long> longs) {
+    public void deleteAllByIdInBatch(Iterable<String> strings) {
 
     }
 
@@ -79,17 +70,17 @@ public class TestAdminRepository implements AdminRepository {
     }
 
     @Override
-    public Admin getOne(Long aLong) {
+    public Admin getOne(String s) {
         return null;
     }
 
     @Override
-    public Admin getById(Long aLong) {
+    public Admin getById(String s) {
         return null;
     }
 
     @Override
-    public Admin getReferenceById(Long aLong) {
+    public Admin getReferenceById(String s) {
         return null;
     }
 
@@ -139,13 +130,13 @@ public class TestAdminRepository implements AdminRepository {
     }
 
     @Override
-    public Optional<Admin> findById(Long aLong) {
+    public Optional<Admin> findById(String s) {
         return Optional.empty();
     }
 
     @Override
-    public boolean existsById(Long aLong) {
-        return false;
+    public boolean existsById(String s) {
+        return find(s).isPresent();
     }
 
     @Override
@@ -154,7 +145,7 @@ public class TestAdminRepository implements AdminRepository {
     }
 
     @Override
-    public List<Admin> findAllById(Iterable<Long> longs) {
+    public List<Admin> findAllById(Iterable<String> strings) {
         return null;
     }
 
@@ -164,7 +155,7 @@ public class TestAdminRepository implements AdminRepository {
     }
 
     @Override
-    public void deleteById(Long aLong) {
+    public void deleteById(String s) {
 
     }
 
@@ -174,7 +165,7 @@ public class TestAdminRepository implements AdminRepository {
     }
 
     @Override
-    public void deleteAllById(Iterable<? extends Long> longs) {
+    public void deleteAllById(Iterable<? extends String> strings) {
 
     }
 

@@ -1,63 +1,83 @@
-/*
- * Copyright 2021 Delft University of Technology
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package server.api;
 
-import commons.Event;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import server.database.EventRepository;
-
-import java.util.List;
+import server.service.EventService;
 
 @RestController
-@RequestMapping("/api/event")
+@RequestMapping("/event")
 public class EventController {
-    private final EventRepository repo;
 
-    public EventController(EventRepository repo) {
-        this.repo = repo;
+    /**
+     * The event service
+     */
+    private final EventService eventService;
+
+    /**
+     * Constructor for the event controller
+     * @param eventService
+     */
+    @Autowired
+    public EventController(EventService eventService) {
+        this.eventService = eventService;
     }
 
-    @GetMapping(path = { "", "/" })
-    public List<Event> getAll() {
-        return repo.findAll();
+    /**
+     * Method to get all events
+     * @return all events
+     */
+    @RequestMapping(value = "/all", method = RequestMethod.GET)
+    public String getAllEvents() {
+        return eventService.getAllEvents().toString();
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Event> getById(@PathVariable("id") long id) {
-        if (id < 0 || !repo.existsById(id)) {
-            return ResponseEntity.badRequest().build();
-        }
-        return ResponseEntity.ok(repo.findById(id).get());
+    /**
+     * Method to get an event by its id
+     * @param id of the event
+     * @return the event
+     */
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public String getEventById(@PathVariable long id) {
+        return eventService.getEventById(id).toString();
     }
 
-    @PostMapping(path = { "", "/" })
-    public ResponseEntity<Event> add(@RequestBody Event event) {
-
-        if (isNullOrEmpty(event.getDescription()) || isNullOrEmpty(event.getTitle())
-                || isNullOrEmpty(event.getDescription()) || isNullOrEmpty(event.getDescription())){
-            return ResponseEntity.badRequest().build();
-        }
-
-        Event saved = repo.save(event);
-        return ResponseEntity.ok(saved);
+    /**
+     * Method to get the title of an event by its id
+     * @param id of the event
+     * @return the title of the event
+     */
+    @RequestMapping(value = "/{id}/title", method = RequestMethod.GET)
+    public String getEventTitleById(@PathVariable long id) {
+        return eventService.getEventTitleById(id);
     }
 
-    private static boolean isNullOrEmpty(String s) {
-        return s == null || s.isEmpty();
+    /**
+     * Method to get the creator of an event by its id
+     * @param id of the event
+     * @return the creator of the event
+     */
+    @RequestMapping(value = "/{id}/creator", method = RequestMethod.GET)
+    public String getCreatorById(@PathVariable long id) {
+        return eventService.getCreatorById(id).toString();
     }
 
+    /**
+     * Method to get the expenses of an event by its id
+     * @param id of the event
+     * @return the expenses of the event
+     */
+    @RequestMapping(value = "/{id}/expenses", method = RequestMethod.GET)
+    public String getExpensesByEventId(@PathVariable long id) {
+        return eventService.getExpensesByEventId(id).toString();
+    }
+
+    /**
+     * Method to get the description of an event by its id
+     * @param id of the event
+     * @return the description of the event
+     */
+    @RequestMapping(value = "/{id}/description", method = RequestMethod.GET)
+    public String getDescriptionByEventId(@PathVariable long id) {
+        return eventService.getDescriptionByEventId(id);
+    }
 }

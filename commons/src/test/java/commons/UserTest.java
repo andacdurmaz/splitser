@@ -3,6 +3,11 @@ package commons;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class UserTest {
@@ -62,12 +67,79 @@ public class UserTest {
     }
 
     @Test
+    public void walletTest() {
+        User user = new User("andac", "andac@gmail.com");
+        assertEquals(0, user.getWallet());
+        user.setWallet(10);
+        assertEquals(10, user.getWallet());
+    }
+
+    @Test
+    public void debtTest() {
+        User user = new User("andac", "andac@gmail.com");
+        User user2 = new User("mete", "mete@gmail.com");
+
+        assertEquals(new HashMap<>(), user.getDebts());
+        Map<User, Double> debts = new HashMap();
+        debts.put(user2, 25.0);
+        user.setDebts(debts);
+        assertEquals(debts, user.getDebts());
+    }
+
+    @Test
     public void languageTest() {
         User user = new User("andac", "andac@gmail.com");
         user.setLanguage(Language.NL);
         assertEquals(Language.NL, user.getLanguage());
     }
 
+    @Test
+    public void settleDebtTest() throws User.NoSuchExpenseException {
+        User user = new User("andac", "andac@gmail.com");
+        User user2 = new User("mete", "mete@gmail.com");
+        List<User> paymenters = new ArrayList<>();
+        paymenters.add(user);
+        Expense expense = new Expense("payment",10, user2, paymenters);
+        user.addExpense(expense);
+        user.settleDebt(expense);
+        assertEquals(5, user.getDebts().get(user2));
+    }
+
+    @Test
+    public void addDebtCase1() {
+        User user = new User("andac", "andac@gmail.com");
+        User user2 = new User("mete", "mete@gmail.com");
+        user.addDebts(user2, 5.0);
+        assertEquals(5, user.getDebts().get(user2));
+    }
+
+    @Test
+    public void addDebtCase2() {
+        User user = new User("andac", "andac@gmail.com");
+        User user2 = new User("mete", "mete@gmail.com");
+        user.addDebts(user2, 5.0);
+        user.addDebts(user2, 5.0);
+        assertEquals(10, user.getDebts().get(user2));
+    }
+
+    @Test
+    public void addDebtCase3() {
+        User user = new User("andac", "andac@gmail.com");
+        User user2 = new User("mete", "mete@gmail.com");
+        user2.addDebts(user, 3.0);
+        user.addDebts(user2, 2.0);
+        assertEquals(1, user2.getDebts().get(user));
+        assertEquals(null, user.getDebts().get(user2));
+    }
+    @Test
+    public void addDebtCase4() {
+        User user = new User("andac", "andac@gmail.com");
+        User user2 = new User("mete", "mete@gmail.com");
+        user2.addDebts(user, 3.0);
+        user.addDebts(user2, 5.0);
+        assertEquals(null, user2.getDebts().get(user));
+        assertEquals(2, user.getDebts().get(user2));
+    }
     @Test
     public void toStringTest() throws User.IBANFormatException, User.BICFormatException {
         User user = new User("andac", "andac@gmail.com");

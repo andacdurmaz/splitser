@@ -5,10 +5,6 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class AdminTest {
-    @Test
-    void getId() {
-
-    }
 
     @Test
     void getEmail() {
@@ -69,6 +65,6 @@ class AdminTest {
     @Test
     void testToString() {
         Admin adminA = new Admin("123@email.com","Password123");
-        assertEquals("Admin{id=0, email='123@email.com', password='Password123'}", adminA.toString());
+        assertEquals("Admin{email='123@email.com', password='Password123'}", adminA.toString());
     }
 }

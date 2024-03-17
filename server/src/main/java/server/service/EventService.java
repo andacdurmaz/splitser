@@ -1,10 +1,11 @@
-package server.database;
+package server.service;
 
 import commons.Event;
 import commons.Expense;
 import commons.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import server.database.EventRepository;
 
 import java.util.List;
 

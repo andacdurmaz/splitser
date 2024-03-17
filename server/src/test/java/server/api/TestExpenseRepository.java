@@ -3,12 +3,15 @@ package server.api;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
+
 
 import commons.Expense;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.repository.query.FluentQuery;
 import server.database.ExpenseRepository;
 
 public abstract class TestExpenseRepository implements ExpenseRepository {
@@ -166,6 +169,35 @@ public abstract class TestExpenseRepository implements ExpenseRepository {
     public void deleteAll() {
         // TODO Auto-generated method stub
 
+    }
+    @Override
+    public <S extends Expense> Optional<S> findOne(Example<S> example) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public <S extends Expense> Page<S> findAll(Example<S> example, Pageable pageable) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public <S extends Expense> long count(Example<S> example) {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    @Override
+    public <S extends Expense> boolean exists(Example<S> example) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public <S extends Expense, R> R findBy(Example<S> example, Function<FluentQuery.FetchableFluentQuery<S>, R> queryFunction) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 

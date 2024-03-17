@@ -14,6 +14,7 @@ public class Expense {
     public long id;
     private String name;
     private double amount;
+    private User payer;
 
     @ManyToMany()
     private List<User> payingParticipants;
@@ -28,9 +29,10 @@ public class Expense {
     /*
         Constructor for the expense class
      */
-    public Expense (String name, double amount, List<User> payingParticipants) {
+    public Expense (String name, double amount, User payer,List<User> payingParticipants) {
         this.name = name;
         this.amount = amount;
+        this.payer = payer;
         this.payingParticipants = payingParticipants;
     }
 
@@ -85,9 +87,25 @@ public class Expense {
         this.payingParticipants = payingParticipants;
     }
 
-    /*
-        Equals method for the Expense class
+    /**
+     * getter method for the expense payer
+     * @return the user who paid the expense
      */
+    public User getPayer() {
+        return payer;
+    }
+
+    /**
+     * setter method for the expense payer
+     * @param payer who paid for the expense
+     */
+    public void setPayer(User payer) {
+        this.payer = payer;
+    }
+
+    /*
+            Equals method for the Expense class
+         */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
