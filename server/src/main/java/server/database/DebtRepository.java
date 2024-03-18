@@ -4,7 +4,7 @@ import commons.Debt;
 import commons.exceptions.NoDebtFoundException;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface DebtRepository extends JpaRepository {
+public interface DebtRepository extends JpaRepository<Debt, Long> {
     boolean existsByPayers(long payer_id, long payee_id);
 
     Debt getDebtByPayers(long payer_id, long payee_id) throws NoDebtFoundException;

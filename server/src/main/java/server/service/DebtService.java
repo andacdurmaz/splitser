@@ -16,7 +16,7 @@ public class DebtService {
         this.repo = repo;
     }
 
-    public List<User> findAll() {
+    public List<Debt> findAll() {
         return repo.findAll();
     }
 

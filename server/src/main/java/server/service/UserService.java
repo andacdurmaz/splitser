@@ -7,7 +7,6 @@ import commons.exceptions.NoDebtFoundException;
 import commons.exceptions.NoSuchExpenseException;
 import commons.exceptions.NoUserFoundException;
 import org.springframework.stereotype.Service;
-import server.database.DebtRepository;
 import server.database.UserRepository;
 
 import java.util.List;

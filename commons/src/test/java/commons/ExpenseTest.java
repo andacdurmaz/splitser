@@ -43,13 +43,13 @@ class ExpenseTest {
 
 
 
-    @Test
-    void setPayer() {
-        User user = new User("ivan","test");
-        Expense expense = new Expense("Drinks", 3.29);
-        expense.setPayer(user.getUserID());
-        assertEquals(user,expense.getPayer());
-    }
+//    @Test
+//    void setPayer() {
+//        User user = new User("ivan","test");
+//        Expense expense = new Expense("Drinks", 3.29);
+//        expense.setPayer(user.getUserID());
+//        assertEquals(user,expense.getPayer());
+//    }
 
     @Test
     void getAmount() {

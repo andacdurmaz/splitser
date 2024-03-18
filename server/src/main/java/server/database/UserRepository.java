@@ -22,7 +22,7 @@ import commons.User;
 
 import java.util.List;
 
-public interface UserRepository extends JpaRepository {
+public interface UserRepository extends JpaRepository<User, Long> {
     /**
      * Checks if a user with a certain id exists
      * @param Id the id of the checked user
