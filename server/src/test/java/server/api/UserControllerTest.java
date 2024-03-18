@@ -13,12 +13,9 @@ import server.service.UserService;
 
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 public class UserControllerTest {
@@ -124,7 +121,7 @@ public class UserControllerTest {
         List<Expense> expenses = new ArrayList<>();
         List<User> participants = new ArrayList<>();
         participants.add(added);
-        Expense expense = new Expense("expense", 25, added.getUserID(), participants);
+        Expense expense = new Expense("expense", 25, added, participants);
         expenses.add(expense);
         added.setExpenses(expenses);
         sut.add(added);

@@ -19,7 +19,6 @@ import commons.User;
 import commons.exceptions.NoUserFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import server.database.UserRepository;
 import server.service.UserService;
 
 import java.util.List;
