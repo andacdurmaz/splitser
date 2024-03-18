@@ -9,6 +9,7 @@
 # Agenda: 
 ##### Opening by chair (1 min)
 ##### Check -in: How is everyone doing? (1 min)
+##### Announcements by the team (2 min)
 ##### Approval of the agenda - Does anyone have any additions? (2 min)
 
 ##### Approval of last minutes - Did everyone read the minutes from the previous meeting? (2 min)
@@ -26,7 +27,7 @@
 - **Functionalities** Start to implement the basic, necessary functionalities, appoint people (10 min)
 - **Gitlab issues** dont forget to make them and close them whenever it is finished (2 min)
 
-- Summarize action points: Who , what , when? (3 min)
+- Summarize action points: Who , what , when? (2 min)
 
 
 #### Feedback round: What went well and what can be improved next time? (2 min)
