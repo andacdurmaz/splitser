@@ -17,10 +17,10 @@
 
 ### Presentation of the project model (5 min)
 
-## Talking points: (Inform / brainstorm / decision making / discuss)
-### Task Distribution
+### Talking points: (Inform / brainstorm / decision making / discuss)
+#### Task Distribution
 - Frontend and Backend (3 min)
-### Main Topics
+#### Main Topics
 - **Fix build, appoint people (3 min)** 
 - Next steps for the project? (3 min)
 - **Functionalities** Start to implement the basic, necessary functionalities, appoint people (10 min)
