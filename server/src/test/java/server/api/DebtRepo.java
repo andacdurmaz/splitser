@@ -36,6 +36,10 @@ public class DebtRepo implements DebtRepository {
         return debts.stream().filter(q -> q.getPayer_id() == payer_id && q.getPayee_id() == payee_id).findFirst();
     }
 
+    private Optional<Debt> find(long id) {
+        return debts.stream().filter(q -> q.getId() ==id).findFirst();
+    }
+
 
     @Override
     public boolean existsByPayers(long payer_id, long payee_id) {
@@ -49,6 +53,47 @@ public class DebtRepo implements DebtRepository {
             throw new NoDebtFoundException();
         return find(payer_id, payee_id).get();
     }
+
+    @Override
+    public void deleteById(long id) throws NoDebtFoundException {
+        if (!existsById(id))
+            throw new NoDebtFoundException();
+        debts = debts.stream().filter(q -> q.getId() != id).toList();
+    }
+
+    @Override
+    public boolean existsById(long id) {
+        return find(id).isPresent();
+    }
+
+    @Override
+    public Debt getDebtById(long id) throws NoDebtFoundException {
+        if (!existsById(id))
+            throw new NoDebtFoundException();
+        return find(id).get();
+    }
+
+    @Override
+    public long getPayerById(long id) throws NoDebtFoundException {
+        if (!existsById(id))
+            throw new NoDebtFoundException();
+        return find(id).get().getPayer_id();
+    }
+
+    @Override
+    public long getPayeeById(long id) throws NoDebtFoundException {
+        if (!existsById(id))
+            throw new NoDebtFoundException();
+        return find(id).get().getPayee_id();
+    }
+
+    @Override
+    public Double getAmoungById(long id) throws NoDebtFoundException {
+        if (!existsById(id))
+            throw new NoDebtFoundException();
+        return find(id).get().getAmount();
+    }
+
     @Override
     public long getPayerByPayers(long payer_id, long payee_id) throws NoDebtFoundException {
         if (!existsByPayers(payer_id,payee_id))
