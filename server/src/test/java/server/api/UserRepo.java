@@ -1,14 +1,12 @@
 package server.api;
 
 import commons.Debt;
-import commons.Event;
 import commons.User;
 import commons.exceptions.NoUserFoundException;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.repository.query.FluentQuery;
 import server.database.UserRepository;
 
 import java.util.ArrayList;

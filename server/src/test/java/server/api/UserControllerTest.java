@@ -9,7 +9,6 @@ import commons.exceptions.NoUserFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
-import server.database.UserRepository;
 import server.service.UserService;
 
 
