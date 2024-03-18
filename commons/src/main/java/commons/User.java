@@ -3,7 +3,6 @@ package commons;
 import commons.exceptions.BICFormatException;
 import commons.exceptions.EmailFormatException;
 import commons.exceptions.IBANFormatException;
-import commons.exceptions.NoSuchExpenseException;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
