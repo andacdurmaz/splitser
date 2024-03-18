@@ -14,7 +14,7 @@ public class Expense {
     public long id;
     private String name;
     private double amount;
-    private User payer;
+    private long payer;
 
     @ManyToMany()
     private List<User> payingParticipants;
@@ -29,7 +29,7 @@ public class Expense {
     /*
         Constructor for the expense class
      */
-    public Expense (String name, double amount, User payer,List<User> payingParticipants) {
+    public Expense (String name, double amount, long payer,List<User> payingParticipants) {
         this.name = name;
         this.amount = amount;
         this.payer = payer;
@@ -91,7 +91,7 @@ public class Expense {
      * getter method for the expense payer
      * @return the user who paid the expense
      */
-    public User getPayer() {
+    public long getPayer() {
         return payer;
     }
 
@@ -99,7 +99,7 @@ public class Expense {
      * setter method for the expense payer
      * @param payer who paid for the expense
      */
-    public void setPayer(User payer) {
+    public void setPayer(long payer) {
         this.payer = payer;
     }
 
@@ -113,9 +113,25 @@ public class Expense {
         return id == expense.id && Double.compare(getAmount(), expense.getAmount()) == 0 && Objects.equals(getName(), expense.getName()) && Objects.equals(getPayingParticipants(), expense.getPayingParticipants());
     }
 
-    /*
-        Hash code method for the Expense class
+    /**
+     * getter method for the id of an expense
+     * @return the id
      */
+    public long getId() {
+        return id;
+    }
+
+    /**
+     * setter method for the id of an expense
+     * @param id the new id
+     */
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    /*
+            Hash code method for the Expense class
+         */
     @Override
     public int hashCode() {
         return Objects.hash(id, getName(), getAmount(), getPayingParticipants());

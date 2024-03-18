@@ -1,6 +1,9 @@
 package server.api;
 
+import commons.Debt;
+import commons.Event;
 import commons.User;
+import commons.exceptions.NoUserFoundException;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,7 +13,6 @@ import server.database.UserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -21,6 +23,7 @@ public class UserRepo implements UserRepository {
 
     /**
      * getter method for the users in the repository
+     *
      * @return users
      */
     public List<User> getUsers() {
@@ -29,6 +32,7 @@ public class UserRepo implements UserRepository {
 
     /**
      * getter method for the called methods for the repository
+     *
      * @return calledMethods
      */
     public List<String> getCalledMethods() {
@@ -41,6 +45,7 @@ public class UserRepo implements UserRepository {
 
     /**
      * finds a User given its Id
+     *
      * @param id of the wanted User
      * @return an Optional for User in case it doesn't exist
      */
@@ -50,6 +55,7 @@ public class UserRepo implements UserRepository {
 
     /**
      * checks if a User given its id exists
+     *
      * @param Id the id of the checked user
      * @return true if the user with the given id exists
      */
@@ -60,6 +66,7 @@ public class UserRepo implements UserRepository {
 
     /**
      * returns a user given its id
+     *
      * @param Id of the User
      * @return the user that is searched for
      */
@@ -72,6 +79,7 @@ public class UserRepo implements UserRepository {
 
     /**
      * returns the username of a user given its id
+     *
      * @param Id of the User
      * @return the username of the user that is searched for
      * @throws NoUserFoundException thrown if no user with such id is found
@@ -85,6 +93,7 @@ public class UserRepo implements UserRepository {
 
     /**
      * returns the e-mail of a user given its id
+     *
      * @param Id of the User
      * @return the e-mail of the user that is searched for
      * @throws NoUserFoundException thrown if no user with such id is found
@@ -98,6 +107,7 @@ public class UserRepo implements UserRepository {
 
     /**
      * returns the IBAN of a user given its id
+     *
      * @param Id of the User
      * @return the IBAN of the user that is searched for
      * @throws NoUserFoundException thrown if no user with such id is found
@@ -108,8 +118,10 @@ public class UserRepo implements UserRepository {
             throw new NoUserFoundException();
         return find(Id).get().getIBAN();
     }
+
     /**
      * returns the BIC of a user given its id
+     *
      * @param Id of the User
      * @return the BIC of the user that is searched for
      * @throws NoUserFoundException thrown if no user with such id is found
@@ -123,6 +135,7 @@ public class UserRepo implements UserRepository {
 
     /**
      * returns the server URL of a user given its id
+     *
      * @param Id of the User
      * @return the server URL of the user that is searched for
      * @throws NoUserFoundException thrown if no user with such id is found
@@ -133,8 +146,10 @@ public class UserRepo implements UserRepository {
             throw new NoUserFoundException();
         return find(Id).get().getServerURL();
     }
+
     /**
      * returns the money of a user given its id
+     *
      * @param Id of the User
      * @return the wallet of the user that is searched for
      * @throws NoUserFoundException thrown if no user with such id is found
@@ -145,6 +160,7 @@ public class UserRepo implements UserRepository {
             throw new NoUserFoundException();
         return find(Id).get().getWallet();
     }
+
     /**
      * returns the debts of a user given its id
      *
@@ -153,39 +169,31 @@ public class UserRepo implements UserRepository {
      * @throws NoUserFoundException thrown if no user with such id is found
      */
     @Override
-    public Map<User, Double> getDebtsById(long Id) throws NoUserFoundException {
+    public List<Debt> getDebtsById(long Id) throws NoUserFoundException {
         if (!existsById(Id))
             throw new NoUserFoundException();
         return find(Id).get().getDebts();
     }
 
+
+    public <S extends User> S save(S entity) {
+        call("save");
+        entity.setUserID((long) users.size());
+        users.add(entity);
+        return entity;
+    }
     @Override
     public void flush() {
 
     }
 
     @Override
-    public <S extends User> S saveAndFlush(S entity) {
-        return null;
+    public void deleteAllInBatch(Iterable entities) {
+
     }
 
     @Override
-    public <S extends User> List<S> saveAllAndFlush(Iterable<S> entities) {
-        return null;
-    }
-
-    @Override
-    public void deleteAllInBatch(Iterable<User> entities) {
-        for (User deleted: entities) {
-            users = users.stream().filter(q -> !q.equals(deleted)).toList();
-        }
-    }
-
-    @Override
-    public void deleteAllByIdInBatch(Iterable<Long> longs) {
-        for (Long id: longs) {
-            users = users.stream().filter(q -> q.getUserID() != id).toList();
-        }
+    public void deleteAllByIdInBatch(Iterable iterable) {
 
     }
 
@@ -195,84 +203,67 @@ public class UserRepo implements UserRepository {
     }
 
     @Override
-    public User getOne(Long aLong) {
+    public Object getOne(Object o) {
         return null;
     }
 
     @Override
-    public User getById(Long aLong) {
+    public Object getById(Object o) {
         return null;
     }
 
     @Override
-    public User getReferenceById(Long aLong) {
+    public Object getReferenceById(Object o) {
         return null;
     }
 
     @Override
-    public <S extends User> Optional<S> findOne(Example<S> example) {
+    public List findAll(Example example, Sort sort) {
+        return null;
+    }
+
+    @Override
+    public List findAll(Example example) {
+        return null;
+    }
+
+    @Override
+    public List saveAllAndFlush(Iterable entities) {
+        return null;
+    }
+
+    @Override
+    public Object saveAndFlush(Object entity) {
+        return null;
+    }
+
+    @Override
+    public List saveAll(Iterable entities) {
+        return null;
+    }
+
+    @Override
+    public Object save(Object entity) {
+        return null;
+    }
+
+    @Override
+    public Optional findById(Object o) {
         return Optional.empty();
     }
 
     @Override
-    public <S extends User> List<S> findAll(Example<S> example) {
-        return null;
-    }
-
-    @Override
-    public <S extends User> List<S> findAll(Example<S> example, Sort sort) {
-        return null;
-    }
-
-    @Override
-    public <S extends User> Page<S> findAll(Example<S> example, Pageable pageable) {
-        return null;
-    }
-
-    @Override
-    public <S extends User> long count(Example<S> example) {
-        return 0;
-    }
-
-    @Override
-    public <S extends User> boolean exists(Example<S> example) {
+    public boolean existsById(Object o) {
         return false;
     }
 
     @Override
-    public <S extends User, R> R findBy(Example<S> example, Function<FluentQuery.FetchableFluentQuery<S>, R> queryFunction) {
-        return null;
-    }
-
-    @Override
-    public <S extends User> S save(S entity) {
-        call("New User added.");
-        users.add(entity);
-        return entity;
-    }
-
-    @Override
-    public <S extends User> List<S> saveAll(Iterable<S> entities) {
-        return null;
-    }
-
-    @Override
-    public Optional<User> findById(Long aLong) {
-        return Optional.empty();
-    }
-
-    @Override
-    public boolean existsById(Long aLong) {
-        return false;
-    }
-
-    @Override
-    public List<User> findAll() {
+    public List findAll() {
         return users;
     }
 
     @Override
-    public List<User> findAllById(Iterable<Long> longs) {
+    public List findAllById(Iterable iterable) {
         return null;
     }
 
@@ -282,40 +273,62 @@ public class UserRepo implements UserRepository {
     }
 
     @Override
-    public void deleteById(Long aLong) {
+    public void deleteById(Object o) {
 
     }
 
     @Override
-    public void delete(User entity) {
+    public void delete(Object entity) {
 
     }
 
     @Override
-    public void deleteAllById(Iterable<? extends Long> longs) {
+    public void deleteAllById(Iterable iterable) {
 
     }
 
     @Override
-    public void deleteAll(Iterable<? extends User> entities) {
+    public void deleteAll(Iterable entities) {
 
     }
 
     @Override
     public void deleteAll() {
-        users = new ArrayList<>();
+
     }
 
     @Override
-    public List<User> findAll(Sort sort) {
+    public List findAll(Sort sort) {
         return null;
     }
 
     @Override
-    public Page<User> findAll(Pageable pageable) {
+    public Page findAll(Pageable pageable) {
         return null;
     }
 
+    @Override
+    public Optional findOne(Example example) {
+        return Optional.empty();
+    }
 
+    @Override
+    public Page findAll(Example example, Pageable pageable) {
+        return null;
+    }
 
+    @Override
+    public long count(Example example) {
+        return 0;
+    }
+
+    @Override
+    public boolean exists(Example example) {
+        return false;
+    }
+
+    @Override
+    public Object findBy(Example example, Function queryFunction) {
+        return null;
+    }
 }

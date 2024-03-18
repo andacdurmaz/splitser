@@ -129,8 +129,7 @@ public abstract class TestExpenseRepository implements ExpenseRepository {
 
     @Override
     public Optional<Expense> findById(Long id) {
-        // TODO Auto-generated method stub
-        return null;
+        return find(id);
     }
 
     @Override
