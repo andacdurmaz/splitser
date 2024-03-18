@@ -13,5 +13,16 @@ public interface DebtRepository extends JpaRepository {
     long getPayeeByPayers(long payer_id, long payee_id) throws NoDebtFoundException;
     Double getAmoungByPayers(long payer_id, long payee_id) throws NoDebtFoundException;
 
-    void deleteByPayers(long payerId, long payeeId) throws NoDebtFoundException;
+    void deleteByPayers(long payer_id, long payee_id) throws NoDebtFoundException;
+    boolean existsById(long id);
+
+    Debt getDebtById(long id) throws NoDebtFoundException;
+
+    long getPayerById(long id) throws NoDebtFoundException;
+    long getPayeeById(long id) throws NoDebtFoundException;
+    Double getAmoungById(long id) throws NoDebtFoundException;
+
+    void deleteById(long id) throws NoDebtFoundException;
+
+
 }
