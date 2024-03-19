@@ -17,7 +17,7 @@ package server.api;
 import commons.Expense;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import server.database.ExpenseRepository;
+import server.service.ExpenseService;
 
 import java.util.List;
 import java.util.Random;
@@ -27,25 +27,25 @@ import java.util.Random;
 public class ExpenseController {
 
 
-    private final ExpenseRepository repo;
+    private final ExpenseService service;
     private final Random random;
 
-    public ExpenseController(Random random, ExpenseRepository repo) {
+    public ExpenseController(Random random, ExpenseService service) {
         this.random = random;
-        this.repo = repo;
+        this.service = service;
     }
 
     @GetMapping(path = { "", "/" })
     public List<Expense> getAll() {
-        return repo.findAll();
+        return service.findAll();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Expense> getById(@PathVariable("id") long id) {
-        if (id < 0 || !repo.existsById(id)) {
+        if (id < 0 || !service.existsById(id)) {
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok(repo.findById(id).get());
+        return ResponseEntity.ok(service.findById(id).get());
     }
 
     @PostMapping(path = { "", "/" })
@@ -54,14 +54,14 @@ public class ExpenseController {
             return ResponseEntity.badRequest().build();
         }
 
-        Expense saved = repo.save(expense);
+        Expense saved = service.save(expense);
         return ResponseEntity.ok(saved);
     }
 
     @GetMapping("random")
     public ResponseEntity<Expense> getRandom() {
-        var expenses = repo.findAll();
-        var idx = random.nextInt((int) repo.count());
+        var expenses = service.findAll();
+        var idx = random.nextInt((int) service.count());
         return ResponseEntity.ok(expenses.get(idx));
     }
 }

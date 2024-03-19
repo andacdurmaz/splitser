@@ -48,7 +48,7 @@ class ExpenseTest {
         User user = new User("ivan","test");
         Expense expense = new Expense("Drinks", 3.29);
         expense.setPayer(user);
-        assertEquals(user,expense.getPayer());
+        assertEquals(user, expense.getPayer());
     }
 
     @Test
