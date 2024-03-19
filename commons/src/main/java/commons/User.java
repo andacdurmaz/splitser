@@ -1,13 +1,15 @@
 package commons;
 
+import commons.exceptions.BICFormatException;
+import commons.exceptions.EmailFormatException;
+import commons.exceptions.IBANFormatException;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Entity
+@Table(name = "participant")
 public class User {
 
     @Id
@@ -20,9 +22,16 @@ public class User {
     private String BIC;
     private Language language;
     private double wallet;
-    private Map<User, Double> debts;
-    @ManyToMany(mappedBy = "payingParticipants")
-    private List<Expense> expenses;
+
+    @OneToMany(targetEntity = Debt.class)
+    private List<Debt> debts = new ArrayList<>();
+    @ManyToMany(targetEntity = Expense.class)
+    @JoinTable(
+            name = "user_expense_mapping",
+            joinColumns = @JoinColumn(name = "expense", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "participant", referencedColumnName = "id")
+    )
+    private List<Expense> expenses = new ArrayList<>();
 
     /**
      * default constructor for a user object
@@ -66,7 +75,7 @@ public class User {
         this.language = Language.EN;
         this.expenses = new ArrayList<>();
         this.wallet = 0;
-        this.debts = new HashMap();
+        this.debts = new ArrayList<>();
     }
 
     /**
@@ -95,7 +104,7 @@ public class User {
     /**
      * Setter method for an User's e-mail
      * @param email new e-mail of the User
-     * @throws EmailFormatException if the format isn inccorrect
+     * @throws EmailFormatException if the format is incorrect
      */
     public void setEmail(String email) throws EmailFormatException {
         if (email.indexOf('@') == -1) {
@@ -205,7 +214,7 @@ public class User {
      * getter method for the debts of a user
      * @return the debts
      */
-    public Map<User, Double> getDebts() {
+    public List<Debt> getDebts() {
         return debts;
     }
 
@@ -213,46 +222,11 @@ public class User {
      * setter method for the debts of a user
      * @param debts new debts
      */
-    public void setDebts(Map<User, Double> debts) {
+    public void setDebts(List<Debt> debts) {
         this.debts = debts;
     }
 
-    /**
-     * adds a new debt to a users debt
-     * @param user the user that will be paid
-     * @param debt the amount needed to be paid
-     */
-    public void addDebts(User user, Double debt) {
-        Double amount1 = user.getDebts().get(this);
-        if (amount1 == null && this.getDebts().get(user) == null) {
-            debts.put(user, debt);
-        }
-        else if (amount1 == null) {
-            debts.put(user, debt + this.getDebts().get(user));
-        }
-        else if (amount1 >= debt){
-            user.getDebts().put(this, amount1 - debt);
-        }
-        else {
-            user.getDebts().remove(this);
-            debts.put(user, debt - amount1);
-        }
-    }
 
-    /**
-     * creates a debt for a user for a given expense
-     * @param expense the debt of the expense
-     * @throws NoSuchExpenseException if the use ris not a part of the given expense
-     */
-    public void settleDebt(Expense expense) throws NoSuchExpenseException {
-        if (!expenses.contains(expense))
-            throw new NoSuchExpenseException();
-        if (expense.getPayer().equals(this))
-            return;
-        int people = expense.getPayingParticipants().size() + 1;
-        double payment = expense.getAmount() / people;
-        this.addDebts(expense.getPayer(), payment);
-    }
 
     /**
      * ToString method for a User
@@ -284,17 +258,12 @@ public class User {
     }
 
 
-    public static class IBANFormatException extends Exception {
-
-    }
-
-    public class BICFormatException extends Exception {
-    }
-
-    public class EmailFormatException extends Exception {
-    }
 
 
-    public class NoSuchExpenseException extends Throwable {
-    }
+
+
+
+
+
+
 }

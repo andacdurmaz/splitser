@@ -15,10 +15,12 @@
  */
 package server.database;
 
+import commons.Debt;
+import commons.exceptions.NoUserFoundException;
 import org.springframework.data.jpa.repository.JpaRepository;
 import commons.User;
 
-import java.util.Map;
+import java.util.List;
 
 public interface UserRepository extends JpaRepository<User, Long> {
     /**
@@ -75,7 +77,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
      * @param Id of the User
      * @return the debts of the User
      */
-    Map<User, Double> getDebtsById(long Id) throws  NoUserFoundException;
-    class NoUserFoundException extends Exception {
-    }
+    List<Debt> getDebtsById(long Id) throws  NoUserFoundException;
+
 }

@@ -14,6 +14,8 @@ public class Expense {
     public long id;
     private String name;
     private double amount;
+    @ManyToOne(targetEntity = User.class)
+    @JoinColumn(name = "payer", referencedColumnName ="id")
     private User payer;
 
     @ManyToMany()
@@ -113,9 +115,25 @@ public class Expense {
         return id == expense.id && Double.compare(getAmount(), expense.getAmount()) == 0 && Objects.equals(getName(), expense.getName()) && Objects.equals(getPayingParticipants(), expense.getPayingParticipants());
     }
 
-    /*
-        Hash code method for the Expense class
+    /**
+     * getter method for the id of an expense
+     * @return the id
      */
+    public long getId() {
+        return id;
+    }
+
+    /**
+     * setter method for the id of an expense
+     * @param id the new id
+     */
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    /*
+            Hash code method for the Expense class
+         */
     @Override
     public int hashCode() {
         return Objects.hash(id, getName(), getAmount(), getPayingParticipants());

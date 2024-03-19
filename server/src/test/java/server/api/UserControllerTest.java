@@ -1,44 +1,54 @@
 package server.api;
 
+import commons.Debt;
 import commons.Expense;
 import commons.User;
+import commons.exceptions.BICFormatException;
+import commons.exceptions.EmailFormatException;
+import commons.exceptions.IBANFormatException;
+import commons.exceptions.NoUserFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
-import server.database.UserRepository;
+import server.service.UserService;
 
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 public class UserControllerTest {
     private UserRepo repo;
+    private UserService service;
     private UserController sut;
 
     @BeforeEach
     public void setup() {
         repo = new UserRepo();
-        sut = new UserController(repo);
+        service = new UserService(repo);
+        sut = new UserController(service);
     }
 
 
+    @Test
+    public void constructorTest(){
+        assertNotNull(sut.getService());
+        assertNotNull(sut.getService().getRepo());
+    }
     @Test
     public void addTest(){
         User added = new User();
         sut.add(added);
-        assertTrue(((UserRepo) sut.getRepo()).getUsers().contains(added));
-        assertTrue(((UserRepo) sut.getRepo()).getCalledMethods().get(0).equals("New User added."));
+        assertTrue(((UserRepo) sut.getService().getRepo()).getUsers().contains(added));
+        assertEquals("save", ((UserRepo) sut.getService().getRepo()).getCalledMethods().get(0));
 
     }
 
     @Test
-    public void getByIdTest() throws UserRepository.NoUserFoundException {
+    public void getByIdTest() throws NoUserFoundException {
         User added1 = new User();
         added1.setUsername("andac");
         sut.add(added1);
@@ -47,7 +57,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void getUsernameTest() throws UserRepository.NoUserFoundException {
+    public void getUsernameTest() throws NoUserFoundException {
         User added = new User();
         added.setUsername("andac");
         sut.add(added);
@@ -56,46 +66,26 @@ public class UserControllerTest {
     }
 
     @Test
-    public void getEmailTest() throws UserRepository.NoUserFoundException, User.EmailFormatException {
+    public void getServerTest() throws NoUserFoundException {
         User added = new User();
-        added.setEmail("andac123@gmail.com");
+        added.setServerURL("andac123");
         sut.add(added);
         long id = added.getUserID();
-        assertEquals(ResponseEntity.ok("andac123@gmail.com"), sut.getEmailById(id));
+        assertEquals(ResponseEntity.ok("andac123"), sut.getServerById(id));
     }
 
     @Test
-    public void getServerTest() throws UserRepository.NoUserFoundException {
+    public void getEmailTest() throws EmailFormatException, NoUserFoundException {
         User added = new User();
-        added.setServerURL("server1");
+        added.setEmail("andac@gmail.com");
         sut.add(added);
         long id = added.getUserID();
-        assertEquals(ResponseEntity.ok("server1"), sut.getServerById(id));
+        assertEquals(ResponseEntity.ok("andac@gmail.com"), sut.getEmailById(id));
     }
 
-    @Test
-    public void getWalletTest() throws UserRepository.NoUserFoundException {
-        User added = new User();
-        added.setWallet(15);
-        sut.add(added);
-        long id = added.getUserID();
-        assertEquals(ResponseEntity.ok(15.0), sut.getWalletById(id));
-    }
 
     @Test
-    public void getDebtTest() throws UserRepository.NoUserFoundException {
-        User added = new User();
-        User debt = new User();
-        Map<User, Double> debts = new HashMap<>();
-        debts.put(debt, 15.00);
-        added.setDebts(debts);
-        sut.add(added);
-        long id = added.getUserID();
-        assertEquals(ResponseEntity.ok(debts), sut.getDebtsById(id));
-    }
-
-    @Test
-    public void getIBANTest() throws UserRepository.NoUserFoundException, User.IBANFormatException {
+    public void getIBANTest() throws NoUserFoundException, IBANFormatException {
         User added = new User();
         added.setIBAN("NL00001111222233334444555566667777");
         sut.add(added);
@@ -104,7 +94,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void getBICTest() throws UserRepository.NoUserFoundException, User.BICFormatException {
+    public void getBICTest() throws NoUserFoundException, BICFormatException {
         User added = new User();
         added.setBIC("22333444555");
         sut.add(added);
@@ -113,20 +103,42 @@ public class UserControllerTest {
     }
 
     @Test
-    public void getExpenseTest() throws UserRepository.NoUserFoundException {
+    public void getExpenseTest() throws NoUserFoundException {
         User added = new User();
         List<Expense> expenses = new ArrayList<>();
         List<User> participants = new ArrayList<>();
         participants.add(added);
-        expenses.add(new Expense("expense", 25, added, participants));
+        Expense expense = new Expense("expense", 25, added, participants);
+        expenses.add(expense);
         added.setExpenses(expenses);
         sut.add(added);
         long id = added.getUserID();
         assertEquals(ResponseEntity.ok(expenses), sut.getExpensesById(id));
     }
 
+    @Test void getWalletTest() throws NoUserFoundException {
+        User added = new User();
+        added.setWallet(15.0);
+        sut.add(added);
+        long id = added.getUserID();
+        assertEquals(ResponseEntity.ok(15.0), sut.getWalletById(id));
+    }
     @Test
-    public void getByIdFail() throws UserRepository.NoUserFoundException {
+    public void getDebtsTest() throws NoUserFoundException {
+        User added = new User();
+        User payee = new User();
+        Debt debt = new Debt(added, payee, 5.0);
+        List<Debt> debts = new ArrayList<>();
+        debts.add(debt);
+        added.setDebts(debts);
+        sut.add(added);
+        long id = added.getUserID();
+        assertEquals(ResponseEntity.ok(debts), sut.getDebtsById(id));
+
+    }
+
+    @Test
+    public void getByIdFail() throws NoUserFoundException {
         assertEquals(ResponseEntity.badRequest().build(),sut.getById(0));
     }
 
@@ -136,8 +148,15 @@ public class UserControllerTest {
         User added2 = new User();
         sut.add(added1);
         sut.add(added2);
-        assertEquals(((UserRepo) sut.getRepo()).getUsers(), sut.getAll());
+        assertEquals(((UserRepo)sut.getService().getRepo()).getUsers(), sut.getAll());
+    }
+
+    @Test
+    public void addFailTest() {
+        assertEquals(ResponseEntity.badRequest().build(), sut.add(null));
     }
 
 
+
 }
+
