@@ -1,6 +1,6 @@
 package server.api;
 
-import commons.Debt;
+//import commons.Debt;
 import commons.Expense;
 import commons.User;
 import commons.exceptions.NoDebtFoundException;
