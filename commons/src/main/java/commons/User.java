@@ -104,7 +104,7 @@ public class User {
     /**
      * Setter method for an User's e-mail
      * @param email new e-mail of the User
-     * @throws EmailFormatException if the format isn inccorrect
+     * @throws EmailFormatException if the format is incorrect
      */
     public void setEmail(String email) throws EmailFormatException {
         if (email.indexOf('@') == -1) {
