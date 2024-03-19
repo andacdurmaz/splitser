@@ -7,26 +7,28 @@ import jakarta.persistence.*;
 @Table
 public class Debt {
 
-    @ManyToOne(targetEntity = User.class)
-    @JoinColumn(name = "payer_id", referencedColumnName ="id")
-    private long payer_id;
-    @ManyToOne(targetEntity = User.class)
-    @JoinColumn(name = "payer_id", referencedColumnName ="id")
-    private long payee_id;
-    private Double amount;
-
     @Id
     private Long id;
+    @ManyToOne
+    @JoinColumn(name = "payer_id")
+    private User payer;
+
+    @ManyToOne
+    @JoinColumn(name = "payee_id")
+    private User payee;
+    private Double amount;
+
+
 
     /**
      * constructor for a debt
-     * @param owner_id the id of the payer
-     * @param demander_id the id of the payee
+     * @param owner the id of the payer
+     * @param demander the id of the payee
      * @param amount the amount that will be paid
      */
-    public Debt(long owner_id, long demander_id, Double amount) {
-        this.payer_id = owner_id;
-        this.payee_id = demander_id;
+    public Debt(User owner, User demander, Double amount) {
+        this.payer = owner;
+        this.payee = demander;
         this.amount = amount;
     }
 
@@ -35,20 +37,20 @@ public class Debt {
     }
 
 
-    public long getPayer_id() {
-        return payer_id;
+    public User getPayer() {
+        return payer;
     }
 
-    public void setPayer_id(long owner_id) {
-        this.payer_id = owner_id;
+    public void setPayer(User payer) {
+        this.payer = payer;
     }
 
-    public long getPayee_id() {
-        return payee_id;
+    public User getPayee() {
+        return payee;
     }
 
-    public void setPayee_id(long demander_id) {
-        this.payee_id = demander_id;
+    public void setPayee(User payee) {
+        this.payee = payee;
     }
 
     public Double getAmount() {

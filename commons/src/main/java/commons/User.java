@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table
+@Table(name = "participant")
 public class User {
 
     @Id
@@ -27,9 +27,9 @@ public class User {
     private List<Debt> debts;
     @ManyToMany(targetEntity = Expense.class)
     @JoinTable(
-            name = "User_Expense",
+            name = "user_expense_mapping",
             joinColumns = @JoinColumn(name = "expense", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "user", referencedColumnName = "id")
+            inverseJoinColumns = @JoinColumn(name = "participant", referencedColumnName = "id")
     )
     private List<Expense> expenses;
 

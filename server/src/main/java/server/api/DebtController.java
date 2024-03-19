@@ -1,5 +1,6 @@
 package server.api;
 
+import commons.Debt;
 import commons.User;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,7 +29,7 @@ public class DebtController {
      * @return all users in repository
      */
     @GetMapping(path = { "", "/" })
-    public List<User> getAll() {
+    public List<Debt> getAll() {
         return service.findAll();
     }
 }

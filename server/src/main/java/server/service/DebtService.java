@@ -16,7 +16,7 @@ public class DebtService {
         this.repo = repo;
     }
 
-    public List<User> findAll() {
+    public List<Debt> findAll() {
         return repo.findAll();
     }
 
@@ -24,16 +24,16 @@ public class DebtService {
         return repo.existsById(id);
     }
 
-    public Debt getDebtById(long payer_id, long payee_id) throws NoDebtFoundException {
-        return repo.getDebtByPayers(payer_id, payee_id);
+    public Debt getDebtByPayerAndPayee(User payer_id, User payee_id) throws NoDebtFoundException {
+        return repo.getDebtByPayerAndPayee(payer_id, payee_id);
     }
 
-    public void addDebt(long payer_id, long payee_id, Double amount) {
+    public void addDebt(User payer_id, User payee_id, Double amount) {
         repo.save(new Debt(payer_id,payee_id, amount));
     }
 
-    public void deleteDebt(long payer_id, long payee_id) throws NoDebtFoundException {
-        repo.deleteByPayers(payer_id, payee_id);
+    public void deleteDebt(User payer_id, User payee_id) throws NoDebtFoundException {
+        repo.deleteByPayerAndPayee(payer_id, payee_id);
     }
 
 }

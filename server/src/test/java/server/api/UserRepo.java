@@ -7,6 +7,7 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.repository.query.FluentQuery;
 import server.database.UserRepository;
 
 import java.util.ArrayList;
@@ -62,6 +63,11 @@ public class UserRepo implements UserRepository {
         return find(Id).isPresent();
     }
 
+
+    @Override
+    public boolean existsById(Long aLong) {
+        return find(aLong).isPresent();
+    }
     /**
      * returns a user given its id
      *
@@ -174,15 +180,22 @@ public class UserRepo implements UserRepository {
     }
 
 
-    public <S extends User> S save(S entity) {
-        call("save");
-        entity.setUserID((long) users.size());
-        users.add(entity);
-        return entity;
+
+
+    @Override
+    public Optional<User> findById(Long aLong) {
+        return Optional.empty();
     }
+
+
     @Override
     public void flush() {
 
+    }
+
+    @Override
+    public <S extends User> S saveAndFlush(S entity) {
+        return null;
     }
 
     @Override
@@ -201,19 +214,21 @@ public class UserRepo implements UserRepository {
     }
 
     @Override
-    public Object getOne(Object o) {
+    public User getOne(Long aLong) {
         return null;
     }
 
     @Override
-    public Object getById(Object o) {
+    public User getById(Long aLong) {
         return null;
     }
 
     @Override
-    public Object getReferenceById(Object o) {
+    public User getReferenceById(Long aLong) {
         return null;
     }
+
+
 
     @Override
     public List findAll(Example example, Sort sort) {
@@ -230,30 +245,21 @@ public class UserRepo implements UserRepository {
         return null;
     }
 
-    @Override
-    public Object saveAndFlush(Object entity) {
-        return null;
-    }
 
     @Override
     public List saveAll(Iterable entities) {
         return null;
     }
 
-    @Override
-    public Object save(Object entity) {
-        return null;
+
+    public User save(User saved) {
+        call("save");
+        saved.setUserID((long) users.size());
+        users.add(saved);
+        return saved;
     }
 
-    @Override
-    public Optional findById(Object o) {
-        return Optional.empty();
-    }
 
-    @Override
-    public boolean existsById(Object o) {
-        return false;
-    }
 
     @Override
     public List findAll() {
@@ -261,7 +267,7 @@ public class UserRepo implements UserRepository {
     }
 
     @Override
-    public List findAllById(Iterable iterable) {
+    public List<User> findAllById(Iterable<Long> longs) {
         return null;
     }
 
@@ -271,22 +277,22 @@ public class UserRepo implements UserRepository {
     }
 
     @Override
-    public void deleteById(Object o) {
+    public void deleteById(Long aLong) {
 
     }
 
     @Override
-    public void delete(Object entity) {
+    public void delete(User entity) {
 
     }
 
     @Override
-    public void deleteAllById(Iterable iterable) {
+    public void deleteAllById(Iterable<? extends Long> longs) {
 
     }
 
     @Override
-    public void deleteAll(Iterable entities) {
+    public void deleteAll(Iterable<? extends User> entities) {
 
     }
 
@@ -295,38 +301,39 @@ public class UserRepo implements UserRepository {
 
     }
 
+
     @Override
-    public List findAll(Sort sort) {
+    public List<User> findAll(Sort sort) {
         return null;
     }
 
     @Override
-    public Page findAll(Pageable pageable) {
+    public Page<User> findAll(Pageable pageable) {
         return null;
     }
 
     @Override
-    public Optional findOne(Example example) {
+    public <S extends User> Optional<S> findOne(Example<S> example) {
         return Optional.empty();
     }
 
     @Override
-    public Page findAll(Example example, Pageable pageable) {
+    public <S extends User> Page<S> findAll(Example<S> example, Pageable pageable) {
         return null;
     }
 
     @Override
-    public long count(Example example) {
+    public <S extends User> long count(Example<S> example) {
         return 0;
     }
 
     @Override
-    public boolean exists(Example example) {
+    public <S extends User> boolean exists(Example<S> example) {
         return false;
     }
 
     @Override
-    public Object findBy(Example example, Function queryFunction) {
+    public <S extends User, R> R findBy(Example<S> example, Function<FluentQuery.FetchableFluentQuery<S>, R> queryFunction) {
         return null;
     }
 }

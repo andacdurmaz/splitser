@@ -1,11 +1,13 @@
 package server.api;
 
 import commons.Debt;
+import commons.User;
 import commons.exceptions.NoDebtFoundException;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.repository.query.FluentQuery;
 import server.database.DebtRepository;
 
 import java.util.ArrayList;
@@ -32,8 +34,8 @@ public class DebtRepo implements DebtRepository {
     private void call(String name) {
         calledMethods.add(name);
     }
-    private Optional<Debt> find(long payer_id, long payee_id) {
-        return debts.stream().filter(q -> q.getPayer_id() == payer_id && q.getPayee_id() == payee_id).findFirst();
+    private Optional<Debt> find(User payer, User payee) {
+        return debts.stream().filter(q -> q.getPayer().equals(payer)  && q.getPayee().equals(payee)).findFirst();
     }
 
     private Optional<Debt> find(long id) {
@@ -42,14 +44,14 @@ public class DebtRepo implements DebtRepository {
 
 
     @Override
-    public boolean existsByPayers(long payer_id, long payee_id) {
+    public boolean existsByPayerAndPayee(User payer_id, User payee_id) {
         return find(payer_id,payee_id).isPresent();
     }
 
 
     @Override
-    public Debt getDebtByPayers(long payer_id, long payee_id) throws NoDebtFoundException {
-        if (!existsByPayers(payer_id, payee_id))
+    public Debt getDebtByPayerAndPayee(User payer_id, User payee_id) throws NoDebtFoundException {
+        if (!existsByPayerAndPayee(payer_id, payee_id))
             throw new NoDebtFoundException();
         return find(payer_id, payee_id).get();
     }
@@ -74,17 +76,17 @@ public class DebtRepo implements DebtRepository {
     }
 
     @Override
-    public long getPayerById(long id) throws NoDebtFoundException {
+    public User getPayerById(long id) throws NoDebtFoundException {
         if (!existsById(id))
             throw new NoDebtFoundException();
-        return find(id).get().getPayer_id();
+        return find(id).get().getPayer();
     }
 
     @Override
-    public long getPayeeById(long id) throws NoDebtFoundException {
+    public User getPayeeById(long id) throws NoDebtFoundException {
         if (!existsById(id))
             throw new NoDebtFoundException();
-        return find(id).get().getPayee_id();
+        return find(id).get().getPayee();
     }
 
     @Override
@@ -95,24 +97,29 @@ public class DebtRepo implements DebtRepository {
     }
 
     @Override
-    public long getPayerByPayers(long payer_id, long payee_id) throws NoDebtFoundException {
-        if (!existsByPayers(payer_id,payee_id))
+    public User getPayerByPayerAndPayee(User payer_id, User payee_id) throws NoDebtFoundException {
+        if (!existsByPayerAndPayee(payer_id,payee_id))
             throw new NoDebtFoundException();
-        return find(payer_id,payee_id).get().getPayer_id();
+        return find(payer_id,payee_id).get().getPayer();
     }
 
     @Override
-    public long getPayeeByPayers(long payer_id, long payee_id) throws NoDebtFoundException {
-        if (!existsByPayers(payer_id, payee_id))
+    public User getPayeeByPayerAndPayee(User payer_id, User payee_id) throws NoDebtFoundException {
+        if (!existsByPayerAndPayee(payer_id, payee_id))
             throw new NoDebtFoundException();
-        return find(payer_id,payee_id).get().getPayee_id();
+        return find(payer_id,payee_id).get().getPayee();
     }
 
     @Override
-    public Double getAmoungByPayers(long payer_id, long payee_id) throws NoDebtFoundException {
-        if (!existsByPayers(payer_id,payee_id))
+    public Double getAmoungByPayerAndPayee(User payer_id, User payee_id) throws NoDebtFoundException {
+        if (!existsByPayerAndPayee(payer_id,payee_id))
             throw new NoDebtFoundException();
         return find(payer_id,payee_id).get().getAmount();
+    }
+
+    @Override
+    public void deleteByPayerAndPayee(User payer_id, User payee_id) throws NoDebtFoundException {
+
     }
 
     public <S extends Debt> S save(S entity) {
@@ -121,83 +128,28 @@ public class DebtRepo implements DebtRepository {
         return entity;
     }
 
-    public void deleteByPayers(long payer_id, long payee_id) throws NoDebtFoundException {
-        if (!existsByPayers(payer_id, payee_id))
-            throw new NoDebtFoundException();
-        debts = debts.stream().filter(q -> q.getPayer_id() != payer_id || q.getPayee_id() != payee_id).toList();
-    }
-    @Override
-    public List saveAll(Iterable entities) {
-        return null;
-    }
-
-    @Override
-    public Object save(Object entity) {
-        return null;
-    }
-
-    @Override
-    public Optional findById(Object o) {
-        return Optional.empty();
-    }
-
-    @Override
-    public boolean existsById(Object o) {
-        return false;
-    }
-
-    @Override
-    public List findAll() {
-        return debts;
-    }
-
-    @Override
-    public List findAllById(Iterable iterable) {
-        return null;
-    }
-
-    @Override
-    public long count() {
-        return 0;
-    }
-
-    @Override
-    public void deleteById(Object o) {
-
-    }
-
-    @Override
-    public void delete(Object entity) {
-
-    }
-
-    @Override
-    public void deleteAllById(Iterable iterable) {
-
-    }
-
-    @Override
-    public void deleteAll(Iterable entities) {
-
-    }
-
-    @Override
-    public void deleteAll() {
-
-    }
-
     @Override
     public void flush() {
 
     }
 
     @Override
-    public void deleteAllInBatch(Iterable entities) {
+    public <S extends Debt> S saveAndFlush(S entity) {
+        return null;
+    }
+
+    @Override
+    public <S extends Debt> List<S> saveAllAndFlush(Iterable<S> entities) {
+        return null;
+    }
+
+    @Override
+    public void deleteAllInBatch(Iterable<Debt> entities) {
 
     }
 
     @Override
-    public void deleteAllByIdInBatch(Iterable iterable) {
+    public void deleteAllByIdInBatch(Iterable<Long> longs) {
 
     }
 
@@ -207,72 +159,117 @@ public class DebtRepo implements DebtRepository {
     }
 
     @Override
-    public Object getOne(Object o) {
+    public Debt getOne(Long aLong) {
         return null;
     }
 
     @Override
-    public Object getById(Object o) {
+    public Debt getById(Long aLong) {
         return null;
     }
 
     @Override
-    public Object getReferenceById(Object o) {
+    public Debt getReferenceById(Long aLong) {
         return null;
     }
 
     @Override
-    public List findAll(Example example, Sort sort) {
-        return null;
-    }
-
-    @Override
-    public List findAll(Example example) {
-        return null;
-    }
-
-    @Override
-    public List saveAllAndFlush(Iterable entities) {
-        return null;
-    }
-
-    @Override
-    public Object saveAndFlush(Object entity) {
-        return null;
-    }
-
-    @Override
-    public List findAll(Sort sort) {
-        return null;
-    }
-
-    @Override
-    public Page findAll(Pageable pageable) {
-        return null;
-    }
-
-    @Override
-    public Optional findOne(Example example) {
+    public <S extends Debt> Optional<S> findOne(Example<S> example) {
         return Optional.empty();
     }
 
     @Override
-    public Page findAll(Example example, Pageable pageable) {
+    public <S extends Debt> List<S> findAll(Example<S> example) {
         return null;
     }
 
     @Override
-    public long count(Example example) {
+    public <S extends Debt> List<S> findAll(Example<S> example, Sort sort) {
+        return null;
+    }
+
+    @Override
+    public <S extends Debt> Page<S> findAll(Example<S> example, Pageable pageable) {
+        return null;
+    }
+
+    @Override
+    public <S extends Debt> long count(Example<S> example) {
         return 0;
     }
 
     @Override
-    public boolean exists(Example example) {
+    public <S extends Debt> boolean exists(Example<S> example) {
         return false;
     }
 
     @Override
-    public Object findBy(Example example, Function queryFunction) {
+    public <S extends Debt, R> R findBy(Example<S> example, Function<FluentQuery.FetchableFluentQuery<S>, R> queryFunction) {
+        return null;
+    }
+
+    @Override
+    public <S extends Debt> List<S> saveAll(Iterable<S> entities) {
+        return null;
+    }
+
+    @Override
+    public Optional<Debt> findById(Long aLong) {
+        return Optional.empty();
+    }
+
+    @Override
+    public boolean existsById(Long aLong) {
+        return false;
+    }
+
+    @Override
+    public List<Debt> findAll() {
+        return null;
+    }
+
+    @Override
+    public List<Debt> findAllById(Iterable<Long> longs) {
+        return null;
+    }
+
+    @Override
+    public long count() {
+        return 0;
+    }
+
+    @Override
+    public void deleteById(Long aLong) {
+
+    }
+
+    @Override
+    public void delete(Debt entity) {
+
+    }
+
+    @Override
+    public void deleteAllById(Iterable<? extends Long> longs) {
+
+    }
+
+    @Override
+    public void deleteAll(Iterable<? extends Debt> entities) {
+
+    }
+
+    @Override
+    public void deleteAll() {
+
+    }
+
+    @Override
+    public List<Debt> findAll(Sort sort) {
+        return null;
+    }
+
+    @Override
+    public Page<Debt> findAll(Pageable pageable) {
         return null;
     }
 }
