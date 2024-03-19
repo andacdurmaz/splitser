@@ -24,14 +24,14 @@ public class User {
     private double wallet;
 
     @OneToMany(targetEntity = Debt.class)
-    private List<Debt> debts;
+    private List<Debt> debts = new ArrayList<>();
     @ManyToMany(targetEntity = Expense.class)
     @JoinTable(
             name = "user_expense_mapping",
             joinColumns = @JoinColumn(name = "expense", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "participant", referencedColumnName = "id")
     )
-    private List<Expense> expenses;
+    private List<Expense> expenses = new ArrayList<>();
 
     /**
      * default constructor for a user object

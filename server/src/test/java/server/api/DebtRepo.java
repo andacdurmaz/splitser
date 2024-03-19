@@ -35,7 +35,7 @@ public class DebtRepo implements DebtRepository {
         calledMethods.add(name);
     }
     private Optional<Debt> find(User payer, User payee) {
-        return debts.stream().filter(q -> q.getPayer().equals(payer)  && q.getPayee().equals(payee)).findFirst();
+        return debts.stream().filter(q -> q.getPayer().equals(payer) && q.getPayee().equals(payee)).findFirst();
     }
 
     private Optional<Debt> find(long id) {
@@ -50,9 +50,9 @@ public class DebtRepo implements DebtRepository {
 
 
     @Override
-    public Debt getDebtByPayerAndPayee(User payer_id, User payee_id) throws NoDebtFoundException {
+    public Debt getDebtByPayerAndPayee(User payer_id, User payee_id) {
         if (!existsByPayerAndPayee(payer_id, payee_id))
-            throw new NoDebtFoundException();
+            return null;
         return find(payer_id, payee_id).get();
     }
 
@@ -119,10 +119,12 @@ public class DebtRepo implements DebtRepository {
 
     @Override
     public void deleteByPayerAndPayee(User payer_id, User payee_id) throws NoDebtFoundException {
-
+        if (!existsByPayerAndPayee(payer_id, payee_id))
+            throw new NoDebtFoundException();
+        debts = debts.stream().filter(q -> !q.getPayer().equals(payer_id) || !q.getPayee().equals(payee_id)).toList();
     }
 
-    public <S extends Debt> S save(S entity) {
+    public Debt save(Debt entity) {
         call("save");
         debts.add(entity);
         return entity;
@@ -225,7 +227,7 @@ public class DebtRepo implements DebtRepository {
 
     @Override
     public List<Debt> findAll() {
-        return null;
+        return debts;
     }
 
     @Override

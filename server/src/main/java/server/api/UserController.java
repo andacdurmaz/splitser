@@ -174,7 +174,7 @@ public class UserController {
         if ((user == null) ) {
             return ResponseEntity.badRequest().build();
         }
-        User saved = (User) service.save(user);
+        User saved = service.save(user);
         return ResponseEntity.ok(saved);
     }
 

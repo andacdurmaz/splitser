@@ -25,6 +25,24 @@ public class UserService {
         this.repo = repo;
     }
 
+    public ExpenseService getExpenseService() {
+        return expenseService;
+    }
+
+    public DebtService getDebtService() {
+        return debtService;
+    }
+
+    public void setExpenseService(ExpenseService expenseService) {
+        this.expenseService = expenseService;
+    }
+
+    public void setDebtService(DebtService debtService) {
+        this.debtService = debtService;
+    }
+
+
+
     public List<User> findAll() {
         return repo.findAll();
     }
@@ -38,14 +56,12 @@ public class UserService {
     }
 
     public User save(User user) {
-        return (User) repo.save(user);
+        return repo.save(user);
     }
 
 
-    public void addDebts(User payer, User payee, Double debt) throws NoUserFoundException, NoDebtFoundException {
-        Double amount1 = debtService.getDebtByPayerAndPayee(payer, payer).getAmount();
-
-
+    public void addDebts(User payer, User payee, Double debt) throws NoDebtFoundException {
+        Debt amount1 = debtService.getDebtByPayerAndPayee(payer, payer);
         if (amount1 == null && debtService.getDebtByPayerAndPayee(payer, payee) == null) {
             debtService.addDebt(payer, payee, debt);
             List<Debt> oldDebts = payer.getDebts();
@@ -53,20 +69,25 @@ public class UserService {
             payer.setDebts(oldDebts);
         }
         else if (amount1 == null) {
-            Double initialAmount = debtService.getDebtByPayerAndPayee(payee, payer).getAmount();
+            Double initialAmount = debtService.getDebtByPayerAndPayee(payer, payee).getAmount();
             debtService.deleteDebt(payer, payee);
             debtService.addDebt(payer, payee, initialAmount + debt);
+            List<Debt> oldDebts = payer.getDebts();
+            Debt removed = new Debt(payer, payee, debt);
+            oldDebts.remove(removed);
+            oldDebts.add(new Debt(payer, payee, initialAmount + debt));
+            payer.setDebts(oldDebts);
         }
-        else if (amount1 >= debt){
+        else if (amount1.getAmount() >= debt){
             debtService.deleteDebt(payee, payer);
-            debtService.addDebt(payee, payer, amount1 - debt);
+            debtService.addDebt(payee, payer, amount1.getAmount() - debt);
         }
         else {
             debtService.deleteDebt(payee, payer);
-            debtService.addDebt(payer, payee, debt - amount1);
+            debtService.addDebt(payer, payee, debt - amount1.getAmount());
 
             List<Debt> oldDebtsPayer = payer.getDebts();
-            oldDebtsPayer.add(new Debt(payer, payee, debt - amount1));
+            oldDebtsPayer.add(new Debt(payer, payee, debt - amount1.getAmount()));
             payer.setDebts(oldDebtsPayer);
 
             List<Debt> oldDebtsPayee = payee.getDebts();
@@ -82,13 +103,12 @@ public class UserService {
 
     /**
      * creates a debt for a user for a given expense
-     * @param expense_id the debt of the expense
+     * @param expense the debt of the expense
      * @throws NoSuchExpenseException if the use ris not a part of the given expense
      */
-    public void settleDebt(User payer, Long expense_id) throws NoSuchExpenseException, NoUserFoundException, NoDebtFoundException {
-        if (!payer.getExpenses().contains(expense_id))
+    public void settleDebt(User payer, Expense expense) throws NoSuchExpenseException, NoDebtFoundException {
+        if (!payer.getExpenses().contains(expense))
             throw new NoSuchExpenseException();
-        Expense expense = expenseService.findById(expense_id).get();
 
         if (expense.getPayer().equals(payer))
             return;

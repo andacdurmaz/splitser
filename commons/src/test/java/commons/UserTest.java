@@ -7,6 +7,9 @@ import commons.exceptions.IBANFormatException;
 import org.junit.jupiter.api.Test;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class UserTest {
@@ -17,6 +20,15 @@ public class UserTest {
         assertEquals("andac", user.getUsername());
         assertEquals("andac@gmail.com", user.getEmail());
         assertEquals(Language.EN, user.getLanguage());
+    }
+
+    @Test
+    public void defaultConstructorTest() {
+        User user = new User();
+        assertNotNull(user);
+        assertNull( user.getUsername());
+        assertNull(user.getEmail());
+        assertNull(user.getLanguage());
     }
 
     @Test
@@ -83,7 +95,38 @@ public class UserTest {
     }
 
 
+    @Test
+    public void debtTest() {
+        User user = new User("andac", "andac@gmail.com");
+        User user2 = new User("ivan", "ivan@gmail.com");
+        Debt debt = new Debt(user, user2, 15.0);
+        List<Debt> debts = new ArrayList<>();
+        debts.add(debt);
+        user.setDebts(debts);
+        assertEquals(debts, user.getDebts());
+    }
 
+
+    @Test
+    public void expenseTest() {
+        User user = new User("andac", "andac@gmail.com");
+        Expense expense = new Expense();
+        List<Expense> expensess = new ArrayList<>();
+        expensess.add(expense);
+        user.setExpenses(expensess);
+        assertEquals(expensess, user.getExpenses());
+    }
+
+    @Test
+    public void addExpenseTest() {
+        User user = new User("andac", "andac@gmail.com");
+        List<Expense> expenses = new ArrayList<>();
+        assertTrue(user.getExpenses().isEmpty());
+        Expense expense = new Expense();
+        user.addExpense(expense);
+        expenses.add(expense);
+        assertEquals(expenses, user.getExpenses());
+    }
 
 
 
@@ -99,6 +142,23 @@ public class UserTest {
         assertEquals(result, user.toString());
     }
 
+    @Test
+    public void equalsTestSame(){
+        User user = new User("andac", "andac@gmail.com");
+        assertTrue(user.equals(user));
+    }
+
+    @Test
+    public void equalsTestDifferent(){
+        User user = new User("andac", "andac@gmail.com");
+        User user2 = new User("mehmet", "andac@gmail.com");
+        assertFalse(user.equals(user2));
+    }
+    @Test
+    public void equalsNullTest(){
+        User user = new User("andac", "andac@gmail.com");
+        assertFalse(user.equals(null));
+    }
     @Test
     public void IBANFormatTest() {
         User user = new User("andac", "andac@gmail.com");
