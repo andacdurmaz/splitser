@@ -91,10 +91,10 @@ public class UserService {
             throw new NoSuchExpenseException();
         Expense expense = expenseService.findById(expense_id).get();
 
-        if (expense.getPayer() == payer_id)
+        if (expense.getPayer().getUserID() == payer_id)
             return;
         int people = expense.getPayingParticipants().size() + 1;
         double payment = expense.getAmount() / people;
-        this.addDebts(payer_id, expense.getPayer(), payment);
+        this.addDebts(payer_id, expense.getPayer().getUserID(), payment);
     }
 }

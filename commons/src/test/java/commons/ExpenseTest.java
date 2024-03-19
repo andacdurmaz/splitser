@@ -13,11 +13,11 @@ class ExpenseTest {
         User user = new User("ivan","test");
         List<User> payingParticipants = new ArrayList<>();
         payingParticipants.add(user);
-        Expense expense = new Expense("Drinks", 3.29, user.getUserID(), payingParticipants);
+        Expense expense = new Expense("Drinks", 3.29, user, payingParticipants);
         assertEquals("Drinks", expense.getName());
         assertEquals(3.29, expense.getAmount());
         assertEquals(payingParticipants, expense.getPayingParticipants());
-        assertEquals(user.getUserID(), expense.getPayer());
+        assertEquals(user, expense.getPayer());
     }
 
     @Test
@@ -43,6 +43,7 @@ class ExpenseTest {
 
 
 
+
 //    @Test
 //    void setPayer() {
 //        User user = new User("ivan","test");
@@ -50,6 +51,7 @@ class ExpenseTest {
 //        expense.setPayer(user.getUserID());
 //        assertEquals(user,expense.getPayer());
 //    }
+
 
     @Test
     void getAmount() {
@@ -69,7 +71,7 @@ class ExpenseTest {
         User user = new User("ivan","test");
         List<User> payingParticipants = new ArrayList<>();
         payingParticipants.add(user);
-        Expense expense = new Expense("Drinks", 3.29, user.getUserID(), payingParticipants);
+        Expense expense = new Expense("Drinks", 3.29, user, payingParticipants);
         assertEquals(payingParticipants, expense.getPayingParticipants());
     }
 

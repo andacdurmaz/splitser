@@ -14,7 +14,9 @@ public class Expense {
     public long id;
     private String name;
     private double amount;
-    private long payer;
+    @ManyToOne(targetEntity = User.class)
+    @JoinColumn(name = "payer", referencedColumnName ="id")
+    private User payer;
 
     @ManyToMany()
     private List<User> payingParticipants;
@@ -29,7 +31,7 @@ public class Expense {
     /*
         Constructor for the expense class
      */
-    public Expense (String name, double amount, long payer,List<User> payingParticipants) {
+    public Expense (String name, double amount, User payer,List<User> payingParticipants) {
         this.name = name;
         this.amount = amount;
         this.payer = payer;
@@ -91,7 +93,7 @@ public class Expense {
      * getter method for the expense payer
      * @return the user who paid the expense
      */
-    public long getPayer() {
+    public User getPayer() {
         return payer;
     }
 
@@ -99,7 +101,7 @@ public class Expense {
      * setter method for the expense payer
      * @param payer who paid for the expense
      */
-    public void setPayer(long payer) {
+    public void setPayer(User payer) {
         this.payer = payer;
     }
 
