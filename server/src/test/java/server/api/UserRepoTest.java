@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
-public class UserRepo implements UserRepository {
+public class UserRepoTest implements UserRepository {
 
     public List<User> users = new ArrayList<>();
     public final List<String> calledMethods = new ArrayList<>();

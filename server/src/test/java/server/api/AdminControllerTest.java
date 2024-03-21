@@ -51,7 +51,7 @@ public class AdminControllerTest {
 
     @BeforeEach
     public void setup() {
-        TestAdminRepository repo = new TestAdminRepository();
+        AdminRepositoryTest repo = new AdminRepositoryTest();
         sut = new AdminController(service);
         mockMvc = MockMvcBuilders.standaloneSetup(sut).build();
     }

@@ -30,7 +30,7 @@ import org.springframework.data.repository.query.FluentQuery.FetchableFluentQuer
 import server.database.AdminRepository;
 
 
-public class TestAdminRepository implements AdminRepository {
+public class AdminRepositoryTest implements AdminRepository {
 
     public final List<Admin> admins = new ArrayList<>();
     public final List<String> calledMethods = new ArrayList<>();

@@ -15,7 +15,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.query.FluentQuery;
 import server.database.ExpenseRepository;
 
-public class TestExpenseRepository implements ExpenseRepository {
+public class ExpenseRepositoryTest implements ExpenseRepository {
 
     public final List<Expense> expenses = new ArrayList<>();
     public final List<String> calledMethods = new ArrayList<>();

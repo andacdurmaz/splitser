@@ -11,7 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import server.database.EventRepository;
 
-public abstract class TestEventRepository implements EventRepository {
+public abstract class EventRepositorySecondTest implements EventRepository {
 
     public List<Event> events = new ArrayList<>();
     public final List<String> calledMethods = new ArrayList<>();

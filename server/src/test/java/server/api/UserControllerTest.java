@@ -21,13 +21,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 public class UserControllerTest {
-    private UserRepo repo;
+    private UserRepoTest repo;
     private UserService service;
     private UserController sut;
 
     @BeforeEach
     public void setup() {
-        repo = new UserRepo();
+        repo = new UserRepoTest();
         service = new UserService(repo);
         sut = new UserController(service);
     }
@@ -42,8 +42,8 @@ public class UserControllerTest {
     public void addTest(){
         User added = new User();
         sut.add(added);
-        assertTrue(((UserRepo) sut.getService().getRepo()).getUsers().contains(added));
-        assertEquals("save", ((UserRepo) sut.getService().getRepo()).getCalledMethods().get(0));
+        assertTrue(((UserRepoTest) sut.getService().getRepo()).getUsers().contains(added));
+        assertEquals("save", ((UserRepoTest) sut.getService().getRepo()).getCalledMethods().get(0));
 
     }
 
@@ -148,7 +148,7 @@ public class UserControllerTest {
         User added2 = new User();
         sut.add(added1);
         sut.add(added2);
-        assertEquals(((UserRepo)sut.getService().getRepo()).getUsers(), sut.getAll());
+        assertEquals(((UserRepoTest)sut.getService().getRepo()).getUsers(), sut.getAll());
     }
 
     @Test

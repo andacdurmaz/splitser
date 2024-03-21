@@ -20,7 +20,7 @@ public class UserServiceTest {
 
     @Test
     public void constructorTest(){
-        UserRepo repo = new UserRepo();
+        UserRepoTest repo = new UserRepoTest();
         UserService service = new UserService(repo);
         assertNotNull(service);
         assertEquals(repo, service.getRepo());
@@ -28,9 +28,9 @@ public class UserServiceTest {
 
     @Test
     public void setterTestExpense(){
-        UserRepo repo = new UserRepo();
+        UserRepoTest repo = new UserRepoTest();
         UserService service = new UserService(repo);
-        TestExpenseRepository expenseRepository = new TestExpenseRepository();
+        ExpenseRepositoryTest expenseRepository = new ExpenseRepositoryTest();
         ExpenseService expenseService = new ExpenseService(expenseRepository);
         service.setExpenseService(expenseService);
         assertEquals(expenseService, service.getExpenseService());
@@ -38,9 +38,9 @@ public class UserServiceTest {
 
     @Test
     public void setterTestDebt(){
-        UserRepo repo = new UserRepo();
+        UserRepoTest repo = new UserRepoTest();
         UserService service = new UserService(repo);
-        DebtRepo debtrepo = new DebtRepo();
+        DebtRepoTest debtrepo = new DebtRepoTest();
         DebtService debtService = new DebtService(debtrepo);
         service.setDebtService(debtService);
         assertEquals(debtService, service.getDebtService());
@@ -49,7 +49,7 @@ public class UserServiceTest {
 
     @Test
     public void findAllTest(){
-        UserRepo repo = new UserRepo();
+        UserRepoTest repo = new UserRepoTest();
         User user1 = new User();
         User user2 = new User();
         repo.save(user1);
@@ -63,7 +63,7 @@ public class UserServiceTest {
 
     @Test
     public void saveTest() throws NoUserFoundException {
-        UserRepo repo = new UserRepo();
+        UserRepoTest repo = new UserRepoTest();
         UserService service = new UserService(repo);
         User user = new User();
         assertEquals(user, service.save(user));
@@ -73,7 +73,7 @@ public class UserServiceTest {
 
     @Test
     public void existsByIdTest() {
-        UserRepo repo = new UserRepo();
+        UserRepoTest repo = new UserRepoTest();
         UserService service = new UserService(repo);
         User user = new User();
         service.save(user);
@@ -84,19 +84,19 @@ public class UserServiceTest {
 
     @Test
     public void notExistsByIdTest() {
-        UserRepo repo = new UserRepo();
+        UserRepoTest repo = new UserRepoTest();
         UserService service = new UserService(repo);
         assertFalse(service.existsById(5));
     }
 
     @Test
     public void settleDebtTest() throws NoDebtFoundException, NoSuchExpenseException {
-        UserRepo repo = new UserRepo();
+        UserRepoTest repo = new UserRepoTest();
         UserService service = new UserService(repo);
-        TestExpenseRepository expenseRepository = new TestExpenseRepository();
+        ExpenseRepositoryTest expenseRepository = new ExpenseRepositoryTest();
         ExpenseService expenseService = new ExpenseService(expenseRepository);
         service.setExpenseService(expenseService);
-        DebtRepo debtrepo = new DebtRepo();
+        DebtRepoTest debtrepo = new DebtRepoTest();
         DebtService debtService = new DebtService(debtrepo);
         service.setDebtService(debtService);
         User payer = new User("andac", "andac@gmail.com");
@@ -115,12 +115,12 @@ public class UserServiceTest {
 
     @Test
     public void addDebtCase1() throws NoDebtFoundException {
-        UserRepo repo = new UserRepo();
+        UserRepoTest repo = new UserRepoTest();
         UserService service = new UserService(repo);
-        TestExpenseRepository expenseRepository = new TestExpenseRepository();
+        ExpenseRepositoryTest expenseRepository = new ExpenseRepositoryTest();
         ExpenseService expenseService = new ExpenseService(expenseRepository);
         service.setExpenseService(expenseService);
-        DebtRepo debtrepo = new DebtRepo();
+        DebtRepoTest debtrepo = new DebtRepoTest();
         DebtService debtService = new DebtService(debtrepo);
         service.setDebtService(debtService);
         User payer = new User("andac", "andac@gmail.com");
@@ -134,12 +134,12 @@ public class UserServiceTest {
     }
     @Test
     public void addDebtCase2() throws NoDebtFoundException {
-        UserRepo repo = new UserRepo();
+        UserRepoTest repo = new UserRepoTest();
         UserService service = new UserService(repo);
-        TestExpenseRepository expenseRepository = new TestExpenseRepository();
+        ExpenseRepositoryTest expenseRepository = new ExpenseRepositoryTest();
         ExpenseService expenseService = new ExpenseService(expenseRepository);
         service.setExpenseService(expenseService);
-        DebtRepo debtrepo = new DebtRepo();
+        DebtRepoTest debtrepo = new DebtRepoTest();
         DebtService debtService = new DebtService(debtrepo);
         service.setDebtService(debtService);
         User payer = new User("andac", "andac@gmail.com");
