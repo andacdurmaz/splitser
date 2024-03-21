@@ -63,7 +63,7 @@ public class UserServiceTest {
 
     @Test
     public void getUserTest() throws NoUserFoundException {
-        UserRepo repo = new UserRepo();
+        UserRepoTest repo = new UserRepoTest();
         UserService service = new UserService(repo);
         User user = new User("andac","andac@gmail.com");
         service.save(user);
@@ -73,7 +73,7 @@ public class UserServiceTest {
 
     @Test
     public void getNoUserTest()  {
-        UserRepo repo = new UserRepo();
+        UserRepoTest repo = new UserRepoTest();
         UserService service = new UserService(repo);
         assertThrows(NoUserFoundException.class, () -> {        service.getUserById(123);} );
     }
@@ -170,9 +170,9 @@ public class UserServiceTest {
     }
     @Test
     public void addDebtCase3() throws NoDebtFoundException {
-        UserRepo repo = new UserRepo();
+        UserRepoTest repo = new UserRepoTest();
         UserService service = new UserService(repo);
-        TestExpenseRepository expenseRepository = new TestExpenseRepository();
+        ExpenseRepositoryTest expenseRepository = new ExpenseRepositoryTest();
         ExpenseService expenseService = new ExpenseService(expenseRepository);
         service.setExpenseService(expenseService);
         DebtRepoTest debtrepo = new DebtRepoTest();
@@ -191,9 +191,9 @@ public class UserServiceTest {
 
     @Test
     public void addDebtCase4() throws NoDebtFoundException {
-        UserRepo repo = new UserRepo();
+        UserRepoTest repo = new UserRepoTest();
         UserService service = new UserService(repo);
-        TestExpenseRepository expenseRepository = new TestExpenseRepository();
+        ExpenseRepositoryTest expenseRepository = new ExpenseRepositoryTest();
         ExpenseService expenseService = new ExpenseService(expenseRepository);
         service.setExpenseService(expenseService);
         DebtRepoTest debtrepo = new DebtRepoTest();
@@ -212,9 +212,9 @@ public class UserServiceTest {
 
     @Test
     public void addDebtCase5() throws NoDebtFoundException {
-        UserRepo repo = new UserRepo();
+        UserRepoTest repo = new UserRepoTest();
         UserService service = new UserService(repo);
-        TestExpenseRepository expenseRepository = new TestExpenseRepository();
+        ExpenseRepositoryTest expenseRepository = new ExpenseRepositoryTest();
         ExpenseService expenseService = new ExpenseService(expenseRepository);
         service.setExpenseService(expenseService);
         DebtRepoTest debtrepo = new DebtRepoTest();

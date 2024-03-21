@@ -102,8 +102,16 @@ public interface DebtRepository extends JpaRepository<Debt, Long> {
      */
     void deleteById(long id) throws NoDebtFoundException;
 
-
+    /**
+     * getter method for the debts in the repository
+     * @return debts
+     */
     List<Debt> getDebts();
+
+    /***
+     * setter method for the debts in the repository
+     * @param list the new list of the debts
+     */
 
     void setDebts(List<Debt> list);
 }

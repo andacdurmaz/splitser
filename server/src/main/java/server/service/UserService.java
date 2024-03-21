@@ -136,7 +136,8 @@ public class UserService {
      * @param amount1 of the old debt
      * @throws NoDebtFoundException thrown if no such debt is found
      */
-    private void payMore(User payer, User payee, Double debt, Debt amount1) throws NoDebtFoundException {
+    private void payMore(User payer, User payee,
+                         Double debt, Debt amount1) throws NoDebtFoundException {
         debtService.deleteDebt(payee, payer);
         debtService.addDebt(payer, payee, debt - amount1.getAmount());
 
@@ -168,7 +169,8 @@ public class UserService {
      * @param amount1 of the old debt
      * @throws NoDebtFoundException thrown if no such debt is found
      */
-    private void getPaidLess(User payer, User payee, Double debt, Debt amount1) throws NoDebtFoundException {
+    private void getPaidLess(User payer, User payee,
+                             Double debt, Debt amount1) throws NoDebtFoundException {
         List<Debt> oldDebtsPayee = payee.getDebts();
         oldDebtsPayee.remove(debtService.getDebtByPayerAndPayee(payee, payer));
         oldDebtsPayee.add(new Debt(payee, payer, amount1.getAmount() - debt));
