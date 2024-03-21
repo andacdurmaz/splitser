@@ -2,6 +2,7 @@ package commons;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+
 import java.util.Objects;
 
 @Entity
@@ -21,7 +22,8 @@ public class Admin {
 
     /**
      * Constructor of the admin class
-     * @param email the email of the admin
+     *
+     * @param email    the email of the admin
      * @param password the password of the admin
      */
     public Admin(String email, String password) {
@@ -31,6 +33,7 @@ public class Admin {
 
     /**
      * Method that returns the email of the admin
+     *
      * @return the email of the admin
      */
     public String getEmail() {
@@ -39,6 +42,7 @@ public class Admin {
 
     /**
      * Method to set the email of an admin
+     *
      * @param email the email you want to set to the admin
      */
     public void setEmail(String email) {
@@ -47,6 +51,7 @@ public class Admin {
 
     /**
      * Method that returns the password of the admin
+     *
      * @return the password of the admin
      */
     public String getPassword() {
@@ -55,6 +60,7 @@ public class Admin {
 
     /**
      * Method to set the password of an admin
+     *
      * @param password the password you want to set to the admin
      */
     public void setPassword(String password) {
@@ -63,6 +69,7 @@ public class Admin {
 
     /**
      * A method to check if 2 objects are equal
+     *
      * @param o The object you want to compare to
      * @return Returns true if the objects are equal and otherwise returns false
      */
@@ -76,6 +83,7 @@ public class Admin {
 
     /**
      * Method to generate a hashcode
+     *
      * @return returns the generated hashcode
      */
     @Override
@@ -85,6 +93,7 @@ public class Admin {
 
     /**
      * Method which makes a string from the attribute of the admin
+     *
      * @return returns the string which is generated
      */
     @Override

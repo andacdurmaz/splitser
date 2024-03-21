@@ -31,10 +31,10 @@ public class Person {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    public long id;
+    private long id;
 
-    public String firstName;
-    public String lastName;
+    private String firstName;
+    private String lastName;
 
 
     /**
@@ -42,6 +42,24 @@ public class Person {
      */
     public Person() {
         // for object mapper
+    }
+
+    /**
+     * Get method
+     *
+     * @return first name of this person
+     */
+    public String getFirstName() {
+        return firstName;
+    }
+
+    /**
+     * Get method
+     *
+     * @return last name if this person
+     */
+    public String getLastName() {
+        return lastName;
     }
 
     /**
@@ -55,6 +73,14 @@ public class Person {
         this.lastName = lastName;
     }
 
+    /**
+     * Get method
+     *
+     * @return id of this person
+     */
+    public long getId() {
+        return id;
+    }
 
     /**
      * Equals method

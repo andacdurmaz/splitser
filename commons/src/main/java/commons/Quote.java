@@ -36,8 +36,26 @@ public class Quote {
     private long id;
 
     @OneToOne(cascade = CascadeType.PERSIST)
-    public Person person;
-    public String quote;
+    private Person person;
+    private String quote;
+
+    /**
+     * Get method
+     *
+     * @return the owner as type person of this quote
+     */
+    public Person getPerson() {
+        return person;
+    }
+
+    /**
+     * Get method
+     *
+     * @return the quote as type string
+     */
+    public String getQuote() {
+        return quote;
+    }
 
     /**
      * Get method

@@ -152,14 +152,14 @@ public class User {
     /**
      * Setter method for an User's IBAN
      *
-     * @param IBAN new IBAN of the User
+     * @param iban new IBAN of the User
      * @throws IBANFormatException if the format is incorrect
      */
-    public void setIban(String IBAN) throws IBANFormatException {
-        if (IBAN.length() != 34) {
+    public void setIban(String iban) throws IBANFormatException {
+        if (iban.length() != 34) {
             throw new IBANFormatException();
         }
-        this.iban = IBAN;
+        this.iban = iban;
     }
 
     /**
@@ -174,14 +174,14 @@ public class User {
     /**
      * Setter method for an User's BIC
      *
-     * @param BIC new BIC of the User
+     * @param bic new BIC of the User
      * @throws BICFormatException if the format is incorrect
      */
-    public void setBic(String BIC) throws BICFormatException {
-        if (BIC.length() != 11) {
+    public void setBic(String bic) throws BICFormatException {
+        if (bic.length() != 11) {
             throw new BICFormatException();
         }
-        this.bic = BIC;
+        this.bic = bic;
     }
 
     /**

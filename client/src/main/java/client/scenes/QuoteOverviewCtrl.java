@@ -64,18 +64,18 @@ public class QuoteOverviewCtrl implements Initializable {
      * @param location  url
      *                  The location used to resolve relative paths for the root object, or
      *                  {@code null} if the location is not known.
-     * @param resources resourcebundle
+     * @param resources resource bundle
      *                  The resources used to localize the root object, or {@code null} if
      *                  the root object was not localized.
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         colFirstName.setCellValueFactory(q ->
-                new SimpleStringProperty(q.getValue().person.firstName));
+                new SimpleStringProperty(q.getValue().getPerson().getFirstName()));
         colLastName.setCellValueFactory(q ->
-                new SimpleStringProperty(q.getValue().person.lastName));
+                new SimpleStringProperty(q.getValue().getPerson().getLastName()));
         colQuote.setCellValueFactory(q ->
-                new SimpleStringProperty(q.getValue().quote));
+                new SimpleStringProperty(q.getValue().getQuote()));
     }
 
     /**
