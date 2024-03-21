@@ -108,7 +108,7 @@ public class EventRepositoryTest implements EventRepository{
     }
 
     private Optional<Event> find(Long id) {
-        return events.stream().filter(q -> q.id == id).findFirst();
+        return events.stream().filter(q -> q.getId() == id).findFirst();
     }
 
     @Override
@@ -132,7 +132,7 @@ public class EventRepositoryTest implements EventRepository{
     @Override
     public <S extends Event> S save(S entity) {
         call("save");
-        entity.id = (long) events.size();
+        entity.setId((long) events.size());
         events.add(entity);
         return entity;
     }

@@ -61,15 +61,15 @@ public abstract class TestEventRepository implements EventRepository {
 
     @Override
     public void deleteAllInBatch(Iterable<Event> entities) {
-        for (Event deleted: entities) {
+        for (Event deleted : entities) {
             events = events.stream().filter(q -> !q.equals(deleted)).toList();
         }
     }
 
     @Override
     public void deleteAllByIdInBatch(Iterable<Long> ids) {
-        for (Long id: ids) {
-            events = events.stream().filter(q -> q.id != id).toList();
+        for (Long id : ids) {
+            events = events.stream().filter(q -> q.getId() != id).toList();
         }
     }
 
@@ -98,7 +98,7 @@ public abstract class TestEventRepository implements EventRepository {
     }
 
     private Optional<Event> find(Long id) {
-        return events.stream().filter(q -> q.id == id).findFirst();
+        return events.stream().filter(q -> q.getId() == id).findFirst();
     }
 
     @Override
@@ -119,7 +119,7 @@ public abstract class TestEventRepository implements EventRepository {
     @Override
     public <S extends Event> S save(S entity) {
         call("New event saved");
-        entity.id = (long) events.size();
+        entity.setId((long) events.size());
         events.add(entity);
         return entity;
     }

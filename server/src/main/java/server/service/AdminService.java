@@ -48,7 +48,9 @@ public class AdminService {
      * @return added admin
      */
     public ResponseEntity<Admin> addNewAdmin(Admin admin) {
-        if (isNullOrEmpty(admin.getEmail()) || isNullOrEmpty(admin.getPassword()) || repo.existsById(admin.getEmail())){
+        if (isNullOrEmpty(admin.getEmail())
+                || isNullOrEmpty(admin.getPassword())
+                || repo.existsById(admin.getEmail())){
             return ResponseEntity.badRequest().build();
         }
 

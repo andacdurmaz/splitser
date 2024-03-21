@@ -102,7 +102,7 @@ public class TestExpenseRepository implements ExpenseRepository {
     }
 
     private Optional<Expense> find(Long id) {
-        return expenses.stream().filter(q -> q.id == id).findFirst();
+        return expenses.stream().filter(q -> q.getId() == id).findFirst();
     }
 
     @Override
@@ -123,7 +123,7 @@ public class TestExpenseRepository implements ExpenseRepository {
     @Override
     public <S extends Expense> S save(S entity) {
         call("New expense saved");
-        entity.id = (long) expenses.size();
+        entity.setId((long) expenses.size());
         expenses.add(entity);
         return entity;
     }
@@ -170,6 +170,7 @@ public class TestExpenseRepository implements ExpenseRepository {
         // TODO Auto-generated method stub
 
     }
+
     @Override
     public <S extends Expense> Optional<S> findOne(Example<S> example) {
         // TODO Auto-generated method stub

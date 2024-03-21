@@ -55,12 +55,12 @@ public class UserRepo implements UserRepository {
     /**
      * checks if a User given its id exists
      *
-     * @param Id the id of the checked user
+     * @param id the id of the checked user
      * @return true if the user with the given id exists
      */
     @Override
-    public boolean existsById(long Id) {
-        return find(Id).isPresent();
+    public boolean existsById(long id) {
+        return find(id).isPresent();
     }
 
 
@@ -71,42 +71,42 @@ public class UserRepo implements UserRepository {
     /**
      * returns a user given its id
      *
-     * @param Id of the User
+     * @param id of the User
      * @return the user that is searched for
      */
     @Override
-    public User getUserById(long Id) throws NoUserFoundException {
-        if (!existsById(Id))
+    public User getUserById(long id) throws NoUserFoundException {
+        if (!existsById(id))
             throw new NoUserFoundException();
-        return find(Id).get();
+        return find(id).get();
     }
 
     /**
      * returns the username of a user given its id
      *
-     * @param Id of the User
+     * @param id of the User
      * @return the username of the user that is searched for
      * @throws NoUserFoundException thrown if no user with such id is found
      */
     @Override
-    public String getUsernameById(long Id) throws NoUserFoundException {
-        if (!existsById(Id))
+    public String getUsernameById(long id) throws NoUserFoundException {
+        if (!existsById(id))
             throw new NoUserFoundException();
-        return find(Id).get().getUsername();
+        return find(id).get().getUsername();
     }
 
     /**
      * returns the e-mail of a user given its id
      *
-     * @param Id of the User
+     * @param id of the User
      * @return the e-mail of the user that is searched for
      * @throws NoUserFoundException thrown if no user with such id is found
      */
     @Override
-    public String getEmailById(long Id) throws NoUserFoundException {
-        if (!existsById(Id))
+    public String getEmailById(long id) throws NoUserFoundException {
+        if (!existsById(id))
             throw new NoUserFoundException();
-        return find(Id).get().getEmail();
+        return find(id).get().getEmail();
     }
 
     /**

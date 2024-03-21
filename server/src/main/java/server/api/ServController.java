@@ -20,6 +20,7 @@ public class ServController {
 
     /**
      * Constructor
+     *
      * @param sserv ServService
      */
     @Autowired
@@ -29,15 +30,17 @@ public class ServController {
 
     /**
      * Get method
+     *
      * @return all events
      */
-    @GetMapping(path = { "", "/" })
+    @GetMapping(path = {"", "/"})
     public List<Event> getAllEvents() {
         return sserv.findAll();
     }
 
     /**
      * Get method
+     *
      * @param id id of events
      * @return event with the specified id
      */
@@ -51,6 +54,7 @@ public class ServController {
 
     /**
      * Post method
+     *
      * @param e event to add
      * @return added event
      */
@@ -62,21 +66,22 @@ public class ServController {
 
     /**
      * Login method
-     * @param email email to login with
+     *
+     * @param email    email to login with
      * @param password password to login with
      * @return body
      */
     @PostMapping("/login")
     public ResponseEntity<?> login
-            (@RequestBody String email, @RequestBody String password)
-    {
-        if(sserv.login(email, password))
+    (@RequestBody String email, @RequestBody String password) {
+        if (sserv.login(email, password))
             return ResponseEntity.ok("Login successful!");
         return ResponseEntity.badRequest().body(401);
     }
 
     /**
      * Shortcut method
+     *
      * @param s string to check if it is null or empty
      * @return true if String s is null or empty, false otherwise
      */

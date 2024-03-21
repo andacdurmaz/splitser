@@ -114,4 +114,13 @@ public class Quote {
     public String toString() {
         return ToStringBuilder.reflectionToString(this, MULTI_LINE_STYLE);
     }
+
+    /**
+     * Setter method
+     *
+     * @param id set the id of this quote
+     */
+    public void setId(long id) {
+        this.id = id;
+    }
 }

@@ -8,7 +8,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping("/")
 public class SomeController {
-
+    /**
+     * Placeholder for checkstyle
+     * @return placeholder
+     */
     @GetMapping("/")
     @ResponseBody
     public String index() {

@@ -152,10 +152,12 @@ public class UserService {
 
     /**
      * creates a debt for a user for a given expense
+     * @param payer the user that has to pay
      * @param expense the debt of the expense
      * @throws NoSuchExpenseException if the use ris not a part of the given expense
      */
-    public void settleDebt(User payer, Expense expense) throws NoSuchExpenseException, NoDebtFoundException {
+    public void settleDebt(User payer, Expense expense)
+            throws NoSuchExpenseException, NoDebtFoundException {
         if (!payer.getExpenses().contains(expense))
             throw new NoSuchExpenseException();
 

@@ -51,6 +51,15 @@ public class Event {
     }
 
     /**
+     * Setter method
+     *
+     * @param id set id of this event
+     */
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    /**
      * constructor for when no eventCode was specified
      *
      * @param title                title of the event
