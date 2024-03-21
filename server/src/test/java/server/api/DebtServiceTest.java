@@ -75,7 +75,6 @@ public class DebtServiceTest {
         DebtRepo repo = new DebtRepo();
         DebtService service = new DebtService(repo);
         assertFalse(service.existsById(5));
-
     }
 
     @Test
