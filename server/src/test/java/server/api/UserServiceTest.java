@@ -62,6 +62,22 @@ public class UserServiceTest {
     }
 
     @Test
+    public void getUserTest() throws NoUserFoundException {
+        UserRepo repo = new UserRepo();
+        UserService service = new UserService(repo);
+        User user = new User("andac","andac@gmail.com");
+        service.save(user);
+        long id = user.getUserID();
+        assertEquals(user, service.getUserById(id));
+    }
+
+    @Test
+    public void getNoUserTest()  {
+        UserRepo repo = new UserRepo();
+        UserService service = new UserService(repo);
+        assertThrows(NoUserFoundException.class, () -> {        service.getUserById(123);} );
+    }
+    @Test
     public void saveTest() throws NoUserFoundException {
         UserRepo repo = new UserRepo();
         UserService service = new UserService(repo);
@@ -130,7 +146,7 @@ public class UserServiceTest {
         service.addDebts(payer, payee, 5.0);
         Debt debt = new Debt(payer, payee, 5.0);
         assertTrue(payer.getDebts().contains(debt));
-        assertTrue(((DebtRepo) debtService.getRepo()).getDebts().contains(debtService.getDebtByPayerAndPayee(payer, payee)) );
+        assertTrue((debtService.getRepo()).getDebts().contains(debtService.getDebtByPayerAndPayee(payer, payee)) );
     }
     @Test
     public void addDebtCase2() throws NoDebtFoundException {
@@ -147,9 +163,71 @@ public class UserServiceTest {
         repo.save(payer);
         repo.save(payee);
         service.addDebts(payer, payee, 5.0);
-        //service.addDebts(payer, payee, 3.0);
-        //Debt debt = new Debt(payer, payee, 8.0);
-        //assertTrue(payer.getDebts().contains(debt));
-        //assertTrue(((DebtRepo) debtService.getRepo()).getDebts().contains(debtService.getDebtByPayerAndPayee(payer, payee)) );
+        service.addDebts(payer, payee, 3.0);
+        Debt debt = new Debt(payer, payee, 8.0);
+        assertTrue(payer.getDebts().contains(debt));
+        assertTrue((debtService.getRepo()).getDebts().contains(debtService.getDebtByPayerAndPayee(payer, payee)) );
+    }
+    @Test
+    public void addDebtCase3() throws NoDebtFoundException {
+        UserRepo repo = new UserRepo();
+        UserService service = new UserService(repo);
+        TestExpenseRepository expenseRepository = new TestExpenseRepository();
+        ExpenseService expenseService = new ExpenseService(expenseRepository);
+        service.setExpenseService(expenseService);
+        DebtRepo debtrepo = new DebtRepo();
+        DebtService debtService = new DebtService(debtrepo);
+        service.setDebtService(debtService);
+        User payer = new User("andac", "andac@gmail.com");
+        User payee = new User("mete", "mete@mail.com");
+        repo.save(payer);
+        repo.save(payee);
+        service.addDebts(payer, payee, 5.0);
+        service.addDebts(payee, payer, 7.0);
+        Debt debt = new Debt(payee, payer, 2.0);
+        assertTrue(payee.getDebts().contains(debt));
+        assertTrue((debtService.getRepo()).getDebts().contains(debtService.getDebtByPayerAndPayee(payee, payer)) );
+    }
+
+    @Test
+    public void addDebtCase4() throws NoDebtFoundException {
+        UserRepo repo = new UserRepo();
+        UserService service = new UserService(repo);
+        TestExpenseRepository expenseRepository = new TestExpenseRepository();
+        ExpenseService expenseService = new ExpenseService(expenseRepository);
+        service.setExpenseService(expenseService);
+        DebtRepo debtrepo = new DebtRepo();
+        DebtService debtService = new DebtService(debtrepo);
+        service.setDebtService(debtService);
+        User payer = new User("andac", "andac@gmail.com");
+        User payee = new User("mete", "mete@mail.com");
+        repo.save(payer);
+        repo.save(payee);
+        service.addDebts(payer, payee, 5.0);
+        service.addDebts(payee, payer, 3.0);
+        Debt debt = new Debt(payer, payee, 2.0);
+        assertTrue(payer.getDebts().contains(debt));
+        assertTrue((debtService.getRepo()).getDebts().contains(debtService.getDebtByPayerAndPayee(payer, payee)) );
+    }
+
+    @Test
+    public void addDebtCase5() throws NoDebtFoundException {
+        UserRepo repo = new UserRepo();
+        UserService service = new UserService(repo);
+        TestExpenseRepository expenseRepository = new TestExpenseRepository();
+        ExpenseService expenseService = new ExpenseService(expenseRepository);
+        service.setExpenseService(expenseService);
+        DebtRepo debtrepo = new DebtRepo();
+        DebtService debtService = new DebtService(debtrepo);
+        service.setDebtService(debtService);
+        User payer = new User("andac", "andac@gmail.com");
+        User payee = new User("mete", "mete@mail.com");
+        repo.save(payer);
+        repo.save(payee);
+        service.addDebts(payer, payee, 5.0);
+        service.addDebts(payee, payer, 5.0);
+        assertTrue(payer.getDebts().isEmpty());
+        assertTrue(payee.getDebts().isEmpty());
+        assertTrue((debtService.getRepo()).getDebts().isEmpty());
     }
 }

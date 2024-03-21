@@ -19,9 +19,11 @@ public class DebtRepo implements DebtRepository {
     public List<Debt> debts = new ArrayList<>();
     public final List<String> calledMethods = new ArrayList<>();
 
+    @Override
     public List<Debt> getDebts() {
-        return debts;
+        return new ArrayList<>(debts);
     }
+
 
     public void setDebts(List<Debt> debts) {
         this.debts = debts;

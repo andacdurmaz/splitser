@@ -5,6 +5,8 @@ import commons.User;
 import commons.exceptions.NoDebtFoundException;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 public interface DebtRepository extends JpaRepository<Debt, Long> {
     /**
      * checks if a debt exists given its payer and payee
@@ -101,4 +103,7 @@ public interface DebtRepository extends JpaRepository<Debt, Long> {
     void deleteById(long id) throws NoDebtFoundException;
 
 
+    List<Debt> getDebts();
+
+    void setDebts(List<Debt> list);
 }

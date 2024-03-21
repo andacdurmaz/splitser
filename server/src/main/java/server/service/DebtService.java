@@ -5,7 +5,6 @@ import commons.User;
 import commons.exceptions.NoDebtFoundException;
 import org.springframework.stereotype.Service;
 import server.database.DebtRepository;
-
 import java.util.List;
 
 @Service
@@ -33,7 +32,7 @@ public class DebtService {
      * @return all debts in the repository
      */
     public List<Debt> findAll() {
-        return repo.findAll();
+        return (repo).getDebts();
     }
 
     /**
@@ -63,7 +62,9 @@ public class DebtService {
      * @param amount the amount of the debt
      */
     public void addDebt(User payer_id, User payee_id, Double amount) {
-        repo.save(new Debt(payer_id,payee_id, amount));
+        List<Debt> list = repo.getDebts();
+        list.add(new Debt(payer_id,payee_id, amount));
+        repo.setDebts(list);
     }
 
     /**
