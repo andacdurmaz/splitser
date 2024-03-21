@@ -169,6 +169,11 @@ public class UserController {
         return ResponseEntity.ok(service.getUserById(id).getExpenses());
     }
 
+    /**
+     * Add method
+     * @param user user to add
+     * @return added user
+     */
     @PostMapping(path = { "", "/" })
     public ResponseEntity<User> add(@RequestBody User user) {
         if ((user == null) ) {

@@ -24,7 +24,6 @@ public class AddEventCtrl {
     private TextField eventCode;
     @FXML
     private TextField description;
-
     /**
      * Inject method
      * @param server server

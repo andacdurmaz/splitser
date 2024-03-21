@@ -40,25 +40,46 @@ public class Quote {
 	public String quote;
 
 	@SuppressWarnings("unused")
+	/**
+	 * Constructor for mapping
+	 */
 	public Quote() {
 		// for object mappers
 	}
 
+	/**
+	 * Constructor
+	 * @param person p
+	 * @param quote q
+	 */
 	public Quote(Person person, String quote) {
 		this.person = person;
 		this.quote = quote;
 	}
 
+	/**
+	 * Equals method
+	 * @param obj o
+	 * @return val
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		return EqualsBuilder.reflectionEquals(this, obj);
 	}
 
+	/**
+	 * Hash
+	 * @return hash val
+	 */
 	@Override
 	public int hashCode() {
 		return HashCodeBuilder.reflectionHashCode(this);
 	}
 
+	/**
+	 * toString method
+	 * @return string val
+	 */
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this, MULTI_LINE_STYLE);

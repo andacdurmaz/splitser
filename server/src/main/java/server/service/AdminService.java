@@ -14,21 +14,39 @@ public class AdminService {
 
     private final AdminRepository repo;
 
+    /**
+     * Constructor
+     * @param repo AdminRepository
+     */
     @Autowired
     public AdminService(AdminRepository repo) {
         this.repo = repo;
     }
 
+    /**
+     * Get method
+     * @return all admins
+     */
     public List<Admin> getAllAdmins() {
         return repo.findAll();
     }
+
+    /**
+     * Get method
+     * @param email email to find admins
+     * @return all admins with the specified email
+     */
     public ResponseEntity<Admin> getAdminByEmail(String email) {
         if (isNullOrEmpty(email) || !repo.existsById(email)) {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok(repo.findById(email).get());
     }
-
+    /**
+     * Add method
+     * @param admin admin to add
+     * @return added admin
+     */
     public ResponseEntity<Admin> addNewAdmin(Admin admin) {
         if (isNullOrEmpty(admin.getEmail()) || isNullOrEmpty(admin.getPassword()) || repo.existsById(admin.getEmail())){
             return ResponseEntity.badRequest().build();
@@ -38,6 +56,11 @@ public class AdminService {
         return ResponseEntity.ok(saved);
     }
 
+    /**
+     * Change password for admin
+     * @param email email of admin
+     * @return the new password
+     */
     public ResponseEntity<Admin> changePassword(String email) {
 
         if (isNullOrEmpty(email) || !repo.existsById(email)){
@@ -54,7 +77,11 @@ public class AdminService {
     }
 
 
-
+    /**
+     * Shortcut method
+     * @param s string to check
+     * @return true if the parameter string is empty or null, false otherwise
+     */
     private static boolean isNullOrEmpty(String s) {
         return s == null || s.isEmpty();
     }

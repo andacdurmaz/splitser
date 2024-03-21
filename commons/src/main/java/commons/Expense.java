@@ -24,12 +24,19 @@ public class Expense {
     @ManyToOne()
     private Event event;
 
+    /**
+     * Constructor for mapping
+     */
     public Expense() {
 
     }
 
-    /*
-        Constructor for the expense class
+    /**
+     * Expense constructor
+     * @param name expense name
+     * @param amount expense amount
+     * @param payer expense payer
+     * @param payingParticipants expense participants
      */
     public Expense (String name, double amount, User payer,List<User> payingParticipants) {
         this.name = name;
@@ -38,52 +45,60 @@ public class Expense {
         this.payingParticipants = payingParticipants;
     }
 
-    /*
-        Partial constructor for the expense class
-    */
+    /**
+     * Partial constructor
+     * @param name expense name
+     * @param amount expense amount
+     */
     public Expense (String name, double amount) {
         this.name = name;
         this.amount = amount;
         this.payingParticipants = new ArrayList<>();
     }
 
-    /*
-        Getter for the name attribute
+    /**
+     * Getter method
+     * @return expense name
      */
     public String getName() {
         return name;
     }
 
-    /*
-        Setter for the name attribute
+    /**
+     * Setter method
+     * @param name expense name
      */
     public void setName(String name) {
         this.name = name;
     }
 
-    /*
-        Getter for the amount attribute
+    /**
+     * Getter method
+     * @return expense amount
      */
     public double getAmount() {
         return amount;
     }
 
-    /*
-        Setter for the amount attribute
+    /**
+     * Setter method
+     * @param amount expense amount
      */
     public void setAmount(double amount) {
         this.amount = amount;
     }
 
-    /*
-        Getter for the paying participants
+    /**
+     * Getter method
+     * @return list of participants
      */
     public List<User> getPayingParticipants() {
         return payingParticipants;
     }
 
-    /*
-        Setter for the paying participants
+    /**
+     * Setter method
+     * @param payingParticipants expense participants
      */
     public void setPayingParticipants(List<User> payingParticipants) {
         this.payingParticipants = payingParticipants;
@@ -105,9 +120,11 @@ public class Expense {
         this.payer = payer;
     }
 
-    /*
-            Equals method for the Expense class
-         */
+    /**
+     * Equals method
+     * @param o other object to compare to
+     * @return true if this is equal to Object o, false otherwise
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -131,16 +148,18 @@ public class Expense {
         this.id = id;
     }
 
-    /*
-            Hash code method for the Expense class
-         */
+    /**
+     * Calls hash method
+     * @return hashCode of object
+     */
     @Override
     public int hashCode() {
         return Objects.hash(id, getName(), getAmount(), getPayingParticipants());
     }
 
-    /*
-        ToString method for the expense class
+    /**
+     * toString method
+     * @return human-readable String detail of expense
      */
     @Override
     public String toString() {

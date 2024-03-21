@@ -37,27 +37,47 @@ public class Person {
 	public String lastName;
 
 	@SuppressWarnings("unused")
+	/**
+	 * Contstructor for mapping
+	 */
 	public Person() {
 		// for object mapper
 	}
 
+	/**
+	 * Constrcutor
+	 * @param firstName first name
+	 * @param lastName last name
+	 */
 	public Person(String firstName, String lastName) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 	}
 
 
-
+	/**
+	 * Equals method
+	 * @param obj obj
+	 * @return ret val
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		return EqualsBuilder.reflectionEquals(this, obj);
 	}
 
+	/**
+	 * Hash
+	 * @return hsh val
+	 */
 	@Override
 	public int hashCode() {
 		return HashCodeBuilder.reflectionHashCode(this);
 	}
 
+	/**
+	 * toString
+	 * @return string val
+	 */
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this, MULTI_LINE_STYLE);
