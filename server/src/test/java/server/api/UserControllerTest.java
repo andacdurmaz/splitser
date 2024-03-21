@@ -21,13 +21,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 public class UserControllerTest {
-    private UserRepo repo;
+    private UserRepoTest repo;
     private UserService service;
     private UserController sut;
 
     @BeforeEach
     public void setup() {
-        repo = new UserRepo();
+        repo = new UserRepoTest();
         service = new UserService(repo);
         sut = new UserController(service);
     }
@@ -42,8 +42,8 @@ public class UserControllerTest {
     public void addTest(){
         User added = new User();
         sut.add(added);
-        assertTrue(((UserRepo) sut.getService().getRepo()).getUsers().contains(added));
-        assertEquals("save", ((UserRepo) sut.getService().getRepo()).getCalledMethods().get(0));
+        assertTrue(((UserRepoTest) sut.getService().getRepo()).getUsers().contains(added));
+        assertEquals("save", ((UserRepoTest) sut.getService().getRepo()).getCalledMethods().get(0));
 
     }
 
@@ -87,7 +87,7 @@ public class UserControllerTest {
     @Test
     public void getIBANTest() throws NoUserFoundException, IBANFormatException {
         User added = new User();
-        added.setIBAN("NL00001111222233334444555566667777");
+        added.setIban("NL00001111222233334444555566667777");
         sut.add(added);
         long id = added.getUserID();
         assertEquals(ResponseEntity.ok("NL00001111222233334444555566667777"), sut.getIBANById(id));
@@ -96,7 +96,7 @@ public class UserControllerTest {
     @Test
     public void getBICTest() throws NoUserFoundException, BICFormatException {
         User added = new User();
-        added.setBIC("22333444555");
+        added.setBic("22333444555");
         sut.add(added);
         long id = added.getUserID();
         assertEquals(ResponseEntity.ok("22333444555"), sut.getBICById(id));
@@ -148,7 +148,7 @@ public class UserControllerTest {
         User added2 = new User();
         sut.add(added1);
         sut.add(added2);
-        assertEquals(((UserRepo)sut.getService().getRepo()).getUsers(), sut.getAll());
+        assertEquals(((UserRepoTest)sut.getService().getRepo()).getUsers(), sut.getAll());
     }
 
     @Test

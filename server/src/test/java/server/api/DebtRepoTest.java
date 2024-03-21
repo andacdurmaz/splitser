@@ -15,18 +15,26 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
-public class DebtRepo implements DebtRepository {
-    public List<Debt> debts = new ArrayList<>();
-    public final List<String> calledMethods = new ArrayList<>();
+public class DebtRepoTest implements DebtRepository {
+    private List<Debt> debts = new ArrayList<>();
+    private final List<String> calledMethods = new ArrayList<>();
 
     public List<Debt> getDebts() {
         return debts;
     }
 
+    /**
+     * Setter method
+     * @param debts set debts
+     */
     public void setDebts(List<Debt> debts) {
         this.debts = debts;
     }
 
+    /**
+     * Getter method
+     * @return called methods
+     */
     public List<String> getCalledMethods() {
         return calledMethods;
     }

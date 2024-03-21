@@ -29,37 +29,87 @@ import jakarta.persistence.Id;
 @Entity
 public class Person {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	public long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
 
-	public String firstName;
-	public String lastName;
-
-	@SuppressWarnings("unused")
-	public Person() {
-		// for object mapper
-	}
-
-	public Person(String firstName, String lastName) {
-		this.firstName = firstName;
-		this.lastName = lastName;
-	}
+    private String firstName;
+    private String lastName;
 
 
+    /**
+     * Constructor for mapping
+     */
+    public Person() {
+        // for object mapper
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		return EqualsBuilder.reflectionEquals(this, obj);
-	}
+    /**
+     * Get method
+     *
+     * @return first name of this person
+     */
+    public String getFirstName() {
+        return firstName;
+    }
 
-	@Override
-	public int hashCode() {
-		return HashCodeBuilder.reflectionHashCode(this);
-	}
+    /**
+     * Get method
+     *
+     * @return last name if this person
+     */
+    public String getLastName() {
+        return lastName;
+    }
 
-	@Override
-	public String toString() {
-		return ToStringBuilder.reflectionToString(this, MULTI_LINE_STYLE);
-	}
+    /**
+     * Constructor
+     *
+     * @param firstName first name
+     * @param lastName  last name
+     */
+    public Person(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
+    /**
+     * Get method
+     *
+     * @return id of this person
+     */
+    public long getId() {
+        return id;
+    }
+
+    /**
+     * Equals method
+     *
+     * @param obj obj
+     * @return ret val
+     */
+    @Override
+    public boolean equals(Object obj) {
+        return EqualsBuilder.reflectionEquals(this, obj);
+    }
+
+    /**
+     * Hash
+     *
+     * @return hsh val
+     */
+    @Override
+    public int hashCode() {
+        return HashCodeBuilder.reflectionHashCode(this);
+    }
+
+    /**
+     * toString
+     *
+     * @return string val
+     */
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this, MULTI_LINE_STYLE);
+    }
 }
