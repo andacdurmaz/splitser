@@ -25,6 +25,11 @@ public class AddEventCtrl {
     @FXML
     private TextField description;
 
+    /**
+     * Inject method
+     * @param server server
+     * @param mainCtrl mainCtrl
+     */
     @Inject
     public AddEventCtrl(ServerUtils server, MainCtrl mainCtrl) {
         this.mainCtrl = mainCtrl;
@@ -32,11 +37,17 @@ public class AddEventCtrl {
 
     }
 
+    /**
+     * Cancel method, returns from adding an event
+     */
     public void cancel() {
         clearFields();
         mainCtrl.showOverview();
     }
 
+    /**
+     * Adds event
+     */
     public void ok() {
         try {
             server.addEvent(getEvent());
@@ -53,6 +64,10 @@ public class AddEventCtrl {
         mainCtrl.showOverview();
     }
 
+    /**
+     * getEvent method
+     * @return specified event
+     */
     private Event getEvent() {
         return new Event(
                 title.getText(),
@@ -61,6 +76,9 @@ public class AddEventCtrl {
                 description.getText());
     }
 
+    /**
+     * clears fields
+     */
     private void clearFields() {
         title.clear();
         numberOfParticipants.clear();
@@ -68,6 +86,10 @@ public class AddEventCtrl {
         description.clear();
     }
 
+    /**
+     * This method is for usability. Checks the pressed key
+     * @param e
+     */
     public void keyPressed(KeyEvent e) {
         switch (e.getCode()) {
             case ENTER:

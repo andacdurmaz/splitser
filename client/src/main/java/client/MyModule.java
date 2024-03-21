@@ -24,7 +24,12 @@ import client.scenes.MainCtrl;
 import client.scenes.QuoteOverviewCtrl;
 
 public class MyModule implements Module {
-
+    /**
+     * IMPORTANT! THIS METHOD SHOULD BE CHANGED
+     * uses quote classes instead of ours
+     * Configure method
+     * @param binder binder
+     */
     @Override
     public void configure(Binder binder) {
         binder.bind(MainCtrl.class).in(Scopes.SINGLETON);

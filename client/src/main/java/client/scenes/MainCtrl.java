@@ -33,7 +33,13 @@ public class MainCtrl {
     private EventInfoCtrl eventInfoCtrl;
     private Scene eventInfo;
 
-
+    /**
+     * Initialize mainCtrl
+     * @param primaryStage stage
+     * @param overview ow
+     * @param add add
+     * @param eventInfo eventInfo
+     */
     public void initialize(Stage primaryStage, Pair<HomePageCtrl, Parent> overview,
             Pair<AddEventCtrl, Parent> add, Pair<EventInfoCtrl, Parent> eventInfo) {
         this.primaryStage = primaryStage;
@@ -51,18 +57,28 @@ public class MainCtrl {
         primaryStage.show();
     }
 
+    /**
+     * Shows Homepage
+     */
     public void showOverview() {
         primaryStage.setTitle("Events: Overview");
         primaryStage.setScene(overview);
         homePageCtrl.refresh();
     }
 
+    /**
+     * Shows addEvent
+     */
     public void showAdd() {
         primaryStage.setTitle("Events: Adding Event");
         primaryStage.setScene(add);
         add.setOnKeyPressed(e -> addCtrl.keyPressed(e));
     }
 
+    /**
+     * Shows EventInfo
+     * @param event event to be shown
+     */
     public void showEventInfo(Event event) {
         primaryStage.setTitle(event.getTitle());
         primaryStage.setScene(eventInfo);

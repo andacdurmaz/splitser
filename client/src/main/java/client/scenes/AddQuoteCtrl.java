@@ -41,18 +41,28 @@ public class AddQuoteCtrl {
     @FXML
     private TextField quote;
 
+    /**
+     * Adding javadoc for checkstyle
+     * @param server placeholder
+     * @param mainCtrl placeholder
+     */
     @Inject
     public AddQuoteCtrl(ServerUtils server, MainCtrl mainCtrl) {
         this.mainCtrl = mainCtrl;
         this.server = server;
 
     }
-
+    /**
+     * Adding javadoc for checkstyle
+     */
     public void cancel() {
         clearFields();
         mainCtrl.showOverview();
     }
 
+    /**
+     * Adding javadoc for checkstyle
+     */
     public void ok() {
         try {
             server.addQuote(getQuote());
@@ -68,19 +78,27 @@ public class AddQuoteCtrl {
         clearFields();
         mainCtrl.showOverview();
     }
-
+    /**
+     * Adding javadoc for checkstyle
+     */
     private Quote getQuote() {
         var p = new Person(firstName.getText(), lastName.getText());
         var q = quote.getText();
         return new Quote(p, q);
     }
-
+    /**
+     * Adding javadoc for checkstyle
+     */
     private void clearFields() {
         firstName.clear();
         lastName.clear();
         quote.clear();
     }
 
+    /**
+     * Adding javadoc for checkstyle
+     * @param e placeholder
+     */
     public void keyPressed(KeyEvent e) {
         switch (e.getCode()) {
         case ENTER:

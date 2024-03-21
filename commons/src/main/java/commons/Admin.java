@@ -12,6 +12,9 @@ public class Admin {
     public String password;
 
     @SuppressWarnings("unused")
+    /**
+     * Constructor for mapping
+     */
     public Admin() {
         // for object mapper
     }

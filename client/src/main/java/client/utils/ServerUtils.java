@@ -48,10 +48,19 @@ public class ServerUtils extends Util{
 	private static final String SERVER = "http://localhost:8080/";
 	private static StompSession session;
 
+	/**
+	 * Sets session
+	 */
 	public void setSession() {
 		//session = connect("ws://localhost:8080/websocket");
 		session = connect("ws://" + address + "/websocket");
 	}
+
+	/**
+	 * Adding javadoc for checkstyle
+	 * @throws IOException exception
+	 * @throws URISyntaxException exception
+	 */
 	public void getQuotesTheHardWay() throws IOException, URISyntaxException {
 		var url = new URI("http://localhost:8080/api/quotes").toURL();
 		var is = url.openConnection().getInputStream();
@@ -62,6 +71,10 @@ public class ServerUtils extends Util{
 		}
 	}
 
+	/**
+	 * Adding javadoc for checkstyle
+	 * @return quotes
+	 */
 	public List<Quote> getQuotes() {
 		return ClientBuilder.newClient(new ClientConfig()) //
 				.target(SERVER).path("api/quotes") //
@@ -70,6 +83,11 @@ public class ServerUtils extends Util{
                 .get(new GenericType<List<Quote>>() {});
 	}
 
+	/**
+	 * Adds quotes
+	 * @param quote quote to add
+	 * @return added quote
+	 */
 	public Quote addQuote(Quote quote) {
 		return ClientBuilder.newClient(new ClientConfig()) //
 				.target(SERVER).path("api/quotes") //
@@ -77,6 +95,12 @@ public class ServerUtils extends Util{
 				.accept(APPLICATION_JSON) //
 				.post(Entity.entity(quote, APPLICATION_JSON), Quote.class);
 	}
+
+	/**
+	 * Gets events the hard way
+	 * @throws IOException exception
+	 * @throws URISyntaxException exception
+	 */
 	public void getEventsTheHardWay() throws IOException, URISyntaxException {
 		var url = new URI("http://localhost:8080/api/events").toURL();
 		var is = url.openConnection().getInputStream();
@@ -87,6 +111,10 @@ public class ServerUtils extends Util{
 		}
 	}
 
+	/**
+	 * Get events method
+	 * @return events
+	 */
 	public List<Event> getEvents() {
 		return ClientBuilder.newClient(new ClientConfig())
 				.target(SERVER).path("api/events")
@@ -95,6 +123,11 @@ public class ServerUtils extends Util{
 				.get(new GenericType<List<Event>>() {});
 	}
 
+	/**
+	 * Adds event
+	 * @param event event to add
+	 * @return added event
+	 */
 	public Event addEvent(Event event) {
 		return ClientBuilder.newClient(new ClientConfig()) //
 				.target(SERVER).path("api/events") //
