@@ -65,7 +65,8 @@ public class HomePageCtrl implements Initializable {
                 new SimpleStringProperty(String.valueOf(q.getValue().getEventCode())));
         description.setCellValueFactory(q ->
                 new SimpleStringProperty(q.getValue().getDescription()));
-        // Listen for changes to the items in the ListView, if there are events make the label invisible
+        // Listen for changes to the items in the ListView,
+        // if there are events make the label invisible
         eventsList.getItems().addListener((InvalidationListener) observable ->
                 updateLabelVisibility());
         eventsList.setOnMouseClicked(this::onEventClicked);
