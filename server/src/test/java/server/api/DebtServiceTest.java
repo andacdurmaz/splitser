@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class DebtServiceTest {
     @Test
     public void constructorTest(){
-        DebtRepo repo = new DebtRepo();
+        DebtRepoTest repo = new DebtRepoTest();
         DebtService service = new DebtService(repo);
         assertNotNull(service);
         assertEquals(repo, service.getRepo());
@@ -22,7 +22,7 @@ public class DebtServiceTest {
 
     @Test
     public void findAllTest(){
-        DebtRepo repo = new DebtRepo();
+        DebtRepoTest repo = new DebtRepoTest();
         Debt debt1 = new Debt();
         Debt debt2 = new Debt();
         repo.save(debt2);
@@ -36,7 +36,7 @@ public class DebtServiceTest {
 
     @Test
     public void addDebtTest(){
-        DebtRepo repo = new DebtRepo();
+        DebtRepoTest repo = new DebtRepoTest();
         DebtService service = new DebtService(repo);
         User payer = new User();
         User payee = new User();
@@ -48,7 +48,7 @@ public class DebtServiceTest {
 
     @Test
     public void deleteDebtTest() throws NoDebtFoundException {
-        DebtRepo repo = new DebtRepo();
+        DebtRepoTest repo = new DebtRepoTest();
         DebtService service = new DebtService(repo);
         User payer = new User();
         User payee = new User();
@@ -60,7 +60,7 @@ public class DebtServiceTest {
 
     @Test
     public void existsByIdTest() {
-        DebtRepo repo = new DebtRepo();
+        DebtRepoTest repo = new DebtRepoTest();
         DebtService service = new DebtService(repo);
         User payer = new User();
         User payee = new User();
@@ -72,14 +72,14 @@ public class DebtServiceTest {
 
     @Test
     public void notExistsByIdTest() {
-        DebtRepo repo = new DebtRepo();
+        DebtRepoTest repo = new DebtRepoTest();
         DebtService service = new DebtService(repo);
         assertFalse(service.existsById(5));
     }
 
     @Test
     public void getDebtTest() throws NoDebtFoundException {
-        DebtRepo repo = new DebtRepo();
+        DebtRepoTest repo = new DebtRepoTest();
         DebtService service = new DebtService(repo);
         User payer = new User();
         User payee = new User();
@@ -90,7 +90,7 @@ public class DebtServiceTest {
 
     @Test
     public void falseGetDebtTest() throws NoDebtFoundException {
-        DebtRepo repo = new DebtRepo();
+        DebtRepoTest repo = new DebtRepoTest();
         DebtService service = new DebtService(repo);
         User payer = new User();
         User payee = new User();
@@ -100,7 +100,7 @@ public class DebtServiceTest {
 
     @Test
     public void saveTest() throws NoDebtFoundException {
-        DebtRepo repo = new DebtRepo();
+        DebtRepoTest repo = new DebtRepoTest();
         DebtService service = new DebtService(repo);
         User payer = new User();
         User payee = new User();

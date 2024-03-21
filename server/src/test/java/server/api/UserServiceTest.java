@@ -1,6 +1,5 @@
 package server.api;
 
-//import commons.Debt;
 import commons.Expense;
 import commons.User;
 import commons.Debt;
@@ -41,7 +40,7 @@ public class UserServiceTest {
     public void setterTestDebt(){
         UserRepo repo = new UserRepo();
         UserService service = new UserService(repo);
-        DebtRepo debtrepo = new DebtRepo();
+        DebtRepoTest debtrepo = new DebtRepoTest();
         DebtService debtService = new DebtService(debtrepo);
         service.setDebtService(debtService);
         assertEquals(debtService, service.getDebtService());
@@ -113,7 +112,7 @@ public class UserServiceTest {
         TestExpenseRepository expenseRepository = new TestExpenseRepository();
         ExpenseService expenseService = new ExpenseService(expenseRepository);
         service.setExpenseService(expenseService);
-        DebtRepo debtrepo = new DebtRepo();
+        DebtRepoTest debtrepo = new DebtRepoTest();
         DebtService debtService = new DebtService(debtrepo);
         service.setDebtService(debtService);
         User payer = new User("andac", "andac@gmail.com");
@@ -137,7 +136,7 @@ public class UserServiceTest {
         TestExpenseRepository expenseRepository = new TestExpenseRepository();
         ExpenseService expenseService = new ExpenseService(expenseRepository);
         service.setExpenseService(expenseService);
-        DebtRepo debtrepo = new DebtRepo();
+        DebtRepoTest debtrepo = new DebtRepoTest();
         DebtService debtService = new DebtService(debtrepo);
         service.setDebtService(debtService);
         User payer = new User("andac", "andac@gmail.com");
@@ -156,7 +155,7 @@ public class UserServiceTest {
         TestExpenseRepository expenseRepository = new TestExpenseRepository();
         ExpenseService expenseService = new ExpenseService(expenseRepository);
         service.setExpenseService(expenseService);
-        DebtRepo debtrepo = new DebtRepo();
+        DebtRepoTest debtrepo = new DebtRepoTest();
         DebtService debtService = new DebtService(debtrepo);
         service.setDebtService(debtService);
         User payer = new User("andac", "andac@gmail.com");
@@ -176,7 +175,7 @@ public class UserServiceTest {
         TestExpenseRepository expenseRepository = new TestExpenseRepository();
         ExpenseService expenseService = new ExpenseService(expenseRepository);
         service.setExpenseService(expenseService);
-        DebtRepo debtrepo = new DebtRepo();
+        DebtRepoTest debtrepo = new DebtRepoTest();
         DebtService debtService = new DebtService(debtrepo);
         service.setDebtService(debtService);
         User payer = new User("andac", "andac@gmail.com");
@@ -197,7 +196,7 @@ public class UserServiceTest {
         TestExpenseRepository expenseRepository = new TestExpenseRepository();
         ExpenseService expenseService = new ExpenseService(expenseRepository);
         service.setExpenseService(expenseService);
-        DebtRepo debtrepo = new DebtRepo();
+        DebtRepoTest debtrepo = new DebtRepoTest();
         DebtService debtService = new DebtService(debtrepo);
         service.setDebtService(debtService);
         User payer = new User("andac", "andac@gmail.com");
@@ -218,7 +217,7 @@ public class UserServiceTest {
         TestExpenseRepository expenseRepository = new TestExpenseRepository();
         ExpenseService expenseService = new ExpenseService(expenseRepository);
         service.setExpenseService(expenseService);
-        DebtRepo debtrepo = new DebtRepo();
+        DebtRepoTest debtrepo = new DebtRepoTest();
         DebtService debtService = new DebtService(debtrepo);
         service.setDebtService(debtService);
         User payer = new User("andac", "andac@gmail.com");
