@@ -19,6 +19,17 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import server.Serv;
 
 public interface ServRepository extends JpaRepository<Serv, Long> {
-    boolean existsById(long Id);
-    Serv getServById(long Id);
+
+    /**
+     * Checks if the event with the specified id exists
+     * @param id specified id
+     * @return true if the event with the specified id exists, false otherwise
+     */
+    boolean existsById(long id);
+    /**
+     * Returns the event with the specified id
+     * @param id specified id
+     * @return returns the event with the specified id
+     */
+    Serv getServById(long id);
 }

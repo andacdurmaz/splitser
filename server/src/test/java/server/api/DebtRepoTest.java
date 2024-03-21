@@ -16,19 +16,26 @@ import java.util.Optional;
 import java.util.function.Function;
 
 public class DebtRepoTest implements DebtRepository {
-    public List<Debt> debts = new ArrayList<>();
-    public final List<String> calledMethods = new ArrayList<>();
+    private List<Debt> debts = new ArrayList<>();
+    private final List<String> calledMethods = new ArrayList<>();
 
     @Override
     public List<Debt> getDebts() {
         return new ArrayList<>(debts);
     }
 
-
+    /**
+     * Setter method
+     * @param debts set debts
+     */
     public void setDebts(List<Debt> debts) {
         this.debts = debts;
     }
 
+    /**
+     * Getter method
+     * @return called methods
+     */
     public List<String> getCalledMethods() {
         return calledMethods;
     }

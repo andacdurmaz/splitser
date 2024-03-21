@@ -30,13 +30,13 @@ import org.springframework.data.repository.query.FluentQuery.FetchableFluentQuer
 import server.database.AdminRepository;
 
 
-public class TestAdminRepository implements AdminRepository {
+public class AdminRepositoryTest implements AdminRepository {
 
     public final List<Admin> admins = new ArrayList<>();
     public final List<String> calledMethods = new ArrayList<>();
 
     private Optional<Admin> find(String id) {
-        return admins.stream().filter(q -> q.email.equals(id)).findFirst();
+        return admins.stream().filter(q -> q.getEmail().equals(id)).findFirst();
     }
 
     @Override

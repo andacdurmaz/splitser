@@ -15,12 +15,16 @@ public class EventInfoCtrl {
     @FXML
     private Label descriptionLabel;
 
+    /**
+     * Initialize method, shouldn't be empty
+     */
     public void initialize() {
 
     }
 
     /**
-     * set event method
+     * Set event method
+     *
      * @param event event to set
      */
     public void setEvent(Event event) {

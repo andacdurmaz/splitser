@@ -89,7 +89,7 @@ public class DebtServiceTest {
     }
 
     @Test
-    public void falseGetDebtTest() throws NoDebtFoundException {
+    public void falseGetDebtTest() {
         DebtRepoTest repo = new DebtRepoTest();
         DebtService service = new DebtService(repo);
         User payer = new User();
