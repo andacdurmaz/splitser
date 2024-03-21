@@ -115,7 +115,7 @@ public class UserController {
         if (id < 0 || !service.existsById(id)) {
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok(service.getUserById(id).getIBAN());
+        return ResponseEntity.ok(service.getUserById(id).getIban());
     }
 
     /**
@@ -128,7 +128,7 @@ public class UserController {
         if (id < 0 || !service.existsById(id)) {
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok(service.getUserById(id).getBIC());
+        return ResponseEntity.ok(service.getUserById(id).getBic());
     }
     /**
      * path to get a specific user's money given its id

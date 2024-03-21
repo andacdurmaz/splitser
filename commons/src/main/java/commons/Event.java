@@ -10,7 +10,7 @@ public class Event {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    public long id;
+    private long id;
     private final long eventCode;
     private String title;
     private int amountOfParticipants;
@@ -39,6 +39,14 @@ public class Event {
         this.eventCode = eventCode;
         this.expenses = new ArrayList<>();
         this.description = description;
+    }
+
+    /**
+     * Get method
+     * @return id of this event
+     */
+    public long getId() {
+        return id;
     }
 
     /**

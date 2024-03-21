@@ -87,7 +87,7 @@ public class UserControllerTest {
     @Test
     public void getIBANTest() throws NoUserFoundException, IBANFormatException {
         User added = new User();
-        added.setIBAN("NL00001111222233334444555566667777");
+        added.setIban("NL00001111222233334444555566667777");
         sut.add(added);
         long id = added.getUserID();
         assertEquals(ResponseEntity.ok("NL00001111222233334444555566667777"), sut.getIBANById(id));
@@ -96,7 +96,7 @@ public class UserControllerTest {
     @Test
     public void getBICTest() throws NoUserFoundException, BICFormatException {
         User added = new User();
-        added.setBIC("22333444555");
+        added.setBic("22333444555");
         sut.add(added);
         long id = added.getUserID();
         assertEquals(ResponseEntity.ok("22333444555"), sut.getBICById(id));

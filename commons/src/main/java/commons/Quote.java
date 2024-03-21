@@ -31,57 +31,69 @@ import jakarta.persistence.OneToOne;
 @Entity
 public class Quote {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	public long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
 
-	@OneToOne(cascade = CascadeType.PERSIST)
-	public Person person;
-	public String quote;
+    @OneToOne(cascade = CascadeType.PERSIST)
+    public Person person;
+    public String quote;
 
-	@SuppressWarnings("unused")
-	/**
-	 * Constructor for mapping
-	 */
-	public Quote() {
-		// for object mappers
-	}
+    /**
+     * Get method
+     *
+     * @return id of this quote
+     */
+    public long getId() {
+        return id;
+    }
 
-	/**
-	 * Constructor
-	 * @param person p
-	 * @param quote q
-	 */
-	public Quote(Person person, String quote) {
-		this.person = person;
-		this.quote = quote;
-	}
+    /**
+     * Constructor for mapping
+     */
+    public Quote() {
+        // for object mappers
+    }
 
-	/**
-	 * Equals method
-	 * @param obj o
-	 * @return val
-	 */
-	@Override
-	public boolean equals(Object obj) {
-		return EqualsBuilder.reflectionEquals(this, obj);
-	}
+    /**
+     * Constructor
+     *
+     * @param person p
+     * @param quote  q
+     */
+    public Quote(Person person, String quote) {
+        this.person = person;
+        this.quote = quote;
+    }
 
-	/**
-	 * Hash
-	 * @return hash val
-	 */
-	@Override
-	public int hashCode() {
-		return HashCodeBuilder.reflectionHashCode(this);
-	}
+    /**
+     * Equals method
+     *
+     * @param obj o
+     * @return val
+     */
+    @Override
+    public boolean equals(Object obj) {
+        return EqualsBuilder.reflectionEquals(this, obj);
+    }
 
-	/**
-	 * toString method
-	 * @return string val
-	 */
-	@Override
-	public String toString() {
-		return ToStringBuilder.reflectionToString(this, MULTI_LINE_STYLE);
-	}
+    /**
+     * Hash
+     *
+     * @return hash val
+     */
+    @Override
+    public int hashCode() {
+        return HashCodeBuilder.reflectionHashCode(this);
+    }
+
+    /**
+     * toString method
+     *
+     * @return string val
+     */
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this, MULTI_LINE_STYLE);
+    }
 }

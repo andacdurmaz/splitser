@@ -11,11 +11,11 @@ public class Expense {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    public long id;
+    private long id;
     private String name;
     private double amount;
     @ManyToOne(targetEntity = User.class)
-    @JoinColumn(name = "payer", referencedColumnName ="id")
+    @JoinColumn(name = "payer", referencedColumnName = "id")
     private User payer;
 
     @ManyToMany()
@@ -33,24 +33,27 @@ public class Expense {
 
     /**
      * Expense constructor
-     * @param name expense name
-     * @param amount expense amount
-     * @param payer expense payer
+     *
+     * @param name               expense name
+     * @param amount             expense amount
+     * @param payer              expense payer
      * @param payingParticipants expense participants
      */
-    public Expense (String name, double amount, User payer,List<User> payingParticipants) {
+    public Expense(String name, double amount, User payer, List<User> payingParticipants) {
         this.name = name;
         this.amount = amount;
         this.payer = payer;
         this.payingParticipants = payingParticipants;
     }
 
+
     /**
      * Partial constructor
-     * @param name expense name
+     *
+     * @param name   expense name
      * @param amount expense amount
      */
-    public Expense (String name, double amount) {
+    public Expense(String name, double amount) {
         this.name = name;
         this.amount = amount;
         this.payingParticipants = new ArrayList<>();
@@ -58,6 +61,7 @@ public class Expense {
 
     /**
      * Getter method
+     *
      * @return expense name
      */
     public String getName() {
@@ -66,6 +70,7 @@ public class Expense {
 
     /**
      * Setter method
+     *
      * @param name expense name
      */
     public void setName(String name) {
@@ -74,6 +79,7 @@ public class Expense {
 
     /**
      * Getter method
+     *
      * @return expense amount
      */
     public double getAmount() {
@@ -82,6 +88,7 @@ public class Expense {
 
     /**
      * Setter method
+     *
      * @param amount expense amount
      */
     public void setAmount(double amount) {
@@ -90,6 +97,7 @@ public class Expense {
 
     /**
      * Getter method
+     *
      * @return list of participants
      */
     public List<User> getPayingParticipants() {
@@ -98,6 +106,7 @@ public class Expense {
 
     /**
      * Setter method
+     *
      * @param payingParticipants expense participants
      */
     public void setPayingParticipants(List<User> payingParticipants) {
@@ -106,6 +115,7 @@ public class Expense {
 
     /**
      * getter method for the expense payer
+     *
      * @return the user who paid the expense
      */
     public User getPayer() {
@@ -114,6 +124,7 @@ public class Expense {
 
     /**
      * setter method for the expense payer
+     *
      * @param payer who paid for the expense
      */
     public void setPayer(User payer) {
@@ -122,6 +133,7 @@ public class Expense {
 
     /**
      * Equals method
+     *
      * @param o other object to compare to
      * @return true if this is equal to Object o, false otherwise
      */
@@ -129,11 +141,14 @@ public class Expense {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Expense expense)) return false;
-        return id == expense.id && Double.compare(getAmount(), expense.getAmount()) == 0 && Objects.equals(getName(), expense.getName()) && Objects.equals(getPayingParticipants(), expense.getPayingParticipants());
+        return id == expense.id && Double.compare(getAmount(), expense.getAmount()) == 0
+                && Objects.equals(getName(), expense.getName())
+                && Objects.equals(getPayingParticipants(), expense.getPayingParticipants());
     }
 
     /**
      * getter method for the id of an expense
+     *
      * @return the id
      */
     public long getId() {
@@ -142,6 +157,7 @@ public class Expense {
 
     /**
      * setter method for the id of an expense
+     *
      * @param id the new id
      */
     public void setId(long id) {
@@ -150,6 +166,7 @@ public class Expense {
 
     /**
      * Calls hash method
+     *
      * @return hashCode of object
      */
     @Override
@@ -159,11 +176,12 @@ public class Expense {
 
     /**
      * toString method
+     *
      * @return human-readable String detail of expense
      */
     @Override
     public String toString() {
-        return "Expense{"+
+        return "Expense{" +
                 "name='" + name + '\'' +
                 ", amount=" + amount +
                 ", payingParticipants=" + payingParticipants +

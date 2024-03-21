@@ -36,7 +36,7 @@ public class TestAdminRepository implements AdminRepository {
     public final List<String> calledMethods = new ArrayList<>();
 
     private Optional<Admin> find(String id) {
-        return admins.stream().filter(q -> q.email.equals(id)).findFirst();
+        return admins.stream().filter(q -> q.getEmail().equals(id)).findFirst();
     }
 
     @Override

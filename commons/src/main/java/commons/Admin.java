@@ -8,10 +8,10 @@ import java.util.Objects;
 public class Admin {
 
     @Id
-    public String email;
-    public String password;
+    private String email;
+    private String password;
 
-    @SuppressWarnings("unused")
+
     /**
      * Constructor for mapping
      */

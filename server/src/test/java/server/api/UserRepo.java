@@ -120,7 +120,7 @@ public class UserRepo implements UserRepository {
     public String getIbanById(long Id) throws NoUserFoundException {
         if (!existsById(Id))
             throw new NoUserFoundException();
-        return find(Id).get().getIBAN();
+        return find(Id).get().getIban();
     }
 
     /**
@@ -134,7 +134,7 @@ public class UserRepo implements UserRepository {
     public String getBicById(long Id) throws NoUserFoundException {
         if (!existsById(Id))
             throw new NoUserFoundException();
-        return find(Id).get().getBIC();
+        return find(Id).get().getBic();
     }
 
     /**
