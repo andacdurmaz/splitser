@@ -31,30 +31,37 @@ public class UserController {
     private final UserService service;
 
 
-
     /**
      * sets the repository for the User database
+     *
      * @param service the repository for the users
      */
     public UserController(UserService service) {
         this.service = service;
     }
 
+    /**
+     * Getter method
+     *
+     * @return UserService
+     */
     public UserService getService() {
         return service;
     }
 
     /**
      * path to get all Users in the repository
+     *
      * @return all users in repository
      */
-    @GetMapping(path = { "", "/" })
+    @GetMapping(path = {"", "/"})
     public List<User> getAll() {
         return service.findAll();
     }
 
     /**
      * path to get a specific user given its id
+     *
      * @param id of the user
      * @return the user with the given id
      */
@@ -68,11 +75,13 @@ public class UserController {
 
     /**
      * path to get a specific user's username given its id
+     *
      * @param id of the user
      * @return the username of the user with the given id
      */
     @GetMapping("/{id}/username")
-    public ResponseEntity<?> getUsernameById(@PathVariable("id") long id) throws NoUserFoundException {
+    public ResponseEntity<?> getUsernameById(@PathVariable("id") long id)
+            throws NoUserFoundException {
         if (id < 0 || !service.existsById(id)) {
             return ResponseEntity.badRequest().build();
         }
@@ -81,11 +90,13 @@ public class UserController {
 
     /**
      * path to get a specific user's email given its id
+     *
      * @param id of the user
      * @return the email of the user with the given id
      */
     @GetMapping("/{id}/email")
-    public ResponseEntity<?> getEmailById(@PathVariable("id") long id) throws NoUserFoundException {
+    public ResponseEntity<?> getEmailById(@PathVariable("id") long id)
+            throws NoUserFoundException {
         if (id < 0 || !service.existsById(id)) {
             return ResponseEntity.badRequest().build();
         }
@@ -94,11 +105,13 @@ public class UserController {
 
     /**
      * path to get a specific user's server URL given its id
+     *
      * @param id of the user
      * @return the server URL of the user with the given id
      */
     @GetMapping("/{id}/server")
-    public ResponseEntity<?> getServerById(@PathVariable("id") long id) throws NoUserFoundException {
+    public ResponseEntity<?> getServerById(@PathVariable("id") long id)
+            throws NoUserFoundException {
         if (id < 0 || !service.existsById(id)) {
             return ResponseEntity.badRequest().build();
         }
@@ -107,36 +120,43 @@ public class UserController {
 
     /**
      * path to get a specific user's IBAN given its id
+     *
      * @param id of the user
      * @return the IBAN of the user with the given id
      */
     @GetMapping("/{id}/iban")
-    public ResponseEntity<?> getIBANById(@PathVariable("id") long id) throws NoUserFoundException {
+    public ResponseEntity<?> getIBANById(@PathVariable("id") long id)
+            throws NoUserFoundException {
         if (id < 0 || !service.existsById(id)) {
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok(service.getUserById(id).getIBAN());
+        return ResponseEntity.ok(service.getUserById(id).getIban());
     }
 
     /**
      * path to get a specific user's BIC given its id
+     *
      * @param id of the user
      * @return the BIC of the user with the given id
      */
     @GetMapping("/{id}/bic")
-    public ResponseEntity<?> getBICById(@PathVariable("id") long id) throws NoUserFoundException {
+    public ResponseEntity<?> getBICById(@PathVariable("id") long id)
+            throws NoUserFoundException {
         if (id < 0 || !service.existsById(id)) {
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok(service.getUserById(id).getBIC());
+        return ResponseEntity.ok(service.getUserById(id).getBic());
     }
+
     /**
      * path to get a specific user's money given its id
+     *
      * @param id of the user
      * @return the wallet of the user with the given id
      */
     @GetMapping("/{id}/wallet")
-    public ResponseEntity<?> getWalletById(@PathVariable("id") long id) throws NoUserFoundException {
+    public ResponseEntity<?> getWalletById(@PathVariable("id") long id)
+            throws NoUserFoundException {
         if (id < 0 || !service.existsById(id)) {
             return ResponseEntity.badRequest().build();
         }
@@ -145,11 +165,13 @@ public class UserController {
 
     /**
      * path to get a specific user's money given its id
+     *
      * @param id of the user
      * @return the wallet of the user with the given id
      */
     @GetMapping("/{id}/debts")
-    public ResponseEntity<?> getDebtsById(@PathVariable("id") long id) throws NoUserFoundException {
+    public ResponseEntity<?> getDebtsById(@PathVariable("id") long id)
+            throws NoUserFoundException {
         if (id < 0 || !service.existsById(id)) {
             return ResponseEntity.badRequest().build();
         }
@@ -158,20 +180,28 @@ public class UserController {
 
     /**
      * path to get a specific user's expenses given its id
+     *
      * @param id of the user
      * @return the expenses of the user with the given id
      */
     @GetMapping("/{id}/expenses")
-    public ResponseEntity<?> getExpensesById(@PathVariable("id") long id) throws NoUserFoundException {
+    public ResponseEntity<?> getExpensesById(@PathVariable("id") long id)
+            throws NoUserFoundException {
         if (id < 0 || !service.existsById(id)) {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok(service.getUserById(id).getExpenses());
     }
 
-    @PostMapping(path = { "", "/" })
+    /**
+     * Add method
+     *
+     * @param user user to add
+     * @return added user
+     */
+    @PostMapping(path = {"", "/"})
     public ResponseEntity<User> add(@RequestBody User user) {
-        if ((user == null) ) {
+        if ((user == null)) {
             return ResponseEntity.badRequest().build();
         }
         User saved = service.save(user);

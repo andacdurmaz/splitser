@@ -28,25 +28,48 @@ import java.util.Map;
 public class AdminController {
     private final AdminService service;
 
+    /**
+     * Constructor
+     * @param service adminService
+     */
     public AdminController(AdminService service) {
         this.service = service;
     }
 
+    /**
+     * Get method
+     * @return all admins
+     */
     @GetMapping(path = { "", "/" })
     public List<Admin> getAll() {
         return service.getAllAdmins();
     }
 
+    /**
+     * Get method
+     * @param email email of admin
+     * @return all admins with the specified email
+     */
     @GetMapping("/{email}")
     public ResponseEntity<Admin> getByEmail(@PathVariable("email") String email) {
         return service.getAdminByEmail(email);
     }
 
+    /**
+     * Add method
+     * @param admin admin to add
+     * @return added admin
+     */
     @PostMapping(path = { "", "/" })
     public ResponseEntity<Admin> addNewAdmin(@RequestBody Admin admin) {
         return service.addNewAdmin(admin);
     }
 
+    /**
+     * Change the password
+     * @param body admin info
+     * @return new password
+     */
     @PutMapping(path = { "", "/" })
     public ResponseEntity<Admin> changePassword(@RequestBody Map<String,String> body) {
         String email = body.get("email");

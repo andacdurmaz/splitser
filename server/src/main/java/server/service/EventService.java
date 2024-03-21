@@ -20,7 +20,8 @@ public class EventService {
 
     /**
      * Constructor for the event service
-     * @param eventRepository
+     *
+     * @param eventRepository eventRepository
      */
 
     @Autowired
@@ -30,6 +31,7 @@ public class EventService {
 
     /**
      * Method to get all events from the database
+     *
      * @return the list of events
      */
     public List<Event> getAllEvents() {
@@ -38,6 +40,7 @@ public class EventService {
 
     /**
      * Method to get an event by its id
+     *
      * @param id of the event
      * @return the event
      */
@@ -47,16 +50,19 @@ public class EventService {
 
     /**
      * Method to get the title of an event by its id
-     * commented out as it is not really needed and the speed increase is not that noticable compared to getEventById().getTitle()
+     * commented out as it is not really needed and the speed increase is not
+     * that noticeable compared to getEventById().getTitle()
+     *
      * @param id of the event
      * @return the title of the event
      */
-     public String getEventTitleById(long id) {
-         return eventRepository.getEventTitleById(id);
-     }
+    public String getEventTitleById(long id) {
+        return eventRepository.getEventTitleById(id);
+    }
 
     /**
      * Method to get the creator of an event by its id
+     *
      * @param id of the event
      * @return the creator of the event
      */
@@ -66,6 +72,7 @@ public class EventService {
 
     /**
      * Method to get the expenses by the id of the event
+     *
      * @param id of the event
      * @return the list of expenses
      */
@@ -75,6 +82,7 @@ public class EventService {
 
     /**
      * Method to get the description of an event by its id
+     *
      * @param id of the event
      * @return the description of the event
      */

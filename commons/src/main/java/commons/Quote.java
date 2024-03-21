@@ -31,36 +31,96 @@ import jakarta.persistence.OneToOne;
 @Entity
 public class Quote {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	public long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
 
-	@OneToOne(cascade = CascadeType.PERSIST)
-	public Person person;
-	public String quote;
+    @OneToOne(cascade = CascadeType.PERSIST)
+    private Person person;
+    private String quote;
 
-	@SuppressWarnings("unused")
-	public Quote() {
-		// for object mappers
-	}
+    /**
+     * Get method
+     *
+     * @return the owner as type person of this quote
+     */
+    public Person getPerson() {
+        return person;
+    }
 
-	public Quote(Person person, String quote) {
-		this.person = person;
-		this.quote = quote;
-	}
+    /**
+     * Get method
+     *
+     * @return the quote as type string
+     */
+    public String getQuote() {
+        return quote;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		return EqualsBuilder.reflectionEquals(this, obj);
-	}
+    /**
+     * Get method
+     *
+     * @return id of this quote
+     */
+    public long getId() {
+        return id;
+    }
 
-	@Override
-	public int hashCode() {
-		return HashCodeBuilder.reflectionHashCode(this);
-	}
+    /**
+     * Constructor for mapping
+     */
+    public Quote() {
+        // for object mappers
+    }
 
-	@Override
-	public String toString() {
-		return ToStringBuilder.reflectionToString(this, MULTI_LINE_STYLE);
-	}
+    /**
+     * Constructor
+     *
+     * @param person p
+     * @param quote  q
+     */
+    public Quote(Person person, String quote) {
+        this.person = person;
+        this.quote = quote;
+    }
+
+    /**
+     * Equals method
+     *
+     * @param obj o
+     * @return val
+     */
+    @Override
+    public boolean equals(Object obj) {
+        return EqualsBuilder.reflectionEquals(this, obj);
+    }
+
+    /**
+     * Hash
+     *
+     * @return hash val
+     */
+    @Override
+    public int hashCode() {
+        return HashCodeBuilder.reflectionHashCode(this);
+    }
+
+    /**
+     * toString method
+     *
+     * @return string val
+     */
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this, MULTI_LINE_STYLE);
+    }
+
+    /**
+     * Setter method
+     *
+     * @param id set the id of this quote
+     */
+    public void setId(long id) {
+        this.id = id;
+    }
 }

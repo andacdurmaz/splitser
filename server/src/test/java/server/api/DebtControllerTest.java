@@ -9,13 +9,13 @@ import server.service.DebtService;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class DebtControllerTest {
-    private DebtRepo repo;
+    private DebtRepoTest repo;
     private DebtService service;
     private DebtController sut;
 
     @BeforeEach
     public void setup() {
-        repo = new DebtRepo();
+        repo = new DebtRepoTest();
         service = new DebtService(repo);
         sut = new DebtController(service);
     }
@@ -33,15 +33,15 @@ public class DebtControllerTest {
         Debt added2 = new Debt();
         sut.add(added1);
         sut.add(added2);
-        assertEquals(((DebtRepo)sut.getService().getRepo()).getDebts(), sut.getAll());
+        assertEquals(((DebtRepoTest)sut.getService().getRepo()).getDebts(), sut.getAll());
     }
 
     @Test
     public void addTest() {
         Debt added = new Debt();
         sut.add(added);
-        assertTrue(((DebtRepo) sut.getService().getRepo()).getDebts().contains(added));
-        assertEquals("save", ((DebtRepo) sut.getService().getRepo()).getCalledMethods().get(0));
+        assertTrue(((DebtRepoTest) sut.getService().getRepo()).getDebts().contains(added));
+        assertEquals("save", ((DebtRepoTest) sut.getService().getRepo()).getCalledMethods().get(0));
     }
 
     @Test

@@ -30,16 +30,30 @@ public class ExpenseController {
     private final ExpenseService service;
     private final Random random;
 
+    /**
+     * Constructor
+     * @param random random
+     * @param service ExpenseService
+     */
     public ExpenseController(Random random, ExpenseService service) {
         this.random = random;
         this.service = service;
     }
 
+    /**
+     * Get method
+     * @return all expenses
+     */
     @GetMapping(path = { "", "/" })
     public List<Expense> getAll() {
         return service.findAll();
     }
 
+    /**
+     * Get method
+     * @param id id of expense
+     * @return expense with the specified id
+     */
     @GetMapping("/{id}")
     public ResponseEntity<Expense> getById(@PathVariable("id") long id) {
         if (id < 0 || !service.existsById(id)) {
@@ -48,6 +62,11 @@ public class ExpenseController {
         return ResponseEntity.ok(service.findById(id).get());
     }
 
+    /**
+     * Post method
+     * @param expense to add
+     * @return added expense
+     */
     @PostMapping(path = { "", "/" })
     public ResponseEntity<Expense> add(@RequestBody Expense expense) {
         if ((expense == null) ) {
@@ -58,6 +77,10 @@ public class ExpenseController {
         return ResponseEntity.ok(saved);
     }
 
+    /**
+     * Get method
+     * @return random expense
+     */
     @GetMapping("random")
     public ResponseEntity<Expense> getRandom() {
         var expenses = service.findAll();

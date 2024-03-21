@@ -10,7 +10,7 @@ public class Event {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    public long id;
+    private long id;
     private final long eventCode;
     private String title;
     private int amountOfParticipants;
@@ -20,18 +20,18 @@ public class Event {
 
     /**
      * this constructor is needed for JPA
-     *
      */
     public Event() {
-        this.eventCode =9876543210L;
+        this.eventCode = 9876543210L;
     }
 
     /**
      * Constructor for the Event class
-     * @param title title of the event
+     *
+     * @param title                title of the event
      * @param amountOfParticipants amount of participants that the event has
-     * @param eventCode the code that the event has (could be the ID after hashing)
-     * @param description the event description
+     * @param eventCode            the code that the event has (could be the ID after hashing)
+     * @param description          the event description
      */
     public Event(String title, int amountOfParticipants, int eventCode, String description) {
         this.title = title;
@@ -42,8 +42,27 @@ public class Event {
     }
 
     /**
+     * Get method
+     *
+     * @return id of this event
+     */
+    public long getId() {
+        return id;
+    }
+
+    /**
+     * Setter method
+     *
+     * @param id set id of this event
+     */
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    /**
      * constructor for when no eventCode was specified
-     * @param title title of the event
+     *
+     * @param title                title of the event
      * @param amountOfParticipants amount of participants that the event has
      */
     public Event(String title, int amountOfParticipants) {
@@ -54,6 +73,7 @@ public class Event {
 
     /**
      * gets the title for the event
+     *
      * @return event title
      */
     public String getTitle() {
@@ -62,6 +82,7 @@ public class Event {
 
     /**
      * lets the user change the title for the event
+     *
      * @param title the new title
      */
     public void setTitle(String title) {
@@ -71,6 +92,7 @@ public class Event {
 
     /**
      * shows the amount of participants
+     *
      * @return amount of participants
      */
     public int getAmountOfParticipants() {
@@ -79,6 +101,7 @@ public class Event {
 
     /**
      * lets the user change the amount of participants allowed
+     *
      * @param amountOfParticipants the new amount of participants
      */
     public void setAmountOfParticipants(int amountOfParticipants) {
@@ -87,6 +110,7 @@ public class Event {
 
     /**
      * shows the user the eventCode for the given event
+     *
      * @return eventCode
      */
     public long getEventCode() {
@@ -96,22 +120,25 @@ public class Event {
 
     /**
      * lets the user change the description for the event
+     *
      * @param description for the event
      */
-    public void setDescription(String description){
+    public void setDescription(String description) {
         this.description = description;
     }
 
     /**
      * shows the event description
+     *
      * @return event description
      */
-    public String getDescription(){
+    public String getDescription() {
         return description;
     }
 
     /**
      * shows all expenses
+     *
      * @return list of expenses
      */
     public List<Expense> getExpenses() {
@@ -121,20 +148,22 @@ public class Event {
 
     /**
      * lets the user add expenses to the event
+     *
      * @param expense to be added
      */
-    public void addExpense(Expense expense){
+    public void addExpense(Expense expense) {
         expenses.add(expense);
     }
 
     /**
      * lets the user remove certain expenses
+     *
      * @param expense to be removed
      * @return true or false, dependent on if it succeeded
      * @throws Exception if the expense does not exist
      */
     public boolean removeExpense(Expense expense) throws Exception {
-        if(!expenses.contains(expense)){
+        if (!expenses.contains(expense)) {
             throw new Exception("This expense does not exist");
         }
         return expenses.remove(expense);
@@ -142,13 +171,14 @@ public class Event {
 
     /**
      * edits an expense
+     *
      * @param oldExpense the old expense that needs to be changed
      * @param newExpense the new expense
      * @return the new expense
      * @throws Exception if the expense does not exist
      */
     public Expense setExpense(Expense oldExpense, Expense newExpense) throws Exception {
-        if(!expenses.contains(oldExpense)){
+        if (!expenses.contains(oldExpense)) {
             throw new Exception("This expense does not exist");
         }
         int index = expenses.indexOf(oldExpense);
@@ -158,9 +188,10 @@ public class Event {
 
     /**
      * gets the sum of all expenses in this event
+     *
      * @return the sum
      */
-    public double getSumOfExpenses(){
+    public double getSumOfExpenses() {
         return this.expenses
                 .stream()
                 .mapToDouble(Expense::getAmount)
@@ -169,11 +200,12 @@ public class Event {
 
     /**
      * hashes the ID using the recommended hash calculation from java to get a unique eventCode
+     *
      * @param id the id of the event
      * @return the new event-code
      */
-    private long hashEventCode(long id){
-        return id^(id >>> 32);
+    private long hashEventCode(long id) {
+        return id ^ (id >>> 32);
     }
 
 }
