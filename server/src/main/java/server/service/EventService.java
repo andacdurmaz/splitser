@@ -4,6 +4,7 @@ import commons.Event;
 import commons.Expense;
 import commons.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import server.database.EventRepository;
 
@@ -79,5 +80,10 @@ public class EventService {
      */
     public String getDescriptionByEventId(long id) {
         return eventRepository.getDescriptionById(id);
+    }
+
+    public ResponseEntity<Event> addEvent(Event e) {
+        eventRepository.save(e);
+        return ResponseEntity.ok().build();
     }
 }
