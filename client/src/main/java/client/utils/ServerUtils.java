@@ -122,8 +122,9 @@ public class ServerUtils extends Util {
      * @return events
      */
     public List<Event> getEvents() {
-        return ClientBuilder.newClient(new ClientConfig()).target(SERVER).path("api/events").request(APPLICATION_JSON).accept(APPLICATION_JSON).get(new GenericType<List<Event>>() {
-        });
+        return ClientBuilder.newClient(new ClientConfig()).target(SERVER).path("api/events")
+                .request(APPLICATION_JSON).accept(APPLICATION_JSON).get(new GenericType<List<Event>>() {
+                });
     }
 
     /**
@@ -171,7 +172,8 @@ public class ServerUtils extends Util {
      * @param <T>            generic parameter, allowing for any number of
      *                       classes to utilize it
      */
-    public <T> void registerForSocketMessages(String destination, Class<T> packetType, Consumer<T> packetConsumer) {
+    public <T> void registerForSocketMessages(String destination,
+                                              Class<T> packetType, Consumer<T> packetConsumer) {
         session.subscribe(destination, new StompFrameHandler() {
 
             @Override

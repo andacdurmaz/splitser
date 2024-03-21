@@ -41,7 +41,9 @@ public class MainCtrl {
      * @param add          add
      * @param eventInfo    eventInfo
      */
-    public void initialize(Stage primaryStage, Pair<HomePageCtrl, Parent> overview, Pair<AddEventCtrl, Parent> add, Pair<EventInfoCtrl, Parent> eventInfo) {
+    public void initialize(Stage primaryStage, Pair<HomePageCtrl,
+            Parent> overview, Pair<AddEventCtrl, Parent> add,
+                           Pair<EventInfoCtrl, Parent> eventInfo) {
         this.primaryStage = primaryStage;
 
         this.homePageCtrl = overview.getKey();
