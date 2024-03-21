@@ -2,7 +2,6 @@ package server.api;
 
 import commons.Debt;
 import commons.User;
-import commons.exceptions.EmailFormatException;
 import commons.exceptions.NoDebtFoundException;
 import org.junit.jupiter.api.Test;
 import server.service.DebtService;
@@ -91,12 +90,12 @@ public class DebtServiceTest {
     }
 
     @Test
-    public void falseGetDebtTest() {
+    public void falseGetDebtTest() throws NoDebtFoundException {
         DebtRepo repo = new DebtRepo();
         DebtService service = new DebtService(repo);
         User payer = new User();
         User payee = new User();
-        assertThrows(NoDebtFoundException.class, () -> {        service.getDebtByPayerAndPayee(payer, payee);} );
+        assertNull(service.getDebtByPayerAndPayee(payer, payee));
 
     }
 

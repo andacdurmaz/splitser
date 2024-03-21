@@ -1,8 +1,6 @@
 package server.api;
 
 import commons.Debt;
-import commons.User;
-import commons.exceptions.NoUserFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
