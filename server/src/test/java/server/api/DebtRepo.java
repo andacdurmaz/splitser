@@ -53,15 +53,11 @@ public class DebtRepo implements DebtRepository {
 
     @Override
     public Debt getDebtByPayerAndPayee(User payer, User payee) throws NoDebtFoundException {
-        try {
             // Check if the debt exists for the given payer and payee
-            if (!existsByPayerAndPayee(payer, payee)) {
-                throw new NoDebtFoundException();
-            }
-            return find(payer, payee).get();
-        } catch (NoDebtFoundException e) {
-            throw e;
-        }
+        if (!existsByPayerAndPayee(payer, payee))
+            return null;
+        return find(payer, payee).get();
+
     }
 
 
