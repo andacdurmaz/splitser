@@ -27,7 +27,7 @@ public interface ServRepository extends JpaRepository<Serv, Long> {
      */
     boolean existsById(long Id);
     /**
-     * Returns the event with the specified id 
+     * Returns the event with the specified id
      * @param Id specified id
      * @return returns the event with the specified id
      */

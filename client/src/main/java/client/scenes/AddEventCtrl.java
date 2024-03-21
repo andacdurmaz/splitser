@@ -1,4 +1,5 @@
 package client.scenes;
+
 import com.google.inject.Inject;
 import client.utils.ServerUtils;
 import commons.Event;
@@ -24,9 +25,11 @@ public class AddEventCtrl {
     private TextField eventCode;
     @FXML
     private TextField description;
+
     /**
      * Inject method
-     * @param server server
+     *
+     * @param server   server
      * @param mainCtrl mainCtrl
      */
     @Inject
@@ -65,14 +68,11 @@ public class AddEventCtrl {
 
     /**
      * getEvent method
+     *
      * @return specified event
      */
     private Event getEvent() {
-        return new Event(
-                title.getText(),
-                Integer.parseInt(numberOfParticipants.getText()),
-                Integer.parseInt(eventCode.getText()),
-                description.getText());
+        return new Event(title.getText(), Integer.parseInt(numberOfParticipants.getText()), Integer.parseInt(eventCode.getText()), description.getText());
     }
 
     /**
@@ -87,6 +87,7 @@ public class AddEventCtrl {
 
     /**
      * This method is for usability. Checks the pressed key
+     *
      * @param e
      */
     public void keyPressed(KeyEvent e) {

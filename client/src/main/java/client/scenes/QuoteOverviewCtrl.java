@@ -48,7 +48,8 @@ public class QuoteOverviewCtrl implements Initializable {
 
     /**
      * Adding javadoc for checkstyle
-     * @param server server
+     *
+     * @param server   server
      * @param mainCtrl mainCtrl
      */
     @Inject
@@ -59,13 +60,13 @@ public class QuoteOverviewCtrl implements Initializable {
 
     /**
      * Initialize method
-     * @param location url
-     * The location used to resolve relative paths for the root object, or
-     * {@code null} if the location is not known.
      *
+     * @param location  url
+     *                  The location used to resolve relative paths for the root object, or
+     *                  {@code null} if the location is not known.
      * @param resources resourcebundle
-     * The resources used to localize the root object, or {@code null} if
-     * the root object was not localized.
+     *                  The resources used to localize the root object, or {@code null} if
+     *                  the root object was not localized.
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {

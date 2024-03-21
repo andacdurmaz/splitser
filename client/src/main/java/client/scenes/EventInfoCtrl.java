@@ -24,6 +24,7 @@ public class EventInfoCtrl {
 
     /**
      * Set event method
+     *
      * @param event event to set
      */
     public void setEvent(Event event) {

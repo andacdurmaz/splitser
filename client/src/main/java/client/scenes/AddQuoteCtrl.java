@@ -43,7 +43,8 @@ public class AddQuoteCtrl {
 
     /**
      * Adding javadoc for checkstyle
-     * @param server placeholder
+     *
+     * @param server   placeholder
      * @param mainCtrl placeholder
      */
     @Inject
@@ -52,6 +53,7 @@ public class AddQuoteCtrl {
         this.server = server;
 
     }
+
     /**
      * Adding javadoc for checkstyle
      */
@@ -78,6 +80,7 @@ public class AddQuoteCtrl {
         clearFields();
         mainCtrl.showOverview();
     }
+
     /**
      * Adding javadoc for checkstyle
      */
@@ -86,6 +89,7 @@ public class AddQuoteCtrl {
         var q = quote.getText();
         return new Quote(p, q);
     }
+
     /**
      * Adding javadoc for checkstyle
      */
@@ -97,18 +101,19 @@ public class AddQuoteCtrl {
 
     /**
      * Adding javadoc for checkstyle
+     *
      * @param e placeholder
      */
     public void keyPressed(KeyEvent e) {
         switch (e.getCode()) {
-        case ENTER:
-            ok();
-            break;
-        case ESCAPE:
-            cancel();
-            break;
-        default:
-            break;
+            case ENTER:
+                ok();
+                break;
+            case ESCAPE:
+                cancel();
+                break;
+            default:
+                break;
         }
     }
 }
