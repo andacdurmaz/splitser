@@ -3,6 +3,7 @@ package server.api;
 //import commons.Debt;
 import commons.Expense;
 import commons.User;
+import commons.Debt;
 import commons.exceptions.NoDebtFoundException;
 import commons.exceptions.NoSuchExpenseException;
 import commons.exceptions.NoUserFoundException;
