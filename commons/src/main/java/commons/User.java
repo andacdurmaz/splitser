@@ -244,7 +244,7 @@ public class User {
      * @return the debts
      */
     public List<Debt> getDebts() {
-        return debts;
+        return new ArrayList<>(debts);
     }
 
     /**

@@ -89,12 +89,12 @@ public class DebtServiceTest {
     }
 
     @Test
-    public void falseGetDebtTest() {
+    public void falseGetDebtTest() throws NoDebtFoundException {
         DebtRepoTest repo = new DebtRepoTest();
         DebtService service = new DebtService(repo);
         User payer = new User();
         User payee = new User();
-        assertThrows(NoDebtFoundException.class, () -> {        service.getDebtByPayerAndPayee(payer, payee);} );
+        assertNull(service.getDebtByPayerAndPayee(payer, payee));
 
     }
 

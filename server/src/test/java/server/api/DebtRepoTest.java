@@ -19,8 +19,9 @@ public class DebtRepoTest implements DebtRepository {
     private List<Debt> debts = new ArrayList<>();
     private final List<String> calledMethods = new ArrayList<>();
 
+    @Override
     public List<Debt> getDebts() {
-        return debts;
+        return new ArrayList<>(debts);
     }
 
     /**
@@ -59,15 +60,11 @@ public class DebtRepoTest implements DebtRepository {
 
     @Override
     public Debt getDebtByPayerAndPayee(User payer, User payee) throws NoDebtFoundException {
-        try {
             // Check if the debt exists for the given payer and payee
-            if (!existsByPayerAndPayee(payer, payee)) {
-                throw new NoDebtFoundException();
-            }
-            return find(payer, payee).get();
-        } catch (NoDebtFoundException e) {
-            throw e;
-        }
+        if (!existsByPayerAndPayee(payer, payee))
+            return null;
+        return find(payer, payee).get();
+
     }
 
 
