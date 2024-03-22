@@ -56,5 +56,6 @@ public class Main extends Application {
         var eventInfo = FXML.load(EventInfoCtrl.class, "client", "scenes", "EventInfo.fxml");
         var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
         mainCtrl.initialize(primaryStage, overview, add, eventInfo);
+
     }
 }

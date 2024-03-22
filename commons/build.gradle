@@ -7,4 +7,6 @@ java {
 dependencies {
 	implementation group: 'jakarta.persistence', name: 'jakarta.persistence-api', version: '3.1.0'
 	implementation 'org.hibernate:hibernate-core:5.6.1.Final'
+	implementation 'com.fasterxml.jackson.core:jackson-annotations:2.15.2'
+	implementation 'com.fasterxml.jackson.core:jackson-core'
 }

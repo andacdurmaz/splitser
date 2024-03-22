@@ -27,7 +27,7 @@ public class HomePageCtrl implements Initializable {
     @FXML
     private ListView<Event> eventsList;
     @FXML
-    private TableView<Event> table;
+    private TableView<Event> table ;
     @FXML
     private TableColumn<Event, String> event;
     @FXML
@@ -59,14 +59,15 @@ public class HomePageCtrl implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
         event.setCellValueFactory(q ->
                 new SimpleStringProperty(q.getValue().getTitle()));
         eventCode.setCellValueFactory(q ->
                 new SimpleStringProperty(String.valueOf(q.getValue().getEventCode())));
         description.setCellValueFactory(q ->
                 new SimpleStringProperty(q.getValue().getDescription()));
-        // Listen for changes to the items in the ListView,
-        // if there are events make the label invisible
+//         Listen for changes to the items in the ListView,
+//         if there are events make the label invisible
         eventsList.getItems().addListener((InvalidationListener) observable ->
                 updateLabelVisibility());
         eventsList.setOnMouseClicked(this::onEventClicked);
@@ -106,6 +107,7 @@ public class HomePageCtrl implements Initializable {
     public void refresh() {
         var events = server.getEvents();
         data = FXCollections.observableList(events);
+        TableView<Event> table = new TableView<>();
         table.setItems(data);
     }
 

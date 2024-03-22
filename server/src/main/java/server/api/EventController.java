@@ -11,7 +11,7 @@ import server.service.EventService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/event")
+@RequestMapping("/api/events")
 public class EventController {
 
     /**
