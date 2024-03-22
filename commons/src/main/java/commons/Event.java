@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class Event {
@@ -11,7 +12,8 @@ public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    private final long eventCode;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long eventCode;
     private String title;
     private int amountOfParticipants;
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
@@ -22,7 +24,8 @@ public class Event {
      * this constructor is needed for JPA
      */
     public Event() {
-        this.eventCode = 9876543210L;
+        this.eventCode = hashEventCode(id);
+        this.expenses = new ArrayList<>();
     }
 
     /**
@@ -30,13 +33,12 @@ public class Event {
      *
      * @param title                title of the event
      * @param amountOfParticipants amount of participants that the event has
-     * @param eventCode            the code that the event has (could be the ID after hashing)
      * @param description          the event description
      */
-    public Event(String title, int amountOfParticipants, int eventCode, String description) {
+    public Event(String title, int amountOfParticipants, String description) {
         this.title = title;
         this.amountOfParticipants = amountOfParticipants;
-        this.eventCode = eventCode;
+        this.eventCode = hashEventCode(id);
         this.expenses = new ArrayList<>();
         this.description = description;
     }
@@ -208,4 +210,47 @@ public class Event {
         return id ^ (id >>> 32);
     }
 
+    /**
+     * gets the event code
+     *
+     * @return the event code
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Event event = (Event) o;
+        return id == event.id &&
+                eventCode == event.eventCode &&
+                amountOfParticipants == event.amountOfParticipants &&
+                Objects.equals(title, event.title) &&
+                Objects.equals(expenses, event.expenses) &&
+                Objects.equals(description, event.description);
+    }
+
+    /**
+     * hashes the event
+     * @return the hash
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, eventCode, title, amountOfParticipants, expenses, description);
+    }
+
+    /**
+     * returns the event as a string
+     * @return the event as a string
+     */
+    @Override
+    public String toString() {
+        return "{" +
+                "\"id\":" + id +
+                ",\"eventCode\":" + eventCode +
+                ",\"title\":\"" + title + '\"' +
+                ",\"amountOfParticipants\":" + amountOfParticipants +
+                ",\"expenses\":" + expenses +
+                ",\"description\":\"" + description + '\"' +
+                ",\"sumOfExpenses\":" + getSumOfExpenses() +
+                '}';
+    }
 }

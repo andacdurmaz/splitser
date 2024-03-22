@@ -148,3 +148,6 @@ create table user_expense_mapping (expense bigint not null, user bigint not null
 2024-03-19 15:01:58.495883+01:00 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "alter table if exists user_expense_mapping add constraint FKlo44il0wm6vjyyjtovhhas1nd foreign key ([*]user) references expense"; expected "identifier"; SQL statement:
 alter table if exists user_expense_mapping add constraint FKlo44il0wm6vjyyjtovhhas1nd foreign key (user) references expense [42001-224]
+2024-03-21 23:35:07.049937+01:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "DELETE [*]* FROM EVENT"; expected "identifier"; SQL statement:
+DELETE * FROM EVENT [42001-224]

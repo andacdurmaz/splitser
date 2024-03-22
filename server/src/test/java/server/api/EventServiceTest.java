@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 import commons.Event;
+import org.springframework.http.ResponseEntity;
 import server.database.EventRepository;
 import server.service.EventService;
 
@@ -17,7 +18,7 @@ public class EventServiceTest {
 
     @Test
     public void testGetAllEvents() {
-        Event event = new Event("Title", 4, 1234, "Description");
+        Event event = new Event("Title", 4, "Description");
         EventRepository eventRepository = mock(EventRepository.class);
         EventService eventService = new EventService(eventRepository);
 
@@ -28,7 +29,7 @@ public class EventServiceTest {
 
     @Test
     public void testGetEventById() {
-        Event event = new Event("Title", 4, 1234, "Description");
+        Event event = new Event("Title", 4, "Description");
         EventRepository eventRepository = mock(EventRepository.class);
         EventService eventService = new EventService(eventRepository);
 
@@ -39,18 +40,18 @@ public class EventServiceTest {
 
     @Test
     public void testGetEventTitleById() {
-        Event event = new Event("Title", 4, 1234, "Description");
+        Event event = new Event("Title", 4, "Description");
         EventRepository eventRepository = mock(EventRepository.class);
         EventService eventService = new EventService(eventRepository);
 
-        when(eventRepository.getEventTitleById(1)).thenReturn("Title");
-        String title = eventService.getEventTitleById(1);
-        assertEquals("Title", title);
+        when(eventRepository.getEventTitleById(1)).thenReturn((ResponseEntity<String>) ResponseEntity.ok("title"));
+        String title = String.valueOf(eventService.getEventTitleById(1));
+        assertEquals("<200 OK OK,title,[]>", title);
     }
 
     @Test
     public void testGetCreatorById() {
-        Event event = new Event("Title", 4, 1234, "Description");
+        Event event = new Event("Title", 4, "Description");
         EventRepository eventRepository = mock(EventRepository.class);
         EventService eventService = new EventService(eventRepository);
 
@@ -61,7 +62,7 @@ public class EventServiceTest {
 
     @Test
     public void testGetExpensesById() {
-        Event event = new Event("Title", 4, 1234, "Description");
+        Event event = new Event("Title", 4, "Description");
         EventRepository eventRepository = mock(EventRepository.class);
         EventService eventService = new EventService(eventRepository);
 
@@ -72,13 +73,13 @@ public class EventServiceTest {
 
     @Test
     public void testGetDescriptionByEventId() {
-        Event event = new Event("Title", 4, 1234, "Description");
+        Event event = new Event("Title", 4, "Description");
         EventRepository eventRepository = mock(EventRepository.class);
         EventService eventService = new EventService(eventRepository);
 
-        when(eventRepository.getDescriptionById(1)).thenReturn("Description");
-        String description = eventService.getDescriptionByEventId(1);
-        assertEquals("Description", description);
+        when(eventRepository.getDescriptionById(1)).thenReturn((ResponseEntity<String>) ResponseEntity.ok("Description"));
+        String description = String.valueOf(eventService.getDescriptionByEventId(1));
+        assertEquals("<200 OK OK,Description,[]>", description);
     }
 
     @Test
@@ -107,8 +108,7 @@ public class EventServiceTest {
         EventService eventService = new EventService(eventRepository);
 
         when(eventRepository.getEventTitleById(1)).thenReturn(null);
-        String title = eventService.getEventTitleById(1);
-        assertNull(title);
+        assertNull(eventService.getEventTitleById(1));
     }
 
     @Test
@@ -137,7 +137,17 @@ public class EventServiceTest {
         EventService eventService = new EventService(eventRepository);
 
         when(eventRepository.getDescriptionById(1)).thenReturn(null);
-        String description = eventService.getDescriptionByEventId(1);
-        assertNull(description);
+        assertNull(eventService.getDescriptionByEventId(1));
+    }
+
+    @Test
+    public void testAddEvent() {
+        Event event = new Event("Title", 4, "Description");
+        EventRepository eventRepository = mock(EventRepository.class);
+        EventService eventService = new EventService(eventRepository);
+
+        when(eventRepository.save(event)).thenReturn(event);
+        ResponseEntity<Event> savedEvent = eventService.addEvent(event);
+        assertEquals(event, savedEvent.getBody());
     }
 }

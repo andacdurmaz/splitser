@@ -23,6 +23,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import commons.Event;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -46,8 +47,7 @@ public interface EventRepository extends JpaRepository<Event, Long>  {
      * @param id of the event
      * @return title
      */
-    String getEventTitleById(long id);
-
+    ResponseEntity<String> getEventTitleById(long id);
     /**
      * gets the expenses from the event
      * @param id of the event
@@ -60,6 +60,6 @@ public interface EventRepository extends JpaRepository<Event, Long>  {
      * @param id of the event
      * @return the description
      */
-    String getDescriptionById(long id);
+    ResponseEntity<String> getDescriptionById(long id);
 }
 

@@ -4,6 +4,7 @@ import commons.Event;
 import commons.Expense;
 import commons.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import server.database.EventRepository;
 
@@ -55,7 +56,7 @@ public class EventService {
      * @param id of the event
      * @return the title of the event
      */
-    public String getEventTitleById(long id) {
+    public ResponseEntity<String> getEventTitleById(long id) {
         return eventRepository.getEventTitleById(id);
     }
 
@@ -85,7 +86,18 @@ public class EventService {
      * @param id of the event
      * @return the description of the event
      */
-    public String getDescriptionByEventId(long id) {
+    public ResponseEntity<String> getDescriptionByEventId(long id) {
         return eventRepository.getDescriptionById(id);
+    }
+
+    /**
+     * Method to add an event to the database
+     *
+     * @param e the event to be added
+     * @return the response entity
+     */
+    public ResponseEntity<Event> addEvent(Event e) {
+        eventRepository.save(e);
+        return ResponseEntity.ok(e);
     }
 }
