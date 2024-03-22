@@ -28,7 +28,7 @@ public class Expense {
      * Constructor for mapping
      */
     public Expense() {
-
+        this.payingParticipants = new ArrayList<>();
     }
 
     /**
@@ -118,6 +118,7 @@ public class Expense {
      *
      * @return the user who paid the expense
      */
+
     public User getPayer() {
         return payer;
     }
