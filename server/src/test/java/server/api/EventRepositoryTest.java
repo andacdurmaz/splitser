@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.query.FluentQuery;
+import org.springframework.http.ResponseEntity;
 import server.database.EventRepository;
 
 import java.util.ArrayList;
@@ -243,7 +244,7 @@ public class EventRepositoryTest implements EventRepository{
      * @return title
      */
     @Override
-    public String getEventTitleById(long id) {
+    public ResponseEntity<String> getEventTitleById(long id) {
         return null;
     }
 
@@ -265,7 +266,7 @@ public class EventRepositoryTest implements EventRepository{
      * @return the description
      */
     @Override
-    public String getDescriptionById(long id) {
+    public ResponseEntity<String> getDescriptionById(long id) {
         return null;
     }
 }

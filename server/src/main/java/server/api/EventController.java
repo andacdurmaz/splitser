@@ -1,10 +1,14 @@
 package server.api;
 
 import commons.Event;
+import commons.Expense;
+import commons.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.service.EventService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/event")
@@ -29,8 +33,8 @@ public class EventController {
      * @return all events
      */
     @GetMapping(value = "/all")
-    public String getAllEvents() {
-        return eventService.getAllEvents().toString();
+    public List<Event> getAllEvents() {
+        return eventService.getAllEvents();
     }
 
     /**
@@ -39,8 +43,8 @@ public class EventController {
      * @return the event
      */
     @GetMapping(value = "/{id}")
-    public String getEventById(@PathVariable long id) {
-        return eventService.getEventById(id).toString();
+    public Event getEventById(@PathVariable long id) {
+        return eventService.getEventById(id);
     }
 
     /**
@@ -49,7 +53,7 @@ public class EventController {
      * @return the title of the event
      */
     @GetMapping(value = "/{id}/title")
-    public String getEventTitleById(@PathVariable long id) {
+    public ResponseEntity<String> getEventTitleById(@PathVariable long id) {
         return eventService.getEventTitleById(id);
     }
 
@@ -59,8 +63,8 @@ public class EventController {
      * @return the creator of the event
      */
     @GetMapping(value = "/{id}/creator")
-    public String getCreatorById(@PathVariable long id) {
-        return eventService.getCreatorById(id).toString();
+    public User getCreatorById(@PathVariable long id) {
+        return eventService.getCreatorById(id);
     }
 
     /**
@@ -69,8 +73,8 @@ public class EventController {
      * @return the expenses of the event
      */
     @GetMapping(value = "/{id}/expenses")
-    public String getExpensesByEventId(@PathVariable long id) {
-        return eventService.getExpensesByEventId(id).toString();
+    public List<Expense> getExpensesByEventId(@PathVariable long id) {
+        return eventService.getExpensesByEventId(id);
     }
 
     /**
@@ -79,10 +83,15 @@ public class EventController {
      * @return the description of the event
      */
     @GetMapping(value = "/{id}/description")
-    public String getDescriptionByEventId(@PathVariable long id) {
+    public ResponseEntity<String> getDescriptionByEventId(@PathVariable long id) {
         return eventService.getDescriptionByEventId(id);
     }
 
+    /**
+     * Method to add an event
+     * @param e the event to add
+     * @return the added event
+     */
     @PostMapping(value = "/add")
     public ResponseEntity<Event> addEvent(@RequestBody Event e) {
         return eventService.addEvent(e);
