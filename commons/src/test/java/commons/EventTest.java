@@ -16,6 +16,9 @@ class EventTest {
         assertEquals(0, event.getExpenses().size());
         assertEquals(0, event.getExpenses().size());
         assertEquals("this is for a test", event.getDescription());
+        assertEquals(0, event.getSumOfExpenses());
+        assertEquals(0, event.getEventCode());
+        assertEquals(0, event.getId());
     }
 
     @Test
@@ -23,6 +26,18 @@ class EventTest {
         Event event = new Event("test", 3);
         assertEquals("test", event.getTitle());
         assertEquals(3, event.getAmountOfParticipants());
+    }
+
+    @Test
+    void testEmptyConstructor() {
+        Event event = new Event();
+        assertEquals(null, event.getTitle());
+        assertEquals(0, event.getAmountOfParticipants());
+        assertEquals(0, event.getExpenses().size());
+        assertEquals(null, event.getDescription());
+        assertEquals(0, event.getSumOfExpenses());
+        assertEquals(0, event.getEventCode());
+        assertEquals(0, event.getId());
     }
 
     @Test
@@ -97,5 +112,73 @@ class EventTest {
         Event event = new Event("test", 3, "this is for a test");
         event.setDescription("This is a new description");
         assertEquals("This is a new description", event.getDescription());
+    }
+
+    @Test
+    void testRemoveExpenseException() {
+        Event event = new Event("test", 3, "this is for a test");
+        Expense expense1 = new Expense("Drinks",3.29);
+        Expense expense2 = new Expense("Food",15);
+        event.addExpense(expense1);
+        assertThrows(Exception.class, () -> event.removeExpense(expense2));
+    }
+
+    @Test
+    void testSetExpenseException() {
+        Event event = new Event("test", 3, "this is for a test");
+        Expense expense1 = new Expense("Drinks",3.29);
+        Expense expense2 = new Expense("Food",15);
+        event.addExpense(expense1);
+        assertThrows(Exception.class, () -> event.setExpense(expense2, new Expense("More vodka",35)));
+    }
+
+    @Test
+    void testGetEventCode() {
+        Event event = new Event("test", 3, "this is for a test");
+        assertEquals(0, event.getEventCode());
+    }
+
+    @Test
+    void testSetId() {
+        Event event = new Event("test", 3, "this is for a test");
+        event.setId(1);
+        assertEquals(1, event.getId());
+    }
+
+    @Test
+    void testEqualsMethod(){
+        Event event1 = new Event("test", 3, "this is for a test");
+        Event event2 = new Event("test", 3, "this is for a test");
+        Event event3 = new Event("test", 3, "this is for a test");
+        event3.addExpense(new Expense("Drinks",3.29));
+        event3.addExpense(new Expense("Food",15));
+        Event event4 = new Event("test", 3, "this is for a test");
+        event4.addExpense(new Expense("Drinks",3.29));
+        assertEquals(event1, event2);
+        assertNotEquals(event1, event3);
+        assertNotEquals(event1, event4);
+        assertNotEquals(event3, event4);
+    }
+
+    @Test
+    void testHashCodeMethod(){
+        Event event1 = new Event("test", 3, "this is for a test");
+        Event event2 = new Event("test", 3, "this is for a test");
+        Event event3 = new Event("test", 3, "this is for a test");
+        event3.addExpense(new Expense("Drinks",3.29));
+        event3.addExpense(new Expense("Food",15));
+        Event event4 = new Event("test", 3, "this is for a test");
+        event4.addExpense(new Expense("Drinks",3.29));
+        assertEquals(event1.hashCode(), event2.hashCode());
+        assertNotEquals(event1.hashCode(), event3.hashCode());
+        assertNotEquals(event1.hashCode(), event4.hashCode());
+        assertNotEquals(event3.hashCode(), event4.hashCode());
+    }
+
+    @Test
+    void testToStringMethod(){
+        Event event = new Event("test", 3, "this is for a test");
+        assertEquals("{\"id\":0,\"eventCode\":0,\"title\":\"test\",\"amountOfParticipants\":3,\"expenses\":[],\"description\":\"this is for a test\",\"sumOfExpenses\":0.0}",
+                event.toString());
     }
 }
