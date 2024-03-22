@@ -14,6 +14,10 @@ public class ServService {
     private EventRepository repo;
     private List<Admin> admins;
 
+    /**
+     * Constructor
+     * @param repo EventRepository
+     */
     public ServService(EventRepository repo) {
         this.repo = repo;
         Admin admin = new Admin("admin", "admin1");
@@ -21,6 +25,12 @@ public class ServService {
         admins.add(admin);
     }
 
+    /**
+     * Login method
+     * @param email email to login with
+     * @param password password to login with
+     * @return true if login was successful, false otherwise
+     */
     public boolean login(String email, String password){
         for(Admin a : admins){
             String adminEmail = a.getEmail();
@@ -34,27 +44,49 @@ public class ServService {
         return false;
     }
 
+    /**
+     * Get method
+     * @return all events
+     */
     public List<Event> findAll(){
         List<Event> results = repo.findAll();
         return results;
     }
 
+    /**
+     * Get method
+     * @param id to check event
+     * @return true if there is an event with the specified id
+     */
     public boolean existsById(long id){
         boolean b;
         b = repo.existsById(id);
         return b;
     }
 
+    /**
+     * Get method
+     * @param id to check event
+     * @return event with the specified id
+     */
     public Optional<Event> findById(long id){
         Optional<Event> e;
         e = repo.findById(id);
         return e;
     }
 
+    /**
+     * Add method
+     * @param e event to add
+     */
     public void addEvent(Event e){
         repo.save(e);
     }
 
+    /**
+     * Remove method
+     * @param e event to remove
+     */
     public void removeEvent(Event e){
         repo.delete(e);
     }

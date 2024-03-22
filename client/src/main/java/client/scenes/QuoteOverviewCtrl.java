@@ -46,23 +46,48 @@ public class QuoteOverviewCtrl implements Initializable {
     @FXML
     private TableColumn<Quote, String> colQuote;
 
+    /**
+     * Adding javadoc for checkstyle
+     *
+     * @param server   server
+     * @param mainCtrl mainCtrl
+     */
     @Inject
     public QuoteOverviewCtrl(ServerUtils server, MainCtrl mainCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
     }
 
+    /**
+     * Initialize method
+     *
+     * @param location  url
+     *                  The location used to resolve relative paths for the root object, or
+     *                  {@code null} if the location is not known.
+     * @param resources resource bundle
+     *                  The resources used to localize the root object, or {@code null} if
+     *                  the root object was not localized.
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        colFirstName.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().person.firstName));
-        colLastName.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().person.lastName));
-        colQuote.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().quote));
+        colFirstName.setCellValueFactory(q ->
+                new SimpleStringProperty(q.getValue().getPerson().getFirstName()));
+        colLastName.setCellValueFactory(q ->
+                new SimpleStringProperty(q.getValue().getPerson().getLastName()));
+        colQuote.setCellValueFactory(q ->
+                new SimpleStringProperty(q.getValue().getQuote()));
     }
 
+    /**
+     * Shows AddQuote
+     */
     public void addQuote() {
         mainCtrl.showAdd();
     }
 
+    /**
+     * Refreshes the page
+     */
     public void refresh() {
         var quotes = server.getQuotes();
         data = FXCollections.observableList(quotes);

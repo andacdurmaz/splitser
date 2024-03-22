@@ -22,61 +22,77 @@ import commons.User;
 
 import java.util.List;
 
-public interface UserRepository extends JpaRepository {
+public interface UserRepository extends JpaRepository<User, Long> {
     /**
      * Checks if a user with a certain id exists
-     * @param Id the id of the checked user
+     *
+     * @param id the id of the checked user
      * @return true if such a user exists, false otherwise
      */
-    boolean existsById(long Id);
+    boolean existsById(long id);
 
     /**
      * Retrieves the user from the database given its id
-     * @param Id of the User
+     *
+     * @param id of the User
      * @return the User given its id
      */
-    User getUserById(long Id) throws NoUserFoundException;
+    User getUserById(long id) throws NoUserFoundException;
+
     /**
      * Retrieves the username of a User from the database given its id
-     * @param Id of the User
+     *
+     * @param id of the User
      * @return the username of the User
      */
-    String getUsernameById(long Id) throws NoUserFoundException;
+    String getUsernameById(long id) throws NoUserFoundException;
+
     /**
      * Retrieves the e-mail of a User from the database given its id
-     * @param Id of the User
+     *
+     * @param id of the User
      * @return the e-mail of the User
      */
-    String getEmailById(long Id) throws NoUserFoundException;
+    String getEmailById(long id) throws NoUserFoundException;
+
     /**
      * Retrieves the IBAN of a User from the database given its id
-     * @param Id of the User
+     *
+     * @param id of the User
      * @return the IBAN of the User
      */
-    String getIbanById(long Id) throws NoUserFoundException;
+    String getIbanById(long id) throws NoUserFoundException;
+
     /**
      * Retrieves the BIC of a User from the database given its id
-     * @param Id of the User
+     *
+     * @param id of the User
      * @return the BIC of the User
      */
-    String getBicById(long Id) throws NoUserFoundException;
+    String getBicById(long id) throws NoUserFoundException;
+
     /**
      * Retrieves the server URL of a User from the database given its id
-     * @param Id of the User
+     *
+     * @param id of the User
      * @return the server URL of the User
      */
-    String getServerURLById(long Id) throws NoUserFoundException;
+    String getServerURLById(long id) throws NoUserFoundException;
+
     /**
      * Retrieves the money of a User from the database given its id
-     * @param Id of the User
+     *
+     * @param id of the User
      * @return the wallet of the User
      */
-    double getWalletById(long Id) throws NoUserFoundException;
+    double getWalletById(long id) throws NoUserFoundException;
+
     /**
      * Retrieves the debts of a User from the database given its id
-     * @param Id of the User
+     *
+     * @param id of the User
      * @return the debts of the User
      */
-    List<Debt> getDebtsById(long Id) throws  NoUserFoundException;
+    List<Debt> getDebtsById(long id) throws NoUserFoundException;
 
 }

@@ -7,6 +7,7 @@ import java.util.function.Function;
 
 
 import commons.Expense;
+import commons.User;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,7 +15,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.query.FluentQuery;
 import server.database.ExpenseRepository;
 
-public abstract class TestExpenseRepository implements ExpenseRepository {
+public class ExpenseRepositoryTest implements ExpenseRepository {
 
     public final List<Expense> expenses = new ArrayList<>();
     public final List<String> calledMethods = new ArrayList<>();
@@ -101,7 +102,7 @@ public abstract class TestExpenseRepository implements ExpenseRepository {
     }
 
     private Optional<Expense> find(Long id) {
-        return expenses.stream().filter(q -> q.id == id).findFirst();
+        return expenses.stream().filter(q -> q.getId() == id).findFirst();
     }
 
     @Override
@@ -122,7 +123,7 @@ public abstract class TestExpenseRepository implements ExpenseRepository {
     @Override
     public <S extends Expense> S save(S entity) {
         call("New expense saved");
-        entity.id = (long) expenses.size();
+        entity.setId((long) expenses.size());
         expenses.add(entity);
         return entity;
     }
@@ -169,6 +170,7 @@ public abstract class TestExpenseRepository implements ExpenseRepository {
         // TODO Auto-generated method stub
 
     }
+
     @Override
     public <S extends Expense> Optional<S> findOne(Example<S> example) {
         // TODO Auto-generated method stub
@@ -200,4 +202,23 @@ public abstract class TestExpenseRepository implements ExpenseRepository {
     }
 
 
+    @Override
+    public Expense getExpenseById(long id) {
+        return null;
+    }
+
+    @Override
+    public String getNameById(long id) {
+        return null;
+    }
+
+    @Override
+    public Double getAmountById(long id) {
+        return null;
+    }
+
+    @Override
+    public List<User> getParticipantsById(long id) {
+        return null;
+    }
 }

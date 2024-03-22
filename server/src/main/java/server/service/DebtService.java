@@ -5,35 +5,93 @@ import commons.User;
 import commons.exceptions.NoDebtFoundException;
 import org.springframework.stereotype.Service;
 import server.database.DebtRepository;
-
 import java.util.List;
 
 @Service
 public class DebtService {
     private final DebtRepository repo;
 
+    /**
+     * constructor for a debtService
+     *
+     * @param repo the repository of the service
+     */
     public DebtService(DebtRepository repo) {
         this.repo = repo;
     }
 
-    public List<User> findAll() {
-        return repo.findAll();
+    /**
+     * getter method for the debt repository of a debt service
+     *
+     * @return the debt service
+     */
+    public DebtRepository getRepo() {
+        return repo;
     }
 
+    /**
+     * findAll method for the debt service
+     *
+     * @return all debts in the repository
+     */
+    public List<Debt> findAll() {
+        return (repo).getDebts();
+    }
+
+    /**
+     * checks if an debt exists in the repository
+     *
+     * @param id of the checked debt
+     * @return true if the debt exists in the repository
+     */
     public boolean existsById(long id) {
         return repo.existsById(id);
     }
 
-    public Debt getDebtById(long payer_id, long payee_id) throws NoDebtFoundException {
-        return repo.getDebtByPayers(payer_id, payee_id);
+    /**
+     * getter method for a debt
+     *
+     * @param payer the id of the payer
+     * @param payee the id of the payee
+     * @return the debt given its payer's and payee's id
+     * @throws NoDebtFoundException thrown if no such debt exists
+     */
+    public Debt getDebtByPayerAndPayee(User payer, User payee) throws NoDebtFoundException {
+        return repo.getDebtByPayerAndPayee(payer, payee);
     }
 
-    public void addDebt(long payer_id, long payee_id, Double amount) {
-        repo.save(new Debt(payer_id,payee_id, amount));
+    /**
+     * adds a debt to the repository given its information
+     *
+     * @param payer  the id of the payer
+     * @param payee  the id of the payee
+     * @param amount the amount of the debt
+     */
+    public void addDebt(User payer, User payee, Double amount) {
+        List<Debt> list = repo.getDebts();
+        list.add(new Debt(payer,payee, amount));
+        repo.setDebts(list);
     }
 
-    public void deleteDebt(long payer_id, long payee_id) throws NoDebtFoundException {
-        repo.deleteByPayers(payer_id, payee_id);
+    /**
+     * removes a debt from the database
+     *
+     * @param payer the id of the payer
+     * @param payee the id of the payee
+     * @throws NoDebtFoundException thrown if no such debt exists
+     */
+    public void deleteDebt(User payer, User payee) throws NoDebtFoundException {
+        repo.deleteByPayerAndPayee(payer, payee);
+    }
+
+    /**
+     * saves a debt to the repository
+     *
+     * @param debt the saved debt
+     * @return the debt that was saved
+     */
+    public Debt save(Debt debt) {
+        return repo.save(debt);
     }
 
 }

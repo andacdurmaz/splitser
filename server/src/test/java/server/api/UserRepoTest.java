@@ -7,6 +7,7 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.repository.query.FluentQuery;
 import server.database.UserRepository;
 
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
-public class UserRepo implements UserRepository {
+public class UserRepoTest implements UserRepository {
 
     public List<User> users = new ArrayList<>();
     public final List<String> calledMethods = new ArrayList<>();
@@ -54,53 +55,58 @@ public class UserRepo implements UserRepository {
     /**
      * checks if a User given its id exists
      *
-     * @param Id the id of the checked user
+     * @param id the id of the checked user
      * @return true if the user with the given id exists
      */
     @Override
-    public boolean existsById(long Id) {
-        return find(Id).isPresent();
+    public boolean existsById(long id) {
+        return find(id).isPresent();
     }
 
+
+    @Override
+    public boolean existsById(Long aLong) {
+        return find(aLong).isPresent();
+    }
     /**
      * returns a user given its id
      *
-     * @param Id of the User
+     * @param id of the User
      * @return the user that is searched for
      */
     @Override
-    public User getUserById(long Id) throws NoUserFoundException {
-        if (!existsById(Id))
+    public User getUserById(long id) throws NoUserFoundException {
+        if (!existsById(id))
             throw new NoUserFoundException();
-        return find(Id).get();
+        return find(id).get();
     }
 
     /**
      * returns the username of a user given its id
      *
-     * @param Id of the User
+     * @param id of the User
      * @return the username of the user that is searched for
      * @throws NoUserFoundException thrown if no user with such id is found
      */
     @Override
-    public String getUsernameById(long Id) throws NoUserFoundException {
-        if (!existsById(Id))
+    public String getUsernameById(long id) throws NoUserFoundException {
+        if (!existsById(id))
             throw new NoUserFoundException();
-        return find(Id).get().getUsername();
+        return find(id).get().getUsername();
     }
 
     /**
      * returns the e-mail of a user given its id
      *
-     * @param Id of the User
+     * @param id of the User
      * @return the e-mail of the user that is searched for
      * @throws NoUserFoundException thrown if no user with such id is found
      */
     @Override
-    public String getEmailById(long Id) throws NoUserFoundException {
-        if (!existsById(Id))
+    public String getEmailById(long id) throws NoUserFoundException {
+        if (!existsById(id))
             throw new NoUserFoundException();
-        return find(Id).get().getEmail();
+        return find(id).get().getEmail();
     }
 
     /**
@@ -114,7 +120,7 @@ public class UserRepo implements UserRepository {
     public String getIbanById(long Id) throws NoUserFoundException {
         if (!existsById(Id))
             throw new NoUserFoundException();
-        return find(Id).get().getIBAN();
+        return find(Id).get().getIban();
     }
 
     /**
@@ -128,7 +134,7 @@ public class UserRepo implements UserRepository {
     public String getBicById(long Id) throws NoUserFoundException {
         if (!existsById(Id))
             throw new NoUserFoundException();
-        return find(Id).get().getBIC();
+        return find(Id).get().getBic();
     }
 
     /**
@@ -174,15 +180,22 @@ public class UserRepo implements UserRepository {
     }
 
 
-    public <S extends User> S save(S entity) {
-        call("save");
-        entity.setUserID((long) users.size());
-        users.add(entity);
-        return entity;
+
+
+    @Override
+    public Optional<User> findById(Long aLong) {
+        return Optional.empty();
     }
+
+
     @Override
     public void flush() {
 
+    }
+
+    @Override
+    public <S extends User> S saveAndFlush(S entity) {
+        return null;
     }
 
     @Override
@@ -201,19 +214,21 @@ public class UserRepo implements UserRepository {
     }
 
     @Override
-    public Object getOne(Object o) {
+    public User getOne(Long aLong) {
         return null;
     }
 
     @Override
-    public Object getById(Object o) {
+    public User getById(Long aLong) {
         return null;
     }
 
     @Override
-    public Object getReferenceById(Object o) {
+    public User getReferenceById(Long aLong) {
         return null;
     }
+
+
 
     @Override
     public List findAll(Example example, Sort sort) {
@@ -230,30 +245,21 @@ public class UserRepo implements UserRepository {
         return null;
     }
 
-    @Override
-    public Object saveAndFlush(Object entity) {
-        return null;
-    }
 
     @Override
     public List saveAll(Iterable entities) {
         return null;
     }
 
-    @Override
-    public Object save(Object entity) {
-        return null;
+
+    public User save(User saved) {
+        call("save");
+        saved.setUserID((long) users.size());
+        users.add(saved);
+        return saved;
     }
 
-    @Override
-    public Optional findById(Object o) {
-        return Optional.empty();
-    }
 
-    @Override
-    public boolean existsById(Object o) {
-        return false;
-    }
 
     @Override
     public List findAll() {
@@ -261,7 +267,7 @@ public class UserRepo implements UserRepository {
     }
 
     @Override
-    public List findAllById(Iterable iterable) {
+    public List<User> findAllById(Iterable<Long> longs) {
         return null;
     }
 
@@ -271,22 +277,22 @@ public class UserRepo implements UserRepository {
     }
 
     @Override
-    public void deleteById(Object o) {
+    public void deleteById(Long aLong) {
 
     }
 
     @Override
-    public void delete(Object entity) {
+    public void delete(User entity) {
 
     }
 
     @Override
-    public void deleteAllById(Iterable iterable) {
+    public void deleteAllById(Iterable<? extends Long> longs) {
 
     }
 
     @Override
-    public void deleteAll(Iterable entities) {
+    public void deleteAll(Iterable<? extends User> entities) {
 
     }
 
@@ -295,38 +301,39 @@ public class UserRepo implements UserRepository {
 
     }
 
+
     @Override
-    public List findAll(Sort sort) {
+    public List<User> findAll(Sort sort) {
         return null;
     }
 
     @Override
-    public Page findAll(Pageable pageable) {
+    public Page<User> findAll(Pageable pageable) {
         return null;
     }
 
     @Override
-    public Optional findOne(Example example) {
+    public <S extends User> Optional<S> findOne(Example<S> example) {
         return Optional.empty();
     }
 
     @Override
-    public Page findAll(Example example, Pageable pageable) {
+    public <S extends User> Page<S> findAll(Example<S> example, Pageable pageable) {
         return null;
     }
 
     @Override
-    public long count(Example example) {
+    public <S extends User> long count(Example<S> example) {
         return 0;
     }
 
     @Override
-    public boolean exists(Example example) {
+    public <S extends User> boolean exists(Example<S> example) {
         return false;
     }
 
     @Override
-    public Object findBy(Example example, Function queryFunction) {
+    public <S extends User, R> R findBy(Example<S> example, Function<FluentQuery.FetchableFluentQuery<S>, R> queryFunction) {
         return null;
     }
 }
