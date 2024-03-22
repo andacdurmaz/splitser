@@ -19,7 +19,6 @@ public class DebtRepoTest implements DebtRepository {
     private List<Debt> debts = new ArrayList<>();
     private final List<String> calledMethods = new ArrayList<>();
 
-    @Override
     public List<Debt> getDebts() {
         return new ArrayList<>(debts);
     }
@@ -28,7 +27,7 @@ public class DebtRepoTest implements DebtRepository {
      * Setter method
      * @param debts set debts
      */
-    public void setDebts(List<Debt> debts) {
+    public void saveAll(List<Debt> debts) {
         this.debts = debts;
     }
 
@@ -224,7 +223,13 @@ public class DebtRepoTest implements DebtRepository {
 
     @Override
     public <S extends Debt> List<S> saveAll(Iterable<S> entities) {
-        return null;
+// Clear the existing debts and add the new ones
+        debts =  new ArrayList<>();
+        entities.forEach(debts::add);
+        // Return the saved entities (in this case, just echoing back the input entities)
+        List<S> savedEntities = new ArrayList<>();
+        entities.forEach(savedEntities::add);
+        return savedEntities;
     }
 
     @Override
@@ -239,7 +244,7 @@ public class DebtRepoTest implements DebtRepository {
 
     @Override
     public List<Debt> findAll() {
-        return debts;
+        return new ArrayList<>(debts);
     }
 
     @Override

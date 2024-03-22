@@ -123,9 +123,9 @@ public class UserServiceTest {
         payers.add(payer);
         Expense expense = new Expense("test", 4.0, payee, payers);
         payer.addExpense(expense);
-        //service.settleDebt(payer, expense);
-        //Debt debt = new Debt(payer, payee, 2.0);
-        //assertTrue(payer.getDebts().contains(debt));
+        service.settleDebt(payer, expense);
+        Debt debt = new Debt(payer, payee, 2.0);
+        assertTrue(payer.getDebts().contains(debt));
     }
 
 
@@ -146,7 +146,7 @@ public class UserServiceTest {
         service.addDebts(payer, payee, 5.0);
         Debt debt = new Debt(payer, payee, 5.0);
         assertTrue(payer.getDebts().contains(debt));
-        assertTrue((debtService.getRepo()).getDebts().contains(debtService.getDebtByPayerAndPayee(payer, payee)) );
+        assertTrue((debtService.getRepo()).findAll().contains(debtService.getDebtByPayerAndPayee(payer, payee)) );
     }
     @Test
     public void addDebtCase2() throws NoDebtFoundException {
@@ -166,7 +166,7 @@ public class UserServiceTest {
         service.addDebts(payer, payee, 3.0);
         Debt debt = new Debt(payer, payee, 8.0);
         assertTrue(payer.getDebts().contains(debt));
-        assertTrue((debtService.getRepo()).getDebts().contains(debtService.getDebtByPayerAndPayee(payer, payee)) );
+        assertTrue((debtService.getRepo()).findAll().contains(debtService.getDebtByPayerAndPayee(payer, payee)) );
     }
     @Test
     public void addDebtCase3() throws NoDebtFoundException {
@@ -186,7 +186,7 @@ public class UserServiceTest {
         service.addDebts(payee, payer, 7.0);
         Debt debt = new Debt(payee, payer, 2.0);
         assertTrue(payee.getDebts().contains(debt));
-        assertTrue((debtService.getRepo()).getDebts().contains(debtService.getDebtByPayerAndPayee(payee, payer)) );
+        assertTrue((debtService.getRepo()).findAll().contains(debtService.getDebtByPayerAndPayee(payee, payer)) );
     }
 
     @Test
@@ -207,7 +207,7 @@ public class UserServiceTest {
         service.addDebts(payee, payer, 3.0);
         Debt debt = new Debt(payer, payee, 2.0);
         assertTrue(payer.getDebts().contains(debt));
-        assertTrue((debtService.getRepo()).getDebts().contains(debtService.getDebtByPayerAndPayee(payer, payee)) );
+        assertTrue((debtService.getRepo()).findAll().contains(debtService.getDebtByPayerAndPayee(payer, payee)) );
     }
 
     @Test
@@ -228,6 +228,6 @@ public class UserServiceTest {
         service.addDebts(payee, payer, 5.0);
         assertTrue(payer.getDebts().isEmpty());
         assertTrue(payee.getDebts().isEmpty());
-        assertTrue((debtService.getRepo()).getDebts().isEmpty());
+        assertTrue((debtService.getRepo()).findAll().isEmpty());
     }
 }

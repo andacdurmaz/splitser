@@ -35,7 +35,7 @@ public class DebtService {
      * @return all debts in the repository
      */
     public List<Debt> findAll() {
-        return (repo).getDebts();
+        return (repo).findAll();
     }
 
     /**
@@ -68,9 +68,9 @@ public class DebtService {
      * @param amount the amount of the debt
      */
     public void addDebt(User payer, User payee, Double amount) {
-        List<Debt> list = repo.getDebts();
+        List<Debt> list = repo.findAll();
         list.add(new Debt(payer,payee, amount));
-        repo.setDebts(list);
+        repo.saveAll(list);
     }
 
     /**
