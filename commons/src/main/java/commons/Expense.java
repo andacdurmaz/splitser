@@ -25,7 +25,7 @@ public class Expense {
     private Event event;
 
     public Expense() {
-
+        this.payingParticipants = new ArrayList<>();
     }
 
     /*
@@ -93,6 +93,7 @@ public class Expense {
      * getter method for the expense payer
      * @return the user who paid the expense
      */
+
     public User getPayer() {
         return payer;
     }
