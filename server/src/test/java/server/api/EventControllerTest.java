@@ -2,6 +2,7 @@ package server.api;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -13,6 +14,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -100,5 +102,16 @@ public class EventControllerTest {
                 .andExpect(content().string("Description"));
     }
 
+    @Test
+    public void testAddEvent() throws Exception {
+        Event event = new Event("Title", 4, "Description");
+        when(eventService.addEvent(event)).thenReturn((ResponseEntity<Event>) ResponseEntity.ok(event));
+
+        mockMvc.perform(post("/api/event/add")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"id\":0,\"eventCode\":0,\"title\":\"Title\",\"amountOfParticipants\":4,\"expenses\":[],\"description\":\"Description\",\"sumOfExpenses\":0.0}"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(event.toString()));
+    }
 
 }
