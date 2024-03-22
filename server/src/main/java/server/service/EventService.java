@@ -98,6 +98,6 @@ public class EventService {
      */
     public ResponseEntity<Event> addEvent(Event e) {
         eventRepository.save(e);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(e);
     }
 }

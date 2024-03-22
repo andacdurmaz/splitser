@@ -139,4 +139,15 @@ public class EventServiceTest {
         when(eventRepository.getDescriptionById(1)).thenReturn(null);
         assertNull(eventService.getDescriptionByEventId(1));
     }
+
+    @Test
+    public void testAddEvent() {
+        Event event = new Event("Title", 4, "Description");
+        EventRepository eventRepository = mock(EventRepository.class);
+        EventService eventService = new EventService(eventRepository);
+
+        when(eventRepository.save(event)).thenReturn(event);
+        ResponseEntity<Event> savedEvent = eventService.addEvent(event);
+        assertEquals(event, savedEvent.getBody());
+    }
 }
