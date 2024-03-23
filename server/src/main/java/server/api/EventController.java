@@ -3,11 +3,11 @@ package server.api;
 import commons.Event;
 import commons.Expense;
 import commons.User;
+import commons.exceptions.NoSuchEventException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.service.EventService;
-
 import java.util.List;
 
 @RestController
@@ -95,5 +95,25 @@ public class EventController {
     @PostMapping(value = "/add")
     public ResponseEntity<Event> addEvent(@RequestBody Event e) {
         return eventService.addEvent(e);
+    }
+
+
+    /**
+     * Updates the name of an existing event with the given id
+     * to be renamed to the given newName
+     * @param id event id
+     * @param newName the new name of the event
+     * @return event with the changed name or bad request
+     */
+    @PutMapping("/{id}/name")
+    public ResponseEntity<Event> updateEventName(@PathVariable("id") long id,
+                                                     @RequestParam("name") String newName) {
+        try {
+            Event newNamedEvent = eventService.updateEventName(id, newName);
+            return ResponseEntity.ok(newNamedEvent);
+        } catch (NoSuchEventException e) {
+            return ResponseEntity.badRequest().build();
+        }
+
     }
 }

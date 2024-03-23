@@ -19,6 +19,7 @@ public class UserService {
 
     /**
      * Get method
+     *
      * @return UserRepository
      */
     public UserRepository getRepo() {
@@ -27,6 +28,7 @@ public class UserService {
 
     /**
      * Constructor
+     *
      * @param repo UserRepository
      */
     public UserService(UserRepository repo) {
@@ -35,6 +37,7 @@ public class UserService {
 
     /**
      * Get method
+     *
      * @return ExpenseService
      */
     public ExpenseService getExpenseService() {
@@ -43,6 +46,7 @@ public class UserService {
 
     /**
      * Get method
+     *
      * @return DebtService
      */
     public DebtService getDebtService() {
@@ -51,6 +55,7 @@ public class UserService {
 
     /**
      * Set method
+     *
      * @param expenseService expenseService to set
      */
     public void setExpenseService(ExpenseService expenseService) {
@@ -59,6 +64,7 @@ public class UserService {
 
     /**
      * Set method
+     *
      * @param debtService DebtService
      */
     public void setDebtService(DebtService debtService) {
@@ -68,6 +74,7 @@ public class UserService {
 
     /**
      * Get method
+     *
      * @return all users
      */
     public List<User> findAll() {
@@ -76,6 +83,7 @@ public class UserService {
 
     /**
      * Checks if the user with the specified id exists
+     *
      * @param id specified id
      * @return true if the user with the specified id exists, false otherwise
      */
@@ -85,6 +93,7 @@ public class UserService {
 
     /**
      * Gets the user with the specified id
+     *
      * @param id specified id
      * @return the user with the specified id
      * @throws NoUserFoundException exception
@@ -94,7 +103,25 @@ public class UserService {
     }
 
     /**
+     * Gets one participants whole debt
+     *
+     * @param id id of participant
+     * @return double value of participants debt
+     * @throws NoUserFoundException if param id doesn't match any user's id
+     */
+    public Double getUsersDebt(long id) throws NoUserFoundException {
+        User user = repo.getUserById(id);
+        List<Debt> debts = debtService.getDebtsByPayee(user);
+        Double sum = 0.0;
+        for (Debt d : debts) {
+            sum += d.getAmount();
+        }
+        return sum;
+    }
+
+    /**
      * Saves the given user
+     *
      * @param user given user
      * @return saved entity
      */
@@ -104,35 +131,33 @@ public class UserService {
 
     /**
      * Adds debts
+     *
      * @param payer User who will pay later
      * @param payee user who paid for the expense
-     * @param debt amount to be debited
+     * @param debt  amount to be debited
      * @throws NoDebtFoundException exception
      */
     public void addDebts(User payer, User payee, Double debt) throws NoDebtFoundException {
         Debt amount1 = debtService.getDebtByPayerAndPayee(payee, payer);
         if (amount1 == null && debtService.getDebtByPayerAndPayee(payer, payee) == null) {
             noDebts(payer, payee, debt);
-        }
-        else if (amount1 == null) {
+        } else if (amount1 == null) {
             moreDebt(payer, payee, debt);
-        }
-        else if (amount1.getAmount() > debt){
+        } else if (amount1.getAmount() > debt) {
             getPaidLess(payer, payee, debt, amount1);
-        }
-        else if (amount1.getAmount().equals(debt)) {
+        } else if (amount1.getAmount().equals(debt)) {
             cancelDebts(payer, payee);
-        }
-        else {
+        } else {
             payMore(payer, payee, debt, amount1);
         }
     }
 
     /**
      * if the payer's debt is more than the payee's debt, now the payer owes money
-     * @param payer of the new debt
-     * @param payee of the new debt
-     * @param debt of the new debt
+     *
+     * @param payer   of the new debt
+     * @param payee   of the new debt
+     * @param debt    of the new debt
      * @param amount1 of the old debt
      * @throws NoDebtFoundException thrown if no such debt is found
      */
@@ -149,8 +174,10 @@ public class UserService {
         oldDebtsPayee = oldDebtsPayee.stream().filter(q -> !q.getPayee().equals(payer)).toList();
         payee.setDebts(oldDebtsPayee);
     }
+
     /**
      * if the payer's debt is equal to the payee's debt, the debts are cancelled
+     *
      * @param payer of the new debt
      * @param payee of the new debt
      * @throws NoDebtFoundException thrown if no such debt is found
@@ -161,11 +188,13 @@ public class UserService {
         payee.setDebts(oldDebtsPayee);
         debtService.deleteDebt(payee, payer);
     }
+
     /**
      * if the payer's debt is less than the payee's debt, the payee owes less money now
-     * @param payer of the new debt
-     * @param payee of the new debt
-     * @param debt of the new debt
+     *
+     * @param payer   of the new debt
+     * @param payee   of the new debt
+     * @param debt    of the new debt
      * @param amount1 of the old debt
      * @throws NoDebtFoundException thrown if no such debt is found
      */
@@ -178,11 +207,13 @@ public class UserService {
         debtService.deleteDebt(payee, payer);
         debtService.addDebt(payee, payer, amount1.getAmount() - debt);
     }
+
     /**
      * if the payer already owes payee some money, the debt is increased
+     *
      * @param payer of the new debt
      * @param payee of the new debt
-     * @param debt of the new debt
+     * @param debt  of the new debt
      * @throws NoDebtFoundException thrown if no such debt is found
      */
     private void moreDebt(User payer, User payee, Double debt) throws NoDebtFoundException {
@@ -195,11 +226,13 @@ public class UserService {
         oldDebts.add(new Debt(payer, payee, initialAmount + debt));
         payer.setDebts(oldDebts);
     }
+
     /**
      * if none of the users owe each other anything, the first debt between them is created
+     *
      * @param payer of the new debt
      * @param payee of the new debt
-     * @param debt of the new debt
+     * @param debt  of the new debt
      */
     private void noDebts(User payer, User payee, Double debt) {
         debtService.addDebt(payer, payee, debt);
@@ -210,7 +243,8 @@ public class UserService {
 
     /**
      * creates a debt for a user for a given expense
-     * @param payer the user that has to pay
+     *
+     * @param payer   the user that has to pay
      * @param expense the debt of the expense
      * @throws NoSuchExpenseException if the use ris not a part of the given expense
      */
