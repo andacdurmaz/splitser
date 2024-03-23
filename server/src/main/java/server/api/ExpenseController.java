@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 package server.api;
+
 import commons.Expense;
+import commons.exceptions.NoSuchExpenseException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.service.ExpenseService;
@@ -32,7 +34,8 @@ public class ExpenseController {
 
     /**
      * Constructor
-     * @param random random
+     *
+     * @param random  random
      * @param service ExpenseService
      */
     public ExpenseController(Random random, ExpenseService service) {
@@ -42,15 +45,17 @@ public class ExpenseController {
 
     /**
      * Get method
+     *
      * @return all expenses
      */
-    @GetMapping(path = { "", "/" })
+    @GetMapping(path = {"", "/"})
     public List<Expense> getAll() {
         return service.findAll();
     }
 
     /**
      * Get method
+     *
      * @param id id of expense
      * @return expense with the specified id
      */
@@ -64,12 +69,13 @@ public class ExpenseController {
 
     /**
      * Post method
+     *
      * @param expense to add
-     * @return added expense
+     * @return added expense or bad request
      */
-    @PostMapping(path = { "", "/" })
+    @PostMapping(path = {"", "/"})
     public ResponseEntity<Expense> add(@RequestBody Expense expense) {
-        if ((expense == null) ) {
+        if ((expense == null)) {
             return ResponseEntity.badRequest().build();
         }
 
@@ -79,6 +85,7 @@ public class ExpenseController {
 
     /**
      * Get method
+     *
      * @return random expense
      */
     @GetMapping("random")
@@ -86,5 +93,25 @@ public class ExpenseController {
         var expenses = service.findAll();
         var idx = random.nextInt((int) service.count());
         return ResponseEntity.ok(expenses.get(idx));
+    }
+
+    /**
+     * Updates the name of an existing expense with the given id
+     * to be renamed to the given newName
+     *
+     * @param id      expense id
+     * @param newName the new name of the expense
+     * @return expense with the changed name or bad request
+     */
+    @PutMapping("/{id}/name")
+    public ResponseEntity<Expense> updateExpenseName(@PathVariable("id") long id,
+                                                     @RequestParam("name") String newName) {
+        try {
+            Expense newNamedExpense = service.updateExpenseName(id, newName);
+            return ResponseEntity.ok(newNamedExpense);
+        } catch (NoSuchExpenseException e) {
+            return ResponseEntity.badRequest().build();
+        }
+
     }
 }

@@ -12,7 +12,8 @@ public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    @GeneratedValue(strategy = GenerationType.AUTO)
+
+    //@GeneratedValue(strategy = GenerationType.AUTO)
     private long eventCode;
     private String title;
     private int amountOfParticipants;
