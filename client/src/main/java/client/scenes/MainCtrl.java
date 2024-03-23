@@ -134,12 +134,18 @@ public class MainCtrl {
     }
 
 
+    /**
+     * creates the login page
+     * public method so that
+     * any page can have the button
+     * and functionality
+     */
     public void login(){
-        var LoginScreen = Main.FXML.load(LoginCtrl.class,
+        var loginScreen = Main.FXML.load(LoginCtrl.class,
                 "client", "scenes", "Login.fxml");
 
-        LoginCtrl loginCtrl = LoginScreen.getKey();
-        Scene loginScreenScene = new Scene(LoginScreen.getValue());
+        LoginCtrl loginCtrl = loginScreen.getKey();
+        Scene loginScreenScene = new Scene(loginScreen.getValue());
         loginCtrl.returnToMenu();
         primaryStage.setTitle("Login");
         primaryStage.setScene(loginScreenScene);

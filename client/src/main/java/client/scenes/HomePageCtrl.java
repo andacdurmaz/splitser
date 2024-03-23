@@ -108,6 +108,9 @@ public class HomePageCtrl implements Initializable {
         table.setItems(data);
     }
 
+    /**
+     * deprecated
+     */
     public void login(){
         mainCtrl.login();
     }

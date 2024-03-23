@@ -18,46 +18,66 @@ public class LoginCtrl implements Initializable {
 
 
     @FXML
-    private TextField AdminNameField;
+    private TextField adminNameField;
     @FXML
-    private TextField PasswordAddressField;
+    private TextField passwordAddressField;
 
     @FXML
     private Button backButton;
 
     @FXML
     private Button loginButton;
-    LoginService service;
+    private LoginService service;
 
 
+    /**
+     * @param service constructor
+     */
     @Inject
     public LoginCtrl(LoginService service) {
         this.service = service;
     }
 
+    /**
+     * @param location  The location used to resolve relative paths for the root object, or
+     *                  {@code null} if the location is not known.
+     * @param resources The resources used to localize the root object, or {@code null} if
+     *                  the root object was not localized.
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         root.getStylesheets().add("client/css/main.css");
 
-        PasswordAddressField.setOnKeyPressed(action -> {
+        passwordAddressField.setOnKeyPressed(action -> {
             if (action.getCode().equals(KeyCode.ENTER)){
-                if(!AdminNameField.getText().equals("") && !PasswordAddressField.getText().equals(""))
+                if(!adminNameField.getText().equals("") &&
+                        !passwordAddressField.getText().equals(""))
                     connect();
             }
         });
     }
 
+    /**
+     * attempts to login to the server
+     * with the inputted text
+     */
     private void connect() {
-        String admin = AdminNameField.getText();
-        String password = PasswordAddressField.getText();
+        String admin = adminNameField.getText();
+        String password = passwordAddressField.getText();
         service.connect(admin, password);
         service.setSession();
     }
 
+    /**
+     * returns to main menu
+     */
     public void returnToMenu(){
         backButton.setOnAction(event -> service.returnToMenu());
     }
 
+    /**
+     * deprecated
+     */
     public void login(){
         service.login();
     }
