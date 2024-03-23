@@ -8,10 +8,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
@@ -25,6 +22,8 @@ public class HomePageCtrl implements Initializable {
     private Label emptyLabel;
     @FXML
     private ListView<Event> EventsList;
+    @FXML
+    private Button loginButton;
     @FXML
     private TableView<Event> table;
     @FXML
@@ -91,6 +90,10 @@ public class HomePageCtrl implements Initializable {
         var events = server.getEvents();
         data = FXCollections.observableList(events);
         table.setItems(data);
+    }
+
+    public void login(){
+        mainCtrl.login();
     }
 
     /**

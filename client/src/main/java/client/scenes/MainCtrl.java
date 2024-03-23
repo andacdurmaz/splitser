@@ -15,6 +15,7 @@
  */
 package client.scenes;
 
+import client.Main;
 import commons.Event;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -67,5 +68,16 @@ public class MainCtrl {
         primaryStage.setTitle(event.getTitle());
         primaryStage.setScene(eventInfo);
         eventInfoCtrl.setEvent(event);
+    }
+
+    public void login(){
+        var LoginScreen = Main.FXML.load(LoginCtrl.class,
+                "client", "scenes", "Login.fxml");
+
+        LoginCtrl loginCtrl = LoginScreen.getKey();
+        Scene loginScreenScene = new Scene(LoginScreen.getValue());
+        loginCtrl.returnToMenu();
+        primaryStage.setTitle("Login");
+        primaryStage.setScene(loginScreenScene);
     }
 }
