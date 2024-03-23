@@ -58,6 +58,11 @@ public class DebtController {
         return ResponseEntity.ok(saved);
     }
 
+    /**
+     * Gets the final, calculated debts by all participants
+     *
+     * @return map with keys user and double values
+     */
     @GetMapping("/finalDebts")
     public ResponseEntity<Map<User, Double>> getFinalDebts() {
         Map<User, Double> debts = service.finalDebts();
