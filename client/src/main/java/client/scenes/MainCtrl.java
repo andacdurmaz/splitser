@@ -32,6 +32,10 @@ public class MainCtrl {
     private Scene add;
     private EventInfoCtrl eventInfoCtrl;
     private Scene eventInfo;
+    private AdminOverviewCtrl adminOverviewCtrl;
+    private Scene adminOverview;
+    private AdminEventInfoCtrl adminEventInfoCtrl;
+    private Scene adminEventInfo;
 
     /**
      * Initialize mainCtrl
@@ -57,6 +61,20 @@ public class MainCtrl {
 
         showOverview();
         primaryStage.show();
+    }
+
+    /**
+     * Initialize mainCtrl
+     * @param adminOverview Admin overview
+     * @param adminEventInfo Admin event info
+     */
+    public void adminInitilize(Pair<AdminOverviewCtrl,
+            Parent> adminOverview, Pair<AdminEventInfoCtrl, Parent> adminEventInfo) {
+        this.adminOverviewCtrl = adminOverview.getKey();
+        this.adminOverview = new Scene(adminOverview.getValue());
+
+        this.adminEventInfoCtrl = adminEventInfo.getKey();
+        this.adminEventInfo = new Scene(adminEventInfo.getValue());
     }
 
     /**
@@ -87,4 +105,31 @@ public class MainCtrl {
         primaryStage.setScene(eventInfo);
         eventInfoCtrl.setEvent(event);
     }
+
+    /**
+     * Shows AdminOverview
+     */
+    public void showAdminOverview() {
+        primaryStage.setTitle("Admin: Overview");
+        primaryStage.setScene(adminOverview);
+        adminOverviewCtrl.refresh();
+    }
+
+    /**
+     * Shows AdminEventInfo
+     */
+    public void showAdminEventInfo() {
+        primaryStage.setTitle("Admin: Event info");
+        primaryStage.setScene(adminEventInfo);
+        adminOverviewCtrl.refresh();
+    }
+
+    /**
+     * This method gives the AdminEventInfoCtrl the event, which is clicked on
+     * @param event the event which is clicked on in the admin overview
+     */
+    public void setAdminEvent(Event event){
+        adminEventInfoCtrl.setEvent(event);
+    }
+
 }
