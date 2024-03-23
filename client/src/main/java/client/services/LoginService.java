@@ -33,8 +33,8 @@ public class LoginService {
     }
 
     public void connect(String username, String password){
-      //  if(adminUtils.checkCredentials(username, password))
-
+        if(adminUtils.checkCredentials(username, password))
+            mainCtrl.showAdminOverview();
     }
 
 

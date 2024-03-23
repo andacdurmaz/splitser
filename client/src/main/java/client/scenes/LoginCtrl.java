@@ -50,9 +50,7 @@ public class LoginCtrl implements Initializable {
     private void connect() {
         String admin = AdminNameField.getText();
         String password = PasswordAddressField.getText();
-        if(!service.connect(admin, password)){
-            return;
-        }
+        service.connect(admin, password);
         service.setSession();
     }
 
