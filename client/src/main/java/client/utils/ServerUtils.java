@@ -43,119 +43,162 @@ import org.springframework.messaging.simp.stomp.StompSessionHandlerAdapter;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 import org.springframework.web.socket.messaging.WebSocketStompClient;
 
-public class ServerUtils extends Util{
+public class ServerUtils extends Util {
 
-	private static final String SERVER = "http://localhost:8080/";
-	private static StompSession session;
+    private static final String SERVER = "http://localhost:8080/";
+    private static StompSession session;
 
-	public void setSession() {
-		//session = connect("ws://localhost:8080/websocket");
-		session = connect("ws://" + address + "/websocket");
-	}
-	public void getQuotesTheHardWay() throws IOException, URISyntaxException {
-		var url = new URI("http://localhost:8080/api/quotes").toURL();
-		var is = url.openConnection().getInputStream();
-		var br = new BufferedReader(new InputStreamReader(is));
-		String line;
-		while ((line = br.readLine()) != null) {
-			System.out.println(line);
-		}
-	}
+    /**
+     * Sets session
+     */
+    public void setSession() {
+        //session = connect("ws://localhost:8080/websocket");
+        session = connect("ws://" + address + "/websocket");
+    }
 
-	public List<Quote> getQuotes() {
-		return ClientBuilder.newClient(new ClientConfig()) //
-				.target(SERVER).path("api/quotes") //
-				.request(APPLICATION_JSON) //
-				.accept(APPLICATION_JSON) //
-                .get(new GenericType<List<Quote>>() {});
-	}
+    /**
+     * Adding javadoc for checkstyle
+     *
+     * @throws IOException        exception
+     * @throws URISyntaxException exception
+     */
+    public void getQuotesTheHardWay() throws IOException, URISyntaxException {
+        var url = new URI("http://localhost:8080/api/quotes").toURL();
+        var is = url.openConnection().getInputStream();
+        var br = new BufferedReader(new InputStreamReader(is));
+        String line;
+        while ((line = br.readLine()) != null) {
+            System.out.println(line);
+        }
+    }
 
-	public Quote addQuote(Quote quote) {
-		return ClientBuilder.newClient(new ClientConfig()) //
-				.target(SERVER).path("api/quotes") //
-				.request(APPLICATION_JSON) //
-				.accept(APPLICATION_JSON) //
-				.post(Entity.entity(quote, APPLICATION_JSON), Quote.class);
-	}
-	public void getEventsTheHardWay() throws IOException, URISyntaxException {
-		var url = new URI("http://localhost:8080/api/events").toURL();
-		var is = url.openConnection().getInputStream();
-		var br = new BufferedReader(new InputStreamReader(is));
-		String line;
-		while ((line = br.readLine()) != null) {
-			System.out.println(line);
-		}
-	}
+    /**
+     * Adding javadoc for checkstyle
+     *
+     * @return quotes
+     */
+    public List<Quote> getQuotes() {
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("api/quotes") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .get(new GenericType<List<Quote>>() {
+                });
+    }
 
-	public List<Event> getEvents() {
-		return ClientBuilder.newClient(new ClientConfig())
-				.target(SERVER).path("api/events")
-				.request(APPLICATION_JSON)
-				.accept(APPLICATION_JSON)
-				.get(new GenericType<List<Event>>() {});
-	}
+    /**
+     * Adds quotes
+     *
+     * @param quote quote to add
+     * @return added quote
+     */
+    public Quote addQuote(Quote quote) {
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("api/quotes") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .post(Entity.entity(quote, APPLICATION_JSON), Quote.class);
+    }
 
-	public Event addEvent(Event event) {
-		return ClientBuilder.newClient(new ClientConfig()) //
-				.target(SERVER).path("api/events") //
-				.request(APPLICATION_JSON) //
-				.accept(APPLICATION_JSON) //
-				.post(Entity.entity(event, APPLICATION_JSON), Event.class);
-	}
+    /**
+     * Gets events the hard way
+     *
+     * @throws IOException        exception
+     * @throws URISyntaxException exception
+     */
+    public void getEventsTheHardWay() throws IOException, URISyntaxException {
+        var url = new URI("http://localhost:8080/api/events").toURL();
+        var is = url.openConnection().getInputStream();
+        var br = new BufferedReader(new InputStreamReader(is));
+        String line;
+        while ((line = br.readLine()) != null) {
+            System.out.println(line);
+        }
+    }
 
-	/**
-	 * @param targetUrl url of the server
-	 * @return StompSession
-	 * @throws InterruptedException connection with server was interrupted
-	 * @throws Exception connection with server failed
-	 */
-	private StompSession connect(String targetUrl) throws NestedRuntimeException {
-		var client = new StandardWebSocketClient();
-		var stomp = new WebSocketStompClient(client);
-		stomp.setMessageConverter(new MappingJackson2MessageConverter());
-		try{
-			return stomp.connect(targetUrl, new StompSessionHandlerAdapter() {}).get();
-		} catch (InterruptedException e) {
-			Thread.currentThread().interrupt();
-		} catch (ExecutionException e) {
-			throw new RuntimeException(e);
-		}
-		throw new IllegalStateException();
-	}
+    /**
+     * Get events method
+     *
+     * @return events
+     */
+    public List<Event> getEvents() {
+        return ClientBuilder.newClient(new ClientConfig()).target(SERVER).path("api/events")
+                .request(APPLICATION_JSON).accept(APPLICATION_JSON)
+                .get(new GenericType<List<Event>>() {
+                });
+    }
 
-	/**
-	 * subscribes client for messages on a specific server address
-	 * @param destination server address we want to subscribe to
-	 * @param packetType the type of object we will be receiving
-	 * @param packetConsumer a class to store ant iterate over objects
-	 *                    received from the server
-	 * @param <T> generic parameter, allowing for any number of
-	 *              classes to utilize it
-	 */
-	public <T> void registerForSocketMessages(String destination, Class<T> packetType, Consumer<T> packetConsumer) {
-		session.subscribe(destination, new StompFrameHandler() {
+    /**
+     * Adds event
+     *
+     * @param event event to add
+     * @return added event
+     */
+    public Event addEvent(Event event) {
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("api/events") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .post(Entity.entity(event, APPLICATION_JSON), Event.class);
+    }
 
-			@Override
-			public Type getPayloadType(StompHeaders headers) {
-				return packetType;
-			}
+    /**
+     * @param targetUrl url of the server
+     * @return StompSession
+     * @throws InterruptedException connection with server was interrupted
+     * @throws Exception            connection with server failed
+     */
+    private StompSession connect(String targetUrl) throws NestedRuntimeException {
+        var client = new StandardWebSocketClient();
+        var stomp = new WebSocketStompClient(client);
+        stomp.setMessageConverter(new MappingJackson2MessageConverter());
+        try {
+            return stomp.connect(targetUrl, new StompSessionHandlerAdapter() {
+            }).get();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        } catch (ExecutionException e) {
+            throw new RuntimeException(e);
+        }
+        throw new IllegalStateException();
+    }
 
-			@Override
-			public void handleFrame(StompHeaders headers, Object payload) {
-				packetConsumer.accept((T) payload);
-			}
-		});
-	}
+    /**
+     * subscribes client for messages on a specific server address
+     *
+     * @param destination    server address we want to subscribe to
+     * @param packetType     the type of object we will be receiving
+     * @param packetConsumer a class to store ant iterate over objects
+     *                       received from the server
+     * @param <T>            generic parameter, allowing for any number of
+     *                       classes to utilize it
+     */
+    public <T> void registerForSocketMessages(String destination,
+                                              Class<T> packetType, Consumer<T> packetConsumer) {
+        session.subscribe(destination, new StompFrameHandler() {
 
-	/**
-	 * sends an object to a destination address
-	 * @param destinationAddress server address to which we want
-	 *                           to send an updated object
-	 * @param o Object to be sent
-	 * @return a string useful for testing
-	 */
-	public String send(String destinationAddress, Object o) {
-		session.send(destinationAddress, o);
-		return destinationAddress + o;
-	}
+            @Override
+            public Type getPayloadType(StompHeaders headers) {
+                return packetType;
+            }
+
+            @Override
+            public void handleFrame(StompHeaders headers, Object payload) {
+                packetConsumer.accept((T) payload);
+            }
+        });
+    }
+
+    /**
+     * sends an object to a destination address
+     *
+     * @param destinationAddress server address to which we want
+     *                           to send an updated object
+     * @param o                  Object to be sent
+     * @return a string useful for testing
+     */
+    public String send(String destinationAddress, Object o) {
+        session.send(destinationAddress, o);
+        return destinationAddress + o;
+    }
 }

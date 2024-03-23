@@ -1,4 +1,5 @@
 package client.scenes;
+
 import com.google.inject.Inject;
 import client.utils.ServerUtils;
 import commons.Event;
@@ -21,21 +22,22 @@ public class HomePageCtrl implements Initializable {
     @FXML
     private Label emptyLabel;
     @FXML
-    private ListView<Event> EventsList;
+    private ListView<Event> eventsList;
     @FXML
     private Button loginButton;
     @FXML
     private TableView<Event> table;
     @FXML
-    private TableColumn<Event, String> Event;
+    private TableColumn<Event, String> event;
     @FXML
-    private TableColumn<Event, String> EventCode;
+    private TableColumn<Event, String> eventCode;
     @FXML
-    private TableColumn<Event, String> Description;
+    private TableColumn<Event, String> description;
 
     /**
      * Constructor
-     * @param server server
+     *
+     * @param server   server
      * @param mainCtrl main controller
      */
     @Inject
@@ -45,47 +47,61 @@ public class HomePageCtrl implements Initializable {
     }
 
     /**
-     * Initializing starting page
+     * Initialize method
+     *
+     * @param location  URL
+     *                  The location used to resolve relative paths for the root object, or
+     *                  {@code null} if the location is not known.
+     * @param resources ResourceBundle
+     *                  The resources used to localize the root object, or {@code null} if
+     *                  the root object was not localized.
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Event.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().getTitle()));
-        EventCode.setCellValueFactory(q -> new SimpleStringProperty(String.valueOf(q.getValue().getEventCode())));
-        Description.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().getDescription()));
-        // Listen for changes to the items in the ListView, if there are events make the label invisible
-        EventsList.getItems().addListener(
-                (InvalidationListener) observable -> updateLabelVisibility());
-        EventsList.setOnMouseClicked(this::onEventClicked);
+        event.setCellValueFactory(q ->
+                new SimpleStringProperty(q.getValue().getTitle()));
+        eventCode.setCellValueFactory(q ->
+                new SimpleStringProperty(String.valueOf(q.getValue().getEventCode())));
+        description.setCellValueFactory(q ->
+                new SimpleStringProperty(q.getValue().getDescription()));
+        // Listen for changes to the items in the ListView,
+        // if there are events make the label invisible
+        eventsList.getItems().addListener((InvalidationListener) observable ->
+                updateLabelVisibility());
+        eventsList.setOnMouseClicked(this::onEventClicked);
         table.setOnMouseClicked(this::onEventClicked);
     }
 
     /**
-     * Check what is clicked by the mouse, if it is from the listview, tableview and go to the clicked event, if it's
-     * neither do nothing.
+     * Check what is clicked by the mouse, if it is from the listview or tableview,
+     * go to the clicked event, if it's neither do nothing.
+     *
      * @param event event clicked by mouse
      */
     private void onEventClicked(MouseEvent event) {
         Event selectedEvent;
-        if(event.getSource() == EventsList) {
-            selectedEvent = EventsList.getSelectionModel().getSelectedItem();
-        }
-        else if(event.getSource() == table) {
+        if (event.getSource() == eventsList) {
+            selectedEvent = eventsList.getSelectionModel().getSelectedItem();
+        } else if (event.getSource() == table) {
             selectedEvent = table.getSelectionModel().getSelectedItem();
-        }
-        else {
+        } else {
             return;
         }
-        if(selectedEvent != null) {
+        if (selectedEvent != null) {
             mainCtrl.showEventInfo(selectedEvent);
         }
     }
 
     /**
-     *     If the ListView is empty, make the label visible. If it isn't make it invisible
+     * If the ListView is empty, make the label visible. If it isn't make it invisible
      */
     private void updateLabelVisibility() {
-        emptyLabel.setVisible(EventsList.getItems().isEmpty());
+        emptyLabel.setVisible(eventsList.getItems().isEmpty());
     }
+
+    /**
+     * Refreshes the page
+     */
     public void refresh() {
         var events = server.getEvents();
         data = FXCollections.observableList(events);
@@ -103,67 +119,147 @@ public class HomePageCtrl implements Initializable {
         mainCtrl.showAdd();
     }
 
+    /**
+     * Adding javadoc for checkstyle
+     *
+     * @return placeholder
+     */
     public ServerUtils getServer() {
         return server;
     }
 
+    /**
+     * Adding javadoc for checkstyle
+     *
+     * @return placeholder
+     */
     public MainCtrl getMainCtrl() {
         return mainCtrl;
     }
 
+    /**
+     * Adding javadoc for checkstyle
+     *
+     * @return placeholder
+     */
     public ObservableList<Event> getData() {
         return data;
     }
 
+    /**
+     * Set method
+     *
+     * @param data placeholder
+     */
     public void setData(ObservableList<Event> data) {
         this.data = data;
     }
 
+    /**
+     * Adding javadoc for checkstyle
+     *
+     * @return placeholder
+     */
     public Label getEmptyLabel() {
         return emptyLabel;
     }
 
+    /**
+     * Adding javadoc for checkstyle
+     *
+     * @param emptyLabel label for description
+     */
     public void setEmptyLabel(Label emptyLabel) {
         this.emptyLabel = emptyLabel;
     }
 
+    /**
+     * Adding javadoc for checkstyle
+     *
+     * @return placeholder
+     */
     public ListView<Event> getEventsList() {
-        return EventsList;
+        return eventsList;
     }
 
+    /**
+     * Adding javadoc for checkstyle
+     *
+     * @param eventsList list of events
+     */
     public void setEventsList(ListView<Event> eventsList) {
-        this.EventsList = eventsList;
+        this.eventsList = eventsList;
     }
 
+    /**
+     * Adding javadoc for checkstyle
+     *
+     * @return placeholder
+     */
     public TableView<Event> getTable() {
         return table;
     }
 
+    /**
+     * Adding javadoc for checkstyle
+     *
+     * @param table tableView
+     */
     public void setTable(TableView<Event> table) {
         this.table = table;
     }
 
+    /**
+     * Adding javadoc for checkstyle
+     *
+     * @return placeholder
+     */
     public TableColumn<Event, String> getEvent() {
-        return Event;
+        return event;
     }
 
+    /**
+     * Adding javadoc for checkstyle
+     *
+     * @param event event from tableView
+     */
     public void setEvent(TableColumn<Event, String> event) {
-        this.Event = event;
+        this.event = event;
     }
 
+    /**
+     * Adding javadoc for checkstyle
+     *
+     * @return placeholder
+     */
     public TableColumn<Event, String> getEventCode() {
-        return EventCode;
+        return eventCode;
     }
 
+    /**
+     * Adding javadoc for checkstyle
+     *
+     * @param eventCode eventCode of event from tableView
+     */
     public void setEventCode(TableColumn<Event, String> eventCode) {
-        this.EventCode = eventCode;
+        this.eventCode = eventCode;
     }
 
+    /**
+     * Adding javadoc for checkstyle
+     *
+     * @return placeholder
+     */
     public TableColumn<Event, String> getDescription() {
-        return Description;
+        return description;
     }
 
+    /**
+     * Adding javadoc for checkstyle
+     *
+     * @param description description of event from tableView
+     */
     public void setDescription(TableColumn<Event, String> description) {
-        this.Description = description;
+        this.description = description;
     }
 }

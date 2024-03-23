@@ -1,12 +1,14 @@
 package commons;
 
 
+import commons.exceptions.BICFormatException;
+import commons.exceptions.EmailFormatException;
+import commons.exceptions.IBANFormatException;
 import org.junit.jupiter.api.Test;
 
+
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,6 +20,15 @@ public class UserTest {
         assertEquals("andac", user.getUsername());
         assertEquals("andac@gmail.com", user.getEmail());
         assertEquals(Language.EN, user.getLanguage());
+    }
+
+    @Test
+    public void defaultConstructorTest() {
+        User user = new User();
+        assertNotNull(user);
+        assertNull( user.getUsername());
+        assertNull(user.getEmail());
+        assertNull(user.getLanguage());
     }
 
     @Test
@@ -34,7 +45,7 @@ public class UserTest {
     }
 
     @Test
-    public void emailTest() throws User.EmailFormatException {
+    public void emailTest() throws EmailFormatException {
         User user = new User("andac", "andac@gmail.com");
         user.setEmail("andac72@hotmail.com");
         assertEquals("andac72@hotmail.com", user.getEmail());
@@ -43,19 +54,19 @@ public class UserTest {
 
 
     @Test
-    public void bicTest() throws User.BICFormatException {
+    public void bicTest() throws BICFormatException {
         User user = new User("andac", "andac@gmail.com");
-        assertNull(user.getBIC());
-        user.setBIC("AAAA1212123");
-        assertEquals("AAAA1212123", user.getBIC());
+        assertNull(user.getBic());
+        user.setBic("AAAA1212123");
+        assertEquals("AAAA1212123", user.getBic());
     }
 
     @Test
-    public void ibanTest() throws User.IBANFormatException {
+    public void ibanTest() throws IBANFormatException {
         User user = new User("andac", "andac@gmail.com");
-        assertNull(user.getIBAN());
-        user.setIBAN("NL11112222333344445555666677778888");
-        assertEquals("NL11112222333344445555666677778888", user.getIBAN());
+        assertNull(user.getIban());
+        user.setIban("NL11112222333344445555666677778888");
+        assertEquals("NL11112222333344445555666677778888", user.getIban());
     }
 
     @Test
@@ -74,17 +85,7 @@ public class UserTest {
         assertEquals(10, user.getWallet());
     }
 
-    @Test
-    public void debtTest() {
-        User user = new User("andac", "andac@gmail.com");
-        User user2 = new User("mete", "mete@gmail.com");
 
-        assertEquals(new HashMap<>(), user.getDebts());
-        Map<User, Double> debts = new HashMap();
-        debts.put(user2, 25.0);
-        user.setDebts(debts);
-        assertEquals(debts, user.getDebts());
-    }
 
     @Test
     public void languageTest() {
@@ -93,58 +94,48 @@ public class UserTest {
         assertEquals(Language.NL, user.getLanguage());
     }
 
+
     @Test
-    public void settleDebtTest() throws User.NoSuchExpenseException {
+    public void debtTest() {
         User user = new User("andac", "andac@gmail.com");
-        User user2 = new User("mete", "mete@gmail.com");
-        List<User> paymenters = new ArrayList<>();
-        paymenters.add(user);
-        Expense expense = new Expense("payment",10, user2, paymenters);
+        User user2 = new User("ivan", "ivan@gmail.com");
+        Debt debt = new Debt(user, user2, 15.0);
+        List<Debt> debts = new ArrayList<>();
+        debts.add(debt);
+        user.setDebts(debts);
+        assertEquals(debts, user.getDebts());
+    }
+
+
+    @Test
+    public void expenseTest() {
+        User user = new User("andac", "andac@gmail.com");
+        Expense expense = new Expense();
+        List<Expense> expensess = new ArrayList<>();
+        expensess.add(expense);
+        user.setExpenses(expensess);
+        assertEquals(expensess, user.getExpenses());
+    }
+
+    @Test
+    public void addExpenseTest() {
+        User user = new User("andac", "andac@gmail.com");
+        List<Expense> expenses = new ArrayList<>();
+        assertTrue(user.getExpenses().isEmpty());
+        Expense expense = new Expense();
         user.addExpense(expense);
-        user.settleDebt(expense);
-        assertEquals(5, user.getDebts().get(user2));
+        expenses.add(expense);
+        assertEquals(expenses, user.getExpenses());
     }
 
-    @Test
-    public void addDebtCase1() {
-        User user = new User("andac", "andac@gmail.com");
-        User user2 = new User("mete", "mete@gmail.com");
-        user.addDebts(user2, 5.0);
-        assertEquals(5, user.getDebts().get(user2));
-    }
+
+
 
     @Test
-    public void addDebtCase2() {
+    public void toStringTest() throws IBANFormatException, BICFormatException {
         User user = new User("andac", "andac@gmail.com");
-        User user2 = new User("mete", "mete@gmail.com");
-        user.addDebts(user2, 5.0);
-        user.addDebts(user2, 5.0);
-        assertEquals(10, user.getDebts().get(user2));
-    }
-
-    @Test
-    public void addDebtCase3() {
-        User user = new User("andac", "andac@gmail.com");
-        User user2 = new User("mete", "mete@gmail.com");
-        user2.addDebts(user, 3.0);
-        user.addDebts(user2, 2.0);
-        assertEquals(1, user2.getDebts().get(user));
-        assertEquals(null, user.getDebts().get(user2));
-    }
-    @Test
-    public void addDebtCase4() {
-        User user = new User("andac", "andac@gmail.com");
-        User user2 = new User("mete", "mete@gmail.com");
-        user2.addDebts(user, 3.0);
-        user.addDebts(user2, 5.0);
-        assertEquals(null, user2.getDebts().get(user));
-        assertEquals(2, user.getDebts().get(user2));
-    }
-    @Test
-    public void toStringTest() throws User.IBANFormatException, User.BICFormatException {
-        User user = new User("andac", "andac@gmail.com");
-        user.setIBAN("NL11112222333344445555666677778888");
-        user.setBIC("AAAA1122333");
+        user.setIban("NL11112222333344445555666677778888");
+        user.setBic("AAAA1122333");
         user.setServerURL("server.123");
         String result = "User Information:\nUsername: andac\nE-mail: andac@gmail.com\nServer: server.123\n" +
                 "IBAN: NL11112222333344445555666677778888\nBIC: AAAA1122333\nPreferred Language: EN\n";
@@ -152,20 +143,37 @@ public class UserTest {
     }
 
     @Test
+    public void equalsTestSame(){
+        User user = new User("andac", "andac@gmail.com");
+        assertTrue(user.equals(user));
+    }
+
+    @Test
+    public void equalsTestDifferent(){
+        User user = new User("andac", "andac@gmail.com");
+        User user2 = new User("mehmet", "andac@gmail.com");
+        assertFalse(user.equals(user2));
+    }
+    @Test
+    public void equalsNullTest(){
+        User user = new User("andac", "andac@gmail.com");
+        assertFalse(user.equals(null));
+    }
+    @Test
     public void IBANFormatTest() {
         User user = new User("andac", "andac@gmail.com");
-        assertThrows(User.IBANFormatException.class, () -> {        user.setIBAN("123");} );
+        assertThrows(IBANFormatException.class, () -> {        user.setIban("123");} );
     }
 
     @Test
     public void BICFormatTest()  {
         User user = new User("andac", "andac@gmail.com");
-        assertThrows(User.BICFormatException.class, () -> {        user.setBIC("123");} );
+        assertThrows(BICFormatException.class, () -> {        user.setBic("123");} );
     }
 
     @Test
     public void emailFormatTest()  {
         User user = new User("andac", "andac@gmail.com");
-        assertThrows(User.EmailFormatException.class, () -> {        user.setEmail("123");} );
+        assertThrows(EmailFormatException.class, () -> {        user.setEmail("123");} );
     }
 }

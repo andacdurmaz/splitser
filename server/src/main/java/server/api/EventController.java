@@ -1,11 +1,17 @@
 package server.api;
 
+import commons.Event;
+import commons.Expense;
+import commons.User;
+import commons.exceptions.NoSuchEventException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.service.EventService;
+import java.util.List;
 
 @RestController
-@RequestMapping("/event")
+@RequestMapping("/api/event")
 public class EventController {
 
     /**
@@ -26,9 +32,9 @@ public class EventController {
      * Method to get all events
      * @return all events
      */
-    @RequestMapping(value = "/all", method = RequestMethod.GET)
-    public String getAllEvents() {
-        return eventService.getAllEvents().toString();
+    @GetMapping(value = "/all")
+    public List<Event> getAllEvents() {
+        return eventService.getAllEvents();
     }
 
     /**
@@ -36,9 +42,9 @@ public class EventController {
      * @param id of the event
      * @return the event
      */
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public String getEventById(@PathVariable long id) {
-        return eventService.getEventById(id).toString();
+    @GetMapping(value = "/{id}")
+    public Event getEventById(@PathVariable long id) {
+        return eventService.getEventById(id);
     }
 
     /**
@@ -46,8 +52,8 @@ public class EventController {
      * @param id of the event
      * @return the title of the event
      */
-    @RequestMapping(value = "/{id}/title", method = RequestMethod.GET)
-    public String getEventTitleById(@PathVariable long id) {
+    @GetMapping(value = "/{id}/title")
+    public ResponseEntity<String> getEventTitleById(@PathVariable long id) {
         return eventService.getEventTitleById(id);
     }
 
@@ -56,9 +62,9 @@ public class EventController {
      * @param id of the event
      * @return the creator of the event
      */
-    @RequestMapping(value = "/{id}/creator", method = RequestMethod.GET)
-    public String getCreatorById(@PathVariable long id) {
-        return eventService.getCreatorById(id).toString();
+    @GetMapping(value = "/{id}/creator")
+    public User getCreatorById(@PathVariable long id) {
+        return eventService.getCreatorById(id);
     }
 
     /**
@@ -66,9 +72,9 @@ public class EventController {
      * @param id of the event
      * @return the expenses of the event
      */
-    @RequestMapping(value = "/{id}/expenses", method = RequestMethod.GET)
-    public String getExpensesByEventId(@PathVariable long id) {
-        return eventService.getExpensesByEventId(id).toString();
+    @GetMapping(value = "/{id}/expenses")
+    public List<Expense> getExpensesByEventId(@PathVariable long id) {
+        return eventService.getExpensesByEventId(id);
     }
 
     /**
@@ -76,8 +82,38 @@ public class EventController {
      * @param id of the event
      * @return the description of the event
      */
-    @RequestMapping(value = "/{id}/description", method = RequestMethod.GET)
-    public String getDescriptionByEventId(@PathVariable long id) {
+    @GetMapping(value = "/{id}/description")
+    public ResponseEntity<String> getDescriptionByEventId(@PathVariable long id) {
         return eventService.getDescriptionByEventId(id);
+    }
+
+    /**
+     * Method to add an event
+     * @param e the event to add
+     * @return the added event
+     */
+    @PostMapping(value = "/add")
+    public ResponseEntity<Event> addEvent(@RequestBody Event e) {
+        return eventService.addEvent(e);
+    }
+
+
+    /**
+     * Updates the name of an existing event with the given id
+     * to be renamed to the given newName
+     * @param id event id
+     * @param newName the new name of the event
+     * @return event with the changed name or bad request
+     */
+    @PutMapping("/{id}/name")
+    public ResponseEntity<Event> updateEventName(@PathVariable("id") long id,
+                                                     @RequestParam("name") String newName) {
+        try {
+            Event newNamedEvent = eventService.updateEventName(id, newName);
+            return ResponseEntity.ok(newNamedEvent);
+        } catch (NoSuchEventException e) {
+            return ResponseEntity.badRequest().build();
+        }
+
     }
 }

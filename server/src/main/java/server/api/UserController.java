@@ -16,9 +16,10 @@
 package server.api;
 
 import commons.User;
+import commons.exceptions.NoUserFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import server.database.UserRepository;
+import server.service.UserService;
 
 import java.util.List;
 
@@ -27,157 +28,198 @@ import java.util.List;
 public class UserController {
 
 
-    private final UserRepository repo;
+    private final UserService service;
 
-    /**
-     * getter method for the repository
-     * @return repo
-     */
-    public UserRepository getRepo() {
-        return repo;
-    }
 
     /**
      * sets the repository for the User database
-     * @param repo the repository for the users
+     *
+     * @param service the repository for the users
      */
-    public UserController(UserRepository repo) {
-        this.repo = repo;
+    public UserController(UserService service) {
+        this.service = service;
+    }
+
+    /**
+     * Getter method
+     *
+     * @return UserService
+     */
+    public UserService getService() {
+        return service;
     }
 
     /**
      * path to get all Users in the repository
+     *
      * @return all users in repository
      */
-    @GetMapping(path = { "", "/" })
+    @GetMapping(path = {"", "/"})
     public List<User> getAll() {
-        return repo.findAll();
+        return service.findAll();
     }
 
     /**
      * path to get a specific user given its id
+     *
      * @param id of the user
      * @return the user with the given id
      */
     @GetMapping("/{id}")
-    public ResponseEntity<?> getById(@PathVariable("id") long id) throws UserRepository.NoUserFoundException {
-        if (id < 0 || !repo.existsById(id)) {
+    public ResponseEntity<?> getById(@PathVariable("id") long id) throws NoUserFoundException {
+        if (id < 0 || !service.existsById(id)) {
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok(repo.getUserById(id));
+        return ResponseEntity.ok(service.getUserById(id));
     }
 
     /**
      * path to get a specific user's username given its id
+     *
      * @param id of the user
      * @return the username of the user with the given id
      */
     @GetMapping("/{id}/username")
-    public ResponseEntity<?> getUsernameById(@PathVariable("id") long id) throws UserRepository.NoUserFoundException {
-        if (id < 0 || !repo.existsById(id)) {
+    public ResponseEntity<?> getUsernameById(@PathVariable("id") long id)
+            throws NoUserFoundException {
+        if (id < 0 || !service.existsById(id)) {
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok(repo.getUserById(id).getUsername());
+        return ResponseEntity.ok(service.getUserById(id).getUsername());
     }
 
     /**
      * path to get a specific user's email given its id
+     *
      * @param id of the user
      * @return the email of the user with the given id
      */
     @GetMapping("/{id}/email")
-    public ResponseEntity<?> getEmailById(@PathVariable("id") long id) throws UserRepository.NoUserFoundException {
-        if (id < 0 || !repo.existsById(id)) {
+    public ResponseEntity<?> getEmailById(@PathVariable("id") long id)
+            throws NoUserFoundException {
+        if (id < 0 || !service.existsById(id)) {
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok(repo.getUserById(id).getEmail());
+        return ResponseEntity.ok(service.getUserById(id).getEmail());
     }
 
     /**
      * path to get a specific user's server URL given its id
+     *
      * @param id of the user
      * @return the server URL of the user with the given id
      */
     @GetMapping("/{id}/server")
-    public ResponseEntity<?> getServerById(@PathVariable("id") long id) throws UserRepository.NoUserFoundException {
-        if (id < 0 || !repo.existsById(id)) {
+    public ResponseEntity<?> getServerById(@PathVariable("id") long id)
+            throws NoUserFoundException {
+        if (id < 0 || !service.existsById(id)) {
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok(repo.getUserById(id).getServerURL());
+        return ResponseEntity.ok(service.getUserById(id).getServerURL());
     }
 
     /**
      * path to get a specific user's IBAN given its id
+     *
      * @param id of the user
      * @return the IBAN of the user with the given id
      */
     @GetMapping("/{id}/iban")
-    public ResponseEntity<?> getIBANById(@PathVariable("id") long id) throws UserRepository.NoUserFoundException {
-        if (id < 0 || !repo.existsById(id)) {
+    public ResponseEntity<?> getIBANById(@PathVariable("id") long id)
+            throws NoUserFoundException {
+        if (id < 0 || !service.existsById(id)) {
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok(repo.getUserById(id).getIBAN());
+        return ResponseEntity.ok(service.getUserById(id).getIban());
     }
 
     /**
      * path to get a specific user's BIC given its id
+     *
      * @param id of the user
      * @return the BIC of the user with the given id
      */
     @GetMapping("/{id}/bic")
-    public ResponseEntity<?> getBICById(@PathVariable("id") long id) throws UserRepository.NoUserFoundException {
-        if (id < 0 || !repo.existsById(id)) {
+    public ResponseEntity<?> getBICById(@PathVariable("id") long id)
+            throws NoUserFoundException {
+        if (id < 0 || !service.existsById(id)) {
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok(repo.getUserById(id).getBIC());
+        return ResponseEntity.ok(service.getUserById(id).getBic());
     }
+
     /**
      * path to get a specific user's money given its id
+     *
      * @param id of the user
      * @return the wallet of the user with the given id
      */
     @GetMapping("/{id}/wallet")
-    public ResponseEntity<?> getWalletById(@PathVariable("id") long id) throws UserRepository.NoUserFoundException {
-        if (id < 0 || !repo.existsById(id)) {
+    public ResponseEntity<?> getWalletById(@PathVariable("id") long id)
+            throws NoUserFoundException {
+        if (id < 0 || !service.existsById(id)) {
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok(repo.getUserById(id).getWallet());
+        return ResponseEntity.ok(service.getUserById(id).getWallet());
     }
 
     /**
      * path to get a specific user's money given its id
+     *
      * @param id of the user
      * @return the wallet of the user with the given id
      */
     @GetMapping("/{id}/debts")
-    public ResponseEntity<?> getDebtsById(@PathVariable("id") long id) throws UserRepository.NoUserFoundException {
-        if (id < 0 || !repo.existsById(id)) {
+    public ResponseEntity<?> getDebtsById(@PathVariable("id") long id)
+            throws NoUserFoundException {
+        if (id < 0 || !service.existsById(id)) {
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok(repo.getUserById(id).getDebts());
+        return ResponseEntity.ok(service.getUserById(id).getDebts());
     }
 
     /**
      * path to get a specific user's expenses given its id
+     *
      * @param id of the user
      * @return the expenses of the user with the given id
      */
     @GetMapping("/{id}/expenses")
-    public ResponseEntity<?> getExpensesById(@PathVariable("id") long id) throws UserRepository.NoUserFoundException {
-        if (id < 0 || !repo.existsById(id)) {
+    public ResponseEntity<?> getExpensesById(@PathVariable("id") long id)
+            throws NoUserFoundException {
+        if (id < 0 || !service.existsById(id)) {
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok(repo.getUserById(id).getExpenses());
+        return ResponseEntity.ok(service.getUserById(id).getExpenses());
     }
 
-    @PostMapping(path = { "", "/" })
+    /**
+     * Add method
+     *
+     * @param user user to add
+     * @return added user
+     */
+    @PostMapping(path = {"", "/"})
     public ResponseEntity<User> add(@RequestBody User user) {
-        if ((user == null) ) {
+        if ((user == null)) {
             return ResponseEntity.badRequest().build();
         }
-        User saved = repo.save(user);
+        User saved = service.save(user);
         return ResponseEntity.ok(saved);
     }
 
-
+    /**
+     * Gets the specified users debts
+     *
+     * @param id id of user
+     * @return users debts or bad request
+     */
+    @GetMapping("{id}/debts")
+    public ResponseEntity<?> getUsersDebt(@PathVariable("id") long id)
+            throws NoUserFoundException {
+        if (!service.existsById(id)) {
+            ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(service.getUsersDebt(id));
+    }
 }

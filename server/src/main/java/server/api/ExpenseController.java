@@ -14,10 +14,12 @@
  * limitations under the License.
  */
 package server.api;
+
 import commons.Expense;
+import commons.exceptions.NoSuchExpenseException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import server.database.ExpenseRepository;
+import server.service.ExpenseService;
 
 import java.util.List;
 import java.util.Random;
@@ -27,41 +29,89 @@ import java.util.Random;
 public class ExpenseController {
 
 
-    private final ExpenseRepository repo;
+    private final ExpenseService service;
     private final Random random;
 
-    public ExpenseController(Random random, ExpenseRepository repo) {
+    /**
+     * Constructor
+     *
+     * @param random  random
+     * @param service ExpenseService
+     */
+    public ExpenseController(Random random, ExpenseService service) {
         this.random = random;
-        this.repo = repo;
+        this.service = service;
     }
 
-    @GetMapping(path = { "", "/" })
+    /**
+     * Get method
+     *
+     * @return all expenses
+     */
+    @GetMapping(path = {"", "/"})
     public List<Expense> getAll() {
-        return repo.findAll();
+        return service.findAll();
     }
 
+    /**
+     * Get method
+     *
+     * @param id id of expense
+     * @return expense with the specified id
+     */
     @GetMapping("/{id}")
     public ResponseEntity<Expense> getById(@PathVariable("id") long id) {
-        if (id < 0 || !repo.existsById(id)) {
+        if (id < 0 || !service.existsById(id)) {
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok(repo.findById(id).get());
+        return ResponseEntity.ok(service.findById(id).get());
     }
 
-    @PostMapping(path = { "", "/" })
+    /**
+     * Post method
+     *
+     * @param expense to add
+     * @return added expense or bad request
+     */
+    @PostMapping(path = {"", "/"})
     public ResponseEntity<Expense> add(@RequestBody Expense expense) {
-        if ((expense == null) ) {
+        if ((expense == null)) {
             return ResponseEntity.badRequest().build();
         }
 
-        Expense saved = repo.save(expense);
+        Expense saved = service.save(expense);
         return ResponseEntity.ok(saved);
     }
 
+    /**
+     * Get method
+     *
+     * @return random expense
+     */
     @GetMapping("random")
     public ResponseEntity<Expense> getRandom() {
-        var expenses = repo.findAll();
-        var idx = random.nextInt((int) repo.count());
+        var expenses = service.findAll();
+        var idx = random.nextInt((int) service.count());
         return ResponseEntity.ok(expenses.get(idx));
+    }
+
+    /**
+     * Updates the name of an existing expense with the given id
+     * to be renamed to the given newName
+     *
+     * @param id      expense id
+     * @param newName the new name of the expense
+     * @return expense with the changed name or bad request
+     */
+    @PutMapping("/{id}/name")
+    public ResponseEntity<Expense> updateExpenseName(@PathVariable("id") long id,
+                                                     @RequestParam("name") String newName) {
+        try {
+            Expense newNamedExpense = service.updateExpenseName(id, newName);
+            return ResponseEntity.ok(newNamedExpense);
+        } catch (NoSuchExpenseException e) {
+            return ResponseEntity.badRequest().build();
+        }
+
     }
 }

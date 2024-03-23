@@ -18,6 +18,7 @@ class ExpenseTest {
         assertEquals(3.29, expense.getAmount());
         assertEquals(payingParticipants, expense.getPayingParticipants());
         assertEquals(user, expense.getPayer());
+        assertEquals(0, expense.getId());
     }
 
     @Test
@@ -25,6 +26,13 @@ class ExpenseTest {
         Expense expense = new Expense("Drinks", 3.29);
         assertEquals("Drinks", expense.getName());
         assertEquals(3.29, expense.getAmount());
+    }
+
+    @Test
+    void emptyConstructorTest() {
+        Expense expense = new Expense();
+        assertEquals(null, expense.getName());
+        assertEquals(0, expense.getAmount());
     }
 
     @Test
@@ -44,11 +52,18 @@ class ExpenseTest {
 
 
     @Test
-    void setPayer() {
+    void testSetPayer() {
         User user = new User("ivan","test");
         Expense expense = new Expense("Drinks", 3.29);
         expense.setPayer(user);
         assertEquals(user,expense.getPayer());
+    }
+
+    @Test
+    void testSetId() {
+        Expense expense = new Expense("Drinks", 3.29);
+        expense.setId(1);
+        assertEquals(1,expense.getId());
     }
 
     @Test

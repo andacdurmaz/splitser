@@ -14,7 +14,7 @@ public class ExpenseControllerTest {
 
     public int nextInt;
 //    private ExpenseControllerTest.MyRandom random;
-    private TestExpenseRepository repo;
+    private ExpenseRepositoryTest repo;
 
     private ExpenseController sut;
 
