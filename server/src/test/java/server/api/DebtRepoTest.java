@@ -25,6 +25,7 @@ public class DebtRepoTest implements DebtRepository {
 
     /**
      * Setter method
+     *
      * @param debts set debts
      */
     public void saveAll(List<Debt> debts) {
@@ -33,6 +34,7 @@ public class DebtRepoTest implements DebtRepository {
 
     /**
      * Getter method
+     *
      * @return called methods
      */
     public List<String> getCalledMethods() {
@@ -42,24 +44,25 @@ public class DebtRepoTest implements DebtRepository {
     private void call(String name) {
         calledMethods.add(name);
     }
+
     private Optional<Debt> find(User payer, User payee) {
         return debts.stream().filter(q -> q.getPayer().equals(payer) && q.getPayee().equals(payee)).findFirst();
     }
 
     private Optional<Debt> find(long id) {
-        return debts.stream().filter(q -> q.getId() ==id).findFirst();
+        return debts.stream().filter(q -> q.getId() == id).findFirst();
     }
 
 
     @Override
     public boolean existsByPayerAndPayee(User payer_id, User payee_id) {
-        return find(payer_id,payee_id).isPresent();
+        return find(payer_id, payee_id).isPresent();
     }
 
 
     @Override
     public Debt getDebtByPayerAndPayee(User payer, User payee) throws NoDebtFoundException {
-            // Check if the debt exists for the given payer and payee
+        // Check if the debt exists for the given payer and payee
         if (!existsByPayerAndPayee(payer, payee))
             return null;
         return find(payer, payee).get();
@@ -86,6 +89,17 @@ public class DebtRepoTest implements DebtRepository {
         return find(id).get();
     }
 
+    /**
+     * gets a list of all debts by the payer
+     *
+     * @param payee payee of all the debts
+     * @return list of debts
+     */
+    @Override
+    public List<Debt> getDebtsByPayee(User payee) {
+        return null;
+    }
+
     @Override
     public User getPayerById(long id) throws NoDebtFoundException {
         if (!existsById(id))
@@ -109,23 +123,23 @@ public class DebtRepoTest implements DebtRepository {
 
     @Override
     public User getPayerByPayerAndPayee(User payer_id, User payee_id) throws NoDebtFoundException {
-        if (!existsByPayerAndPayee(payer_id,payee_id))
+        if (!existsByPayerAndPayee(payer_id, payee_id))
             throw new NoDebtFoundException();
-        return find(payer_id,payee_id).get().getPayer();
+        return find(payer_id, payee_id).get().getPayer();
     }
 
     @Override
     public User getPayeeByPayerAndPayee(User payer_id, User payee_id) throws NoDebtFoundException {
         if (!existsByPayerAndPayee(payer_id, payee_id))
             throw new NoDebtFoundException();
-        return find(payer_id,payee_id).get().getPayee();
+        return find(payer_id, payee_id).get().getPayee();
     }
 
     @Override
     public Double getAmoungByPayerAndPayee(User payer_id, User payee_id) throws NoDebtFoundException {
-        if (!existsByPayerAndPayee(payer_id,payee_id))
+        if (!existsByPayerAndPayee(payer_id, payee_id))
             throw new NoDebtFoundException();
-        return find(payer_id,payee_id).get().getAmount();
+        return find(payer_id, payee_id).get().getAmount();
     }
 
     @Override
@@ -224,7 +238,7 @@ public class DebtRepoTest implements DebtRepository {
     @Override
     public <S extends Debt> List<S> saveAll(Iterable<S> entities) {
 // Clear the existing debts and add the new ones
-        debts =  new ArrayList<>();
+        debts = new ArrayList<>();
         entities.forEach(debts::add);
         // Return the saved entities (in this case, just echoing back the input entities)
         List<S> savedEntities = new ArrayList<>();

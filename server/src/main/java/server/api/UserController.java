@@ -208,4 +208,18 @@ public class UserController {
         return ResponseEntity.ok(saved);
     }
 
+    /**
+     * Gets the specified users debts
+     *
+     * @param id id of user
+     * @return users debts or bad request
+     */
+    @GetMapping("{id}/debts")
+    public ResponseEntity<?> getUsersDebt(@PathVariable("id") long id)
+            throws NoUserFoundException {
+        if (!service.existsById(id)) {
+            ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(service.getUsersDebt(id));
+    }
 }
