@@ -17,7 +17,7 @@ import java.util.function.Function;
 public interface ExpenseTagRepository extends JpaRepository<ExpenseTag, Long> {
 
     /**
-     *
+     * flush method for the repository
      */
     @Override
     default void flush() {
@@ -25,7 +25,7 @@ public interface ExpenseTagRepository extends JpaRepository<ExpenseTag, Long> {
     }
 
     /**
-     *
+     * save and flush method for the repository
      * @param entity entity to be saved. Must not be {@literal null}.
      * @return
      * @param <S>
@@ -36,7 +36,7 @@ public interface ExpenseTagRepository extends JpaRepository<ExpenseTag, Long> {
     }
 
     /**
-     *
+     * saves all
      * @param entities entities to be saved. Must not be {@literal null}.
      * @return
      * @param <S>
@@ -47,7 +47,7 @@ public interface ExpenseTagRepository extends JpaRepository<ExpenseTag, Long> {
     }
 
     /**
-     *
+     * deletes all entities in the batch
      * @param entities entities to be deleted. Must not be {@literal null}.
      */
     @Override
@@ -56,7 +56,7 @@ public interface ExpenseTagRepository extends JpaRepository<ExpenseTag, Long> {
     }
 
     /**
-     *
+     * deletes all entities in the batch by id
      * @param longs the ids of the entities to be deleted. Must not be {@literal null}.
      */
     @Override
@@ -65,7 +65,7 @@ public interface ExpenseTagRepository extends JpaRepository<ExpenseTag, Long> {
     }
 
     /**
-     *
+     * deletes all entities in the batch by id
      */
     @Override
     default void deleteAllInBatch() {
@@ -73,7 +73,7 @@ public interface ExpenseTagRepository extends JpaRepository<ExpenseTag, Long> {
     }
 
     /**
-     *
+     * returns a random expense Tag
      * @param aLong must not be {@literal null}.
      * @return
      */
@@ -83,7 +83,7 @@ public interface ExpenseTagRepository extends JpaRepository<ExpenseTag, Long> {
     }
 
     /**
-     *
+     * returns an expense tag by its id
      * @param aLong must not be {@literal null}.
      * @return
      */
@@ -93,7 +93,7 @@ public interface ExpenseTagRepository extends JpaRepository<ExpenseTag, Long> {
     }
 
     /**
-     *
+     * returns a expense tag by its id
      * @param aLong must not be {@literal null}.
      * @return
      */
@@ -103,7 +103,7 @@ public interface ExpenseTagRepository extends JpaRepository<ExpenseTag, Long> {
     }
 
     /**
-     *
+     * finds all entities in the repository
      * @param example must not be {@literal null}.
      * @return
      * @param <S>
@@ -114,7 +114,7 @@ public interface ExpenseTagRepository extends JpaRepository<ExpenseTag, Long> {
     }
 
     /**
-     *
+     * finds all entities in the repository
      * @param example must not be {@literal null}.
      * @param sort the {@link Sort} specification to sort the results by,
      *             may be {@link Sort#unsorted()}, must not be
@@ -128,7 +128,7 @@ public interface ExpenseTagRepository extends JpaRepository<ExpenseTag, Long> {
     }
 
     /**
-     *
+     * saves all entities in the database
      * @param entities must not be {@literal null} nor must it contain {@literal null}.
      * @return
      * @param <S>
@@ -139,7 +139,7 @@ public interface ExpenseTagRepository extends JpaRepository<ExpenseTag, Long> {
     }
 
     /**
-     *
+     * finds all entites in the database
      * @return
      */
     @Override
@@ -148,7 +148,7 @@ public interface ExpenseTagRepository extends JpaRepository<ExpenseTag, Long> {
     }
 
     /**
-     *
+     * finds all entities in the database by their id
      * @param longs must not be {@literal null} nor contain any {@literal null} values.
      * @return
      */
@@ -158,7 +158,7 @@ public interface ExpenseTagRepository extends JpaRepository<ExpenseTag, Long> {
     }
 
     /**
-     *
+     * saves an entity in the database
      * @param entity must not be {@literal null}.
      * @return
      * @param <S>
@@ -169,7 +169,7 @@ public interface ExpenseTagRepository extends JpaRepository<ExpenseTag, Long> {
     }
 
     /**
-     *
+     * finds an expense tag by its id
      * @param aLong must not be {@literal null}.
      * @return
      */
@@ -179,7 +179,7 @@ public interface ExpenseTagRepository extends JpaRepository<ExpenseTag, Long> {
     }
 
     /**
-     *
+     * returns a true false statement whether an entity exists in the database
      * @param aLong must not be {@literal null}.
      * @return
      */
@@ -189,7 +189,7 @@ public interface ExpenseTagRepository extends JpaRepository<ExpenseTag, Long> {
     }
 
     /**
-     *
+     * returns the count of the records in the database
      * @return
      */
     @Override
@@ -198,7 +198,7 @@ public interface ExpenseTagRepository extends JpaRepository<ExpenseTag, Long> {
     }
 
     /**
-     *
+     * deletes an entity by its id
      * @param aLong must not be {@literal null}.
      */
     @Override
@@ -207,7 +207,7 @@ public interface ExpenseTagRepository extends JpaRepository<ExpenseTag, Long> {
     }
 
     /**
-     *
+     * deletes an expense tag
      * @param entity must not be {@literal null}.
      */
     @Override
@@ -216,7 +216,7 @@ public interface ExpenseTagRepository extends JpaRepository<ExpenseTag, Long> {
     }
 
     /**
-     *
+     * delete a list of entities
      * @param longs must not be {@literal null}. Must not contain {@literal null} elements.
      */
     @Override
@@ -225,7 +225,7 @@ public interface ExpenseTagRepository extends JpaRepository<ExpenseTag, Long> {
     }
 
     /**
-     *
+     * deletes entities
      * @param entities must not be {@literal null}. Must not contain {@literal null} elements.
      */
     @Override
@@ -234,7 +234,7 @@ public interface ExpenseTagRepository extends JpaRepository<ExpenseTag, Long> {
     }
 
     /**
-     *
+     * deletes all entities
      */
     @Override
     default void deleteAll() {
@@ -242,7 +242,7 @@ public interface ExpenseTagRepository extends JpaRepository<ExpenseTag, Long> {
     }
 
     /**
-     *
+     * finds all entities and returns them in a sorted list
      * @param sort the {@link Sort} specification to sort the results by,
      *             can be {@link Sort#unsorted()}, must not be
      *          {@literal null}.
@@ -254,7 +254,7 @@ public interface ExpenseTagRepository extends JpaRepository<ExpenseTag, Long> {
     }
 
     /**
-     *
+     * returns a pageable result of the entities
      * @param pageable the pageable to request a paged result,
      *                can be {@link Pageable#unpaged()}, must not be
      *          {@literal null}.
@@ -266,7 +266,7 @@ public interface ExpenseTagRepository extends JpaRepository<ExpenseTag, Long> {
     }
 
     /**
-     *
+     * finds one entity
      * @param example must not be {@literal null}.
      * @return
      * @param <S>
@@ -277,7 +277,7 @@ public interface ExpenseTagRepository extends JpaRepository<ExpenseTag, Long> {
     }
 
     /**
-     *
+     * finds all entities by an example and returns a paged result
      * @param example must not be {@literal null}.
      * @param pageable the pageable to request a paged result,
      *                can be {@link Pageable#unpaged()}, must not be
@@ -291,7 +291,7 @@ public interface ExpenseTagRepository extends JpaRepository<ExpenseTag, Long> {
     }
 
     /**
-     *
+     * returns a count of all entities
      * @param example the {@link Example} to count instances for. Must not be {@literal null}.
      * @return
      * @param <S>
@@ -302,7 +302,7 @@ public interface ExpenseTagRepository extends JpaRepository<ExpenseTag, Long> {
     }
 
     /**
-     *
+     * checks whether an entity exits
      * @param example the {@link Example} to use for
      *               the existence check. Must not be {@literal null}.
      * @return
@@ -314,7 +314,7 @@ public interface ExpenseTagRepository extends JpaRepository<ExpenseTag, Long> {
     }
 
     /**
-     *
+     * finds an entity by a given query
      * @param example must not be {@literal null}.
      * @param queryFunction the query function defining projection, sorting, and the result type
      * @return null

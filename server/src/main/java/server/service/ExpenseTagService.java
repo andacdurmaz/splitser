@@ -30,7 +30,7 @@ public class ExpenseTagService {
     }
 
     /**
-     *
+     * returns all expense tags
      * @return List of ExpenseTag
      */
     public List<ExpenseTag> getAllExpenseTags() {
@@ -38,7 +38,7 @@ public class ExpenseTagService {
     }
 
     /**
-     *
+     * returns an expense tag by its id
      * @param id
      * @return ExpenseTag
      */
@@ -47,7 +47,7 @@ public class ExpenseTagService {
     }
 
     /**
-     *
+     * adds an expense tag to the database
      * @param e
      * @return ReponseEntity of expenseTag
      */
@@ -57,7 +57,7 @@ public class ExpenseTagService {
     }
 
     /**
-     *
+     * updates an expense tag
      * @param id
      * @param newName
      * @param newColour
