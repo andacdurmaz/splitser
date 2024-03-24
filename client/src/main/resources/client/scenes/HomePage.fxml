@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="676.0" prefWidth="880.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.HomePageCtrl">
+<AnchorPane prefHeight="676.0" prefWidth="880.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.HomePageCtrl">
     <children>
         <Label alignment="TOP_CENTER" layoutX="14.0" layoutY="14.0" prefHeight="40.0" prefWidth="120.0" text="Lists" textAlignment="CENTER" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="746.0" AnchorPane.topAnchor="14.0">
             <font>
@@ -18,7 +18,7 @@
         </Button>
         <Label layoutX="74.0" layoutY="81.0" text="Currently there are no events, please click the button on the top right corner to create or join an event" />
         <ListView fx:id="eventsList" layoutX="384.0" layoutY="120.0" prefHeight="200.0" prefWidth="310.0" />
-        <TableView fixedCellSize="1.0" layoutX="74.0" layoutY="120.0" prefHeight="462.0" prefWidth="310.0">
+        <TableView fx:id="table" fixedCellSize="1.0" layoutX="74.0" layoutY="120.0" prefHeight="462.0" prefWidth="310.0">
             <columns>
                 <TableColumn fx:id="event" prefWidth="130.4000244140625" text="Event" />
                 <TableColumn fx:id="eventCode" prefWidth="80.8" text="Event Code" />

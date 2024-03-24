@@ -44,7 +44,7 @@ public class EventControllerTest {
         Event event = new Event("Title", 4, "Description");
         when(eventService.getAllEvents()).thenReturn(List.of(event));
 
-        mockMvc.perform(get("/api/event/all"))
+        mockMvc.perform(get("/api/events/all"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(List.of(event).toString()));
     }
@@ -54,7 +54,7 @@ public class EventControllerTest {
         Event event = new Event("Title", 4, "Description");
         when(eventService.getEventById(1)).thenReturn(event);
 
-        mockMvc.perform(get("/api/event/1"))
+        mockMvc.perform(get("/api/events/1"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(event.toString()));
     }
@@ -65,7 +65,7 @@ public class EventControllerTest {
         Event event = new Event("Title", 4, "Description");
         when(eventService.getEventTitleById(1)).thenReturn((ResponseEntity<String>) ResponseEntity.ok("Title"));
 
-        mockMvc.perform(get("/api/event/1/title"))
+        mockMvc.perform(get("/api/events/1/title"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("Title"));
     }
@@ -86,7 +86,7 @@ public class EventControllerTest {
         Event event = new Event("Title", 4, "Description");
         when(eventService.getExpensesByEventId(1)).thenReturn(List.of());
 
-        mockMvc.perform(get("/api/event/1/expenses"))
+        mockMvc.perform(get("/api/events/1/expenses"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(List.of().toString()));
     }
@@ -97,7 +97,7 @@ public class EventControllerTest {
         Event event = new Event("Title", 4, "Description");
         when(eventService.getDescriptionByEventId(1)).thenReturn((ResponseEntity<String>) ResponseEntity.ok("Description"));
 
-        mockMvc.perform(get("/api/event/1/description"))
+        mockMvc.perform(get("/api/events/1/description"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("Description"));
     }
@@ -107,7 +107,7 @@ public class EventControllerTest {
         Event event = new Event("Title", 4, "Description");
         when(eventService.addEvent(event)).thenReturn((ResponseEntity<Event>) ResponseEntity.ok(event));
 
-        mockMvc.perform(post("/api/event/add")
+        mockMvc.perform(post("/api/events/add")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"id\":0,\"eventCode\":0,\"title\":\"Title\",\"amountOfParticipants\":4,\"expenses\":[],\"description\":\"Description\",\"sumOfExpenses\":0.0}"))
                 .andExpect(status().isOk())
