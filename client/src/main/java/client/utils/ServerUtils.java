@@ -122,7 +122,7 @@ public class ServerUtils extends Util {
      * @return events
      */
     public List<Event> getEvents() {
-        return ClientBuilder.newClient(new ClientConfig()).target(SERVER).path("api/events")
+        return ClientBuilder.newClient(new ClientConfig()).target(SERVER).path("api/events/all")
                 .request(APPLICATION_JSON).accept(APPLICATION_JSON)
                 .get(new GenericType<List<Event>>() {
                 });
