@@ -15,6 +15,7 @@
  */
 package client.scenes;
 
+import client.Main;
 import commons.Event;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -32,6 +33,10 @@ public class MainCtrl {
     private Scene add;
     private EventInfoCtrl eventInfoCtrl;
     private Scene eventInfo;
+    private AdminOverviewCtrl adminOverviewCtrl;
+    private Scene adminOverview;
+    private AdminEventInfoCtrl adminEventInfoCtrl;
+    private Scene adminEventInfo;
 
     /**
      * Initialize mainCtrl
@@ -57,6 +62,20 @@ public class MainCtrl {
 
         showOverview();
         primaryStage.show();
+    }
+
+    /**
+     * Initialize mainCtrl
+     * @param adminOverview Admin overview
+     * @param adminEventInfo Admin event info
+     */
+    public void adminInitilize(Pair<AdminOverviewCtrl,
+            Parent> adminOverview, Pair<AdminEventInfoCtrl, Parent> adminEventInfo) {
+        this.adminOverviewCtrl = adminOverview.getKey();
+        this.adminOverview = new Scene(adminOverview.getValue());
+
+        this.adminEventInfoCtrl = adminEventInfo.getKey();
+        this.adminEventInfo = new Scene(adminEventInfo.getValue());
     }
 
     /**
@@ -86,5 +105,49 @@ public class MainCtrl {
         primaryStage.setTitle(event.getTitle());
         primaryStage.setScene(eventInfo);
         eventInfoCtrl.setEvent(event);
+    }
+
+    /**
+     * Shows AdminOverview
+     */
+    public void showAdminOverview() {
+        primaryStage.setTitle("Admin: Overview");
+        primaryStage.setScene(adminOverview);
+        adminOverviewCtrl.refresh();
+    }
+
+    /**
+     * Shows AdminEventInfo
+     */
+    public void showAdminEventInfo() {
+        primaryStage.setTitle("Admin: Event info");
+        primaryStage.setScene(adminEventInfo);
+        adminOverviewCtrl.refresh();
+    }
+
+    /**
+     * This method gives the AdminEventInfoCtrl the event, which is clicked on
+     * @param event the event which is clicked on in the admin overview
+     */
+    public void setAdminEvent(Event event){
+        adminEventInfoCtrl.setEvent(event);
+    }
+
+
+    /**
+     * creates the login page
+     * public method so that
+     * any page can have the button
+     * and functionality
+     */
+    public void login(){
+        var loginScreen = Main.FXML.load(LoginCtrl.class,
+                "client", "scenes", "Login.fxml");
+
+        LoginCtrl loginCtrl = loginScreen.getKey();
+        Scene loginScreenScene = new Scene(loginScreen.getValue());
+        loginCtrl.returnToMenu();
+        primaryStage.setTitle("Login");
+        primaryStage.setScene(loginScreenScene);
     }
 }

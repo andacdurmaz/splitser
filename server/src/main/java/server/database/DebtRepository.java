@@ -7,9 +7,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
+
 public interface DebtRepository extends JpaRepository<Debt, Long> {
     /**
      * checks if a debt exists given its payer and payee
+     *
      * @param payer of the checked debt
      * @param payee of the checked debt
      * @return true if the debt exists
@@ -18,30 +20,37 @@ public interface DebtRepository extends JpaRepository<Debt, Long> {
 
     /**
      * returns a debt given its payer and payee
+     *
      * @param payer of the debt
      * @param payee of the debt
      * @return the debt
      * @throws NoDebtFoundException if no debt with given info is found
      */
     Debt getDebtByPayerAndPayee(User payer, User payee) throws NoDebtFoundException;
+
     /**
      * returns the payer of a debt given its payer and payee
+     *
      * @param payer of the debt
      * @param payee of the debt
      * @return the payer
      * @throws NoDebtFoundException if no debt with given info is found
      */
     User getPayerByPayerAndPayee(User payer, User payee) throws NoDebtFoundException;
+
     /**
      * returns the payee of a debt given its payer and payee
+     *
      * @param payer of the debt
      * @param payee of the debt
      * @return the payee
      * @throws NoDebtFoundException if no debt with given info is found
      */
     User getPayeeByPayerAndPayee(User payer, User payee) throws NoDebtFoundException;
+
     /**
      * returns the amount of a debt given its payer and payee
+     *
      * @param payer of the debt
      * @param payee of the debt
      * @return the amount
@@ -51,6 +60,7 @@ public interface DebtRepository extends JpaRepository<Debt, Long> {
 
     /**
      * deletes a debt given its payer and payee
+     *
      * @param payer of the debt
      * @param payee of the debt
      * @throws NoDebtFoundException if no debt with given info is found
@@ -60,6 +70,7 @@ public interface DebtRepository extends JpaRepository<Debt, Long> {
 
     /**
      * checks if a debt exists given its id
+     *
      * @param id of the debt
      * @return true if the debt exists
      */
@@ -67,6 +78,7 @@ public interface DebtRepository extends JpaRepository<Debt, Long> {
 
     /**
      * gets a debt given its id
+     *
      * @param id of the debt
      * @return the debt
      * @throws NoDebtFoundException if the debt given id doesn't exist
@@ -74,21 +86,34 @@ public interface DebtRepository extends JpaRepository<Debt, Long> {
     Debt getDebtById(long id) throws NoDebtFoundException;
 
     /**
+     * gets a list of all debts by the payer
+     *
+     * @param payee payee of all the debts
+     * @return list of debts
+     */
+    List<Debt> getDebtsByPayee(User payee);
+
+    /**
      * gets the payer of a debt given its id
+     *
      * @param id of the debt
      * @return the payer
      * @throws NoDebtFoundException if the debt given id doesn't exist
      */
     User getPayerById(long id) throws NoDebtFoundException;
+
     /**
      * gets the payee of a debt given its id
+     *
      * @param id of the debt
      * @return the payee
      * @throws NoDebtFoundException if the debt given id doesn't exist
      */
     User getPayeeById(long id) throws NoDebtFoundException;
+
     /**
      * gets the amount of a debt given its id
+     *
      * @param id of the debt
      * @return the amount
      * @throws NoDebtFoundException if the debt given id doesn't exist
@@ -97,21 +122,10 @@ public interface DebtRepository extends JpaRepository<Debt, Long> {
 
     /**
      * deletes a debt given its id
+     *
      * @param id of the debt
      * @throws NoDebtFoundException thrown if no such debt exists
      */
     void deleteById(long id) throws NoDebtFoundException;
 
-    /**
-     * getter method for the debts in the repository
-     * @return debts
-     */
-    List<Debt> getDebts();
-
-    /***
-     * setter method for the debts in the repository
-     * @param list the new list of the debts
-     */
-
-    void setDebts(List<Debt> list);
 }

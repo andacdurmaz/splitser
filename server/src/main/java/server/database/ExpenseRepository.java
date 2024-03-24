@@ -15,15 +15,19 @@
  */
 
 package server.database;
+
 import commons.Expense;
 import commons.User;
+
 import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ExpenseRepository extends JpaRepository<Expense, Long>  {
+public interface ExpenseRepository extends JpaRepository<Expense, Long> {
 
     /**
-//     * gets expense by its id
+     * gets expense by its id
+     *
      * @param id
      * @return Expense
      */
@@ -31,6 +35,7 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long>  {
 
     /**
      * returns the name of the expense by its id
+     *
      * @param id
      * @return the name of type String
      */
@@ -38,6 +43,7 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long>  {
 
     /**
      * returns the amount of the expense by its id
+     *
      * @param id
      * @return the amount of type double
      */
@@ -45,6 +51,7 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long>  {
 
     /**
      * returns a list of the participants of the expense
+     *
      * @param id
      * @return List of type User
      */
