@@ -24,6 +24,8 @@ public class Expense {
     @ManyToOne()
     private Event event;
 
+    @ManyToOne()
+    private ExpenseTag expenseTag;
     /**
      * Constructor for mapping
      */
