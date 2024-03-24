@@ -15,6 +15,7 @@
  */
 package client.scenes;
 
+import client.Main;
 import commons.Event;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -132,4 +133,21 @@ public class MainCtrl {
         adminEventInfoCtrl.setEvent(event);
     }
 
+
+    /**
+     * creates the login page
+     * public method so that
+     * any page can have the button
+     * and functionality
+     */
+    public void login(){
+        var loginScreen = Main.FXML.load(LoginCtrl.class,
+                "client", "scenes", "Login.fxml");
+
+        LoginCtrl loginCtrl = loginScreen.getKey();
+        Scene loginScreenScene = new Scene(loginScreen.getValue());
+        loginCtrl.returnToMenu();
+        primaryStage.setTitle("Login");
+        primaryStage.setScene(loginScreenScene);
+    }
 }
