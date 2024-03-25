@@ -28,7 +28,7 @@ public class MainCtrl {
     private StartPageCtrl startPageCtrl;
     private Scene startPage;
 
-    private HomePageCtrl homePageCtrl;
+    private EventOverviewCtrl eventOverviewCtrl;
     private Scene overview;
 
     private AddEventCtrl addCtrl;
@@ -52,7 +52,7 @@ public class MainCtrl {
      */
     public void initialize(Stage primaryStage,
                            Pair<StartPageCtrl, Parent> startPage,
-                           Pair<HomePageCtrl, Parent> overview,
+                           Pair<EventOverviewCtrl, Parent> overview,
                            Pair<AddEventCtrl, Parent> add,
                            Pair<EventInfoCtrl, Parent> eventInfo) {
         this.primaryStage = primaryStage;
@@ -60,7 +60,7 @@ public class MainCtrl {
         this.startPageCtrl = startPage.getKey();
         this.startPage = new Scene(startPage.getValue());
 
-        this.homePageCtrl = overview.getKey();
+        this.eventOverviewCtrl = overview.getKey();
         this.overview = new Scene(overview.getValue());
 
         this.addCtrl = add.getKey();

@@ -51,7 +51,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws IOException {
 
         var startPage = FXML.load(StartPageCtrl.class, "client", "scenes", "StartPage.fxml");
-        var overview = FXML.load(HomePageCtrl.class, "client", "scenes", "HomePage.fxml");
+        var overview = FXML.load(EventOverviewCtrl.class, "client", "scenes", "EventOverview.fxml");
         var add = FXML.load(AddEventCtrl.class, "client", "scenes", "AddEvent.fxml");
         var eventInfo = FXML.load(EventInfoCtrl.class, "client", "scenes", "EventInfo.fxml");
         var adminOverview = FXML.load(AdminOverviewCtrl.class, "client",
