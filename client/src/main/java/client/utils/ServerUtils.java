@@ -53,7 +53,7 @@ public class ServerUtils extends Util {
      */
     public void setSession() {
         //session = connect("ws://localhost:8080/websocket");
-        session = connect("ws://" + address + "/websocket");
+        session = connect("ws://localhost:8080/websocket");
     }
 
     /**
@@ -122,7 +122,8 @@ public class ServerUtils extends Util {
      * @return events
      */
     public List<Event> getEvents() {
-        return ClientBuilder.newClient(new ClientConfig()).target(SERVER).path("api/events/all")
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).path("api/events/all")
                 .request(APPLICATION_JSON).accept(APPLICATION_JSON)
                 .get(new GenericType<List<Event>>() {
                 });

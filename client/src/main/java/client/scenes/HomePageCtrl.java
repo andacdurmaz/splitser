@@ -3,6 +3,7 @@ package client.scenes;
 import com.google.inject.Inject;
 import client.utils.ServerUtils;
 import commons.Event;
+import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -67,6 +68,9 @@ public class HomePageCtrl implements Initializable {
                 new SimpleStringProperty(q.getValue().getDescription()));
 //         Listen for changes to the items in the ListView,
 //         if there are events make the label invisible
+        server.registerForSocketMessages("api/events/all", Event.class, a -> {
+            Platform.runLater(() -> refresh());
+        });
         eventsList.getItems().addListener((InvalidationListener) observable ->
                 updateLabelVisibility());
         eventsList.setOnMouseClicked(this::onEventClicked);
@@ -114,7 +118,7 @@ public class HomePageCtrl implements Initializable {
      * deprecated
      */
     public void login(){
-        mainCtrl.login();
+        loginButton.setOnAction(event1 ->  mainCtrl.login());
     }
 
     /**

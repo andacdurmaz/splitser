@@ -16,7 +16,7 @@ public class AdminUtils extends Util{
      * @return whether login was successful or not
      */
     public boolean checkCredentials(String userName, String password) {
-        Response response = clientBuilder
+        var response = clientBuilder
                 .target(serverAddress)
                 .path("api/servers/login")
                 .request(APPLICATION_JSON)
