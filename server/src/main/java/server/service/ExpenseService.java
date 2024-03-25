@@ -1,7 +1,6 @@
 package server.service;
 
 import commons.Expense;
-import commons.exceptions.NoSuchExpenseException;
 import org.springframework.stereotype.Service;
 import server.database.ExpenseRepository;
 
@@ -72,7 +71,7 @@ public class ExpenseService {
     /**
      * Updates the name of the expense with the given id to be the given name
      *
-     * @param id      expense id
+     * @param id         expense id
      * @param oldExpense expense to update
      * @return updated expense
      */

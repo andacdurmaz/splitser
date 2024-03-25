@@ -16,7 +16,6 @@
 package server.api;
 
 import commons.Expense;
-import commons.exceptions.NoSuchExpenseException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.service.ExpenseService;
@@ -73,7 +72,7 @@ public class ExpenseController {
      * @param expense to add
      * @return added expense or bad request
      */
-    @PostMapping("/addExpense")
+    @PostMapping("/add")
     public ResponseEntity<Expense> add(@RequestBody Expense expense) {
         if ((expense == null)) {
             return ResponseEntity.badRequest().build();
@@ -103,7 +102,7 @@ public class ExpenseController {
      * @param expense expense to edit
      * @return updated expense or bad request
      */
-    @PutMapping("/updateExpense/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<Expense> updateExpense(@PathVariable("id") long id,
                                                  @RequestBody Expense expense) {
         if (!service.existsById(id)) {

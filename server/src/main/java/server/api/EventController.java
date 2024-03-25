@@ -3,7 +3,6 @@ package server.api;
 import commons.Event;
 import commons.Expense;
 import commons.User;
-import commons.exceptions.NoSuchEventException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -115,7 +114,7 @@ public class EventController {
      * @param event event to update
      * @return the updated event or bad request
      */
-    @PutMapping("/updateEvent/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<Event> updateEvent(@PathVariable("id") long id,
                                              @RequestBody Event event) {
         if (!eventService.existsById(id)) {

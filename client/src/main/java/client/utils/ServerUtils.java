@@ -138,7 +138,7 @@ public class ServerUtils extends Util {
      */
     public void addEvent(Event event) {
         ClientBuilder.newClient(new ClientConfig()) //
-                .target(SERVER).path("api/events/addEvent") //
+                .target(SERVER).path("api/events/add") //
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
                 .post(Entity.entity(event, APPLICATION_JSON), Event.class);
@@ -152,7 +152,7 @@ public class ServerUtils extends Util {
     public void addExpense(Expense expense) {
         ClientBuilder.newClient(new ClientConfig())
                 .target(SERVER)
-                .path("api/expenses/addExpense")
+                .path("api/expenses/add")
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .post(Entity.entity(expense, APPLICATION_JSON), Expense.class);
@@ -166,7 +166,7 @@ public class ServerUtils extends Util {
     public void updateExpense(Expense expense) {
         ClientBuilder.newClient(new ClientConfig())
                 .target(SERVER)
-                .path("api/expenses/updateExpense/" + expense.getId())
+                .path("api/expenses/update/" + expense.getId())
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .put(Entity.entity(expense, APPLICATION_JSON), Expense.class);
@@ -180,7 +180,7 @@ public class ServerUtils extends Util {
     public void updateEvent(Event event) {
         ClientBuilder.newClient(new ClientConfig())
                 .target(SERVER)
-                .path("api/events/updateEvent/" + event.getId())
+                .path("api/events/update/" + event.getId())
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .put(Entity.entity(event, APPLICATION_JSON), Event.class);
