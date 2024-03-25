@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
 
-import commons.Event;
+import commons.*;
 import org.glassfish.jersey.client.ClientConfig;
 
 import commons.Quote;
@@ -132,14 +132,25 @@ public class ServerUtils extends Util {
      * Adds event
      *
      * @param event event to add
-     * @return added event
      */
-    public Event addEvent(Event event) {
-        return ClientBuilder.newClient(new ClientConfig()) //
-                .target(SERVER).path("api/events") //
+    public void addEvent(Event event) {
+        ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("api/events/add") //
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
                 .post(Entity.entity(event, APPLICATION_JSON), Event.class);
+    }
+
+    /**
+     * Adds expense
+     * @param expense to add
+     */
+    public void addExpense(Expense expense) {
+        ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).path("api/expenses/addOrEdit")
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .post(Entity.entity(expense, APPLICATION_JSON), Expense.class);
     }
 
     /**
