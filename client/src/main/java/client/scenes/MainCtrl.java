@@ -26,6 +26,7 @@ public class MainCtrl {
 
     private Stage primaryStage;
     private StartPageCtrl startPageCtrl;
+    private Scene startPage;
 
     private HomePageCtrl homePageCtrl;
     private Scene overview;
@@ -42,7 +43,7 @@ public class MainCtrl {
 
     /**
      * Initialize mainCtrl
-     * @param startPage
+     * @param startPage    start page
      * @param primaryStage stage
      * @param overview     ow
      * @param add          add
@@ -50,14 +51,16 @@ public class MainCtrl {
      */
     public void initialize(Stage primaryStage,
                            Pair<StartPageCtrl, Parent> startPage,
-                            Pair<HomePageCtrl,
-            Parent> overview, Pair<AddEventCtrl, Parent> add,
+                            Pair<HomePageCtrl, Parent> overview,
+                           Pair<AddEventCtrl, Parent> add,
                            Pair<EventInfoCtrl, Parent> eventInfo) {
         this.primaryStage = primaryStage;
 
         this.startPageCtrl = startPage.getKey();
+        this.startPage = new Scene(startPage.getValue());
+
         this.homePageCtrl = overview.getKey();
-        this.overview = new Scene(startPage.getValue());
+        this.overview = new Scene(overview.getValue());
 
         this.addCtrl = add.getKey();
         this.add = new Scene(add.getValue());
@@ -66,7 +69,7 @@ public class MainCtrl {
         this.eventInfoCtrl = eventInfo.getKey();
         this.eventInfo = new Scene(eventInfo.getValue());
 
-        showOverview();
+        showStartPage();
         primaryStage.show();
     }
 
@@ -86,6 +89,11 @@ public class MainCtrl {
 
     }
 
+    public void showStartPage() {
+        primaryStage.setTitle("Home");
+        primaryStage.setScene(startPage);
+        startPageCtrl.refresh();
+    }
 
     /**
      * Shows Homepage
