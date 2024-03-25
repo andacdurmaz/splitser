@@ -227,6 +227,17 @@ public class EventRepositoryTest implements EventRepository{
     }
 
     /**
+     * Checks if the event with this ID exists
+     *
+     * @param id id to check
+     * @return true if event with the given ID exists, false otherwise
+     */
+    @Override
+    public Boolean existsById(long id) {
+        return null;
+    }
+
+    /**
      * gets the creator of a certain event
      *
      * @param id of the event
