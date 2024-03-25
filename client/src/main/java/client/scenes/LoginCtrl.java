@@ -15,8 +15,6 @@ import java.util.ResourceBundle;
 public class LoginCtrl implements Initializable {
     @FXML
     private AnchorPane root;
-
-
     @FXML
     private TextField adminNameField;
     @FXML
@@ -46,7 +44,7 @@ public class LoginCtrl implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        root.getStylesheets().add("client/css/main.css");
+        //root.getStylesheets().add("client/css/main.css");
 
         passwordAddressField.setOnKeyPressed(action -> {
             if (action.getCode().equals(KeyCode.ENTER)){

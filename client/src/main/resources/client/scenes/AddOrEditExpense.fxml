@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.AddOrEditExpenseCtrl">
+    <children>
+        <Label layoutX="204.0" layoutY="14.0" text="Add/Edit Expense">
+            <font>
+                <Font size="25.0" />
+            </font>
+        </Label>
+        <Label layoutX="55.0" layoutY="191.0" prefHeight="18.0" prefWidth="42.0" text="When?" />
+        <Label layoutX="50.0" layoutY="63.0" text="What for?" />
+        <Label layoutX="47.0" layoutY="107.0" text="Who paid?" />
+        <Label layoutX="45.0" layoutY="151.0" text="How much?" />
+        <Label layoutX="39.0" layoutY="235.0" text="How To Split?" />
+        <ComboBox layoutX="151.0" layoutY="103.0" prefWidth="150.0" promptText="Payer" />
+        <DatePicker layoutX="151.0" layoutY="187.0" prefHeight="26.0" prefWidth="150.0" />
+        <ComboBox layoutX="314.0" layoutY="147.0" prefHeight="26.0" prefWidth="97.0" promptText="Currency" />
+        <TextField layoutX="151.0" layoutY="59.0" text="Activity" />
+        <TextField layoutX="151.0" layoutY="147.0" text="Cost" />
+        <Label layoutX="40.0" layoutY="322.0" text="Expense Type" />
+        <ComboBox layoutX="151.0" layoutY="318.0" prefWidth="150.0" />
+        <Button layoutX="543.0" layoutY="351.0" mnemonicParsing="false" text="Ok" />
+        <Button layoutX="478.0" layoutY="351.0" mnemonicParsing="false" text="Cancel" />
+    </children>
+</AnchorPane>

@@ -1,52 +1,50 @@
 package client.scenes;
 
-import com.google.inject.Inject;
 import client.utils.ServerUtils;
-import commons.Event;
+import commons.Expense;
 import jakarta.ws.rs.WebApplicationException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.TextField;
-import javafx.scene.input.KeyEvent;
+import javafx.scene.control.Button;
 import javafx.stage.Modality;
 
-public class AddEventCtrl {
+import javax.inject.Inject;
 
+import javafx.scene.input.KeyEvent;
+
+public class AddOrEditExpenseCtrl {
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
 
     @FXML
-    private TextField title;
-
+    private Button ok;
 
     /**
-     * Inject method
+     * Constructor
      *
-     * @param server   server
+     * @param server   serverUtils
      * @param mainCtrl mainCtrl
      */
     @Inject
-    public AddEventCtrl(ServerUtils server, MainCtrl mainCtrl) {
-        this.mainCtrl = mainCtrl;
+    public AddOrEditExpenseCtrl(ServerUtils server, MainCtrl mainCtrl) {
         this.server = server;
-
+        this.mainCtrl = mainCtrl;
     }
 
     /**
-     * Cancel method, returns from adding an event
+     * Cancel add/edit
      */
     public void cancel() {
         clearFields();
-        mainCtrl.showStartPage();
+        mainCtrl.showOverview();
     }
 
     /**
-     * Adds event
+     * Confirm add/edit
      */
     public void ok() {
-        Event newEvent = getEvent();
         try {
-            server.addEvent(newEvent);
+            server.addExpense(getExpense());
         } catch (WebApplicationException e) {
             var alert = new Alert(Alert.AlertType.ERROR);
             alert.initModality(Modality.APPLICATION_MODAL);
@@ -55,29 +53,30 @@ public class AddEventCtrl {
             return;
         }
         clearFields();
-        mainCtrl.showEventInfo(newEvent);
+        mainCtrl.showOverview();
     }
 
     /**
-     * getEvent method
+     * Get expense
      *
-     * @return specified event
+     * @return expense
      */
-    private Event getEvent() {
-        return new Event(title.getText());
+    private Expense getExpense() {
+        var p = new Expense();
+        return p;
     }
 
     /**
-     * clears fields
+     * Clears fields
      */
     private void clearFields() {
-        title.clear();
+
     }
 
     /**
-     * This method is for usability. Checks the pressed key
+     * key event listener
      *
-     * @param e
+     * @param e key event
      */
     public void keyPressed(KeyEvent e) {
         switch (e.getCode()) {
@@ -86,9 +85,9 @@ public class AddEventCtrl {
                 break;
             case ESCAPE:
                 cancel();
-                break;
             default:
                 break;
         }
     }
+
 }

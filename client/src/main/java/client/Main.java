@@ -50,6 +50,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
 
+        var startPage = FXML.load(StartPageCtrl.class, "client", "scenes", "StartPage.fxml");
         var overview = FXML.load(HomePageCtrl.class, "client", "scenes", "HomePage.fxml");
         var add = FXML.load(AddEventCtrl.class, "client", "scenes", "AddEvent.fxml");
         var eventInfo = FXML.load(EventInfoCtrl.class, "client", "scenes", "EventInfo.fxml");
@@ -58,7 +59,7 @@ public class Main extends Application {
         var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
         var adminEventInfo = FXML.load(AdminEventInfoCtrl.class, "client",
                 "scenes", "AdminEventInfo.fxml");
-        mainCtrl.initialize(primaryStage, overview, add, eventInfo);
+        mainCtrl.initialize(primaryStage, startPage, overview, add, eventInfo);
         mainCtrl.adminInitilize(adminOverview, adminEventInfo);
     }
 }

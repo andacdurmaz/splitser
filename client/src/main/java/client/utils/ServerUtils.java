@@ -27,8 +27,8 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
 
-import commons.Event;
-import commons.Expense;
+import commons.*;
+
 import org.glassfish.jersey.client.ClientConfig;
 
 import commons.Quote;
@@ -146,19 +146,24 @@ public class ServerUtils extends Util {
 
     /**
      * Adds expense
+     * <<<<<<< HEAD
+     * =======
+     * <p>
+     * >>>>>>> 24995ffe8b6aa8a21a6e8e7e0d272d9c04ba83df
      *
      * @param expense to add
      */
     public void addExpense(Expense expense) {
         ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER)
-                .path("api/expenses/add")
+                .target(SERVER).path("api/expenses/addOrEdit")
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .post(Entity.entity(expense, APPLICATION_JSON), Expense.class);
     }
 
     /**
+     * <<<<<<< HEAD
+     * =======
      * Updates the given expense
      *
      * @param expense expense to update
@@ -187,6 +192,8 @@ public class ServerUtils extends Util {
     }
 
     /**
+     * >>>>>>> 24995ffe8b6aa8a21a6e8e7e0d272d9c04ba83df
+     *
      * @param targetUrl url of the server
      * @return StompSession
      * @throws InterruptedException connection with server was interrupted
