@@ -20,7 +20,8 @@ public class AddOrEditExpenseCtrl {
 
     /**
      * Constructor
-     * @param server serverUtils
+     * @param server   serverUtils
+     *
      * @param mainCtrl mainCtrl
      */
     @Inject
@@ -41,7 +42,8 @@ public class AddOrEditExpenseCtrl {
      * Confirm add/edit
      */
     public void ok() {
-        try{
+
+        try {
             server.addExpense(getExpense());
         } catch (WebApplicationException e) {
             var alert = new Alert(Alert.AlertType.ERROR);
@@ -56,6 +58,7 @@ public class AddOrEditExpenseCtrl {
 
     /**
      * Get expense
+     *
      * @return expense
      */
     private Expense getExpense() {
@@ -71,7 +74,6 @@ public class AddOrEditExpenseCtrl {
     }
 
     /**
-     * key event listener
      * @param e key event
      */
     public void keyPressed(KeyEvent e) {
@@ -87,3 +89,4 @@ public class AddOrEditExpenseCtrl {
     }
 
 }
+

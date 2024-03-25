@@ -25,6 +25,8 @@ import javafx.util.Pair;
 public class MainCtrl {
 
     private Stage primaryStage;
+    private StartPageCtrl startPageCtrl;
+    private Scene startPage;
 
     private HomePageCtrl homePageCtrl;
     private Scene overview;
@@ -36,20 +38,27 @@ public class MainCtrl {
     private AdminOverviewCtrl adminOverviewCtrl;
     private Scene adminOverview;
     private AdminEventInfoCtrl adminEventInfoCtrl;
+
     private Scene adminEventInfo;
 
     /**
      * Initialize mainCtrl
      *
+     * @param startPage    start page
      * @param primaryStage stage
      * @param overview     ow
      * @param add          add
      * @param eventInfo    eventInfo
      */
-    public void initialize(Stage primaryStage, Pair<HomePageCtrl,
-            Parent> overview, Pair<AddEventCtrl, Parent> add,
+    public void initialize(Stage primaryStage,
+                           Pair<StartPageCtrl, Parent> startPage,
+                           Pair<HomePageCtrl, Parent> overview,
+                           Pair<AddEventCtrl, Parent> add,
                            Pair<EventInfoCtrl, Parent> eventInfo) {
         this.primaryStage = primaryStage;
+
+        this.startPageCtrl = startPage.getKey();
+        this.startPage = new Scene(startPage.getValue());
 
         this.homePageCtrl = overview.getKey();
         this.overview = new Scene(overview.getValue());
@@ -57,16 +66,19 @@ public class MainCtrl {
         this.addCtrl = add.getKey();
         this.add = new Scene(add.getValue());
 
+
         this.eventInfoCtrl = eventInfo.getKey();
         this.eventInfo = new Scene(eventInfo.getValue());
 
-        showOverview();
+        showStartPage();
         primaryStage.show();
+
     }
 
     /**
      * Initialize mainCtrl
-     * @param adminOverview Admin overview
+     *
+     * @param adminOverview  Admin overview
      * @param adminEventInfo Admin event info
      */
     public void adminInitilize(Pair<AdminOverviewCtrl,
@@ -76,6 +88,17 @@ public class MainCtrl {
 
         this.adminEventInfoCtrl = adminEventInfo.getKey();
         this.adminEventInfo = new Scene(adminEventInfo.getValue());
+
+
+    }
+
+    /**
+     * Shows start page
+     */
+    public void showStartPage() {
+        primaryStage.setTitle("Home");
+        primaryStage.setScene(startPage);
+        startPageCtrl.refresh();
     }
 
     /**
@@ -84,7 +107,7 @@ public class MainCtrl {
     public void showOverview() {
         primaryStage.setTitle("Events: Overview");
         primaryStage.setScene(overview);
-        homePageCtrl.refresh();
+        startPageCtrl.refresh();
     }
 
     /**
@@ -103,8 +126,8 @@ public class MainCtrl {
      */
     public void showEventInfo(Event event) {
         primaryStage.setTitle(event.getTitle());
-        primaryStage.setScene(eventInfo);
         eventInfoCtrl.setEvent(event);
+        primaryStage.setScene(eventInfo);
     }
 
     /**
@@ -127,9 +150,10 @@ public class MainCtrl {
 
     /**
      * This method gives the AdminEventInfoCtrl the event, which is clicked on
+     *
      * @param event the event which is clicked on in the admin overview
      */
-    public void setAdminEvent(Event event){
+    public void setAdminEvent(Event event) {
         adminEventInfoCtrl.setEvent(event);
     }
 
@@ -140,7 +164,7 @@ public class MainCtrl {
      * any page can have the button
      * and functionality
      */
-    public void login(){
+    public void login() {
         var loginScreen = Main.FXML.load(LoginCtrl.class,
                 "client", "scenes", "Login.fxml");
 
@@ -150,4 +174,6 @@ public class MainCtrl {
         primaryStage.setTitle("Login");
         primaryStage.setScene(loginScreenScene);
     }
+
+
 }

@@ -47,6 +47,16 @@ public class Event {
     }
 
     /**
+     * Constructor with only title
+     *
+     * @param title title of event
+     */
+    public Event(String title) {
+        this.title = title;
+        this.eventCode = hashEventCode(id);
+    }
+
+    /**
      * Get method
      *
      * @return id of this event
@@ -197,6 +207,8 @@ public class Event {
      * @return the sum
      */
     public double getSumOfExpenses() {
+        if (expenses == null)
+            return 0.0;
         return this.expenses
                 .stream()
                 .mapToDouble(Expense::getAmount)
@@ -233,6 +245,7 @@ public class Event {
 
     /**
      * hashes the event
+     *
      * @return the hash
      */
     @Override
@@ -242,6 +255,7 @@ public class Event {
 
     /**
      * returns the event as a string
+     *
      * @return the event as a string
      */
     @Override

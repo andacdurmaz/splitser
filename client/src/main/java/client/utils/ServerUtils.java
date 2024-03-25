@@ -122,7 +122,9 @@ public class ServerUtils extends Util {
      * @return events
      */
     public List<Event> getEvents() {
-        return ClientBuilder.newClient(new ClientConfig()).target(SERVER).path("api/events/all")
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER)
+                .path("api/events/all")
                 .request(APPLICATION_JSON).accept(APPLICATION_JSON)
                 .get(new GenericType<List<Event>>() {
                 });
@@ -143,6 +145,15 @@ public class ServerUtils extends Util {
 
     /**
      * Adds expense
+     * <<<<<<< HEAD
+     * =======
+     * <<<<<<< HEAD
+     * =======
+     * <p>
+     * >>>>>>> 24995ffe8b6aa8a21a6e8e7e0d272d9c04ba83df
+     * <p>
+     * >>>>>>> cd6f01dc7edf71c98c57b7902d366dfeddeb4168
+     *
      * @param expense to add
      */
     public void addExpense(Expense expense) {
@@ -151,6 +162,34 @@ public class ServerUtils extends Util {
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .post(Entity.entity(expense, APPLICATION_JSON), Expense.class);
+    }
+
+    /**
+     * Updates the given expense
+     *
+     * @param expense expense to update
+     */
+    public void updateExpense(Expense expense) {
+        ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER)
+                .path("api/expenses/update/" + expense.getId())
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .put(Entity.entity(expense, APPLICATION_JSON), Expense.class);
+    }
+
+    /**
+     * updates given event
+     *
+     * @param event event to update
+     */
+    public void updateEvent(Event event) {
+        ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER)
+                .path("api/events/update/" + event.getId())
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .put(Entity.entity(event, APPLICATION_JSON), Event.class);
     }
 
     /**

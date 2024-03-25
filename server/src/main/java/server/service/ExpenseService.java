@@ -1,7 +1,6 @@
 package server.service;
 
 import commons.Expense;
-import commons.exceptions.NoSuchExpenseException;
 import org.springframework.stereotype.Service;
 import server.database.ExpenseRepository;
 
@@ -72,22 +71,12 @@ public class ExpenseService {
     /**
      * Updates the name of the expense with the given id to be the given name
      *
-     * @param id      expense id
-     * @param newName new name of the expense
-     * @return the expense with the new name
-     * @throws NoSuchExpenseException if there is no expense with the given id
+     * @param id         expense id
+     * @param oldExpense expense to update
+     * @return updated expense
      */
-    public Expense updateExpenseName(long id, String newName)
-            throws NoSuchExpenseException {
-        Optional<Expense> expense = repo.findById(id);
-        if (expense.isPresent()) {
-            Expense e = expense.get();
-            e.setName(newName);
-            return repo.save(e);
-        } else {
-            throw new NoSuchExpenseException();
-        }
-
+    public Expense updateExpense(long id, Expense oldExpense) {
+        return repo.save(oldExpense);
     }
 
     /**
