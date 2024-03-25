@@ -17,6 +17,7 @@ package client.scenes;
 
 import client.Main;
 import commons.Event;
+import commons.Expense;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -28,13 +29,13 @@ public class MainCtrl {
     private StartPageCtrl startPageCtrl;
     private Scene startPage;
 
-    private HomePageCtrl homePageCtrl;
-    private Scene overview;
 
     private AddEventCtrl addCtrl;
     private Scene add;
     private EventInfoCtrl eventInfoCtrl;
     private Scene eventInfo;
+    private AddOrEditExpenseCtrl addOrEditExpenseCtrl;
+    private Scene addOrEditExpense;
     private AdminOverviewCtrl adminOverviewCtrl;
     private Scene adminOverview;
     private AdminEventInfoCtrl adminEventInfoCtrl;
@@ -44,15 +45,15 @@ public class MainCtrl {
     /**
      * Initialize mainCtrl
      *
-     * @param startPage    start page
-     * @param primaryStage stage
-     * @param overview     ow
-     * @param add          add
-     * @param eventInfo    eventInfo
+     * @param startPage                      start page
+     * @param primaryStage                   stage
+     * @param addOrEditExpenseCtrlParentPair
+     * @param add                            add
+     * @param eventInfo                      eventInfo
      */
     public void initialize(Stage primaryStage,
                            Pair<StartPageCtrl, Parent> startPage,
-                           Pair<HomePageCtrl, Parent> overview,
+                           Pair<AddOrEditExpenseCtrl, Parent> addOrEditExpenseCtrlParentPair,
                            Pair<AddEventCtrl, Parent> add,
                            Pair<EventInfoCtrl, Parent> eventInfo) {
         this.primaryStage = primaryStage;
@@ -60,8 +61,8 @@ public class MainCtrl {
         this.startPageCtrl = startPage.getKey();
         this.startPage = new Scene(startPage.getValue());
 
-        this.homePageCtrl = overview.getKey();
-        this.overview = new Scene(overview.getValue());
+        this.addOrEditExpenseCtrl = addOrEditExpenseCtrlParentPair.getKey();
+        this.addOrEditExpense = new Scene(addOrEditExpenseCtrlParentPair.getValue());
 
         this.addCtrl = add.getKey();
         this.add = new Scene(add.getValue());
@@ -81,7 +82,7 @@ public class MainCtrl {
      * @param adminOverview  Admin overview
      * @param adminEventInfo Admin event info
      */
-    public void adminInitilize(Pair<AdminOverviewCtrl,
+    public void adminInitialize(Pair<AdminOverviewCtrl,
             Parent> adminOverview, Pair<AdminEventInfoCtrl, Parent> adminEventInfo) {
         this.adminOverviewCtrl = adminOverview.getKey();
         this.adminOverview = new Scene(adminOverview.getValue());
@@ -101,14 +102,6 @@ public class MainCtrl {
         startPageCtrl.refresh();
     }
 
-    /**
-     * Shows Homepage
-     */
-    public void showOverview() {
-        primaryStage.setTitle("Events: Overview");
-        primaryStage.setScene(overview);
-        startPageCtrl.refresh();
-    }
 
     /**
      * Shows addEvent
@@ -127,7 +120,21 @@ public class MainCtrl {
     public void showEventInfo(Event event) {
         primaryStage.setTitle(event.getTitle());
         eventInfoCtrl.setEvent(event);
+        eventInfoCtrl.updateLabelText(event);
         primaryStage.setScene(eventInfo);
+        eventInfo.setOnKeyPressed(e -> eventInfoCtrl.keyPressed(e));
+    }
+
+    /**
+     * Shows add or edit expense page
+     *
+     * @param expense
+     */
+    public void showAddOrEditExpense(Expense expense) {
+        primaryStage.setTitle("Add/Edit expense");
+        addOrEditExpenseCtrl.setExpense(expense);
+        primaryStage.setScene(addOrEditExpense);
+        addOrEditExpense.setOnKeyPressed(e -> addOrEditExpenseCtrl.keyPressed(e));
     }
 
     /**

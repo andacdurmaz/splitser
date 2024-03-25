@@ -28,7 +28,7 @@
       <TextField layoutX="151.0" layoutY="147.0" text="Cost" />
       <Label layoutX="40.0" layoutY="322.0" text="Expense Type" />
       <ComboBox layoutX="151.0" layoutY="318.0" prefWidth="150.0" />
-      <Button layoutX="543.0" layoutY="351.0" mnemonicParsing="false" text="Ok" />
-      <Button layoutX="478.0" layoutY="351.0" mnemonicParsing="false" text="Cancel" />
+      <Button layoutX="543.0" layoutY="351.0" onMouseClicked="#ok" mnemonicParsing="false" text="Ok" />
+      <Button layoutX="478.0" layoutY="351.0" onMouseClicked="#cancel" mnemonicParsing="false" text="Cancel" />
    </children>
 </AnchorPane>

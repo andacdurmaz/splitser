@@ -2,8 +2,10 @@ package client.scenes;
 
 import client.utils.ServerUtils;
 import commons.Event;
+import commons.Expense;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 
 import javax.inject.Inject;
@@ -11,6 +13,7 @@ import javax.inject.Inject;
 
 public class EventInfoCtrl {
     private Event event;
+    private Expense selectedExpense;
     @FXML
     private AnchorPane rootPane;
     @FXML
@@ -26,6 +29,7 @@ public class EventInfoCtrl {
 
     /**
      * Constructor
+     *
      * @param server
      * @param mainCtrl
      */
@@ -37,6 +41,7 @@ public class EventInfoCtrl {
 
     /**
      * initialize method
+     *
      * @param event
      */
     public void initialize(Event event) {
@@ -46,6 +51,7 @@ public class EventInfoCtrl {
 
     /**
      * Update label text
+     *
      * @param event
      */
     public void updateLabelText(Event event) {
@@ -54,9 +60,38 @@ public class EventInfoCtrl {
 
     /**
      * Set event
+     *
      * @param event
      */
     public void setEvent(Event event) {
         this.event = event;
+    }
+
+    /**
+     * add or edit expense method
+     */
+    public void addOrEditExpense() {
+        if (selectedExpense == null) {
+            mainCtrl.showAddOrEditExpense(new Expense());
+        }
+        mainCtrl.showAddOrEditExpense(selectedExpense);
+    }
+
+    /**
+     * This method is for usability. Checks the pressed key
+     *
+     * @param e
+     */
+    public void keyPressed(KeyEvent e) {
+        switch (e.getCode()) {
+            case ENTER:
+
+                break;
+            case ESCAPE:
+
+                break;
+            default:
+                break;
+        }
     }
 }
