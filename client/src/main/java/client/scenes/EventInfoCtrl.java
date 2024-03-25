@@ -24,6 +24,11 @@ public class EventInfoCtrl {
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
 
+    /**
+     * Constructor
+     * @param server
+     * @param mainCtrl
+     */
     @Inject
     public EventInfoCtrl(ServerUtils server, MainCtrl mainCtrl) {
         this.server = server;
@@ -31,17 +36,26 @@ public class EventInfoCtrl {
     }
 
     /**
-     * Initialize method, shouldn't be empty
+     * initialize method
+     * @param event
      */
     public void initialize(Event event) {
         this.event = event;
         titleLabel.setText(event.getTitle());
     }
 
+    /**
+     * Update label text
+     * @param event
+     */
     public void updateLabelText(Event event) {
         titleLabel.setText(event.getTitle());
     }
 
+    /**
+     * Set event
+     * @param event
+     */
     public void setEvent(Event event) {
         this.event = event;
     }
