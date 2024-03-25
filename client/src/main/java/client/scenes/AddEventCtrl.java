@@ -44,8 +44,9 @@ public class AddEventCtrl {
      * Adds event
      */
     public void ok() {
+        Event newEvent = getEvent();
         try {
-            server.addEvent(getEvent());
+            server.addEvent(newEvent);
         } catch (WebApplicationException e) {
             var alert = new Alert(Alert.AlertType.ERROR);
             alert.initModality(Modality.APPLICATION_MODAL);
@@ -54,7 +55,7 @@ public class AddEventCtrl {
             return;
         }
         clearFields();
-        mainCtrl.showOverview();
+        mainCtrl.showEventInfo(newEvent);
     }
 
     /**

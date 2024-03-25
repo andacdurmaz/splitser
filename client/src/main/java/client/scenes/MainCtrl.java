@@ -72,6 +72,7 @@ public class MainCtrl {
 
         showStartPage();
         primaryStage.show();
+
     }
 
     /**
@@ -125,8 +126,8 @@ public class MainCtrl {
      */
     public void showEventInfo(Event event) {
         primaryStage.setTitle(event.getTitle());
-        primaryStage.setScene(eventInfo);
         eventInfoCtrl.setEvent(event);
+        primaryStage.setScene(eventInfo);
     }
 
     /**

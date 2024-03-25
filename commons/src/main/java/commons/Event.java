@@ -207,6 +207,8 @@ public class Event {
      * @return the sum
      */
     public double getSumOfExpenses() {
+        if (expenses == null)
+            return 0.0;
         return this.expenses
                 .stream()
                 .mapToDouble(Expense::getAmount)
