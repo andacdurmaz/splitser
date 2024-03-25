@@ -25,6 +25,7 @@ import javafx.util.Pair;
 public class MainCtrl {
 
     private Stage primaryStage;
+    private StartPageCtrl startPageCtrl;
 
     private HomePageCtrl homePageCtrl;
     private Scene overview;
@@ -46,13 +47,14 @@ public class MainCtrl {
      * @param add          add
      * @param eventInfo    eventInfo
      */
-    public void initialize(Stage primaryStage, Pair<HomePageCtrl,
+    public void initialize(Stage primaryStage, Pair<StartPageCtrl, Parent> startPage, Pair<HomePageCtrl,
             Parent> overview, Pair<AddEventCtrl, Parent> add,
                            Pair<EventInfoCtrl, Parent> eventInfo) {
         this.primaryStage = primaryStage;
 
+        this.startPageCtrl = startPage.getKey();
         this.homePageCtrl = overview.getKey();
-        this.overview = new Scene(overview.getValue());
+        this.overview = new Scene(startPage.getValue());
 
         this.addCtrl = add.getKey();
         this.add = new Scene(add.getValue());
