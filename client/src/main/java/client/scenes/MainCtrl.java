@@ -37,17 +37,20 @@ public class MainCtrl {
     private AdminOverviewCtrl adminOverviewCtrl;
     private Scene adminOverview;
     private AdminEventInfoCtrl adminEventInfoCtrl;
+
     private Scene adminEventInfo;
 
     /**
      * Initialize mainCtrl
-     *
+     * @param startPage
      * @param primaryStage stage
      * @param overview     ow
      * @param add          add
      * @param eventInfo    eventInfo
      */
-    public void initialize(Stage primaryStage, Pair<StartPageCtrl, Parent> startPage, Pair<HomePageCtrl,
+    public void initialize(Stage primaryStage,
+                           Pair<StartPageCtrl, Parent> startPage,
+                            Pair<HomePageCtrl,
             Parent> overview, Pair<AddEventCtrl, Parent> add,
                            Pair<EventInfoCtrl, Parent> eventInfo) {
         this.primaryStage = primaryStage;
@@ -58,6 +61,7 @@ public class MainCtrl {
 
         this.addCtrl = add.getKey();
         this.add = new Scene(add.getValue());
+
 
         this.eventInfoCtrl = eventInfo.getKey();
         this.eventInfo = new Scene(eventInfo.getValue());
@@ -78,7 +82,10 @@ public class MainCtrl {
 
         this.adminEventInfoCtrl = adminEventInfo.getKey();
         this.adminEventInfo = new Scene(adminEventInfo.getValue());
+
+
     }
+
 
     /**
      * Shows Homepage
@@ -86,7 +93,7 @@ public class MainCtrl {
     public void showOverview() {
         primaryStage.setTitle("Events: Overview");
         primaryStage.setScene(overview);
-        homePageCtrl.refresh();
+        startPageCtrl.refresh();
     }
 
     /**
@@ -152,4 +159,6 @@ public class MainCtrl {
         primaryStage.setTitle("Login");
         primaryStage.setScene(loginScreenScene);
     }
+
+
 }
