@@ -43,6 +43,7 @@ public class MainCtrl {
 
     /**
      * Initialize mainCtrl
+     *
      * @param startPage    start page
      * @param primaryStage stage
      * @param overview     ow
@@ -51,7 +52,7 @@ public class MainCtrl {
      */
     public void initialize(Stage primaryStage,
                            Pair<StartPageCtrl, Parent> startPage,
-                            Pair<HomePageCtrl, Parent> overview,
+                           Pair<HomePageCtrl, Parent> overview,
                            Pair<AddEventCtrl, Parent> add,
                            Pair<EventInfoCtrl, Parent> eventInfo) {
         this.primaryStage = primaryStage;
@@ -75,7 +76,8 @@ public class MainCtrl {
 
     /**
      * Initialize mainCtrl
-     * @param adminOverview Admin overview
+     *
+     * @param adminOverview  Admin overview
      * @param adminEventInfo Admin event info
      */
     public void adminInitilize(Pair<AdminOverviewCtrl,
@@ -89,6 +91,9 @@ public class MainCtrl {
 
     }
 
+    /**
+     * Shows start page
+     */
     public void showStartPage() {
         primaryStage.setTitle("Home");
         primaryStage.setScene(startPage);
@@ -144,9 +149,10 @@ public class MainCtrl {
 
     /**
      * This method gives the AdminEventInfoCtrl the event, which is clicked on
+     *
      * @param event the event which is clicked on in the admin overview
      */
-    public void setAdminEvent(Event event){
+    public void setAdminEvent(Event event) {
         adminEventInfoCtrl.setEvent(event);
     }
 
@@ -157,7 +163,7 @@ public class MainCtrl {
      * any page can have the button
      * and functionality
      */
-    public void login(){
+    public void login() {
         var loginScreen = Main.FXML.load(LoginCtrl.class,
                 "client", "scenes", "Login.fxml");
 

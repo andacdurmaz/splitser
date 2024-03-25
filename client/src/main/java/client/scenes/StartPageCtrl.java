@@ -46,6 +46,7 @@ public class StartPageCtrl {
      * @param mouseEvent the clicking of the text
      */
     public void createEvent(javafx.scene.input.MouseEvent mouseEvent) {
+        mainCtrl.showAdd();
     }
 
     /**

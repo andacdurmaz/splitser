@@ -18,13 +18,6 @@ public class AddEventCtrl {
     @FXML
     private TextField title;
 
-    @FXML
-    private TextField numberOfParticipants;
-
-    @FXML
-    private TextField eventCode;
-    @FXML
-    private TextField description;
 
     /**
      * Inject method
@@ -44,7 +37,7 @@ public class AddEventCtrl {
      */
     public void cancel() {
         clearFields();
-        mainCtrl.showOverview();
+        mainCtrl.showStartPage();
     }
 
     /**
@@ -54,14 +47,12 @@ public class AddEventCtrl {
         try {
             server.addEvent(getEvent());
         } catch (WebApplicationException e) {
-
             var alert = new Alert(Alert.AlertType.ERROR);
             alert.initModality(Modality.APPLICATION_MODAL);
             alert.setContentText(e.getMessage());
             alert.showAndWait();
             return;
         }
-
         clearFields();
         mainCtrl.showOverview();
     }
@@ -72,10 +63,7 @@ public class AddEventCtrl {
      * @return specified event
      */
     private Event getEvent() {
-        return new Event(
-                title.getText(),
-                Integer.parseInt(numberOfParticipants.getText()),
-                description.getText());
+        return new Event(title.getText());
     }
 
     /**
@@ -83,9 +71,6 @@ public class AddEventCtrl {
      */
     private void clearFields() {
         title.clear();
-        numberOfParticipants.clear();
-        eventCode.clear();
-        description.clear();
     }
 
     /**
