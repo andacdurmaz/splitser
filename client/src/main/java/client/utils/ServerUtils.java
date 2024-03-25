@@ -135,7 +135,6 @@ public class ServerUtils extends Util {
      * Adds event
      *
      * @param event event to add
-     * @return added event
      */
     public void addEvent(Event event) {
         ClientBuilder.newClient(new ClientConfig()) //
