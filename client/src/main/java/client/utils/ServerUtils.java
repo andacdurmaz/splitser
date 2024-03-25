@@ -28,6 +28,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
 
 import commons.Event;
+import commons.Expense;
 import org.glassfish.jersey.client.ClientConfig;
 
 import commons.Quote;
@@ -122,7 +123,9 @@ public class ServerUtils extends Util {
      * @return events
      */
     public List<Event> getEvents() {
-        return ClientBuilder.newClient(new ClientConfig()).target(SERVER).path("api/events/all")
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER)
+                .path("api/events/all")
                 .request(APPLICATION_JSON).accept(APPLICATION_JSON)
                 .get(new GenericType<List<Event>>() {
                 });
@@ -134,12 +137,54 @@ public class ServerUtils extends Util {
      * @param event event to add
      * @return added event
      */
-    public Event addEvent(Event event) {
-        return ClientBuilder.newClient(new ClientConfig()) //
-                .target(SERVER).path("api/events") //
+    public void addEvent(Event event) {
+        ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("api/events/addEvent") //
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
                 .post(Entity.entity(event, APPLICATION_JSON), Event.class);
+    }
+
+    /**
+     * Adds expense
+     *
+     * @param expense to add
+     */
+    public void addExpense(Expense expense) {
+        ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER)
+                .path("api/expenses/addExpense")
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .post(Entity.entity(expense, APPLICATION_JSON), Expense.class);
+    }
+
+    /**
+     * Updates the given expense
+     *
+     * @param expense expense to update
+     */
+    public void updateExpense(Expense expense) {
+        ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER)
+                .path("api/expenses/updateExpense/" + expense.getId())
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .put(Entity.entity(expense, APPLICATION_JSON), Expense.class);
+    }
+
+    /**
+     * updates given event
+     *
+     * @param event event to update
+     */
+    public void updateEvent(Event event) {
+        ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER)
+                .path("api/events/updateEvent/" + event.getId())
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .put(Entity.entity(event, APPLICATION_JSON), Event.class);
     }
 
     /**

@@ -73,7 +73,7 @@ public class ExpenseController {
      * @param expense to add
      * @return added expense or bad request
      */
-    @PostMapping(path = {"", "/"})
+    @PostMapping("/addExpense")
     public ResponseEntity<Expense> add(@RequestBody Expense expense) {
         if ((expense == null)) {
             return ResponseEntity.badRequest().build();
@@ -88,7 +88,7 @@ public class ExpenseController {
      *
      * @return random expense
      */
-    @GetMapping("random")
+    @GetMapping("/random")
     public ResponseEntity<Expense> getRandom() {
         var expenses = service.findAll();
         var idx = random.nextInt((int) service.count());
@@ -100,18 +100,16 @@ public class ExpenseController {
      * to be renamed to the given newName
      *
      * @param id      expense id
-     * @param newName the new name of the expense
-     * @return expense with the changed name or bad request
+     * @param expense expense to edit
+     * @return updated expense or bad request
      */
-    @PutMapping("/{id}/name")
-    public ResponseEntity<Expense> updateExpenseName(@PathVariable("id") long id,
-                                                     @RequestParam("name") String newName) {
-        try {
-            Expense newNamedExpense = service.updateExpenseName(id, newName);
-            return ResponseEntity.ok(newNamedExpense);
-        } catch (NoSuchExpenseException e) {
-            return ResponseEntity.badRequest().build();
+    @PutMapping("/updateExpense/{id}")
+    public ResponseEntity<Expense> updateExpense(@PathVariable("id") long id,
+                                                 @RequestBody Expense expense) {
+        if (!service.existsById(id)) {
+            ResponseEntity.badRequest().build();
         }
-
+        Expense updatedExpense = service.updateExpense(id, expense);
+        return ResponseEntity.ok(updatedExpense);
     }
 }

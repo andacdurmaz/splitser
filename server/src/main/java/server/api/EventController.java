@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.service.EventService;
+
 import java.util.List;
 
 @RestController
@@ -21,6 +22,7 @@ public class EventController {
 
     /**
      * Constructor for the event controller
+     *
      * @param eventService
      */
     @Autowired
@@ -30,6 +32,7 @@ public class EventController {
 
     /**
      * Method to get all events
+     *
      * @return all events
      */
     @GetMapping(value = "/all")
@@ -39,6 +42,7 @@ public class EventController {
 
     /**
      * Method to get an event by its id
+     *
      * @param id of the event
      * @return the event
      */
@@ -49,6 +53,7 @@ public class EventController {
 
     /**
      * Method to get the title of an event by its id
+     *
      * @param id of the event
      * @return the title of the event
      */
@@ -59,6 +64,7 @@ public class EventController {
 
     /**
      * Method to get the creator of an event by its id
+     *
      * @param id of the event
      * @return the creator of the event
      */
@@ -69,6 +75,7 @@ public class EventController {
 
     /**
      * Method to get the expenses of an event by its id
+     *
      * @param id of the event
      * @return the expenses of the event
      */
@@ -79,6 +86,7 @@ public class EventController {
 
     /**
      * Method to get the description of an event by its id
+     *
      * @param id of the event
      * @return the description of the event
      */
@@ -89,6 +97,7 @@ public class EventController {
 
     /**
      * Method to add an event
+     *
      * @param e the event to add
      * @return the added event
      */
@@ -101,19 +110,19 @@ public class EventController {
     /**
      * Updates the name of an existing event with the given id
      * to be renamed to the given newName
-     * @param id event id
-     * @param newName the new name of the event
-     * @return event with the changed name or bad request
+     *
+     * @param id    event id
+     * @param event event to update
+     * @return the updated event or bad request
      */
-    @PutMapping("/{id}/name")
-    public ResponseEntity<Event> updateEventName(@PathVariable("id") long id,
-                                                     @RequestParam("name") String newName) {
-        try {
-            Event newNamedEvent = eventService.updateEventName(id, newName);
-            return ResponseEntity.ok(newNamedEvent);
-        } catch (NoSuchEventException e) {
+    @PutMapping("/updateEvent/{id}")
+    public ResponseEntity<Event> updateEvent(@PathVariable("id") long id,
+                                             @RequestBody Event event) {
+        if (!eventService.existsById(id)) {
             return ResponseEntity.badRequest().build();
         }
-
+        Event updatedEvent = eventService.updateEvent(id, event);
+        return ResponseEntity.ok(updatedEvent);
     }
+
 }
