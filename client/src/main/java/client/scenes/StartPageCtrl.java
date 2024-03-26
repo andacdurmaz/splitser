@@ -13,6 +13,9 @@ import javafx.scene.control.TextField;
 import org.glassfish.jersey.client.ClientConfig;
 import org.springframework.http.ResponseEntity;
 
+import java.util.List;
+import java.util.Optional;
+
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
 
@@ -63,12 +66,11 @@ public class StartPageCtrl {
      * @param actionEvent the clicking of the button
      */
     public void joinEvent(ActionEvent actionEvent) {
-        Event event = ClientBuilder.newClient(new ClientConfig())
-                .target("http://localhost:8080/")
-                .path("api/events/" + eventid.getText())
-                .request(APPLICATION_JSON).accept(APPLICATION_JSON)
-                .get(Event.class);
-        mainCtrl.showEventInfo(event);
-
+        Optional<Event> event = server.getEvents().stream()
+                .filter(q -> q.getEventCode() == Long.parseLong(eventid.getText()))
+                .findFirst();
+        if (event.isPresent())
+            mainCtrl.showEventInfo(event.get());
+//        else
     }
 }

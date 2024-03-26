@@ -171,6 +171,14 @@ public class Event {
     }
 
     /**
+     * setter method for the eventcode
+     * @param eventCode the new eventcode
+     */
+    public void setEventCode(long eventCode) {
+        this.eventCode = eventCode;
+    }
+
+    /**
      * lets the user remove certain expenses
      *
      * @param expense to be removed
