@@ -1,6 +1,7 @@
 package client.scenes;
 
 import client.utils.ServerUtils;
+import commons.Event;
 import commons.Expense;
 import jakarta.ws.rs.WebApplicationException;
 import javafx.fxml.FXML;
@@ -9,26 +10,37 @@ import javafx.scene.control.Button;
 import javafx.stage.Modality;
 
 import javax.inject.Inject;
-
 import javafx.scene.input.KeyEvent;
 
 public class AddOrEditExpenseCtrl {
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
+    private final Event event;
+    private Expense expense;
 
     @FXML
     private Button ok;
 
     /**
      * Constructor
-     *
      * @param server   serverUtils
+     *
      * @param mainCtrl mainCtrl
+     * @param event event of expense
      */
     @Inject
-    public AddOrEditExpenseCtrl(ServerUtils server, MainCtrl mainCtrl) {
+    public AddOrEditExpenseCtrl(ServerUtils server, MainCtrl mainCtrl, Event event) {
         this.server = server;
         this.mainCtrl = mainCtrl;
+        this.event = event;
+    }
+
+    /**
+     * Set expense
+     * @param expense to set
+     */
+    public void setExpense(Expense expense) {
+        this.expense = expense;
     }
 
     /**
@@ -36,13 +48,14 @@ public class AddOrEditExpenseCtrl {
      */
     public void cancel() {
         clearFields();
-        mainCtrl.showOverview();
+        mainCtrl.showEventInfo(event);
     }
 
     /**
      * Confirm add/edit
      */
     public void ok() {
+
         try {
             server.addExpense(getExpense());
         } catch (WebApplicationException e) {
@@ -53,7 +66,7 @@ public class AddOrEditExpenseCtrl {
             return;
         }
         clearFields();
-        mainCtrl.showOverview();
+        mainCtrl.showEventInfo(event);
     }
 
     /**
@@ -74,8 +87,6 @@ public class AddOrEditExpenseCtrl {
     }
 
     /**
-     * key event listener
-     *
      * @param e key event
      */
     public void keyPressed(KeyEvent e) {
@@ -91,3 +102,4 @@ public class AddOrEditExpenseCtrl {
     }
 
 }
+

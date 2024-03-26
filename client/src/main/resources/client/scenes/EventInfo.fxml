@@ -20,8 +20,8 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <ComboBox layoutX="36.0" layoutY="213.0" prefWidth="150.0" promptText="Participants" />
-      <Button layoutX="200.0" layoutY="213.0" mnemonicParsing="false" text="Add" />
+      <ComboBox layoutX="36.0" layoutY="225.0" prefWidth="150.0" promptText="Participants" />
+      <Button layoutX="143.0" layoutY="126.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="101.0" text="Add Participant" />
       <ListView layoutX="361.0" layoutY="121.0" prefHeight="234.0" prefWidth="290.0" />
       <Label fx:id="titleLabel" layoutX="29.0" layoutY="27.0" text="EVENT TITLE">
          <font>
@@ -31,5 +31,7 @@
       <Button layoutX="361.0" layoutY="89.0" mnemonicParsing="false" text="All" />
       <Button layoutX="400.0" layoutY="89.0" mnemonicParsing="false" text="Paid by Participant" />
       <Button layoutX="525.0" layoutY="89.0" mnemonicParsing="false" text="Including Participant" />
+      <Button layoutX="143.0" layoutY="187.0" onMouseClicked="#addOrEditExpense" mnemonicParsing="false" prefHeight="26.0" prefWidth="101.0" text="Add Expense" />
+      <Button layoutX="250.0" layoutY="127.0" mnemonicParsing="false" text="Edit Participant" />
    </children>
 </AnchorPane>
