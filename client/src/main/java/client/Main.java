@@ -67,8 +67,9 @@ public class Main extends Application {
                 "scenes", "AdminEventInfo.fxml");
         var eventOverview = FXML.load(EventOverviewCtrl.class,
                 "clients", "scenes", "EventOverview.fxml");
-        mainCtrl.initialize(primaryStage, startPage, eventOverview, addOrEditExpense,
+        mainCtrl.initialize(primaryStage, startPage, addOrEditExpense,
                 add, eventInfo, addOrEditParticipant);
+        mainCtrl.overviewInitialize(eventOverview);
         mainCtrl.adminInitialize(adminOverview, adminEventInfo);
     }
 }

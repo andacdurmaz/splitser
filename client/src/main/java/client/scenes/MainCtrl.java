@@ -63,7 +63,6 @@ public class MainCtrl {
      */
     public void initialize(Stage primaryStage,
                            Pair<StartPageCtrl, Parent> startPage,
-                           Pair<EventOverviewCtrl, Parent> overview,
                            Pair<AddOrEditExpenseCtrl, Parent> addOrEditExpenseCtrlParentPair,
                            Pair<AddEventCtrl, Parent> add,
                            Pair<EventInfoCtrl, Parent> eventInfo,
@@ -73,9 +72,6 @@ public class MainCtrl {
 
         this.startPageCtrl = startPage.getKey();
         this.startPage = new Scene(startPage.getValue());
-
-        this.eventOverviewCtrl = overview.getKey();
-        this.overview = new Scene(overview.getValue());
 
         this.addOrEditExpenseCtrl = addOrEditExpenseCtrlParentPair.getKey();
         this.addOrEditExpense = new Scene(addOrEditExpenseCtrlParentPair.getValue());
@@ -94,6 +90,14 @@ public class MainCtrl {
 
     }
 
+    /**
+     * initializes the eventOverview page
+     * @param overview the control page of the EventOverview
+     */
+    public void overviewInitialize(Pair<EventOverviewCtrl, Parent> overview) {
+        this.eventOverviewCtrl = overview.getKey();
+        this.overview = new Scene(overview.getValue());
+    }
     /**
      * Initialize mainCtrl
      *
