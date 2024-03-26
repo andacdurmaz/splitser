@@ -145,15 +145,6 @@ public class ServerUtils extends Util {
 
     /**
      * Adds expense
-     * <<<<<<< HEAD
-     * =======
-     * <<<<<<< HEAD
-     * =======
-     * <p>
-     * >>>>>>> 24995ffe8b6aa8a21a6e8e7e0d272d9c04ba83df
-     * <p>
-     * >>>>>>> cd6f01dc7edf71c98c57b7902d366dfeddeb4168
-     *
      * @param expense to add
      */
     public void addExpense(Expense expense) {
@@ -176,6 +167,27 @@ public class ServerUtils extends Util {
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .put(Entity.entity(expense, APPLICATION_JSON), Expense.class);
+    }
+
+    /**
+     * user to add
+     * @param user
+     */
+    public void addUser(User user) {
+        ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).path("api/users/addOrEdit")
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .post(Entity.entity(user, APPLICATION_JSON), User.class);
+    }
+
+    public void updateUser(User user) {
+        ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER)
+                .path("api/users/update/" + user.getUserID())
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .put(Entity.entity(user, APPLICATION_JSON), User.class);
     }
 
     /**

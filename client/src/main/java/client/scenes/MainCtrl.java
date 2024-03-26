@@ -18,6 +18,7 @@ package client.scenes;
 import client.Main;
 import commons.Event;
 import commons.Expense;
+import commons.User;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -35,7 +36,12 @@ public class MainCtrl {
     private EventInfoCtrl eventInfoCtrl;
     private Scene eventInfo;
     private AddOrEditExpenseCtrl addOrEditExpenseCtrl;
+
     private Scene addOrEditExpense;
+
+    private AddOrEditParticipantCtrl addOrEditParticipantCtrl;
+
+    private Scene addOrEditParticipant;
     private AdminOverviewCtrl adminOverviewCtrl;
     private Scene adminOverview;
     private AdminEventInfoCtrl adminEventInfoCtrl;
@@ -55,7 +61,8 @@ public class MainCtrl {
                            Pair<StartPageCtrl, Parent> startPage,
                            Pair<AddOrEditExpenseCtrl, Parent> addOrEditExpenseCtrlParentPair,
                            Pair<AddEventCtrl, Parent> add,
-                           Pair<EventInfoCtrl, Parent> eventInfo) {
+                           Pair<EventInfoCtrl, Parent> eventInfo,
+                           Pair<AddOrEditParticipantCtrl,Parent> addOrEditParticipantCtrParentPair) {
         this.primaryStage = primaryStage;
 
         this.startPageCtrl = startPage.getKey();
@@ -67,9 +74,11 @@ public class MainCtrl {
         this.addCtrl = add.getKey();
         this.add = new Scene(add.getValue());
 
-
         this.eventInfoCtrl = eventInfo.getKey();
         this.eventInfo = new Scene(eventInfo.getValue());
+
+        this.addOrEditExpenseCtrl = addOrEditExpenseCtrlParentPair.getKey();
+        this.addOrEditParticipant = new Scene(addOrEditParticipantCtrParentPair.getValue());
 
         showStartPage();
         primaryStage.show();
@@ -135,6 +144,17 @@ public class MainCtrl {
         addOrEditExpenseCtrl.setExpense(expense);
         primaryStage.setScene(addOrEditExpense);
         addOrEditExpense.setOnKeyPressed(e -> addOrEditExpenseCtrl.keyPressed(e));
+    }
+
+
+    /**
+     *
+     */
+    public void showAddOrEditParticipants(User user) {
+        primaryStage.setTitle("Add/Edit participant");
+        addOrEditParticipantCtrl.setUser(user);
+        primaryStage.setScene(addOrEditParticipant);
+        addOrEditParticipant.setOnKeyPressed(e -> addOrEditParticipantCtrl.keyPressed(e));
     }
 
     /**

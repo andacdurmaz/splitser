@@ -31,7 +31,8 @@
       <Button layoutX="361.0" layoutY="89.0" mnemonicParsing="false" text="All" />
       <Button layoutX="400.0" layoutY="89.0" mnemonicParsing="false" text="Paid by Participant" />
       <Button layoutX="525.0" layoutY="89.0" mnemonicParsing="false" text="Including Participant" />
-      <Button layoutX="143.0" layoutY="187.0" onMouseClicked="#addOrEditExpense" mnemonicParsing="false" prefHeight="26.0" prefWidth="101.0" text="Add Expense" />
+      <Button layoutX="143.0" layoutY="187.0" mnemonicParsing="false" onMouseClicked="#addOrEditExpense" prefHeight="26.0" prefWidth="101.0" text="Add Expense" />
       <Button layoutX="250.0" layoutY="127.0" mnemonicParsing="false" text="Edit Participant" />
+      <Button layoutX="530.0" layoutY="32.0" mnemonicParsing="false" text="Send invitations" />
    </children>
 </AnchorPane>
