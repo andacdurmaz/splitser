@@ -86,7 +86,9 @@ public class EventInfoCtrl {
      * @param actionEvent the clicking of the button
      */
     public void addParticipant(ActionEvent actionEvent) {
-        User user = new User("demo", "demo@gmail.com");
+        User user = new User("demo", "demo@gmail.com",
+                "NL11112222333344445555666677778888",
+                "11112222333");
         participants.add(user);
         expenseComboBox.getItems().add(user.getUsername());
     }

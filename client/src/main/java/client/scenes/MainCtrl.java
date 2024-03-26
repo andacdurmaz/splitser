@@ -55,6 +55,7 @@ public class MainCtrl {
      *
      * @param startPage                      start page
      * @param primaryStage                   stage
+     * @param overview
      * @param addOrEditExpenseCtrlParentPair
      * @param add                            add
      * @param eventInfo                      eventInfo
