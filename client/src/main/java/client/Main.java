@@ -65,7 +65,8 @@ public class Main extends Application {
         var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
         var adminEventInfo = FXML.load(AdminEventInfoCtrl.class, "client",
                 "scenes", "AdminEventInfo.fxml");
-        mainCtrl.initialize(primaryStage, startPage, addOrEditExpense, add, eventInfo, addOrEditParticipant);
+        mainCtrl.initialize(primaryStage, startPage, addOrEditExpense,
+                add, eventInfo, addOrEditParticipant);
         mainCtrl.adminInitialize(adminOverview, adminEventInfo);
     }
 }

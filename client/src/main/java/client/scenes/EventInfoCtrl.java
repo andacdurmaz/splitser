@@ -3,6 +3,7 @@ package client.scenes;
 import client.utils.ServerUtils;
 import commons.Event;
 import commons.Expense;
+import commons.User;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
@@ -14,6 +15,8 @@ import javax.inject.Inject;
 public class EventInfoCtrl {
     private Event event;
     private Expense selectedExpense;
+
+    private User selectedParticipant;
     @FXML
     private AnchorPane rootPane;
     @FXML
@@ -77,6 +80,17 @@ public class EventInfoCtrl {
         mainCtrl.showAddOrEditExpense(selectedExpense);
     }
 
+
+    /**
+     * adds participant
+     */
+    public void addOrEditParticipant(){
+        if (selectedParticipant == null) {
+            mainCtrl.showAddOrEditParticipants(new User());
+        }
+        mainCtrl.showAddOrEditParticipants(selectedParticipant);
+
+    }
     /**
      * This method is for usability. Checks the pressed key
      *

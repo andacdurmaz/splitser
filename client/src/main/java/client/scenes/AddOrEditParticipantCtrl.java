@@ -1,13 +1,12 @@
 package client.scenes;
 
 import client.utils.ServerUtils;
-import commons.Event;
-import commons.Expense;
-import commons.User;
+import commons.*;
 import jakarta.ws.rs.WebApplicationException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 
 import javax.inject.Inject;
@@ -19,6 +18,18 @@ public class AddOrEditParticipantCtrl {
 
     private final Event event;
     private  User user;
+
+    @FXML
+    private TextField name;
+
+    @FXML
+    private TextField email;
+    @FXML
+    private TextField iban;
+
+    @FXML
+    private TextField bic;
+
 
     @FXML
     private Button ok;
@@ -77,8 +88,8 @@ public class AddOrEditParticipantCtrl {
      * @return expense
      */
     private User getUser() {
-        var p = new User();
-        return p;
+        var u = new User(name.getText(), email.getText(), iban.getText(), bic.getText());
+        return u;
     }
 
     /**

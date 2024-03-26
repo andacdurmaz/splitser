@@ -21,7 +21,7 @@
          </font>
       </Label>
       <ComboBox layoutX="36.0" layoutY="225.0" prefWidth="150.0" promptText="Participants" />
-      <Button layoutX="143.0" layoutY="126.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="101.0" text="Add Participant" />
+      <Button layoutX="143.0" layoutY="126.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="101.0" onMouseClicked="#addOrEditParticipant" text="Add Participant" />
       <ListView layoutX="361.0" layoutY="121.0" prefHeight="234.0" prefWidth="290.0" />
       <Label fx:id="titleLabel" layoutX="29.0" layoutY="27.0" text="EVENT TITLE">
          <font>

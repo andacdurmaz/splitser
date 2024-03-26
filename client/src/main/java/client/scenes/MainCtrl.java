@@ -56,13 +56,15 @@ public class MainCtrl {
      * @param addOrEditExpenseCtrlParentPair
      * @param add                            add
      * @param eventInfo                      eventInfo
+     * @param addOrEditParticipantCtrParentPair  addOrEditParticipantCtrlParentPair
      */
     public void initialize(Stage primaryStage,
                            Pair<StartPageCtrl, Parent> startPage,
                            Pair<AddOrEditExpenseCtrl, Parent> addOrEditExpenseCtrlParentPair,
                            Pair<AddEventCtrl, Parent> add,
                            Pair<EventInfoCtrl, Parent> eventInfo,
-                           Pair<AddOrEditParticipantCtrl,Parent> addOrEditParticipantCtrParentPair) {
+                           Pair<AddOrEditParticipantCtrl,Parent>
+                                   addOrEditParticipantCtrParentPair) {
         this.primaryStage = primaryStage;
 
         this.startPageCtrl = startPage.getKey();
@@ -77,7 +79,7 @@ public class MainCtrl {
         this.eventInfoCtrl = eventInfo.getKey();
         this.eventInfo = new Scene(eventInfo.getValue());
 
-        this.addOrEditExpenseCtrl = addOrEditExpenseCtrlParentPair.getKey();
+        this.addOrEditParticipantCtrl = addOrEditParticipantCtrParentPair.getKey();
         this.addOrEditParticipant = new Scene(addOrEditParticipantCtrParentPair.getValue());
 
         showStartPage();
@@ -148,7 +150,8 @@ public class MainCtrl {
 
 
     /**
-     *
+     * shows participants
+     * @param user
      */
     public void showAddOrEditParticipants(User user) {
         primaryStage.setTitle("Add/Edit participant");

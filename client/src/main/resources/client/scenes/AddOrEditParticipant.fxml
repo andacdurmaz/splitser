@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.AddOrEditExpenseCtrl">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.AddOrEditParticipantCtrl">
     <children>
         <Label layoutX="167.0" layoutY="36.0" prefHeight="43.0" prefWidth="266.0" text="Add/Edit Participant">
             <font>
@@ -29,11 +29,11 @@
          <font>
             <Font name="System Bold" size="16.0" />
          </font></Label>
-        <TextField layoutX="192.0" layoutY="245.0" prefHeight="36.0" prefWidth="213.0" promptText="Enter your IBAN" />
+        <TextField fx:id="iban"  layoutX="192.0" layoutY="245.0" prefHeight="36.0" prefWidth="213.0" promptText="Enter your IBAN" />
         <Button layoutX="507.0" layoutY="346.0" mnemonicParsing="false" onMouseClicked="#ok" prefHeight="36.0" prefWidth="62.0" text="Ok" />
         <Button layoutX="432.0" layoutY="346.0" mnemonicParsing="false" onMouseClicked="#cancel" prefHeight="36.0" prefWidth="62.0" text="Cancel" />
-      <TextField layoutX="192.0" layoutY="309.0" prefHeight="36.0" prefWidth="213.0" promptText="Enter your BIC number" />
-      <TextField layoutX="192.0" layoutY="182.0" prefHeight="36.0" prefWidth="213.0" promptText="Enter your email" />
-      <TextField layoutX="193.0" layoutY="116.0" prefHeight="36.0" prefWidth="213.0" promptText="Enter your name" />
+      <TextField fx:id="bic" layoutX="192.0" layoutY="309.0" prefHeight="36.0" prefWidth="213.0" promptText="Enter your BIC number" />
+      <TextField fx:id="email" layoutX="192.0" layoutY="182.0" prefHeight="36.0" prefWidth="213.0" promptText="Enter your email" />
+      <TextField fx:id="name" layoutX="193.0" layoutY="116.0" prefHeight="36.0" prefWidth="213.0" promptText="Enter your name" />
     </children>
 </AnchorPane>
