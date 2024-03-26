@@ -1,22 +1,35 @@
 package client.scenes;
 
 import client.utils.ServerUtils;
-import commons.Event;
-import commons.Expense;
+import commons.*;
 import jakarta.ws.rs.WebApplicationException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 
 import javax.inject.Inject;
 import javafx.scene.input.KeyEvent;
 
-public class AddOrEditExpenseCtrl {
+public class AddOrEditParticipantCtrl {
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
+
     private final Event event;
-    private Expense expense;
+    private  User user;
+
+    @FXML
+    private TextField name;
+
+    @FXML
+    private TextField email;
+    @FXML
+    private TextField iban;
+
+    @FXML
+    private TextField bic;
+
 
     @FXML
     private Button ok;
@@ -26,10 +39,10 @@ public class AddOrEditExpenseCtrl {
      * @param server   serverUtils
      *
      * @param mainCtrl mainCtrl
-     * @param event event of expense
+     * @param event
      */
     @Inject
-    public AddOrEditExpenseCtrl(ServerUtils server, MainCtrl mainCtrl, Event event) {
+    public AddOrEditParticipantCtrl(ServerUtils server, MainCtrl mainCtrl, Event event) {
         this.server = server;
         this.mainCtrl = mainCtrl;
         this.event = event;
@@ -37,10 +50,10 @@ public class AddOrEditExpenseCtrl {
 
     /**
      * Set expense
-     * @param expense to set
+     * @param user to set
      */
-    public void setExpense(Expense expense) {
-        this.expense = expense;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     /**
@@ -57,7 +70,7 @@ public class AddOrEditExpenseCtrl {
     public void ok() {
 
         try {
-            server.addExpense(getExpense());
+            server.addUser(getUser());
         } catch (WebApplicationException e) {
             var alert = new Alert(Alert.AlertType.ERROR);
             alert.initModality(Modality.APPLICATION_MODAL);
@@ -74,9 +87,9 @@ public class AddOrEditExpenseCtrl {
      *
      * @return expense
      */
-    private Expense getExpense() {
-        var p = new Expense();
-        return p;
+    private User getUser() {
+        var u = new User(name.getText(), email.getText(), iban.getText(), bic.getText());
+        return u;
     }
 
     /**

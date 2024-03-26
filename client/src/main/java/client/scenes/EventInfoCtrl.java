@@ -4,9 +4,11 @@ import client.utils.ServerUtils;
 import commons.Event;
 import commons.User;
 import javafx.event.ActionEvent;
+import commons.Expense;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 
 import javax.inject.Inject;
@@ -16,6 +18,9 @@ import java.util.List;
 
 public class EventInfoCtrl {
     private Event event;
+    private Expense selectedExpense;
+
+    private User selectedParticipant;
     @FXML
     private AnchorPane rootPane;
     @FXML
@@ -35,6 +40,7 @@ public class EventInfoCtrl {
 
     /**
      * Constructor
+     *
      * @param server
      * @param mainCtrl
      */
@@ -45,8 +51,10 @@ public class EventInfoCtrl {
     }
 
 
+
     /**
      * Update label text
+     *
      * @param event
      */
     public void updateLabelText(Event event) {
@@ -65,6 +73,7 @@ public class EventInfoCtrl {
 
     /**
      * Set event
+     *
      * @param event
      */
     public void setEvent(Event event) {
@@ -90,4 +99,42 @@ public class EventInfoCtrl {
         mainCtrl.showStartPage();
     }
 
+    /**
+     * add or edit expense method
+     */
+    public void addOrEditExpense() {
+        if (selectedExpense == null) {
+            mainCtrl.showAddOrEditExpense(new Expense());
+        }
+        mainCtrl.showAddOrEditExpense(selectedExpense);
+    }
+
+
+    /**
+     * adds participant
+     */
+    public void addOrEditParticipant(){
+        if (selectedParticipant == null) {
+            mainCtrl.showAddOrEditParticipants(new User());
+        }
+        mainCtrl.showAddOrEditParticipants(selectedParticipant);
+
+    }
+    /**
+     * This method is for usability. Checks the pressed key
+     *
+     * @param e
+     */
+    public void keyPressed(KeyEvent e) {
+        switch (e.getCode()) {
+            case ENTER:
+
+                break;
+            case ESCAPE:
+
+                break;
+            default:
+                break;
+        }
+    }
 }

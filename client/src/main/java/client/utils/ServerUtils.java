@@ -28,7 +28,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
 
 import commons.*;
-
 import org.glassfish.jersey.client.ClientConfig;
 
 import commons.Quote;
@@ -146,11 +145,6 @@ public class ServerUtils extends Util {
 
     /**
      * Adds expense
-     * <<<<<<< HEAD
-     * =======
-     * <p>
-     * >>>>>>> 24995ffe8b6aa8a21a6e8e7e0d272d9c04ba83df
-     *
      * @param expense to add
      */
     public void addExpense(Expense expense) {
@@ -162,8 +156,6 @@ public class ServerUtils extends Util {
     }
 
     /**
-     * <<<<<<< HEAD
-     * =======
      * Updates the given expense
      *
      * @param expense expense to update
@@ -175,6 +167,31 @@ public class ServerUtils extends Util {
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .put(Entity.entity(expense, APPLICATION_JSON), Expense.class);
+    }
+
+    /**
+     * user to add
+     * @param user
+     */
+    public void addUser(User user) {
+        ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).path("api/users/")
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .post(Entity.entity(user, APPLICATION_JSON), User.class);
+    }
+
+    /**
+     * update user
+     * @param user
+     */
+    public void updateUser(User user) {
+        ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER)
+                .path("api/users/update/" + user.getUserID())
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .put(Entity.entity(user, APPLICATION_JSON), User.class);
     }
 
     /**
@@ -192,8 +209,6 @@ public class ServerUtils extends Util {
     }
 
     /**
-     * >>>>>>> 24995ffe8b6aa8a21a6e8e7e0d272d9c04ba83df
-     *
      * @param targetUrl url of the server
      * @return StompSession
      * @throws InterruptedException connection with server was interrupted
