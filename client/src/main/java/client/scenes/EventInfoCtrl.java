@@ -62,7 +62,15 @@ public class EventInfoCtrl {
         this.event = event;
     }
 
+
+
+    /**
+     * Update description
+     * @param event
+     */
     public void updateDescription (Event event){
         description.setText(event.getTitle());
     }
+
+
 }

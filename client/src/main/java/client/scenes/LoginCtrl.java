@@ -59,7 +59,8 @@ public class LoginCtrl implements Initializable {
      * attempts to login to the server
      * with the inputted text
      */
-    private void connect() {
+
+    public void connect() {
         String admin = adminNameField.getText();
         String password = passwordAddressField.getText();
         service.connect(admin, password);
