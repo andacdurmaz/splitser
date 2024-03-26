@@ -9,6 +9,11 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="679.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.EventInfoCtrl">
    <children>
+      <Label fx:id="titleLabel" layoutX="29.0" layoutY="27.0" text="EVENT TITLE">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
       <Label layoutX="36.0" layoutY="126.0" text="Participants">
          <font>
             <Font name="System Bold" size="18.0" />
@@ -20,18 +25,22 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
+
+      <Button layoutX="143.0" layoutY="126.0" mnemonicParsing="false" onAction="#addOrEditParticipant" prefHeight="26.0" prefWidth="101.0" text="Add Participant" />
+      <Button layoutX="250.0" layoutY="127.0" mnemonicParsing="false" text="Edit Participant" />
+      <Button layoutX="143.0" layoutY="187.0" mnemonicParsing="false" onAction="#addOrEditExpense" prefHeight="26.0" prefWidth="101.0" text="Add Expense" />
       <ComboBox layoutX="36.0" layoutY="225.0" prefWidth="150.0" promptText="Participants" />
-      <Button layoutX="143.0" layoutY="126.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="101.0" text="Add Participant" />
-      <ListView layoutX="361.0" layoutY="121.0" prefHeight="234.0" prefWidth="290.0" />
-      <Label fx:id="titleLabel" layoutX="29.0" layoutY="27.0" text="EVENT TITLE">
-         <font>
-            <Font name="System Bold" size="24.0" />
-         </font>
-      </Label>
+      <Button layoutX="549.0" layoutY="32.0" mnemonicParsing="false" text="Send invitations" />
+
       <Button layoutX="361.0" layoutY="89.0" mnemonicParsing="false" text="All" />
       <Button layoutX="400.0" layoutY="89.0" mnemonicParsing="false" text="Paid by Participant" />
       <Button layoutX="525.0" layoutY="89.0" mnemonicParsing="false" text="Including Participant" />
-      <Button layoutX="143.0" layoutY="187.0" onMouseClicked="#addOrEditExpense" mnemonicParsing="false" prefHeight="26.0" prefWidth="101.0" text="Add Expense" />
-      <Button layoutX="250.0" layoutY="127.0" mnemonicParsing="false" text="Edit Participant" />
+      <ListView layoutX="361.0" layoutY="121.0" prefHeight="234.0" prefWidth="290.0" />
+      <Label disable="true" layoutX="473.0" layoutY="367.0" prefHeight="18.0" prefWidth="157.0" text="sumOfExpenses" />
+      <Label layoutX="376.0" layoutY="362.0" text="Total Sum">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
