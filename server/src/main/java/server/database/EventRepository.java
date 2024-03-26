@@ -27,16 +27,26 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface EventRepository extends JpaRepository<Event, Long>  {
+public interface EventRepository extends JpaRepository<Event, Long> {
     /**
      * gets the event by its ID
+     *
      * @param id the id of the event
      * @return the event of the given id
      */
     Event getEventById(long id);
 
     /**
+     * Checks if the event with this ID exists
+     *
+     * @param id id to check
+     * @return true if event with the given ID exists, false otherwise
+     */
+    Boolean existsById(long id);
+
+    /**
      * gets the creator of a certain event
+     *
      * @param id of the event
      * @return the creator
      */
@@ -44,12 +54,15 @@ public interface EventRepository extends JpaRepository<Event, Long>  {
 
     /**
      * gets the title of the event by its id
+     *
      * @param id of the event
      * @return title
      */
     ResponseEntity<String> getEventTitleById(long id);
+
     /**
      * gets the expenses from the event
+     *
      * @param id of the event
      * @return expenses in a list
      */
@@ -57,6 +70,7 @@ public interface EventRepository extends JpaRepository<Event, Long>  {
 
     /**
      * gets the description of a event by its id
+     *
      * @param id of the event
      * @return the description
      */

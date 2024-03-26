@@ -1,52 +1,63 @@
 package client.scenes;
 
-import com.google.inject.Inject;
 import client.utils.ServerUtils;
 import commons.Event;
+import commons.Expense;
 import jakarta.ws.rs.WebApplicationException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.TextField;
-import javafx.scene.input.KeyEvent;
+import javafx.scene.control.Button;
 import javafx.stage.Modality;
 
-public class AddEventCtrl {
+import javax.inject.Inject;
+import javafx.scene.input.KeyEvent;
 
+public class AddOrEditExpenseCtrl {
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
+    private final Event event;
+    private Expense expense;
 
     @FXML
-    private TextField title;
-
+    private Button ok;
 
     /**
-     * Inject method
+     * Constructor
+     * @param server   serverUtils
      *
-     * @param server   server
      * @param mainCtrl mainCtrl
+     * @param event event of expense
      */
     @Inject
-    public AddEventCtrl(ServerUtils server, MainCtrl mainCtrl) {
-        this.mainCtrl = mainCtrl;
+    public AddOrEditExpenseCtrl(ServerUtils server, MainCtrl mainCtrl, Event event) {
         this.server = server;
-
+        this.mainCtrl = mainCtrl;
+        this.event = event;
     }
 
     /**
-     * Cancel method, returns from adding an event
+     * Set expense
+     * @param expense to set
+     */
+    public void setExpense(Expense expense) {
+        this.expense = expense;
+    }
+
+    /**
+     * Cancel add/edit
      */
     public void cancel() {
         clearFields();
-        mainCtrl.showStartPage();
+        mainCtrl.showEventInfo(event);
     }
 
     /**
-     * Adds event
+     * Confirm add/edit
      */
     public void ok() {
-        Event newEvent = getEvent();
+
         try {
-            server.addEvent(newEvent);
+            server.addExpense(getExpense());
         } catch (WebApplicationException e) {
             var alert = new Alert(Alert.AlertType.ERROR);
             alert.initModality(Modality.APPLICATION_MODAL);
@@ -55,29 +66,28 @@ public class AddEventCtrl {
             return;
         }
         clearFields();
-        mainCtrl.showEventInfo(newEvent);
+        mainCtrl.showEventInfo(event);
     }
 
     /**
-     * getEvent method
+     * Get expense
      *
-     * @return specified event
+     * @return expense
      */
-    private Event getEvent() {
-        return new Event(title.getText());
+    private Expense getExpense() {
+        var p = new Expense();
+        return p;
     }
 
     /**
-     * clears fields
+     * Clears fields
      */
     private void clearFields() {
-        title.clear();
+
     }
 
     /**
-     * This method is for usability. Checks the pressed key
-     *
-     * @param e
+     * @param e key event
      */
     public void keyPressed(KeyEvent e) {
         switch (e.getCode()) {
@@ -86,9 +96,10 @@ public class AddEventCtrl {
                 break;
             case ESCAPE:
                 cancel();
-                break;
             default:
                 break;
         }
     }
+
 }
+

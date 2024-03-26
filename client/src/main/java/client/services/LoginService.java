@@ -36,7 +36,7 @@ public class LoginService {
      * and return to main menu
      */
     public void returnToMenu(){
-        mainCtrl.showOverview();
+        mainCtrl.showStartPage();
     }
 
 

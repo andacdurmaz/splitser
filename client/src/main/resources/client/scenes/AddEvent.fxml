@@ -6,19 +6,12 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="303.0" prefWidth="619.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.AddEventCtrl">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="147.0" prefWidth="619.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.AddEventCtrl">
    <children>
-      <Button layoutX="560.0" layoutY="250.0" mnemonicParsing="false" onAction="#ok" text="Ok" />
-      <Button layoutX="501.0" layoutY="250.0" mnemonicParsing="false" onAction="#cancel" text="Cancel" />
-      <TextField fx:id="description" layoutX="155.0" layoutY="210.0" prefHeight="26.0" prefWidth="345.0" />
-      <Label layoutX="36.0" layoutY="127.0" text="#participants" />
-      <Label layoutX="36.0" layoutY="85.0" text="Title" />
-      <Label layoutX="36.0" layoutY="214.0" text="Description" />
-      <Label layoutX="36.0" layoutY="168.0" text="Event Code" />
-      <TextField fx:id="eventCode" layoutX="155.0" layoutY="164.0" prefHeight="26.0" prefWidth="345.0" />
-      <TextField fx:id="numberOfParticipants" layoutX="155.0" layoutY="123.0" prefHeight="26.0" prefWidth="345.0" />
-      <TextField fx:id="title" layoutX="155.0" layoutY="81.0" prefHeight="26.0" prefWidth="345.0" />
+      <Button layoutX="519.0" layoutY="80.0" mnemonicParsing="false" onAction="#ok" text="Ok" />
+      <Button layoutX="446.0" layoutY="80.0" mnemonicParsing="false" onAction="#cancel" text="Cancel" />
+      <Label layoutX="46.0" layoutY="84.0" text="Title" />
+      <TextField fx:id="title" layoutX="77.0" layoutY="80.0" prefHeight="26.0" prefWidth="345.0" />
       <Label alignment="TOP_CENTER" layoutX="172.0" layoutY="22.0" prefHeight="46.0" prefWidth="274.0" text="Please add an event">
          <font>
             <Font size="30.0" />

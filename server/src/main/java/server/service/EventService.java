@@ -3,14 +3,12 @@ package server.service;
 import commons.Event;
 import commons.Expense;
 import commons.User;
-import commons.exceptions.NoSuchEventException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import server.database.EventRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class EventService {
@@ -38,6 +36,16 @@ public class EventService {
      */
     public List<Event> getAllEvents() {
         return eventRepository.findAll();
+    }
+
+    /**
+     * Checks if the event with the given id exists
+     *
+     * @param id event id
+     * @return true if the event with the given id exists, false otherwise
+     */
+    public Boolean existsById(long id) {
+        return eventRepository.existsById(id);
     }
 
     /**
@@ -106,21 +114,11 @@ public class EventService {
     /**
      * Updates the name of the event with the given id to be the given name
      *
-     * @param id      event id
-     * @param newName new name of the event
-     * @return the event with the new name
-     * @throws NoSuchEventException if there is no expense with the given id
+     * @param id       event id
+     * @param oldEvent Event's body
+     * @return the updated event
      */
-    public Event updateEventName(long id, String newName)
-            throws NoSuchEventException {
-        Optional<Event> event = eventRepository.findById(id);
-        if (event.isPresent()) {
-            Event e = event.get();
-            e.setTitle(newName);
-            return eventRepository.save(e);
-        } else {
-            throw new NoSuchEventException();
-        }
-
+    public Event updateEvent(long id, Event oldEvent) {
+        return eventRepository.save(oldEvent);
     }
 }

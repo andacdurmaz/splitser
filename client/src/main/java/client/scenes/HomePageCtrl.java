@@ -8,6 +8,7 @@ import javafx.beans.InvalidationListener;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -59,7 +60,6 @@ public class HomePageCtrl implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
         event.setCellValueFactory(q ->
                 new SimpleStringProperty(q.getValue().getTitle()));
         eventCode.setCellValueFactory(q ->
@@ -71,31 +71,30 @@ public class HomePageCtrl implements Initializable {
         server.registerForSocketMessages("api/events/all", Event.class, a -> {
             Platform.runLater(() -> refresh());
         });
-        eventsList.getItems().addListener((InvalidationListener) observable ->
-                updateLabelVisibility());
-        eventsList.setOnMouseClicked(this::onEventClicked);
-        table.setOnMouseClicked(this::onEventClicked);
+        // Listen for changes to the items in the ListView,
+        // if there are events make the label invisible
+        table.setOnMouseClicked(getEvent);
     }
 
     /**
-     * Check what is clicked by the mouse, if it is from the listview or tableview,
+     * Check what is clicked by the mouse, if it is from the tableview,
      * go to the clicked event, if it's neither do nothing.
      *
      * @param event event clicked by mouse
      */
-    private void onEventClicked(MouseEvent event) {
-        Event selectedEvent;
-        if (event.getSource() == eventsList) {
-            selectedEvent = eventsList.getSelectionModel().getSelectedItem();
-        } else if (event.getSource() == table) {
-            selectedEvent = table.getSelectionModel().getSelectedItem();
-        } else {
-            return;
+    private EventHandler<MouseEvent> getEvent = new EventHandler<MouseEvent>() {
+        public void handle(MouseEvent e) {
+            Event selectedEvent;
+            if (e.getSource() == table) {
+                selectedEvent = table.getSelectionModel().getSelectedItem();
+            } else {
+                return;
+            }
+            if (selectedEvent != null) {
+                mainCtrl.showEventInfo(selectedEvent);
+            }
         }
-        if (selectedEvent != null) {
-            mainCtrl.showEventInfo(selectedEvent);
-        }
-    }
+    };
 
     /**
      * If the ListView is empty, make the label visible. If it isn't make it invisible
