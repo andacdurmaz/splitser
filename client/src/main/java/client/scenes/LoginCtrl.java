@@ -62,7 +62,7 @@ public class LoginCtrl implements Initializable {
     public void connect() {
         String admin = adminNameField.getText();
         String password = passwordAddressField.getText();
-        service.connect(admin, password);
+        service.connect(password);
         service.setSession();
     }
 

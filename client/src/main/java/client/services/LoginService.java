@@ -48,11 +48,10 @@ public class LoginService {
     }
 
     /**
-     * @param username provided user name of admin
      * @param password the password, which the server will be randomly generating
      */
-    public void connect(String username, String password){
-        if(adminUtils.checkCredentials(username, password))
+    public void connect(String password){
+        if(server.checkCredentials(password))
             mainCtrl.showAdminOverview();
     }
 

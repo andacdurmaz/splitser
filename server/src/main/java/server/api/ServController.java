@@ -70,11 +70,11 @@ public class ServController {
      * @return body
      */
     @PostMapping("/login")
-    public ResponseEntity<?> login
+    public boolean login
     (@PathVariable("pass") long pass) {
         if (sserv.login(pass))
-            return ResponseEntity.ok("Login successful!");
-        return ResponseEntity.badRequest().body(401);
+            return true;
+        return false;
     }
 
     /**

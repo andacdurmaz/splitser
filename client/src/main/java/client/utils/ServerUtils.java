@@ -28,6 +28,8 @@ import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
 
 import commons.*;
+import jakarta.ws.rs.client.Invocation;
+import jakarta.ws.rs.core.Response;
 import org.glassfish.jersey.client.ClientConfig;
 
 import commons.Quote;
@@ -250,5 +252,19 @@ public class ServerUtils extends Util {
     public String send(String destinationAddress, Object o) {
         session.send(destinationAddress, o);
         return destinationAddress + o;
+    }
+
+    public boolean checkCredentials(String password) {
+        Invocation.Builder ans =  clientBuilder
+                .target(serverAddress)
+                .path("api/servers/login/" + password)
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON);
+        ans.post(Entity<String>. password);
+        if ( == Response.Status.OK.getStatusCode()) {
+            return true;
+        }
+
+        return false;
     }
 }
