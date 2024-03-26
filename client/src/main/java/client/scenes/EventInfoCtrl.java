@@ -21,6 +21,8 @@ public class EventInfoCtrl {
     @FXML
     private Label eventTitle;
     @FXML
+    private Label description;
+    @FXML
     private Label participantsLabel;
     @FXML
     private Label expensesLabel;
@@ -42,14 +44,6 @@ public class EventInfoCtrl {
         this.mainCtrl = mainCtrl;
     }
 
-    /**
-     * initialize method
-     * @param event
-     */
-    public void initialize(Event event) {
-        this.event = event;
-        eventTitle.setText(event.getTitle());
-    }
 
     /**
      * Update label text
@@ -61,12 +55,23 @@ public class EventInfoCtrl {
     }
 
     /**
+     * Update label text
+     * @param event
+     */
+    public void updateDesc(Event event) {
+        if (event != null || event.getTitle().length() != 0)
+            description.setText(event.getDescription());
+    }
+
+    /**
      * Set event
      * @param event
      */
     public void setEvent(Event event) {
         this.event = event;
     }
+
+
 
     public void addParticipant(ActionEvent actionEvent) {
         User user = new User("demo", "demo@gmail.com");

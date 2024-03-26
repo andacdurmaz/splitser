@@ -128,6 +128,7 @@ public class MainCtrl {
         primaryStage.setTitle(event.getTitle());
         eventInfoCtrl.setEvent(event);
         eventInfoCtrl.updateLabelText(event);
+        eventInfoCtrl.updateDesc(event);
         primaryStage.setScene(eventInfo);
     }
 
