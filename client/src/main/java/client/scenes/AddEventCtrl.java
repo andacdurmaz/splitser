@@ -17,6 +17,8 @@ public class AddEventCtrl {
 
     @FXML
     private TextField title;
+    @FXML
+    private TextField title1;
 
 
     /**
@@ -64,7 +66,10 @@ public class AddEventCtrl {
      * @return specified event
      */
     private Event getEvent() {
-        return new Event(title.getText());
+        Event event = new Event(title.getText());
+        if (title1.getText() != null)
+            event.setDescription(title1.getText());
+        return event;
     }
 
     /**

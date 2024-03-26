@@ -3,17 +3,26 @@ package client.scenes;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Event;
+import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.core.Response;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.TextField;
+import org.glassfish.jersey.client.ClientConfig;
+import org.springframework.http.ResponseEntity;
 
-
+import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
 
 public class StartPageCtrl {
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
     private ObservableList<Event> data;
+
+    @FXML
+    private TextField eventid;
 
     /**
      * constructor for the starting page
@@ -54,5 +63,12 @@ public class StartPageCtrl {
      * @param actionEvent the clicking of the button
      */
     public void joinEvent(ActionEvent actionEvent) {
+        Event event = ClientBuilder.newClient(new ClientConfig())
+                .target("http://localhost:8080/")
+                .path("api/events/" + eventid.getText())
+                .request(APPLICATION_JSON).accept(APPLICATION_JSON)
+                .get(Event.class);
+        mainCtrl.showEventInfo(event);
+
     }
 }

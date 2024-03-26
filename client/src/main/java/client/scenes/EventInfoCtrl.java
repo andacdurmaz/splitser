@@ -2,11 +2,16 @@ package client.scenes;
 
 import client.utils.ServerUtils;
 import commons.Event;
+import commons.User;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class EventInfoCtrl {
@@ -20,8 +25,8 @@ public class EventInfoCtrl {
     @FXML
     private Label expensesLabel;
     @FXML
-    private Label description;
-
+    private ComboBox<String> expenseComboBox;
+    private List<User> participants = new ArrayList<>();
 
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
@@ -50,8 +55,9 @@ public class EventInfoCtrl {
      * Update label text
      * @param event
      */
-    public void updateEventTitle(Event event) {
-        eventTitle.setText(event.getTitle());
+    public void updateLabelText(Event event) {
+        if (event != null || event.getTitle().length() != 0)
+            eventTitle.setText(event.getTitle());
     }
 
     /**
@@ -62,7 +68,14 @@ public class EventInfoCtrl {
         this.event = event;
     }
 
-    public void updateDescription (Event event){
-        description.setText(event.getTitle());
+    public void addParticipant(ActionEvent actionEvent) {
+        User user = new User("demo", "demo@gmail.com");
+        participants.add(user);
+        expenseComboBox.getItems().add(user.getUsername());
     }
+
+    public void back(ActionEvent actionEvent) {
+        mainCtrl.showStartPage();
+    }
+
 }
