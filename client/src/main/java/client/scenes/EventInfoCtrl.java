@@ -14,11 +14,13 @@ public class EventInfoCtrl {
     @FXML
     private AnchorPane rootPane;
     @FXML
-    private Label titleLabel;
+    private Label eventTitle;
     @FXML
     private Label participantsLabel;
     @FXML
     private Label expensesLabel;
+    @FXML
+    private Label description;
 
 
     private final ServerUtils server;
@@ -41,15 +43,15 @@ public class EventInfoCtrl {
      */
     public void initialize(Event event) {
         this.event = event;
-        titleLabel.setText(event.getTitle());
+        eventTitle.setText(event.getTitle());
     }
 
     /**
      * Update label text
      * @param event
      */
-    public void updateLabelText(Event event) {
-        titleLabel.setText(event.getTitle());
+    public void updateEventTitle(Event event) {
+        eventTitle.setText(event.getTitle());
     }
 
     /**
@@ -58,5 +60,9 @@ public class EventInfoCtrl {
      */
     public void setEvent(Event event) {
         this.event = event;
+    }
+
+    public void updateDescription (Event event){
+        description.setText(event.getTitle());
     }
 }
