@@ -59,4 +59,5 @@ public class EventInfoCtrl {
     public void setEvent(Event event) {
         this.event = event;
     }
+
 }
