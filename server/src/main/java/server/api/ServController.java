@@ -66,18 +66,27 @@ public class ServController {
 
     /**
      * Login method
-     *
-     * @param email    email to login with
-     * @param password password to login with
+     * @param pass password to login with
      * @return body
      */
     @PostMapping("/login")
     public ResponseEntity<?> login
-    (@RequestBody String email, @RequestBody String password) {
-        if (sserv.login(email, password))
+    (@PathVariable("pass") long pass) {
+        if (sserv.login(pass))
             return ResponseEntity.ok("Login successful!");
         return ResponseEntity.badRequest().body(401);
     }
+
+    /**
+     * method to get the randomly generated
+     * password of the server
+     * @return returns the password of the server
+     */
+    @GetMapping( "/pass")
+    public ResponseEntity<Long> getPass() {
+        return ResponseEntity.ok(sserv.getPass());
+    }
+
 
     /**
      * Shortcut method

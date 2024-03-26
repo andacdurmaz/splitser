@@ -20,9 +20,7 @@ public class AdminUtils extends Util{
                 .target(serverAddress)
                 .path("api/servers/login")
                 .request(APPLICATION_JSON)
-                .post(Entity.
-                        json("{\"email\": \"" + userName
-                                + "\", \"password\": \"" + password + "\"}"));
+                .post(Entity.json(password ));
 
         if (response.getStatus() == Response.Status.OK.getStatusCode()) {
             return true;
