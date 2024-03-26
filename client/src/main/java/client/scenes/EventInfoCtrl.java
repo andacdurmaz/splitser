@@ -72,13 +72,20 @@ public class EventInfoCtrl {
     }
 
 
-
+    /**
+     * adds a participant when the button is clicked
+     * @param actionEvent the clicking of the button
+     */
     public void addParticipant(ActionEvent actionEvent) {
         User user = new User("demo", "demo@gmail.com");
         participants.add(user);
         expenseComboBox.getItems().add(user.getUsername());
     }
 
+    /**
+     * goes back to the main page
+     * @param actionEvent when the button is clicked
+     */
     public void back(ActionEvent actionEvent) {
         mainCtrl.showStartPage();
     }

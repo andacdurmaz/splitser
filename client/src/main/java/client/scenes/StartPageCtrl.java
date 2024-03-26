@@ -3,20 +3,13 @@ package client.scenes;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Event;
-import jakarta.ws.rs.client.ClientBuilder;
-import jakarta.ws.rs.core.Response;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
-import org.glassfish.jersey.client.ClientConfig;
-import org.springframework.http.ResponseEntity;
-
-import java.util.List;
 import java.util.Optional;
 
-import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
 
 public class StartPageCtrl {
