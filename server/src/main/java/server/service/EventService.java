@@ -49,6 +49,16 @@ public class EventService {
     }
 
     /**
+     * Checks if the event with the given code exists
+     *
+     * @param eventCode event code
+     * @return true if the event with the given code exists, false otherwise
+     */
+//    public Boolean existsByEventCode(long eventCode) {
+//        return eventRepository.existsByEventCode(eventCode);
+//    }
+
+    /**
      * Method to get an event by its id
      *
      * @param id of the event
@@ -90,6 +100,17 @@ public class EventService {
         return eventRepository.getExpensesById(id);
     }
 
+
+    /**
+     * Method to get the participants by the id of the event
+     *
+     * @param id of the event
+     * @return the list of participants
+     */
+    public List<User> getParticipantsByEventId(long id) {
+        return eventRepository.getParticipantsById(id);
+    }
+
     /**
      * Method to get the description of an event by its id
      *
@@ -114,11 +135,10 @@ public class EventService {
     /**
      * Updates the name of the event with the given id to be the given name
      *
-     * @param id       event id
      * @param oldEvent Event's body
      * @return the updated event
      */
-    public Event updateEvent(long id, Event oldEvent) {
+    public Event updateEvent(Event oldEvent) {
         return eventRepository.save(oldEvent);
     }
 }

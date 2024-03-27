@@ -83,6 +83,18 @@ public class EventController {
         return eventService.getExpensesByEventId(id);
     }
 
+
+    /**
+     * Method to get the participants of an event by its id
+     *
+     * @param id of the event
+     * @return the participants of the event
+     */
+    @GetMapping(value = "/{id}/participants")
+    public List<User> getParticipantsByEventId(@PathVariable long id) {
+        return eventService.getParticipantsByEventId(id);
+    }
+
     /**
      * Method to get the description of an event by its id
      *
@@ -120,8 +132,18 @@ public class EventController {
         if (!eventService.existsById(id)) {
             return ResponseEntity.badRequest().build();
         }
-        Event updatedEvent = eventService.updateEvent(id, event);
+        Event updatedEvent = eventService.updateEvent(event);
         return ResponseEntity.ok(updatedEvent);
     }
+
+//    @PutMapping("/update/{eventcode}")
+//    public ResponseEntity<Event> updateEventByCode(@PathVariable("eventcode") long eventCode,
+//                                             @RequestBody Event event) {
+//        if (!eventService.existsByEventCode(eventCode)) {
+//            return ResponseEntity.badRequest().build();
+//        }
+//        Event updatedEvent = eventService.updateEvent(event);
+//        return ResponseEntity.ok(updatedEvent);
+//    }
 
 }

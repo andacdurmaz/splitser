@@ -282,4 +282,9 @@ public class EventRepositoryTest implements EventRepository{
     public ResponseEntity<String> getDescriptionById(long id) {
         return null;
     }
+
+    @Override
+    public List<User> getParticipantsById(long id) {
+        return null;
+    }
 }

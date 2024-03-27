@@ -43,6 +43,13 @@ public interface EventRepository extends JpaRepository<Event, Long> {
      * @return true if event with the given ID exists, false otherwise
      */
     Boolean existsById(long id);
+    /**
+     * Checks if the event with this event code exists
+     *
+     * @param eventCode  to check
+     * @return true if event with the given event code exists, false otherwise
+     */
+//    Boolean existsByEventCode(long eventCode);
 
     /**
      * gets the creator of a certain event
@@ -69,11 +76,18 @@ public interface EventRepository extends JpaRepository<Event, Long> {
     List<Expense> getExpensesById(long id);
 
     /**
-     * gets the description of a event by its id
+     * gets the description of an event by its id
      *
      * @param id of the event
      * @return the description
      */
     ResponseEntity<String> getDescriptionById(long id);
+
+    /**
+     * gets the participants of an event
+     * @param id of the event
+     * @return the participants in a list
+     */
+    List<User> getParticipantsById(long id);
 }
 

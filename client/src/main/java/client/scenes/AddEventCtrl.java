@@ -72,9 +72,9 @@ public class AddEventCtrl {
         List<Long> eventCodes = server.getEvents().stream().map(q -> q.getEventCode()).toList();
         Event event = new Event(title.getText());
         Random random = new Random();
-        long eventCode = random.nextLong() % 100000000;
+        long eventCode;
         do {
-            eventCode = random.nextLong() % 100000000;
+            eventCode = Math.abs(random.nextLong() % 100000000);
         }
         while (eventCodes.contains(eventCode));
 

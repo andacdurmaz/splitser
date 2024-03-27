@@ -11,12 +11,13 @@ import javafx.stage.Modality;
 
 import javax.inject.Inject;
 import javafx.scene.input.KeyEvent;
+import java.util.List;
 
 public class AddOrEditParticipantCtrl {
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
 
-    private final Event event;
+    private Event event;
     private  User user;
 
     @FXML
@@ -49,11 +50,19 @@ public class AddOrEditParticipantCtrl {
     }
 
     /**
-     * Set expense
+     * Set user
      * @param user to set
      */
     public void setUser(User user) {
         this.user = user;
+    }
+
+    /**
+     * Set event
+     * @param event to set
+     */
+    public void setEvent(Event event) {
+        this.event = event;
     }
 
     /**
@@ -68,7 +77,7 @@ public class AddOrEditParticipantCtrl {
      * Confirm add/edit
      */
     public void ok() {
-
+        user = getUser();
         try {
             server.addUser(getUser());
         } catch (WebApplicationException e) {
@@ -78,6 +87,11 @@ public class AddOrEditParticipantCtrl {
             alert.showAndWait();
             return;
         }
+        List<User> participants = event.getParticipants();
+        if (!participants.contains(user))
+            participants.add(user);
+        event.setParticipants(participants);
+        server.updateEvent(event);
         clearFields();
         mainCtrl.showEventInfo(event);
     }

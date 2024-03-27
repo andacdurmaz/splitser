@@ -175,7 +175,7 @@ public class ServerUtils extends Util {
      */
     public void addUser(User user) {
         ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER).path("api/users/")
+                .target(SERVER).path("api/users/add")
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .post(Entity.entity(user, APPLICATION_JSON), User.class);
@@ -207,6 +207,16 @@ public class ServerUtils extends Util {
                 .accept(APPLICATION_JSON)
                 .put(Entity.entity(event, APPLICATION_JSON), Event.class);
     }
+
+
+//    public void updateEventByCode(Event event) {
+//        ClientBuilder.newClient(new ClientConfig())
+//                .target(SERVER)
+//                .path("api/events/update/" + event.getEventCode())
+//                .request(APPLICATION_JSON)
+//                .accept(APPLICATION_JSON)
+//                .put(Entity.entity(event, APPLICATION_JSON), Event.class);
+//    }
 
     /**
      * @param targetUrl url of the server

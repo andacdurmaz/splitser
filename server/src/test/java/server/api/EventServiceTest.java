@@ -72,6 +72,17 @@ public class EventServiceTest {
     }
 
     @Test
+    public void testGetParticipantsById() {
+        Event event = new Event("Title", 4, "Description");
+        EventRepository eventRepository = mock(EventRepository.class);
+        EventService eventService = new EventService(eventRepository);
+
+        when(eventRepository.getParticipantsById(1)).thenReturn(new ArrayList<>());
+        List<User> participants = eventService.getParticipantsByEventId(1);
+        assertEquals(0, participants.size());
+    }
+
+    @Test
     public void testGetDescriptionByEventId() {
         Event event = new Event("Title", 4, "Description");
         EventRepository eventRepository = mock(EventRepository.class);
