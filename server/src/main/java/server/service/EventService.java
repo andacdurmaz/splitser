@@ -121,4 +121,12 @@ public class EventService {
     public Event updateEvent(long id, Event oldEvent) {
         return eventRepository.save(oldEvent);
     }
+
+    public ResponseEntity<Event> deleteEvent(long event) {
+        if (!existsById(event)) {
+            return ResponseEntity.badRequest().build();
+        }
+        eventRepository.deleteById(event);
+        return ResponseEntity.ok().build();
+    }
 }

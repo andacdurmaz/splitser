@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import server.service.EventService;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/events")
@@ -122,6 +123,11 @@ public class EventController {
         }
         Event updatedEvent = eventService.updateEvent(id, event);
         return ResponseEntity.ok(updatedEvent);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Event> deleteEvent(@PathVariable("id") long id) {
+        return eventService.deleteEvent(id);
     }
 
 }
