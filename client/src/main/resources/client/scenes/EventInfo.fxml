@@ -4,43 +4,56 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="400.0" prefWidth="679.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.EventInfoCtrl">
    <children>
-      <Label fx:id="titleLabel" layoutX="29.0" layoutY="27.0" text="EVENT TITLE">
+      <Label layoutX="21.0" layoutY="121.0" text="Participants">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label disable="true" layoutX="21.0" layoutY="148.0" prefHeight="18.0" prefWidth="157.0" text="Participants list" />
+      <Label layoutX="21.0" layoutY="186.0" text="Expenses ">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="expenseComboBox" layoutX="24.0" layoutY="213.0" prefWidth="150.0" promptText="Participants" />
+      <Button layoutX="21.0" layoutY="299.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="317.0" text="Add Expense" />
+      <ListView layoutX="361.0" layoutY="109.0" prefHeight="246.0" prefWidth="290.0" />
+      <Label fx:id="eventTitle" layoutX="21.0" layoutY="26.0" text="EVENT TITLE">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
-      <Label layoutX="36.0" layoutY="126.0" text="Participants">
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font>
-      </Label>
-      <Label disable="true" layoutX="36.0" layoutY="153.0" prefHeight="18.0" prefWidth="157.0" text="Participants list" />
-      <Label layoutX="34.0" layoutY="186.0" text="Expenses">
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font>
-      </Label>
-
-      <Button layoutX="143.0" layoutY="126.0" mnemonicParsing="false" onAction="#addOrEditParticipant" prefHeight="26.0" prefWidth="101.0" text="Add Participant" />
-      <Button layoutX="250.0" layoutY="127.0" mnemonicParsing="false" text="Edit Participant" />
-      <Button layoutX="143.0" layoutY="187.0" mnemonicParsing="false" onAction="#addOrEditExpense" prefHeight="26.0" prefWidth="101.0" text="Add Expense" />
-      <ComboBox layoutX="36.0" layoutY="225.0" prefWidth="150.0" promptText="Participants" />
-      <Button layoutX="549.0" layoutY="32.0" mnemonicParsing="false" text="Send invitations" />
-
-      <Button layoutX="361.0" layoutY="89.0" mnemonicParsing="false" text="All" />
-      <Button layoutX="400.0" layoutY="89.0" mnemonicParsing="false" text="Paid by Participant" />
-      <Button layoutX="525.0" layoutY="89.0" mnemonicParsing="false" text="Including Participant" />
-      <ListView layoutX="361.0" layoutY="121.0" prefHeight="234.0" prefWidth="290.0" />
-      <Label disable="true" layoutX="473.0" layoutY="367.0" prefHeight="18.0" prefWidth="157.0" text="sumOfExpenses" />
-      <Label layoutX="376.0" layoutY="362.0" text="Total Sum">
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font>
-      </Label>
+      <Button layoutX="361.0" layoutY="76.0" mnemonicParsing="false" text="All" />
+      <Button layoutX="403.0" layoutY="76.0" mnemonicParsing="false" text="Paid by Participant" />
+      <Button layoutX="526.0" layoutY="76.0" mnemonicParsing="false" text="Including Participant" />
+      <Label fx:id="description" layoutX="21.0" layoutY="61.0" prefHeight="55.0" prefWidth="290.0" text="Description " />
+      <Button layoutX="311.0" layoutY="70.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="30.0">
+         <graphic>
+            <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/EditPencilIcon.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button layoutX="311.0" layoutY="24.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="30.0">
+         <graphic>
+            <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/EditPencilIcon.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button id="addParticipant" layoutX="137.0" layoutY="122.0" mnemonicParsing="false" onAction="#addParticipant" text="Add" />
+      <Button id="editParticipant" layoutX="190.0" layoutY="122.0" mnemonicParsing="false" text="Edit" />
+      <Button layoutX="613.0" layoutY="12.0" mnemonicParsing="false" onAction="#back" text="Back" />
    </children>
 </AnchorPane>

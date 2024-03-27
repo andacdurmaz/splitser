@@ -28,13 +28,13 @@ public class HomePageCtrlTest {
     private MainCtrl mainCtrlMock;
 
     @InjectMocks
-    private HomePageCtrl homePageCtrlMock;
+    private EventOverviewCtrl eventOverviewCtrlMock;
 
 //    @BeforeEach
 //    public void setUp() {
 //        URL mockUrl = mock(URL.class);
 //        ResourceBundle mockResource = mock(ResourceBundle.class);
-//        homePageCtrlMock.initialize(mockUrl, mockResource);
+//        eventOverviewCtrlMock.initialize(mockUrl, mockResource);
 //    }
 //
 //    /**
@@ -42,8 +42,8 @@ public class HomePageCtrlTest {
 //     */
 //    @Test
 //    public void constructorTest() {
-//        assertSame(serverMock, homePageCtrlMock.getServer());
-//        assertSame(mainCtrlMock, homePageCtrlMock.getMainCtrl());
+//        assertSame(serverMock, eventOverviewCtrlMock.getServer());
+//        assertSame(mainCtrlMock, eventOverviewCtrlMock.getMainCtrl());
 //    }
 //
 //    /**
@@ -51,7 +51,7 @@ public class HomePageCtrlTest {
 //     */
 //    @Test
 //    public void updateLabelVisibilityEmptyTest() {
-//        homePageCtrlMock.initialize(null,null);
+//        eventOverviewCtrlMock.initialize(null,null);
 //        assertTrue(emptyLabelMock.isVisible());
 //    }
 //
@@ -62,7 +62,7 @@ public class HomePageCtrlTest {
 //    public void updateLabelVisibilityNotEmptyTest() {
 //        ObservableList<String> nonEmptyList = FXCollections.observableArrayList("Item 1");
 //        eventsListMock.setItems(nonEmptyList);
-//        homePageCtrlMock.initialize(null,null);
+//        eventOverviewCtrlMock.initialize(null,null);
 //        assertFalse(emptyLabelMock.isVisible());
 //    }
 

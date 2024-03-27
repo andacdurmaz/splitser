@@ -30,6 +30,8 @@ public class MainCtrl {
     private StartPageCtrl startPageCtrl;
     private Scene startPage;
 
+    private EventOverviewCtrl eventOverviewCtrl;
+    private Scene overview;
 
     private AddEventCtrl addCtrl;
     private Scene add;
@@ -88,6 +90,14 @@ public class MainCtrl {
     }
 
     /**
+     * initializes the eventOverview page
+     * @param overview the control page of the EventOverview
+     */
+    public void overviewInitialize(Pair<EventOverviewCtrl, Parent> overview) {
+        this.eventOverviewCtrl = overview.getKey();
+        this.overview = new Scene(overview.getValue());
+    }
+    /**
      * Initialize mainCtrl
      *
      * @param adminOverview  Admin overview
@@ -132,6 +142,7 @@ public class MainCtrl {
         primaryStage.setTitle(event.getTitle());
         eventInfoCtrl.setEvent(event);
         eventInfoCtrl.updateLabelText(event);
+        eventInfoCtrl.updateDesc(event);
         primaryStage.setScene(eventInfo);
         eventInfo.setOnKeyPressed(e -> eventInfoCtrl.keyPressed(e));
     }

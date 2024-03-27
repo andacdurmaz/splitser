@@ -226,6 +226,8 @@ public class EventRepositoryTest implements EventRepository{
         return null;
     }
 
+
+
     /**
      * Checks if the event with this ID exists
      *

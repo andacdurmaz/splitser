@@ -6,16 +6,21 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="147.0" prefWidth="619.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.AddEventCtrl">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="204.0" prefWidth="619.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.AddEventCtrl">
    <children>
+      <Button layoutX="534.0" layoutY="79.0" mnemonicParsing="false" onAction="#ok" text="Ok" />
+      <Button layoutX="463.0" layoutY="79.0" mnemonicParsing="false" onAction="#cancel" text="Cancel" />
+      <Label layoutX="64.0" layoutY="83.0" text="Title*" />
+      <TextField fx:id="title" layoutX="100.0" layoutY="79.0" prefHeight="26.0" prefWidth="345.0" />
       <Label alignment="TOP_CENTER" layoutX="172.0" layoutY="22.0" prefHeight="46.0" prefWidth="274.0" text="Please add an event">
          <font>
             <Font size="30.0" />
          </font>
       </Label>
-      <Label layoutX="46.0" layoutY="84.0" text="Title" />
-      <TextField fx:id="title" layoutX="77.0" layoutY="80.0" prefHeight="26.0" prefWidth="345.0" />
-      <Button layoutX="446.0" layoutY="80.0" mnemonicParsing="false" onAction="#cancel" text="Cancel" />
-      <Button layoutX="519.0" layoutY="80.0" mnemonicParsing="false" onAction="#ok" text="Ok" />
+      <Label layoutX="27.0" layoutY="131.0" text="Description" />
+      <TextField fx:id="title1" layoutX="100.0" layoutY="127.0" prefHeight="26.0" prefWidth="345.0" />
+      <Button layoutX="463.0" layoutY="127.0" mnemonicParsing="false" onAction="#cancel" text="Cancel" />
+      <Button layoutX="534.0" layoutY="127.0" mnemonicParsing="false" onAction="#ok" text="Ok" />
+      <Label layoutX="27.0" layoutY="172.0" text="*required" />
    </children>
 </AnchorPane>

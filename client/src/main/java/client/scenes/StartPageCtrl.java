@@ -6,7 +6,9 @@ import commons.Event;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-
+import javafx.fxml.FXML;
+import javafx.scene.control.TextField;
+import java.util.Optional;
 
 
 
@@ -14,6 +16,9 @@ public class StartPageCtrl {
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
     private ObservableList<Event> data;
+
+    @FXML
+    private TextField eventid;
 
     /**
      * constructor for the starting page
@@ -54,5 +59,11 @@ public class StartPageCtrl {
      * @param actionEvent the clicking of the button
      */
     public void joinEvent(ActionEvent actionEvent) {
+        Optional<Event> event = server.getEvents().stream()
+                .filter(q -> q.getEventCode() == Long.parseLong(eventid.getText()))
+                .findFirst();
+        if (event.isPresent())
+            mainCtrl.showEventInfo(event.get());
+//        else
     }
 }
