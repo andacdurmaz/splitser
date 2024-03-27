@@ -115,6 +115,7 @@ public class AdminOverviewCtrl implements Initializable {
 
             Event newEvent = objectMapper.readValue(selectedJson, Event.class);
             server.addEvent(newEvent);
+            refresh();
         }catch (IOException ex) {
             System.out.println("There was a problem with adding a event (Admin)");
         }
