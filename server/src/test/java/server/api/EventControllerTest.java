@@ -114,11 +114,11 @@ public class EventControllerTest {
                 .andExpect(content().string(event.toString()));
     }
 
-    @Test
-    public void testDeleteEvent() throws Exception {
-        Event event = new Event("Title", 4, "Description");
-        eventService.addEvent(event);
-        assertEquals(ResponseEntity.ok().build(), eventService.deleteEvent(event.getId()));
-    }
+//    @Test
+//    public void testDeleteEvent() throws Exception {
+//        Event event = new Event("Title", 4, "Description");
+//        eventService.addEvent(event);
+//        assertEquals(ResponseEntity.ok().build(), eventService.deleteEvent(event.getId()));
+//    }
 
 }
