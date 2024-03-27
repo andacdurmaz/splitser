@@ -16,6 +16,7 @@
 package client.scenes;
 
 import client.Main;
+
 import commons.Event;
 import commons.Expense;
 import commons.User;
@@ -23,6 +24,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.util.Pair;
+
 
 public class MainCtrl {
 
@@ -135,6 +137,8 @@ public class MainCtrl {
         primaryStage.setScene(eventInfo);
         eventInfo.setOnKeyPressed(e -> eventInfoCtrl.keyPressed(e));
     }
+
+
 
     /**
      * Shows add or edit expense page

@@ -131,6 +131,19 @@ public class ServerUtils extends Util {
     }
 
     /**
+     * Get event by id
+     * @param id of the event
+     * @return the event from the id
+     */
+    public Event getEventById(long id) {
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER)
+                .path("api/events/" + id)
+                .request(APPLICATION_JSON).accept(APPLICATION_JSON)
+                .get(new GenericType<Event>() {
+                });
+    }
+    /**
      * Adds event
      *
      * @param event event to add
