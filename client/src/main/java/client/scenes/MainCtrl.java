@@ -227,19 +227,10 @@ public class MainCtrl {
      */
 
     public List<Event> getJoinedEvents() throws FileNotFoundException {
-
-        ObjectMapper objectmapper = new ObjectMapper();
-        File configFile = new File("client/src/main/resources/CONFIG.json");
-        Scanner scanner = new Scanner(configFile);
-        StringBuilder builder = new StringBuilder();
         List<Event> list = new ArrayList<>();
         ServerUtils serverUtils = new ServerUtils();
 
-        while(scanner.hasNext()){
-            builder.append(scanner.next());
-        }
-        String jsonString = builder.toString();
-        scanner.close();
+        String jsonString = readConfigFile("client/src/main/resources/CONFIG.json");
         JSONObject jsonObject = new JSONObject(jsonString);
         JSONArray events = jsonObject.getJSONArray("events");
         for (int i = 0; i < events.length(); i++) {
@@ -247,8 +238,17 @@ public class MainCtrl {
             list.add(serverUtils.getEventById(eventId));
         }
         return list;
-
     }
 
+    private String readConfigFile(String filePath) throws FileNotFoundException {
+        File configFile = new File(filePath);
+        Scanner scanner = new Scanner(configFile);
+        StringBuilder builder = new StringBuilder();
+        while(scanner.hasNext()){
+            builder.append(scanner.next());
+        }
+        scanner.close();
+        return builder.toString();
+    }
 
 }

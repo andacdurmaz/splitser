@@ -41,6 +41,33 @@ public class MainCtrlTest {
 
     @Test
     public void testGetJoinedEvents() {
-
+        String testString = "{\n" +
+                "  \"User\" : {\n" +
+                "    \"name\": \"John Doe\",\n" +
+                "    \"Language\": \"en\",\n" +
+                "    \"Currency\": \"USD\",\n" +
+                "    \"Events\": [\n" +
+                "      {\n" +
+                "        \"id\": 0,\n" +
+                "        \"eventCode\": 4434,\n" +
+                "        \"title\": \"title\",\n" +
+                "        \"amountOfParticipants\": 3,\n" +
+                "        \"expenses\": [],\n" +
+                "        \"description\": \"description\",\n" +
+                "        \"sumOfExpenses\": 0.0\n" +
+                "      },\n" +
+                "      {\n" +
+                "        \"id\": 1,\n" +
+                "        \"eventCode\": 7239,\n" +
+                "        \"title\": \"title 2\",\n" +
+                "        \"amountOfParticipants\": 4,\n" +
+                "        \"expenses\": [],\n" +
+                "        \"description\": \"description 2\",\n" +
+                "        \"sumOfExpenses\": 21.89\n" +
+                "      }\n" +
+                "    ]\n" +
+                "  }\n" +
+                "}";
+        //TODO make a new method that allows the reader to be decoupled from the file.
     }
 }
