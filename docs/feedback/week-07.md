@@ -45,4 +45,4 @@ Feedback: The changes that were presented were merged to main. There is more wor
 
 Mark: Sufficient
 
-Feedback: I can't really tell based on ur discussion if you are splitting work equally. It would be nice if you could reflect each week on how the tasjs were distributed and such.
+Feedback: I can't really tell based on your discussion if you are splitting work equally. It would be nice if you could reflect each week on how the tasks were distributed and such.
