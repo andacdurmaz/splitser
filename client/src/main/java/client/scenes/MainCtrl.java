@@ -16,7 +16,18 @@
 package client.scenes;
 
 import client.Main;
+import client.utils.ServerUtils;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
+
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 import commons.Event;
 import commons.Expense;
 import commons.User;
@@ -207,6 +218,36 @@ public class MainCtrl {
         loginCtrl.returnToMenu();
         primaryStage.setTitle("Login");
         primaryStage.setScene(loginScreenScene);
+    }
+
+    /**
+     * gets the events that the user has joined from the CONFIG file
+     * @return list of events
+     * @throws FileNotFoundException if the file is not found
+     */
+
+    public List<Event> getJoinedEvents() throws FileNotFoundException {
+
+        ObjectMapper objectmapper = new ObjectMapper();
+        File configFile = new File("client/src/main/resources/CONFIG.json");
+        Scanner scanner = new Scanner(configFile);
+        StringBuilder builder = new StringBuilder();
+        List<Event> list = new ArrayList<>();
+        ServerUtils serverUtils = new ServerUtils();
+
+        while(scanner.hasNext()){
+            builder.append(scanner.next());
+        }
+        String jsonString = builder.toString();
+        scanner.close();
+        JSONObject jsonObject = new JSONObject(jsonString);
+        JSONArray events = jsonObject.getJSONArray("events");
+        for (int i = 0; i < events.length(); i++) {
+            long eventId = events.getJSONObject(i).getLong("id");
+            list.add(serverUtils.getEventById(eventId));
+        }
+        return list;
+
     }
 
 
