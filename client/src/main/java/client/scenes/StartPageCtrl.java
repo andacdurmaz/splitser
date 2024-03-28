@@ -28,7 +28,7 @@ public class StartPageCtrl {
     private TextField eventid;
     @FXML
     private ImageView flagDisplay;
-     @FXML
+    @FXML
     private Label noCode;
 
 
