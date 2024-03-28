@@ -155,7 +155,15 @@ public class AdminOverviewCtrl implements Initializable {
 
     private EventHandler<MouseEvent> getEvent = new EventHandler<MouseEvent>() {
         public void handle(MouseEvent e) {
-            mainCtrl.showAdminEventInfo(table.getSelectionModel().getSelectedItem());
+            Event selectedEvent;
+            if (e.getSource() == table) {
+                selectedEvent = table.getSelectionModel().getSelectedItem();
+            } else {
+                return;
+            }
+            if (selectedEvent != null) {
+                mainCtrl.showAdminEventInfo(selectedEvent);
+            }
         }
     };
 
