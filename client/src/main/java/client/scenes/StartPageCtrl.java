@@ -7,15 +7,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import java.awt.*;
-import java.net.URL;
 import java.util.Optional;
-import java.util.ResourceBundle;
 
 
 public class StartPageCtrl {
@@ -39,13 +35,18 @@ public class StartPageCtrl {
         this.server = server;
     }
 
+    /**
+     * Sets the image of the liveLanguage button
+     */
     public void imageset(){
-        if (mainCtrl.locale.getLanguage().equals("en")){
-            Image newImage = new Image(getClass().getResourceAsStream("/client/images/englishIcon.png"));
+        if (mainCtrl.getLocale().getLanguage().equals("en")){
+            Image newImage = new Image(getClass()
+                    .getResourceAsStream("/client/images/englishIcon.png"));
             flagDisplay.setImage(newImage);
         }
-        else if (mainCtrl.locale.getLanguage().equals("nl")){
-            Image newImage = new Image(getClass().getResourceAsStream("/client/images/dutchIcon.png"));
+        else if (mainCtrl.getLocale().getLanguage().equals("nl")){
+            Image newImage = new Image(getClass()
+                    .getResourceAsStream("/client/images/dutchIcon.png"));
             flagDisplay.setImage(newImage);
         }
     }
@@ -87,6 +88,9 @@ public class StartPageCtrl {
 //        else
     }
 
+    /**
+     * Method to show the languageSwitch
+     */
     public void languageSwitch(){
         mainCtrl.showLanguageSwitch('s');
     }

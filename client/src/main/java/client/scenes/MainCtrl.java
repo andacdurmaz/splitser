@@ -19,7 +19,6 @@ import client.Main;
 import commons.Event;
 import commons.Expense;
 import commons.User;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -53,7 +52,7 @@ public class MainCtrl {
 
     private Scene adminEventInfo;
     private ResourceBundle bundle;
-    public Locale locale = new Locale("en");
+    private Locale locale = new Locale("en");
 
 
     /**
@@ -95,9 +94,18 @@ public class MainCtrl {
         primaryStage.show();
 
     }
+
+    /**
+     * Method which checks the language in config file
+     */
     public void getConfigLocale(){
         setLocale("en");
     }
+
+    /**
+     * Method which sets the language
+     * @param language the language
+     */
     public void setLocale(String language){
         this.locale = new Locale(language);
         this.bundle = ResourceBundle.getBundle("locales.resource", locale);
@@ -127,6 +135,14 @@ public class MainCtrl {
         this.adminEventInfo = new Scene(adminEventInfo.getValue());
 
 
+    }
+
+    /**
+     * Getter for language
+     * @return returns the locale
+     */
+    public Locale getLocale() {
+        return locale;
     }
 
     /**
@@ -230,6 +246,10 @@ public class MainCtrl {
         primaryStage.setScene(loginScreenScene);
     }
 
+    /**
+     * shows the languageswitch pages
+     * @param c a char from previous page
+     */
     public void showLanguageSwitch(char c) {
         var languageSwitch = Main.FXML.load(LanguageSwitchCtrl.class,bundle, "client",
                 "scenes", "LanguageSwitch.fxml");

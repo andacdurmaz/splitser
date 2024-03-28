@@ -57,25 +57,43 @@ public class LanguageSwitchCtrl implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Image englishFlag = new Image(getClass().getResourceAsStream("/client/images/englishIcon.png"));
+        Image englishFlag = new Image(getClass()
+                .getResourceAsStream("/client/images/englishIcon.png"));
         englishImage.setImage(englishFlag);
-        Image dutchFlag = new Image(getClass().getResourceAsStream("/client/images/dutchIcon.png"));
+        Image dutchFlag = new Image(getClass()
+                .getResourceAsStream("/client/images/dutchIcon.png"));
         dutchImage.setImage(dutchFlag);
     }
+
+    /**
+     * Set the return page
+     * @param c a char which indicated which page
+     */
     public void setReturn(char c){
         returningPage = c;
     }
 
+    /***
+     * Method to go back to previous page
+     */
     public void backButton(){
         if (returningPage=='o')
             System.out.println("overview");
         else
             mainCtrl.showStartPage();
     }
+
+    /**
+     * Method to set the language to english
+     */
     public void setEnglish(){
         mainCtrl.setLocale("en");
         backButton();
     }
+
+    /**
+     * Method to set language to dutch
+     */
     public void setDutch(){
         mainCtrl.setLocale("nl");
         backButton();

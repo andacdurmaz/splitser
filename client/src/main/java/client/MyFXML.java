@@ -60,9 +60,11 @@ public class MyFXML {
             throw new RuntimeException(e);
         }
     }
+
     /**
      * Placeholder javadoc for checkstyle
      * @param c placeholder
+     * @param bundle ResourceBundle
      * @param parts placeholder
      * @return placeholder
      * @param <T> placeholder
