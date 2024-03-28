@@ -226,7 +226,7 @@ public class MainCtrl {
      * @throws IOException if the file is not found
      */
     public List<Event> getJoinedEvents() throws IOException {
-        return getJoinedEventsProvidingPath("src/main/resources/config.json");
+        return getJoinedEventsProvidingPath("src/main/resources/CONFIG.json");
     }
 
     /**
