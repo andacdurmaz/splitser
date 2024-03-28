@@ -230,6 +230,17 @@ public class UserController {
     }
 
     /**
+     * Deletes a user by id.
+     * @param id the user's id
+     * @return the response entity
+     */
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<User> deleteUser(@PathVariable("id") long id) {
+        return service.deleteUser(id);
+    }
+
+
+    /**
      * Gets the specified users debts
      *
      * @param id id of user

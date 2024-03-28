@@ -55,7 +55,7 @@
       <Button id="addParticipant" layoutX="129.0" layoutY="122.0" mnemonicParsing="false" onAction="#addParticipant" text="Add" />
       <Button id="editParticipant" layoutX="231.0" layoutY="153.0" mnemonicParsing="false" onAction="#editParticipant" text="Edit" />
       <Button layoutX="613.0" layoutY="12.0" mnemonicParsing="false" onAction="#back" text="Back" />
-      <Button id="editParticipant" layoutX="273.0" layoutY="153.0" mnemonicParsing="false" onAction="#editParticipant" text="Delete" />
+      <Button id="deleteParticipant" layoutX="273.0" layoutY="153.0" mnemonicParsing="false" onAction="#deleteParticipant" text="Delete" />
       <ComboBox fx:id="participantCombobox" layoutX="174.0" layoutY="122.0" onAction="#selectParticipant" prefWidth="150.0" promptText="Participants" />
    </children>
 </AnchorPane>

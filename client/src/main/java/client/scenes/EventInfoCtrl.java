@@ -188,4 +188,18 @@ public class EventInfoCtrl {
     public void selectParticipant(ActionEvent actionEvent) {
         selectedParticipant = participantCombobox.getValue();
     }
+
+    /**
+     * deletes the selected participant from the event
+     * @param actionEvent when the button is clicked
+     */
+    public void deleteParticipant(ActionEvent actionEvent) {
+        User temp = selectedParticipant;
+        participantCombobox.getItems().remove(temp);
+        expenseComboBox.getItems().remove(temp);
+        List<User> oldParticipants = event.getParticipants();
+        oldParticipants = oldParticipants.stream().filter(q -> !q.equals(temp)).toList();
+        event.setParticipants(oldParticipants);
+        server.updateEvent(event);
+    }
 }

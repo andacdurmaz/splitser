@@ -27,6 +27,7 @@ import javafx.util.Pair;
 public class MainCtrl {
 
     private Stage primaryStage;
+    private Stage popupStage;
     private StartPageCtrl startPageCtrl;
     private Scene startPage;
 
@@ -88,6 +89,9 @@ public class MainCtrl {
         primaryStage.show();
 
     }
+
+
+
 
     /**
      * initializes the eventOverview page

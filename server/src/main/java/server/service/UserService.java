@@ -6,6 +6,7 @@ import commons.User;
 import commons.exceptions.NoDebtFoundException;
 import commons.exceptions.NoSuchExpenseException;
 import commons.exceptions.NoUserFoundException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import server.database.UserRepository;
 
@@ -269,4 +270,16 @@ public class UserService {
         return repo.save(user);
     }
 
+    /**
+     * deletes a user from the database
+     * @param id of the user
+     * @return user
+     */
+    public ResponseEntity<User> deleteUser(long id) {
+        if (!existsById(id)) {
+            return ResponseEntity.badRequest().build();
+        }
+        repo.deleteById(id);
+        return ResponseEntity.ok().build();
+    }
 }

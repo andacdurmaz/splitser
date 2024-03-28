@@ -224,6 +224,20 @@ public class ServerUtils extends Util {
                 .put(Entity.entity(user, APPLICATION_JSON), User.class);
     }
 
+
+    /**
+     * deletes a user from the database
+     * @param user the deleted user
+     */
+    public void deleteUser(User user) {
+        ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER)
+                .path("api/users/delete/" + user.getUserID())
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .put(Entity.entity(user, APPLICATION_JSON), User.class);
+    }
+
     /**
      * updates given event
      *

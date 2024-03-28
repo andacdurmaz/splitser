@@ -21,7 +21,7 @@ public class AddOrEditParticipantCtrl {
     private final MainCtrl mainCtrl;
 
     private Event event;
-    private  User user;
+    private User user;
 
     @FXML
     private TextField name;
