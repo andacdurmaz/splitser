@@ -124,4 +124,14 @@ public class EventController {
         return ResponseEntity.ok(updatedEvent);
     }
 
+    /**
+     * Deletes a event by id.
+     * @param id the events id
+     * @return the response entity
+     */
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Event> deleteEvent(@PathVariable("id") long id) {
+        return eventService.deleteEvent(id);
+    }
+
 }
