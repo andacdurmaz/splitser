@@ -9,6 +9,14 @@ import java.net.InetAddress;
 
 public class Util {
 
+    public static String getAddress() {
+        return address;
+    }
+
+    public static void setAddress(String address) {
+        Util.address = address;
+    }
+
     protected static String serverAddress;
 
     protected static String address;
@@ -20,6 +28,7 @@ public class Util {
      */
     public Util() {
         this.clientBuilder = ClientBuilder.newClient(new ClientConfig());
+        this.setServerAddress("http://localhost:8080/");
     }
 
     /**

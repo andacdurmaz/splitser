@@ -16,6 +16,7 @@
 package client.utils;
 
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
+import static jakarta.ws.rs.core.MediaType.MULTIPART_FORM_DATA;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -28,7 +29,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
 
 import commons.*;
-import jakarta.ws.rs.client.Invocation;
 import jakarta.ws.rs.core.Response;
 import org.glassfish.jersey.client.ClientConfig;
 
@@ -37,6 +37,7 @@ import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.GenericType;
 import org.springframework.core.NestedRuntimeException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.converter.MappingJackson2MessageConverter;
 import org.springframework.messaging.simp.stomp.StompFrameHandler;
 import org.springframework.messaging.simp.stomp.StompHeaders;
@@ -47,14 +48,22 @@ import org.springframework.web.socket.messaging.WebSocketStompClient;
 
 public class ServerUtils extends Util {
 
-    private static final String SERVER = "http://localhost:8080/";
+
+    public static String getSERVER() {
+        return SERVER;
+    }
+
+    public static void setSERVER(String SERVER) {
+        ServerUtils.SERVER = SERVER;
+    }
+
+    private static String SERVER = "http://localhost:8080/";
     private static StompSession session;
 
     /**
      * Sets session
      */
     public void setSession() {
-        //session = connect("ws://localhost:8080/websocket");
         session = connect("ws://localhost:8080/websocket");
     }
 
@@ -254,17 +263,27 @@ public class ServerUtils extends Util {
         return destinationAddress + o;
     }
 
-    public boolean checkCredentials(String password) {
-        Invocation.Builder ans =  clientBuilder
-                .target(serverAddress)
-                .path("api/servers/login/" + password)
+    public int checkCredentials(String password) {
+
+        Response ans = ClientBuilder
+                .newClient(new ClientConfig())
+                .target("http://localhost:8080")
+                .path("/api/servers/login")
+                .queryParam("password", password)
                 .request(APPLICATION_JSON)
-                .accept(APPLICATION_JSON);
-        ans.post(Entity<String>. password);
-        if ( == Response.Status.OK.getStatusCode()) {
-            return true;
+                .accept(APPLICATION_JSON)
+                .get(Response.class);
+        return ans.getStatusInfo().getStatusCode();
+
+    }
+    public String getCredentials() {
+        Response ans = clientBuilder
+                .target(serverAddress)
+                .request(String.valueOf(Boolean.class))
+                .header("name", "val")
+                .get(Response.class);
+        return (String) ans.getEntity();
         }
 
-        return false;
-    }
+
 }

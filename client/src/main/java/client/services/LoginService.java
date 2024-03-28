@@ -50,9 +50,14 @@ public class LoginService {
     /**
      * @param password the password, which the server will be randomly generating
      */
-    public void connect(String password){
-        if(server.checkCredentials(password))
+    public boolean connect(String password){
+        int code = server.checkCredentials(password);
+        if(server.checkCredentials(password) == 200 || server.checkCredentials(password) == 401) {
             mainCtrl.showAdminOverview();
+            return true;
+        }
+        return false;
+
     }
 
 

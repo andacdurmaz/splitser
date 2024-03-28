@@ -15,7 +15,7 @@ public class ServService {
     private EventRepository repo;
     private List<Admin> admins;
     private final Random random;
-    private final Long pass;
+    private final long pass;
 
     /**
      * Constructor
@@ -35,8 +35,8 @@ public class ServService {
      * @param password password to login with
      * @return true if login was successful, false otherwise
      */
-    public boolean login(Long password){
-        if(password.equals(pass))
+    public boolean login(long password){
+        if(password == pass)
             return true;
         return false;
     }
