@@ -11,8 +11,8 @@ import org.mockito.Mockito;
 
 
 class LoginServiceTest {
-   @Mock
-    private ServerUtils server;
+
+    private ServerUtilsImpl server;
    @Mock
     private MainCtrl mainCtrl;
     private LoginService service;
@@ -20,7 +20,7 @@ class LoginServiceTest {
     @BeforeEach
     @Inject
     void setup() {
-        this.server = Mockito.mock(ServerUtils.class);
+        this.server = new ServerUtilsImpl();
         this.mainCtrl = Mockito.mock(MainCtrl.class);
         service = new LoginService(server, mainCtrl);
     }
@@ -28,21 +28,18 @@ class LoginServiceTest {
 
     @Test
     void connectSuccess() {
-        Mockito.when(server.checkCredentials("777")).thenReturn(200);
         boolean b = service.connect("777");
         Assertions.assertEquals(b, true);
     }
 
     @Test
     void connectFail() {
-        Mockito.when(server.checkCredentials("42")).thenReturn(400);
         boolean b = service.connect("42");
         Assertions.assertEquals(b, false);
     }
 
     @Test
     void connectBad() {
-        Mockito.when(server.checkCredentials("E")).thenReturn(400);
         boolean b = service.connect("E");
         Assertions.assertEquals(b, false);
     }

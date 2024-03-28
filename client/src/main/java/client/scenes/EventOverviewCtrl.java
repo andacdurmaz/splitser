@@ -67,9 +67,7 @@ public class EventOverviewCtrl implements Initializable {
                 new SimpleStringProperty(q.getValue().getDescription()));
 //         Listen for changes to the items in the ListView,
 //         if there are events make the label invisible
-        server.registerForSocketMessages("api/events/all", Event.class, a -> {
-            Platform.runLater(() -> refresh());
-        });
+
         // Listen for changes to the items in the ListView,
         // if there are events make the label invisible
         table.setOnMouseClicked(getEvent);
