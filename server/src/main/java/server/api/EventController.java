@@ -132,9 +132,20 @@ public class EventController {
         if (!eventService.existsById(id)) {
             return ResponseEntity.badRequest().build();
         }
+
         Event updatedEvent = eventService.updateEvent(event);
         return ResponseEntity.ok(updatedEvent);
     }
+
+//    @PutMapping("/update/{eventcode}")
+//    public ResponseEntity<Event> updateEventByEventCode(@PathVariable("eventcode") long eventcode,
+//                                             @RequestBody Event event) {
+//        if (!eventService.existsByEventCode(eventcode)) {
+//            return ResponseEntity.badRequest().build();
+//        }
+//        Event updatedEvent = eventService.updateEvent(event);
+//        return ResponseEntity.ok(updatedEvent);
+//    }
 
 //    @PutMapping("/update/{eventcode}")
 //    public ResponseEntity<Event> updateEventByCode(@PathVariable("eventcode") long eventCode,

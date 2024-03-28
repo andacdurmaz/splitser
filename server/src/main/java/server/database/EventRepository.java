@@ -39,13 +39,15 @@ public interface EventRepository extends JpaRepository<Event, Long> {
      * @param title 
      * @return
      */
-    Event getEventByTitle(String title);
-
-    /**
-     * @param eventCode 
-     * @return
-     */
-    Event getEventByEventCode(String eventCode);
+//    Event getEventByTitle(String title);
+//
+//    /**
+//     * @param eventCode
+//     * @return
+//     */
+//    Event getEventByEventCode(long eventCode);
+//
+//    boolean existsByEventCode(long eventCode);
 
     /**
      * Checks if the event with this ID exists

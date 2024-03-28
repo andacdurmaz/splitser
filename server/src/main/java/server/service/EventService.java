@@ -68,6 +68,15 @@ public class EventService {
         return eventRepository.getEventById(id);
     }
 
+//    public Event getEventByEventCode(long id) {
+//        return eventRepository.getEventByEventCode(id);
+//    }
+//
+//    public boolean existsByEventCode(long eventcode) {
+//        return eventRepository.existsByEventCode(eventcode);
+//    }
+
+
     /**
      * Method to get the title of an event by its id
      * commented out as it is not really needed and the speed increase is not

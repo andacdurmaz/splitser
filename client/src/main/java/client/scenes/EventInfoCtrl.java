@@ -32,7 +32,9 @@ public class EventInfoCtrl {
     @FXML
     private Label expensesLabel;
     @FXML
-    private ComboBox<String> expenseComboBox;
+    private ComboBox<User> expenseComboBox;
+    @FXML
+    private ComboBox<User> participantCombobox;
     private List<User> participants = new ArrayList<>();
 
     private final ServerUtils server;
@@ -137,8 +139,12 @@ public class EventInfoCtrl {
     public void setData(Event event) {
         updateDesc(event);
         updateLabelText(event);
-        expenseComboBox.getItems().addAll();
+        participantCombobox.getItems().setAll(event.getParticipants());
+        expenseComboBox.getItems().setAll(event.getParticipants());
 
     }
 
+    public void selectParticipant(ActionEvent actionEvent) {
+        selectedParticipant = participantCombobox.getValue();
+    }
 }

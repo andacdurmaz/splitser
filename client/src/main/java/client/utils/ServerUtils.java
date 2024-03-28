@@ -28,6 +28,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
 
 import commons.*;
+import jakarta.ws.rs.core.Response;
 import org.glassfish.jersey.client.ClientConfig;
 
 import commons.Quote;
@@ -135,12 +136,14 @@ public class ServerUtils extends Util {
      *
      * @param event event to add
      */
-    public void addEvent(Event event) {
-        ClientBuilder.newClient(new ClientConfig()) //
+    public Event addEvent(Event event) {
+        Response response = ClientBuilder.newClient(new ClientConfig()) //
                 .target(SERVER).path("api/events/add") //
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
-                .post(Entity.entity(event, APPLICATION_JSON), Event.class);
+                .post(Entity.entity(event, APPLICATION_JSON));
+        Event event1 = response.readEntity(new GenericType<>(){});
+        return event1;
     }
 
     /**
@@ -173,12 +176,16 @@ public class ServerUtils extends Util {
      * user to add
      * @param user
      */
-    public void addUser(User user) {
+    public User addUser(User user) {
+        Response response =
         ClientBuilder.newClient(new ClientConfig())
                 .target(SERVER).path("api/users/add")
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
-                .post(Entity.entity(user, APPLICATION_JSON), User.class);
+                .post(Entity.entity(user, APPLICATION_JSON));
+        User newUser = response.readEntity(new GenericType<>(){});
+        return newUser;
+
     }
 
     /**
