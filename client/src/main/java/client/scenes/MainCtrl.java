@@ -39,16 +39,22 @@ public class MainCtrl {
     private Scene eventInfo;
     private AddOrEditExpenseCtrl addOrEditExpenseCtrl;
 
+
     private Scene addOrEditExpense;
 
     private AddOrEditParticipantCtrl addOrEditParticipantCtrl;
 
+
     private Scene addOrEditParticipant;
+    private InvitationCtrl invitationCtrl;
+
+    private Scene invitationOverview;
     private AdminOverviewCtrl adminOverviewCtrl;
     private Scene adminOverview;
     private AdminEventInfoCtrl adminEventInfoCtrl;
 
     private Scene adminEventInfo;
+
 
     /**
      * Initialize mainCtrl
@@ -59,6 +65,7 @@ public class MainCtrl {
      * @param add                            add
      * @param eventInfo                      eventInfo
      * @param addOrEditParticipantCtrParentPair  addOrEditParticipantCtrlParentPair
+     * @param invitationOverview  invitationsOverview
      */
     public void initialize(Stage primaryStage,
                            Pair<StartPageCtrl, Parent> startPage,
@@ -66,7 +73,8 @@ public class MainCtrl {
                            Pair<AddEventCtrl, Parent> add,
                            Pair<EventInfoCtrl, Parent> eventInfo,
                            Pair<AddOrEditParticipantCtrl,Parent>
-                                   addOrEditParticipantCtrParentPair) {
+                                   addOrEditParticipantCtrParentPair,
+                           Pair<InvitationCtrl, Parent> invitationOverview) {
         this.primaryStage = primaryStage;
 
         this.startPageCtrl = startPage.getKey();
@@ -83,6 +91,9 @@ public class MainCtrl {
 
         this.addOrEditParticipantCtrl = addOrEditParticipantCtrParentPair.getKey();
         this.addOrEditParticipant = new Scene(addOrEditParticipantCtrParentPair.getValue());
+
+        this.invitationCtrl = invitationOverview.getKey();
+        this.invitationOverview = new Scene(invitationOverview.getValue());
 
         showStartPage();
         primaryStage.show();
@@ -113,6 +124,7 @@ public class MainCtrl {
 
 
     }
+
 
     /**
      * Shows start page
@@ -174,6 +186,18 @@ public class MainCtrl {
         primaryStage.setScene(addOrEditParticipant);
         addOrEditParticipant.setOnKeyPressed(e -> addOrEditParticipantCtrl.keyPressed(e));
     }
+
+
+    /**
+     * Shows SendInvitations
+     * @param event
+     */
+    public void showSendInvitations(Event event) {
+        invitationCtrl.setEvent(event);
+        invitationCtrl.setData(event);
+        primaryStage.setScene(invitationOverview);
+    }
+
 
     /**
      * Shows AdminOverview

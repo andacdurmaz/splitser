@@ -60,6 +60,9 @@ public class Main extends Application {
                 "AddOrEditParticipant.fxml");
         var add = FXML.load(AddEventCtrl.class, "client", "scenes", "AddEvent.fxml");
         var eventInfo = FXML.load(EventInfoCtrl.class, "client", "scenes", "EventInfo.fxml");
+
+        var invitationsOverview = FXML.load(InvitationCtrl.class, "client",
+                "scenes", "Invitation.fxml");
         var adminOverview = FXML.load(AdminOverviewCtrl.class, "client",
                 "scenes", "AdminOverview.fxml");
         var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
@@ -67,8 +70,10 @@ public class Main extends Application {
                 "scenes", "AdminEventInfo.fxml");
         var eventOverview = FXML.load(EventOverviewCtrl.class, "client",
                 "scenes", "EventOverview.fxml");
+
+
         mainCtrl.initialize(primaryStage, startPage, addOrEditExpense,
-                add, eventInfo, addOrEditParticipant);
+                add, eventInfo, addOrEditParticipant, invitationsOverview);
         mainCtrl.overviewInitialize(eventOverview);
         mainCtrl.adminInitialize(adminOverview, adminEventInfo);
     }
