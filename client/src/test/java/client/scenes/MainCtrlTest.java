@@ -109,9 +109,9 @@ public class MainCtrlTest {
 
 
 
-    //TODO fix this test, works only if main is running. Also does not seem to properly get the events from the DB?
+    // only tests if it actually gets the event id from the config. does not interact with DB
     @Test
-    public void testGetJoinedEvents() throws IOException {
+    public void testGetJoinedEventsID() throws IOException {
 
         String tempFilePath = "CONFIGTest.json";
         String jsonString = "{\n" +
@@ -151,16 +151,16 @@ public class MainCtrlTest {
         when(mainCtrl.readConfigFile("CONFIGTest.json")).thenReturn(jsonString);
 
         // Mock the behavior of the getEventById method
-        when(serverUtilsMock.getEventById(0)).thenReturn(new Event("title", 3, "description")); // Assuming Event class exists
+        when(serverUtilsMock.getEventById(0)).thenReturn(new Event("title", 3, "description")); // Assuming this is the event with id 0
+        when(serverUtilsMock.getEventById(1)).thenReturn(new Event("title 2", 4, "description 2")); // Assuming this is the event with id 1
 
-        List<Event> result = mainCtrl.getJoinedEventsProvidingPath("CONFIGTest.json");
+        List<Long> result = mainCtrl.getJoinedEventsIDProvidingPath("CONFIGTest.json");
 
         // Verify the result
         assertEquals(2, result.size()); // Assuming there are two events in the JSON
 
-        //TODO this does not seem to work
-        //assertEquals(0, result.get(0).getId());
-
+        assertEquals(0, result.get(0));
+        assertEquals(1, result.get(1));
 
         // Clean up: delete the temporary file
         Files.deleteIfExists(path);

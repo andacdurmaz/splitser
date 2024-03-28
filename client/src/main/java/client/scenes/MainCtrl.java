@@ -221,22 +221,13 @@ public class MainCtrl {
     }
 
     /**
-     * Decoupled joined events method, to test the getJoinedMethodsProvidingPath method
-     * @return list of joined events
-     * @throws IOException if the file is not found
-     */
-    public List<Event> getJoinedEvents() throws IOException {
-        return getJoinedEventsProvidingPath("src/main/resources/CONFIG.json");
-    }
-
-    /**
      * gets the events that the user has joined from the CONFIG file
      * @return list of events
      * @param path path to the file
      * @throws FileNotFoundException if the file is not found
      */
-    public List<Event> getJoinedEventsProvidingPath(String path) throws IOException {
-        List<Event> list = new ArrayList<>();
+    public List<Long> getJoinedEventsIDProvidingPath(String path) throws IOException {
+        List<Long> list = new ArrayList<>();
         ServerUtils serverUtils = new ServerUtils();
 
         String jsonString = readConfigFile(path);
@@ -247,11 +238,37 @@ public class MainCtrl {
         for (int i = 0; i < eventsArray.length(); i++) {
             JSONObject eventObject = eventsArray.getJSONObject(i);
             long eventId = eventObject.getLong("id");
-            list.add(serverUtils.getEventById(eventId));
+            list.add(eventId);
         }
         return list;
     }
 
+    /**
+     * gets the events that the user has joined from the CONFIG file
+     * @return list of events
+     * @throws IOException if the file is not found
+     */
+    public List<Event> getJoinedEvents() throws IOException {
+        return getJoinedEventsProvidingPath("src/main/resources/CONFIG.json");
+    }
+
+
+    /**
+     * interacts with the server to get the events that the user has joined
+     * @param path  path to the file
+     * @return  list of events
+     * @throws IOException  if the file is not found
+     */
+    public List<Event> getJoinedEventsProvidingPath(String path) throws IOException {
+        List<Long> eventIds = getJoinedEventsIDProvidingPath(path);
+        List<Event> events = new ArrayList<>();
+        ServerUtils serverUtils = new ServerUtils();
+
+        for (int i = 0; i < eventIds.size(); i++) {
+            events.add(serverUtils.getEventById(eventIds.get(i)));
+        }
+        return events;
+    }
 
     /**
      * reads the config file
