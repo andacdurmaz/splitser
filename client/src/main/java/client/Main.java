@@ -73,8 +73,9 @@ public class Main extends Application {
 
 
         mainCtrl.initialize(primaryStage, startPage, addOrEditExpense,
-                add, eventInfo, addOrEditParticipant, invitationsOverview);
+                add, eventInfo, addOrEditParticipant);
         mainCtrl.overviewInitialize(eventOverview);
+        mainCtrl.invitationsInitialize(invitationsOverview);
         mainCtrl.adminInitialize(adminOverview, adminEventInfo);
     }
 }

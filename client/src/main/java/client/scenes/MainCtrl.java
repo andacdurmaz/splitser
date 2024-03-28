@@ -65,7 +65,6 @@ public class MainCtrl {
      * @param add                            add
      * @param eventInfo                      eventInfo
      * @param addOrEditParticipantCtrParentPair  addOrEditParticipantCtrlParentPair
-     * @param invitationOverview  invitationsOverview
      */
     public void initialize(Stage primaryStage,
                            Pair<StartPageCtrl, Parent> startPage,
@@ -73,8 +72,7 @@ public class MainCtrl {
                            Pair<AddEventCtrl, Parent> add,
                            Pair<EventInfoCtrl, Parent> eventInfo,
                            Pair<AddOrEditParticipantCtrl,Parent>
-                                   addOrEditParticipantCtrParentPair,
-                           Pair<InvitationCtrl, Parent> invitationOverview) {
+                                   addOrEditParticipantCtrParentPair) {
         this.primaryStage = primaryStage;
 
         this.startPageCtrl = startPage.getKey();
@@ -91,9 +89,6 @@ public class MainCtrl {
 
         this.addOrEditParticipantCtrl = addOrEditParticipantCtrParentPair.getKey();
         this.addOrEditParticipant = new Scene(addOrEditParticipantCtrParentPair.getValue());
-
-        this.invitationCtrl = invitationOverview.getKey();
-        this.invitationOverview = new Scene(invitationOverview.getValue());
 
         showStartPage();
         primaryStage.show();
@@ -125,6 +120,15 @@ public class MainCtrl {
 
     }
 
+    /**
+     * Initialize invitations
+     * @param invitationOverview
+     */
+    public void invitationsInitialize(
+            Pair<InvitationCtrl, Parent> invitationOverview){
+        this.invitationCtrl = invitationOverview.getKey();
+        this.invitationOverview = new Scene(invitationOverview.getValue());
+    }
 
     /**
      * Shows start page
