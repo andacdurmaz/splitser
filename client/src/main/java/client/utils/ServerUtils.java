@@ -135,6 +135,7 @@ public class ServerUtils extends Util {
      * Adds event
      *
      * @param event event to add
+     * @return the added event
      */
     public Event addEvent(Event event) {
         Response response = ClientBuilder.newClient(new ClientConfig()) //
@@ -175,10 +176,10 @@ public class ServerUtils extends Util {
     /**
      * user to add
      * @param user
+     * @return the added User
      */
     public User addUser(User user) {
-        Response response =
-        ClientBuilder.newClient(new ClientConfig())
+        Response response = ClientBuilder.newClient(new ClientConfig())
                 .target(SERVER).path("api/users/add")
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)

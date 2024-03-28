@@ -144,6 +144,10 @@ public class EventInfoCtrl {
 
     }
 
+    /**
+     * selects a specific participant from the combobox
+     * @param actionEvent selecting of the participant
+     */
     public void selectParticipant(ActionEvent actionEvent) {
         selectedParticipant = participantCombobox.getValue();
     }
