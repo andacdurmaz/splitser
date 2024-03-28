@@ -17,20 +17,17 @@ package client.scenes;
 
 import client.Main;
 import client.utils.ServerUtils;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 import commons.Event;
 import commons.Expense;
 import commons.User;
@@ -223,6 +220,11 @@ public class MainCtrl {
         primaryStage.setScene(loginScreenScene);
     }
 
+    /**
+     * Decoupled joined events method, to test the getJoinedMethodsProvidingPath method
+     * @return list of joined events
+     * @throws IOException if the file is not found
+     */
     public List<Event> getJoinedEvents() throws IOException {
         return getJoinedEventsProvidingPath("src/main/resources/config.json");
     }
@@ -230,9 +232,9 @@ public class MainCtrl {
     /**
      * gets the events that the user has joined from the CONFIG file
      * @return list of events
+     * @param path path to the file
      * @throws FileNotFoundException if the file is not found
      */
-
     public List<Event> getJoinedEventsProvidingPath(String path) throws IOException {
         List<Event> list = new ArrayList<>();
         ServerUtils serverUtils = new ServerUtils();
@@ -250,6 +252,13 @@ public class MainCtrl {
         return list;
     }
 
+
+    /**
+     * reads the config file
+     * @param filePath path to the file
+     * @return the string representation of the file
+     * @throws IOException if the file is not found
+     */
     public String readConfigFile(String filePath) throws IOException {
         Path path = Path.of(filePath);
         String string = Files.readString(path);
