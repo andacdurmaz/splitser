@@ -23,9 +23,9 @@ public class Util {
         Util.address = address;
     }
 
-    protected static String serverAddress;
+    protected static String serverAddress = "http://localhost:8080/";
 
-    protected static String address;
+    protected static String address = "localhost:8080/";
     @Resource
     protected Client clientBuilder;
 
@@ -34,7 +34,6 @@ public class Util {
      */
     public Util() {
         this.clientBuilder = ClientBuilder.newClient(new ClientConfig());
-        this.setServerAddress("http://localhost:8080/");
     }
 
     /**
