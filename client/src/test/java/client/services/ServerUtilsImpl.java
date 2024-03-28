@@ -1,63 +1,59 @@
 package client.services;
 
 import client.utils.ServerUtils;
-import jakarta.ws.rs.client.ClientBuilder;
-import jakarta.ws.rs.core.Response;
-import org.glassfish.jersey.client.ClientConfig;
 import org.springframework.messaging.simp.stomp.StompFrameHandler;
 import org.springframework.messaging.simp.stomp.StompHeaders;
 import org.springframework.messaging.simp.stomp.StompSession;
 
 import java.util.function.Consumer;
 
-import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
 public class ServerUtilsImpl extends ServerUtils {
+    /**
+     *
+     */
     public void setSession(){
 
     }
+
+    /**
+     * @param targetUrl
+     * @return
+     */
     private StompSession connect(String targetUrl){
         return new StompSession() {
             @Override
             public String getSessionId() {
                 return null;
             }
-
             @Override
             public boolean isConnected() {
                 return false;
             }
-
             @Override
             public void setAutoReceipt(boolean enabled) {
 
             }
-
             @Override
             public Receiptable send(String destination, Object payload) {
                 return null;
             }
-
             @Override
             public Receiptable send(StompHeaders headers, Object payload) {
                 return null;
             }
-
             @Override
             public Subscription subscribe(String destination, StompFrameHandler handler) {
                 return null;
             }
-
             @Override
             public Subscription subscribe(StompHeaders headers, StompFrameHandler handler) {
                 return null;
             }
-
             @Override
             public Receiptable acknowledge(String messageId, boolean consumed) {
                 return null;
             }
-
             @Override
             public Receiptable acknowledge(StompHeaders headers, boolean consumed) {
                 return null;
@@ -75,11 +71,24 @@ public class ServerUtilsImpl extends ServerUtils {
         };
     }
 
+    /**
+     * @param destination    server address we want to subscribe to
+     * @param packetType     the type of object we will be receiving
+     * @param packetConsumer a class to store ant iterate over objects
+     *                       received from the server
+     * @param <T>
+     */
     public <T> void registerForSocketMessages(String destination,
                                               Class<T> packetType, Consumer<T> packetConsumer){
 
     }
 
+    /**
+     * @param destinationAddress server address to which we want
+     *                           to send an updated object
+     * @param o                  Object to be sent
+     * @return test string
+     */
     public String send(String destinationAddress, Object o) {
         return destinationAddress + o;
     }
