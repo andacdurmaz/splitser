@@ -50,18 +50,18 @@ public class ServerUtils extends Util {
     /**
      * @return the current server address
      */
-    public static String getSERVER() {
-        return SERVER;
+    public static String getServer() {
+        return server;
     }
 
     /**
      * @param sERVER setter for the server address parameter
      */
-    public static void setSERVER(String sERVER) {
-        ServerUtils.SERVER = sERVER;
+    public static void setServer(String sERVER) {
+        ServerUtils.server = sERVER;
     }
 
-    private static String SERVER = "http://localhost:8080/";
+    private static String server = "http://localhost:8080/";
     private static StompSession session;
 
     /**
@@ -94,7 +94,7 @@ public class ServerUtils extends Util {
      */
     public List<Quote> getQuotes() {
         return ClientBuilder.newClient(new ClientConfig()) //
-                .target(SERVER).path("api/quotes") //
+                .target(server).path("api/quotes") //
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
                 .get(new GenericType<List<Quote>>() {
@@ -109,7 +109,7 @@ public class ServerUtils extends Util {
      */
     public Quote addQuote(Quote quote) {
         return ClientBuilder.newClient(new ClientConfig()) //
-                .target(SERVER).path("api/quotes") //
+                .target(server).path("api/quotes") //
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
                 .post(Entity.entity(quote, APPLICATION_JSON), Quote.class);
@@ -138,7 +138,7 @@ public class ServerUtils extends Util {
      */
     public List<Event> getEvents() {
         return ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER).path("api/events/all")
+                .target(server).path("api/events/all")
                 .request(APPLICATION_JSON).accept(APPLICATION_JSON)
                 .get(new GenericType<List<Event>>() {
                 });
@@ -151,7 +151,7 @@ public class ServerUtils extends Util {
      */
     public void addEvent(Event event) {
         ClientBuilder.newClient(new ClientConfig()) //
-                .target(SERVER).path("api/events/add") //
+                .target(server).path("api/events/add") //
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
                 .post(Entity.entity(event, APPLICATION_JSON), Event.class);
@@ -172,7 +172,7 @@ public class ServerUtils extends Util {
      */
     public void addExpense(Expense expense) {
         ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER).path("api/expenses/addOrEdit")
+                .target(server).path("api/expenses/addOrEdit")
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .post(Entity.entity(expense, APPLICATION_JSON), Expense.class);
@@ -185,7 +185,7 @@ public class ServerUtils extends Util {
      */
     public void updateExpense(Expense expense) {
         ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER)
+                .target(server)
                 .path("api/expenses/update/" + expense.getId())
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
@@ -199,7 +199,7 @@ public class ServerUtils extends Util {
      */
     public void updateEvent(Event event) {
         ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER)
+                .target(server)
                 .path("api/events/update/" + event.getId())
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
@@ -274,7 +274,7 @@ public class ServerUtils extends Util {
 
         Response ans = ClientBuilder
                 .newClient(new ClientConfig())
-                .target("http://localhost:8080")
+                .target(server)
                 .path("/api/servers/login")
                 .queryParam("password", password)
                 .request(APPLICATION_JSON)
@@ -290,7 +290,7 @@ public class ServerUtils extends Util {
      */
     public String getCredentials() {
         Response ans = clientBuilder
-                .target(serverAddress)
+                .target(server)
                 .request(String.valueOf(Boolean.class))
                 .header("name", "val")
                 .get(Response.class);

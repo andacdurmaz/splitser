@@ -9,10 +9,16 @@ import java.net.InetAddress;
 
 public class Util {
 
+    /**
+     * @return the current server address
+     */
     public static String getAddress() {
         return address;
     }
 
+    /**
+     * @param address  setter for the server address parameter
+     */
     public static void setAddress(String address) {
         Util.address = address;
     }
