@@ -75,7 +75,7 @@ public class ServController {
     (@PathParam("password") String password) {
         try{
             Boolean b  = false;
-             if (sserv.login(Long.valueOf(password))) {
+            if (sserv.login(Long.valueOf(password))) {
                 b = true;
                 return ResponseEntity.ok(b);
             }

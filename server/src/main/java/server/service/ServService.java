@@ -88,6 +88,9 @@ public class ServService {
         repo.delete(e);
     }
 
+    /**
+     * @return the server password
+     */
     public Long getPass() {
         return pass;
     }
