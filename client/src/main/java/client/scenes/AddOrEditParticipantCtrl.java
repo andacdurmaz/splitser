@@ -111,7 +111,10 @@ public class AddOrEditParticipantCtrl {
      * Clears fields
      */
     private void clearFields() {
-
+        name.clear();
+        email.clear();
+        iban.clear();
+        bic.clear();
     }
 
     /**

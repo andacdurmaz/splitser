@@ -20,9 +20,9 @@ public class AddEventCtrl {
 
     @FXML
     private TextField title;
-    @FXML
-    private TextField title1;
 
+    @FXML
+    private TextField description;
 
     /**
      * Inject method
@@ -81,8 +81,8 @@ public class AddEventCtrl {
 
 
         event.setEventCode(eventCode);
-        if (title1.getText() != null)
-            event.setDescription(title1.getText());
+        if (description.getText() != null)
+            event.setDescription(description.getText());
         return event;
     }
 
@@ -91,6 +91,7 @@ public class AddEventCtrl {
      */
     private void clearFields() {
         title.clear();
+        description.clear();
     }
 
     /**

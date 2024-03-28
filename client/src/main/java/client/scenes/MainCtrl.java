@@ -39,16 +39,22 @@ public class MainCtrl {
     private Scene eventInfo;
     private AddOrEditExpenseCtrl addOrEditExpenseCtrl;
 
+
     private Scene addOrEditExpense;
 
     private AddOrEditParticipantCtrl addOrEditParticipantCtrl;
 
+
     private Scene addOrEditParticipant;
+    private InvitationCtrl invitationCtrl;
+
+    private Scene invitationOverview;
     private AdminOverviewCtrl adminOverviewCtrl;
     private Scene adminOverview;
     private AdminEventInfoCtrl adminEventInfoCtrl;
 
     private Scene adminEventInfo;
+
 
     /**
      * Initialize mainCtrl
@@ -115,6 +121,16 @@ public class MainCtrl {
     }
 
     /**
+     * Initialize invitations
+     * @param invitationOverview
+     */
+    public void invitationsInitialize(
+            Pair<InvitationCtrl, Parent> invitationOverview){
+        this.invitationCtrl = invitationOverview.getKey();
+        this.invitationOverview = new Scene(invitationOverview.getValue());
+    }
+
+    /**
      * Shows start page
      */
     public void showStartPage() {
@@ -174,6 +190,18 @@ public class MainCtrl {
         primaryStage.setScene(addOrEditParticipant);
         addOrEditParticipant.setOnKeyPressed(e -> addOrEditParticipantCtrl.keyPressed(e));
     }
+
+
+    /**
+     * Shows SendInvitations
+     * @param event
+     */
+    public void showSendInvitations(Event event) {
+        invitationCtrl.setEvent(event);
+        invitationCtrl.setData(event);
+        primaryStage.setScene(invitationOverview);
+    }
+
 
     /**
      * Shows AdminOverview
