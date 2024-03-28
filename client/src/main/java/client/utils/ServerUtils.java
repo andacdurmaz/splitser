@@ -188,7 +188,7 @@ public class ServerUtils extends Util {
      */
     public void addUser(User user) {
         ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER).path("api/users/")
+                .target(serverAddress).path("api/users/")
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .post(Entity.entity(user, APPLICATION_JSON), User.class);
@@ -200,7 +200,7 @@ public class ServerUtils extends Util {
      */
     public void updateUser(User user) {
         ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER)
+                .target(serverAddress)
                 .path("api/users/update/" + user.getUserID())
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
