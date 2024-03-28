@@ -115,6 +115,7 @@ public class AdminOverviewCtrl implements Initializable {
 
             Event newEvent = objectMapper.readValue(selectedJson, Event.class);
             server.addEvent(newEvent);
+            refresh();
         }catch (IOException ex) {
             System.out.println("There was a problem with adding a event (Admin)");
         }
@@ -154,8 +155,7 @@ public class AdminOverviewCtrl implements Initializable {
 
     private EventHandler<MouseEvent> getEvent = new EventHandler<MouseEvent>() {
         public void handle(MouseEvent e) {
-            mainCtrl.setAdminEvent(table.getSelectionModel().getSelectedItem());
-            mainCtrl.showAdminEventInfo();
+            mainCtrl.showAdminEventInfo(table.getSelectionModel().getSelectedItem());
         }
     };
 
