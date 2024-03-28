@@ -18,6 +18,7 @@ package client.scenes;
 import client.Main;
 import commons.Event;
 import commons.Expense;
+import commons.User;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -29,13 +30,20 @@ public class MainCtrl {
     private StartPageCtrl startPageCtrl;
     private Scene startPage;
 
+    private EventOverviewCtrl eventOverviewCtrl;
+    private Scene overview;
 
     private AddEventCtrl addCtrl;
     private Scene add;
     private EventInfoCtrl eventInfoCtrl;
     private Scene eventInfo;
     private AddOrEditExpenseCtrl addOrEditExpenseCtrl;
+
     private Scene addOrEditExpense;
+
+    private AddOrEditParticipantCtrl addOrEditParticipantCtrl;
+
+    private Scene addOrEditParticipant;
     private AdminOverviewCtrl adminOverviewCtrl;
     private Scene adminOverview;
     private AdminEventInfoCtrl adminEventInfoCtrl;
@@ -50,12 +58,15 @@ public class MainCtrl {
      * @param addOrEditExpenseCtrlParentPair
      * @param add                            add
      * @param eventInfo                      eventInfo
+     * @param addOrEditParticipantCtrParentPair  addOrEditParticipantCtrlParentPair
      */
     public void initialize(Stage primaryStage,
                            Pair<StartPageCtrl, Parent> startPage,
                            Pair<AddOrEditExpenseCtrl, Parent> addOrEditExpenseCtrlParentPair,
                            Pair<AddEventCtrl, Parent> add,
-                           Pair<EventInfoCtrl, Parent> eventInfo) {
+                           Pair<EventInfoCtrl, Parent> eventInfo,
+                           Pair<AddOrEditParticipantCtrl,Parent>
+                                   addOrEditParticipantCtrParentPair) {
         this.primaryStage = primaryStage;
 
         this.startPageCtrl = startPage.getKey();
@@ -67,15 +78,25 @@ public class MainCtrl {
         this.addCtrl = add.getKey();
         this.add = new Scene(add.getValue());
 
-
         this.eventInfoCtrl = eventInfo.getKey();
         this.eventInfo = new Scene(eventInfo.getValue());
+
+        this.addOrEditParticipantCtrl = addOrEditParticipantCtrParentPair.getKey();
+        this.addOrEditParticipant = new Scene(addOrEditParticipantCtrParentPair.getValue());
 
         showStartPage();
         primaryStage.show();
 
     }
 
+    /**
+     * initializes the eventOverview page
+     * @param overview the control page of the EventOverview
+     */
+    public void overviewInitialize(Pair<EventOverviewCtrl, Parent> overview) {
+        this.eventOverviewCtrl = overview.getKey();
+        this.overview = new Scene(overview.getValue());
+    }
     /**
      * Initialize mainCtrl
      *
@@ -121,6 +142,7 @@ public class MainCtrl {
         primaryStage.setTitle(event.getTitle());
         eventInfoCtrl.setEvent(event);
         eventInfoCtrl.updateLabelText(event);
+        eventInfoCtrl.updateDesc(event);
         primaryStage.setScene(eventInfo);
         eventInfo.setOnKeyPressed(e -> eventInfoCtrl.keyPressed(e));
     }
@@ -135,6 +157,18 @@ public class MainCtrl {
         addOrEditExpenseCtrl.setExpense(expense);
         primaryStage.setScene(addOrEditExpense);
         addOrEditExpense.setOnKeyPressed(e -> addOrEditExpenseCtrl.keyPressed(e));
+    }
+
+
+    /**
+     * shows participants
+     * @param user
+     */
+    public void showAddOrEditParticipants(User user) {
+        primaryStage.setTitle("Add/Edit participant");
+        addOrEditParticipantCtrl.setUser(user);
+        primaryStage.setScene(addOrEditParticipant);
+        addOrEditParticipant.setOnKeyPressed(e -> addOrEditParticipantCtrl.keyPressed(e));
     }
 
     /**

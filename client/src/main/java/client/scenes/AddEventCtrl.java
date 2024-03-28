@@ -10,6 +10,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Modality;
 
+import java.util.List;
+import java.util.Random;
+
 public class AddEventCtrl {
 
     private final ServerUtils server;
@@ -17,6 +20,8 @@ public class AddEventCtrl {
 
     @FXML
     private TextField title;
+    @FXML
+    private TextField title1;
 
 
     /**
@@ -64,7 +69,20 @@ public class AddEventCtrl {
      * @return specified event
      */
     private Event getEvent() {
-        return new Event(title.getText());
+        List<Long> eventCodes = server.getEvents().stream().map(q -> q.getEventCode()).toList();
+        Event event = new Event(title.getText());
+        Random random = new Random();
+        long eventCode = random.nextLong() % 100000000;
+        do {
+            eventCode = random.nextLong() % 100000000;
+        }
+        while (eventCodes.contains(eventCode));
+
+
+        event.setEventCode(eventCode);
+        if (title1.getText() != null)
+            event.setDescription(title1.getText());
+        return event;
     }
 
     /**

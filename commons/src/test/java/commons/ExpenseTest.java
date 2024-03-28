@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ExpenseTest {
     @Test
     void ConstructorTest() {
-        User user = new User("ivan","test");
+        User user = new User("ivan","test", null, null);
         List<User> payingParticipants = new ArrayList<>();
         payingParticipants.add(user);
         Expense expense = new Expense("Drinks", 3.29, user, payingParticipants);
@@ -43,7 +43,7 @@ class ExpenseTest {
 
     @Test
     void setName() {
-        User user = new User("ivan","test");
+        User user = new User("ivan","test", "dasdad", "dadsdad");
         Expense expense = new Expense("Drinks", 3.29);
         expense.setName("Food");
         assertEquals("Food",expense.getName());
@@ -53,7 +53,7 @@ class ExpenseTest {
 
     @Test
     void testSetPayer() {
-        User user = new User("ivan","test");
+        User user = new User("ivan","test", "dasdad", "dadsdad");
         Expense expense = new Expense("Drinks", 3.29);
         expense.setPayer(user);
         assertEquals(user,expense.getPayer());
@@ -81,7 +81,7 @@ class ExpenseTest {
 
     @Test
     void getPayingParticipants() {
-        User user = new User("ivan","test");
+        User user = new User("ivan","test", "dasdad", "dadsdad");
         List<User> payingParticipants = new ArrayList<>();
         payingParticipants.add(user);
         Expense expense = new Expense("Drinks", 3.29, user, payingParticipants);
@@ -90,7 +90,7 @@ class ExpenseTest {
 
     @Test
     void setPayingParticipants() {
-        User user = new User("ivan","test");
+        User user = new User("ivan","test", "dasdad", "dadsdad");
         List<User> payingParticipants = new ArrayList<>();
         payingParticipants.add(user);
         Expense expense = new Expense("Drinks", 3.29);

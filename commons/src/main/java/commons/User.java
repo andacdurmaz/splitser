@@ -68,14 +68,17 @@ public class User {
     }
 
     /**
-     * Constructor method for a User
-     *
-     * @param username the username of the User
-     * @param email    the email of the User
+     * Constructor method for user
+     * @param username
+     * @param email
+     * @param iban
+     * @param bic
      */
-    public User(String username, String email) {
+    public User(String username, String email, String iban, String bic) {
         this.username = username;
         this.email = email;
+        this.iban = iban;
+        this.bic = bic;
         this.language = Language.EN;
         this.expenses = new ArrayList<>();
         this.wallet = 0;
