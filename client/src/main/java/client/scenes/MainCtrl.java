@@ -23,6 +23,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.util.Pair;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class MainCtrl {
 
@@ -54,6 +56,9 @@ public class MainCtrl {
     private AdminEventInfoCtrl adminEventInfoCtrl;
 
     private Scene adminEventInfo;
+    private ResourceBundle bundle;
+    private Locale locale = new Locale("en");
+
 
 
     /**
@@ -90,8 +95,26 @@ public class MainCtrl {
         this.addOrEditParticipantCtrl = addOrEditParticipantCtrParentPair.getKey();
         this.addOrEditParticipant = new Scene(addOrEditParticipantCtrParentPair.getValue());
 
+        getConfigLocale();
         showStartPage();
         primaryStage.show();
+
+    }
+
+    /**
+     * Method which checks the language in config file
+     */
+    public void getConfigLocale(){
+        setLocale("en");
+    }
+
+    /**
+     * Method which sets the language
+     * @param language the language
+     */
+    public void setLocale(String language){
+        this.locale = new Locale(language);
+        this.bundle = ResourceBundle.getBundle("locales.resource", locale);
 
     }
 
@@ -121,6 +144,15 @@ public class MainCtrl {
     }
 
     /**
+<<<<<<< HEAD
+     * Getter for language
+     * @return returns the locale
+     */
+    public Locale getLocale() {
+        return locale;
+
+    }
+    /**
      * Initialize invitations
      * @param invitationOverview
      */
@@ -128,6 +160,7 @@ public class MainCtrl {
             Pair<InvitationCtrl, Parent> invitationOverview){
         this.invitationCtrl = invitationOverview.getKey();
         this.invitationOverview = new Scene(invitationOverview.getValue());
+
     }
 
     /**
@@ -207,29 +240,28 @@ public class MainCtrl {
      * Shows AdminOverview
      */
     public void showAdminOverview() {
+        var adminOverview = Main.FXML.load(AdminOverviewCtrl.class,bundle, "client",
+                "scenes", "AdminOverview.fxml");
+        AdminOverviewCtrl adminOverviewCtrl = adminOverview.getKey();
+        Scene adminOverviewScene = new Scene(adminOverview.getValue());
         primaryStage.setTitle("Admin: Overview");
-        primaryStage.setScene(adminOverview);
+        primaryStage.setScene(adminOverviewScene);
         adminOverviewCtrl.refresh();
     }
 
     /**
      * Shows AdminEventInfo
+     * @param event event which need to be displayed
      */
-    public void showAdminEventInfo() {
+    public void showAdminEventInfo(Event event) {
+        var adminEventInfo = Main.FXML.load(AdminEventInfoCtrl.class,bundle, "client",
+                "scenes", "AdminEventInfo.fxml");
+        AdminEventInfoCtrl adminEventInfoCtrl = adminEventInfo.getKey();
+        Scene adminOverviewScene = new Scene(adminEventInfo.getValue());
         primaryStage.setTitle("Admin: Event info");
-        primaryStage.setScene(adminEventInfo);
-        adminOverviewCtrl.refresh();
-    }
-
-    /**
-     * This method gives the AdminEventInfoCtrl the event, which is clicked on
-     *
-     * @param event the event which is clicked on in the admin overview
-     */
-    public void setAdminEvent(Event event) {
+        primaryStage.setScene(adminOverviewScene);
         adminEventInfoCtrl.setEvent(event);
     }
-
 
     /**
      * creates the login page
@@ -246,6 +278,23 @@ public class MainCtrl {
         loginCtrl.returnToMenu();
         primaryStage.setTitle("Login");
         primaryStage.setScene(loginScreenScene);
+    }
+
+    /**
+     * shows the languageswitch pages
+     * @param c a char from previous page
+     */
+    public void showLanguageSwitch(char c) {
+        var languageSwitch = Main.FXML.load(LanguageSwitchCtrl.class,bundle, "client",
+                "scenes", "LanguageSwitch.fxml");
+        LanguageSwitchCtrl languageSwitchCtrl = languageSwitch.getKey();
+        Scene languageSwitchScene = new Scene(languageSwitch.getValue());
+
+        languageSwitchCtrl.setReturn(c);
+//        Stage popup = new Stage();
+        primaryStage.setTitle("Language switch");
+        primaryStage.setScene(languageSwitchScene);
+//        popup.show();
     }
 
 

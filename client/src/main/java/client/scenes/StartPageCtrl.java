@@ -10,7 +10,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
+
 import java.util.Optional;
+
+
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 
 
@@ -22,7 +27,10 @@ public class StartPageCtrl {
     @FXML
     private TextField eventid;
     @FXML
+    private ImageView flagDisplay;
+    @FXML
     private Label noCode;
+
 
     /**
      * constructor for the starting page
@@ -36,11 +44,28 @@ public class StartPageCtrl {
     }
 
     /**
+     * Sets the image of the liveLanguage button
+     */
+    public void imageset(){
+        if (mainCtrl.getLocale().getLanguage().equals("en")){
+            Image newImage = new Image(getClass()
+                    .getResourceAsStream("/client/images/englishIcon.png"));
+            flagDisplay.setImage(newImage);
+        }
+        else if (mainCtrl.getLocale().getLanguage().equals("nl")){
+            Image newImage = new Image(getClass()
+                    .getResourceAsStream("/client/images/dutchIcon.png"));
+            flagDisplay.setImage(newImage);
+        }
+    }
+
+    /**
      * refreshes the data of the page
      */
     public void refresh() {
         var events = server.getEvents();
         data = FXCollections.observableList(events);
+        imageset();
     }
 
     /**
@@ -80,5 +105,11 @@ public class StartPageCtrl {
     }
 
 
+    /**
+     * Method to show the languageSwitch
+     */
+    public void languageSwitch(){
+        mainCtrl.showLanguageSwitch('s');
+    }
 
 }
