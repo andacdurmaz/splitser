@@ -7,9 +7,15 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
-import java.util.Optional;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import java.awt.*;
+import java.net.URL;
+import java.util.Optional;
+import java.util.ResourceBundle;
 
 
 public class StartPageCtrl {
@@ -19,6 +25,8 @@ public class StartPageCtrl {
 
     @FXML
     private TextField eventid;
+    @FXML
+    private ImageView flagDisplay;
 
     /**
      * constructor for the starting page
@@ -31,12 +39,24 @@ public class StartPageCtrl {
         this.server = server;
     }
 
+    public void imageset(){
+        if (mainCtrl.locale.getLanguage().equals("en")){
+            Image newImage = new Image(getClass().getResourceAsStream("/client/images/englishIcon.png"));
+            flagDisplay.setImage(newImage);
+        }
+        else if (mainCtrl.locale.getLanguage().equals("nl")){
+            Image newImage = new Image(getClass().getResourceAsStream("/client/images/dutchIcon.png"));
+            flagDisplay.setImage(newImage);
+        }
+    }
+
     /**
      * refreshes the data of the page
      */
     public void refresh() {
         var events = server.getEvents();
         data = FXCollections.observableList(events);
+        imageset();
     }
 
     /**
@@ -65,5 +85,9 @@ public class StartPageCtrl {
         if (event.isPresent())
             mainCtrl.showEventInfo(event.get());
 //        else
+    }
+
+    public void languageSwitch(){
+        mainCtrl.showLanguageSwitch('s');
     }
 }
