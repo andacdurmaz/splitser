@@ -137,24 +137,14 @@ public class EventController {
         return ResponseEntity.ok(updatedEvent);
     }
 
-//    @PutMapping("/update/{eventcode}")
-//    public ResponseEntity<Event> updateEventByEventCode(@PathVariable("eventcode") long eventcode,
-//                                             @RequestBody Event event) {
-//        if (!eventService.existsByEventCode(eventcode)) {
-//            return ResponseEntity.badRequest().build();
-//        }
-//        Event updatedEvent = eventService.updateEvent(event);
-//        return ResponseEntity.ok(updatedEvent);
-//    }
-
-//    @PutMapping("/update/{eventcode}")
-//    public ResponseEntity<Event> updateEventByCode(@PathVariable("eventcode") long eventCode,
-//                                             @RequestBody Event event) {
-//        if (!eventService.existsByEventCode(eventCode)) {
-//            return ResponseEntity.badRequest().build();
-//        }
-//        Event updatedEvent = eventService.updateEvent(event);
-//        return ResponseEntity.ok(updatedEvent);
-//    }
+    /**
+     * Deletes a event by id.
+     * @param id the events id
+     * @return the response entity
+     */
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Event> deleteEvent(@PathVariable("id") long id) {
+        return eventService.deleteEvent(id);
+    }
 
 }
