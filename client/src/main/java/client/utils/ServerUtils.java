@@ -16,7 +16,6 @@
 package client.utils;
 
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
-import static jakarta.ws.rs.core.MediaType.MULTIPART_FORM_DATA;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -37,7 +36,6 @@ import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.GenericType;
 import org.springframework.core.NestedRuntimeException;
-import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.converter.MappingJackson2MessageConverter;
 import org.springframework.messaging.simp.stomp.StompFrameHandler;
 import org.springframework.messaging.simp.stomp.StompHeaders;
@@ -49,12 +47,18 @@ import org.springframework.web.socket.messaging.WebSocketStompClient;
 public class ServerUtils extends Util {
 
 
+    /**
+     * @return the current server address
+     */
     public static String getSERVER() {
         return SERVER;
     }
 
-    public static void setSERVER(String SERVER) {
-        ServerUtils.SERVER = SERVER;
+    /**
+     * @param sERVER setter for the server address parameter
+     */
+    public static void setSERVER(String sERVER) {
+        ServerUtils.SERVER = sERVER;
     }
 
     private static String SERVER = "http://localhost:8080/";
@@ -144,7 +148,6 @@ public class ServerUtils extends Util {
      * Adds event
      *
      * @param event event to add
-     * @return added event
      */
     public void addEvent(Event event) {
         ClientBuilder.newClient(new ClientConfig()) //
@@ -263,6 +266,10 @@ public class ServerUtils extends Util {
         return destinationAddress + o;
     }
 
+    /**
+     * @param password the password that was submitted
+     * @return the boolean of the success of the login attempt
+     */
     public int checkCredentials(String password) {
 
         Response ans = ClientBuilder
@@ -276,6 +283,11 @@ public class ServerUtils extends Util {
         return ans.getStatusInfo().getStatusCode();
 
     }
+
+    /**
+     * @return returns the server password
+     * here for testing, will be removed later
+     */
     public String getCredentials() {
         Response ans = clientBuilder
                 .target(serverAddress)
@@ -283,7 +295,7 @@ public class ServerUtils extends Util {
                 .header("name", "val")
                 .get(Response.class);
         return (String) ans.getEntity();
-        }
+    }
 
 
 }

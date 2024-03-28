@@ -4,7 +4,6 @@ import com.google.inject.Inject;
 import client.utils.ServerUtils;
 import commons.Event;
 import javafx.application.Platform;
-import javafx.beans.InvalidationListener;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
