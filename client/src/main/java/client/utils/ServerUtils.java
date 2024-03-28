@@ -51,17 +51,16 @@ public class ServerUtils extends Util {
      * @return the current server address
      */
     public static String getServer() {
-        return server;
+        return serverAddress;
     }
 
     /**
-     * @param sERVER setter for the server address parameter
+     * @param server setter for the server address parameter
      */
-    public static void setServer(String sERVER) {
-        ServerUtils.server = sERVER;
+    public static void setServer(String server) {
+        ServerUtils.serverAddress = server;
     }
 
-    private static String server = "http://localhost:8080/";
     private static StompSession session;
 
     /**
@@ -78,7 +77,7 @@ public class ServerUtils extends Util {
      * @throws URISyntaxException exception
      */
     public void getQuotesTheHardWay() throws IOException, URISyntaxException {
-        var url = new URI("http://localhost:8080/api/quotes").toURL();
+        var url = new URI(serverAddress + "api/quotes").toURL();
         var is = url.openConnection().getInputStream();
         var br = new BufferedReader(new InputStreamReader(is));
         String line;
@@ -94,7 +93,7 @@ public class ServerUtils extends Util {
      */
     public List<Quote> getQuotes() {
         return ClientBuilder.newClient(new ClientConfig()) //
-                .target(server).path("api/quotes") //
+                .target(serverAddress).path("api/quotes") //
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
                 .get(new GenericType<List<Quote>>() {
@@ -109,7 +108,7 @@ public class ServerUtils extends Util {
      */
     public Quote addQuote(Quote quote) {
         return ClientBuilder.newClient(new ClientConfig()) //
-                .target(server).path("api/quotes") //
+                .target(serverAddress).path("api/quotes") //
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
                 .post(Entity.entity(quote, APPLICATION_JSON), Quote.class);
@@ -138,7 +137,7 @@ public class ServerUtils extends Util {
      */
     public List<Event> getEvents() {
         return ClientBuilder.newClient(new ClientConfig())
-                .target(server).path("api/events/all")
+                .target(serverAddress).path("api/events/all")
                 .request(APPLICATION_JSON).accept(APPLICATION_JSON)
                 .get(new GenericType<List<Event>>() {
                 });
@@ -151,7 +150,7 @@ public class ServerUtils extends Util {
      */
     public void addEvent(Event event) {
         ClientBuilder.newClient(new ClientConfig()) //
-                .target(server).path("api/events/add") //
+                .target(serverAddress).path("api/events/add") //
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
                 .post(Entity.entity(event, APPLICATION_JSON), Event.class);
@@ -172,7 +171,7 @@ public class ServerUtils extends Util {
      */
     public void addExpense(Expense expense) {
         ClientBuilder.newClient(new ClientConfig())
-                .target(server).path("api/expenses/addOrEdit")
+                .target(serverAddress).path("api/expenses/addOrEdit")
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .post(Entity.entity(expense, APPLICATION_JSON), Expense.class);
@@ -185,7 +184,7 @@ public class ServerUtils extends Util {
      */
     public void updateExpense(Expense expense) {
         ClientBuilder.newClient(new ClientConfig())
-                .target(server)
+                .target(serverAddress)
                 .path("api/expenses/update/" + expense.getId())
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
@@ -199,7 +198,7 @@ public class ServerUtils extends Util {
      */
     public void updateEvent(Event event) {
         ClientBuilder.newClient(new ClientConfig())
-                .target(server)
+                .target(serverAddress)
                 .path("api/events/update/" + event.getId())
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
@@ -274,7 +273,7 @@ public class ServerUtils extends Util {
 
         Response ans = ClientBuilder
                 .newClient(new ClientConfig())
-                .target(server)
+                .target(serverAddress)
                 .path("/api/servers/login")
                 .queryParam("password", password)
                 .request(APPLICATION_JSON)
@@ -290,7 +289,7 @@ public class ServerUtils extends Util {
      */
     public String getCredentials() {
         Response ans = clientBuilder
-                .target(server)
+                .target(serverAddress)
                 .request(String.valueOf(Boolean.class))
                 .header("name", "val")
                 .get(Response.class);
