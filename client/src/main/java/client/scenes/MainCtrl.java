@@ -41,11 +41,16 @@ public class MainCtrl {
     private Scene eventInfo;
     private AddOrEditExpenseCtrl addOrEditExpenseCtrl;
 
+
     private Scene addOrEditExpense;
 
     private AddOrEditParticipantCtrl addOrEditParticipantCtrl;
 
+
     private Scene addOrEditParticipant;
+    private InvitationCtrl invitationCtrl;
+
+    private Scene invitationOverview;
     private AdminOverviewCtrl adminOverviewCtrl;
     private Scene adminOverview;
     private AdminEventInfoCtrl adminEventInfoCtrl;
@@ -53,6 +58,7 @@ public class MainCtrl {
     private Scene adminEventInfo;
     private ResourceBundle bundle;
     private Locale locale = new Locale("en");
+
 
 
     /**
@@ -138,11 +144,23 @@ public class MainCtrl {
     }
 
     /**
+<<<<<<< HEAD
      * Getter for language
      * @return returns the locale
      */
     public Locale getLocale() {
         return locale;
+
+    }
+    /**
+     * Initialize invitations
+     * @param invitationOverview
+     */
+    public void invitationsInitialize(
+            Pair<InvitationCtrl, Parent> invitationOverview){
+        this.invitationCtrl = invitationOverview.getKey();
+        this.invitationOverview = new Scene(invitationOverview.getValue());
+
     }
 
     /**
@@ -150,6 +168,7 @@ public class MainCtrl {
      */
     public void showStartPage() {
         primaryStage.setTitle("Home");
+        startPageCtrl.removeErrorMessage();
         primaryStage.setScene(startPage);
         startPageCtrl.refresh();
     }
@@ -172,11 +191,12 @@ public class MainCtrl {
     public void showEventInfo(Event event) {
         primaryStage.setTitle(event.getTitle());
         eventInfoCtrl.setEvent(event);
-        eventInfoCtrl.updateLabelText(event);
-        eventInfoCtrl.updateDesc(event);
+        eventInfoCtrl.setData(event);
         primaryStage.setScene(eventInfo);
         eventInfo.setOnKeyPressed(e -> eventInfoCtrl.keyPressed(e));
     }
+
+
 
     /**
      * Shows add or edit expense page
@@ -193,14 +213,28 @@ public class MainCtrl {
 
     /**
      * shows participants
-     * @param user
+     * @param user that will be added/edited
+     * @param event where the change will happen
      */
-    public void showAddOrEditParticipants(User user) {
+    public void showAddOrEditParticipants(User user, Event event) {
         primaryStage.setTitle("Add/Edit participant");
         addOrEditParticipantCtrl.setUser(user);
+        addOrEditParticipantCtrl.setEvent(event);
         primaryStage.setScene(addOrEditParticipant);
         addOrEditParticipant.setOnKeyPressed(e -> addOrEditParticipantCtrl.keyPressed(e));
     }
+
+
+    /**
+     * Shows SendInvitations
+     * @param event
+     */
+    public void showSendInvitations(Event event) {
+        invitationCtrl.setEvent(event);
+        invitationCtrl.setData(event);
+        primaryStage.setScene(invitationOverview);
+    }
+
 
     /**
      * Shows AdminOverview

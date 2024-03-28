@@ -32,7 +32,9 @@ public class EventInfoCtrl {
     @FXML
     private Label expensesLabel;
     @FXML
-    private ComboBox<String> expenseComboBox;
+    private ComboBox<User> expenseComboBox;
+    @FXML
+    private ComboBox<User> participantCombobox;
     private List<User> participants = new ArrayList<>();
 
     private final ServerUtils server;
@@ -81,17 +83,7 @@ public class EventInfoCtrl {
     }
 
 
-    /**
-     * adds a participant when the button is clicked
-     * @param actionEvent the clicking of the button
-     */
-    public void addParticipant(ActionEvent actionEvent) {
-        User user = new User("demo", "demo@gmail.com",
-                "NL11112222333344445555666677778888",
-                "11112222333");
-        participants.add(user);
-        expenseComboBox.getItems().add(user.getUsername());
-    }
+
 
     /**
      * goes back to the main page
@@ -117,11 +109,19 @@ public class EventInfoCtrl {
      */
     public void addOrEditParticipant(){
         if (selectedParticipant == null) {
-            mainCtrl.showAddOrEditParticipants(new User());
+            mainCtrl.showAddOrEditParticipants(new User(), event);
         }
-        mainCtrl.showAddOrEditParticipants(selectedParticipant);
+        mainCtrl.showAddOrEditParticipants(selectedParticipant, event);
 
     }
+
+    /**
+     *  sends invitations
+     */
+    public void sendInvitations() {
+        mainCtrl.showSendInvitations(event);
+    }
+
     /**
      * This method is for usability. Checks the pressed key
      *
@@ -139,4 +139,27 @@ public class EventInfoCtrl {
                 break;
         }
     }
+
+    /**
+     * refreshes the data as the page is opened again
+     * @param event of the page
+     */
+    public void setData(Event event) {
+        updateDesc(event);
+        updateLabelText(event);
+        participantCombobox.getItems().setAll(event.getParticipants());
+        expenseComboBox.getItems().setAll(event.getParticipants());
+
+    }
+
+    /**
+     * selects a specific participant from the combobox
+     * @param actionEvent selecting of the participant
+     */
+    public void selectParticipant(ActionEvent actionEvent) {
+        selectedParticipant = participantCombobox.getValue();
+    }
+
+
+
 }

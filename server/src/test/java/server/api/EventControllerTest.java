@@ -1,8 +1,8 @@
 package server.api;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -63,7 +63,7 @@ public class EventControllerTest {
     @Test
     public void testGetEventTitleById() throws Exception {
         Event event = new Event("Title", 4, "Description");
-        when(eventService.getEventTitleById(1)).thenReturn((ResponseEntity<String>) ResponseEntity.ok("Title"));
+        when(eventService.getEventTitleById(1)).thenReturn(ResponseEntity.ok("Title"));
 
         mockMvc.perform(get("/api/events/1/title"))
                 .andExpect(status().isOk())
@@ -91,11 +91,21 @@ public class EventControllerTest {
                 .andExpect(content().string(List.of().toString()));
     }
 
+    @Test
+    public void testGetParticipantsById() throws Exception {
+        Event event = new Event("Title", 4, "Description");
+        when(eventService.getParticipantsByEventId(1)).thenReturn(List.of());
+
+        mockMvc.perform(get("/api/events/1/participants"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(List.of().toString()));
+    }
+
 
     @Test
     public void testGetDescriptionByEventId() throws Exception {
         Event event = new Event("Title", 4, "Description");
-        when(eventService.getDescriptionByEventId(1)).thenReturn((ResponseEntity<String>) ResponseEntity.ok("Description"));
+        when(eventService.getDescriptionByEventId(1)).thenReturn(ResponseEntity.ok("Description"));
 
         mockMvc.perform(get("/api/events/1/description"))
                 .andExpect(status().isOk())
@@ -105,7 +115,7 @@ public class EventControllerTest {
     @Test
     public void testAddEvent() throws Exception {
         Event event = new Event("Title", 4, "Description");
-        when(eventService.addEvent(event)).thenReturn((ResponseEntity<Event>) ResponseEntity.ok(event));
+        when(eventService.addEvent(event)).thenReturn(ResponseEntity.ok(event));
 
         mockMvc.perform(post("/api/events/add")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -113,5 +123,12 @@ public class EventControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(event.toString()));
     }
+
+//    @Test
+//    public void testDeleteEvent() throws Exception {
+//        Event event = new Event("Title", 4, "Description");
+//        eventService.addEvent(event);
+//        assertEquals(ResponseEntity.ok().build(), eventService.deleteEvent(event.getId()));
+//    }
 
 }

@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ContentDisplay?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
@@ -11,35 +12,47 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="379.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.StartPageCtrl">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="379.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.StartPageCtrl">
    <children>
-      <TextField fx:id="eventid" layoutX="37.0" layoutY="155.0" minHeight="-Infinity" prefHeight="20.0" prefWidth="132.0" promptText="Enter the event code">
+      <Label layoutX="232.0" layoutY="27.0" text="Splitty" textFill="#fd7f20" underline="true">
+         <font>
+            <Font name="Dubai Medium" size="48.0" />
+         </font>
+      </Label>
+      <Text layoutX="62.0" layoutY="154.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create Event">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <Button layoutX="177.0" layoutY="134.0" mnemonicParsing="false" onAction="#createEvent" text="Create" />
+      <Text layoutX="62.0" layoutY="197.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Join Event">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <Button layoutX="154.0" layoutY="179.0" minHeight="-Infinity" mnemonicParsing="false" onAction="#joinEvent" prefHeight="22.0" prefWidth="32.0" text="→" />
+      <Label fx:id="noCode" layoutX="207.0" layoutY="182.0" prefHeight="16.0" prefWidth="132.0" text="Wrong code. Try again.">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Label>
+      <TextField fx:id="eventid" layoutX="62.0" layoutY="220.0" minHeight="-Infinity" prefHeight="20.0" prefWidth="132.0" promptText="Enter the event code">
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
       </TextField>
-      <Text layoutX="37.0" layoutY="144.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Join Event">
+      <Text layoutX="61.0" layoutY="280.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Admin Login">
          <font>
             <Font size="18.0" />
          </font>
       </Text>
-      <Text layoutX="37.0" layoutY="205.0" onMouseClicked="#createEvent" strokeType="OUTSIDE" strokeWidth="0.0" text="Create Event">
+      <Button layoutX="178.0" layoutY="260.0" mnemonicParsing="false" onAction="#login" text="Log In" />
+      <Text layoutX="368.0" layoutY="153.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Recent Events" textAlignment="CENTER" wrappingWidth="132.0">
          <font>
             <Font size="18.0" />
          </font>
       </Text>
-      <Button layoutX="175.0" layoutY="154.0" minHeight="-Infinity" mnemonicParsing="false" onAction="#joinEvent" prefHeight="22.0" prefWidth="32.0" text="→" />
-      <ListView layoutX="384.0" layoutY="152.0" prefHeight="115.0" prefWidth="174.0" />
-      <Text layoutX="384.0" layoutY="143.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Recent Events">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Text>
-      <Text layoutX="36.0" layoutY="247.0" onMouseClicked="#login" strokeType="OUTSIDE" strokeWidth="0.0" text="Admin Login">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Text>
+
       <Button layoutX="532.0" layoutY="20.0" mnemonicParsing="false" onAction="#languageSwitch" text="Button">
          <contentDisplay>
             <ContentDisplay fx:value="GRAPHIC_ONLY" />
@@ -50,5 +63,7 @@
             </ImageView>
          </graphic>
       </Button>
+
+      <ListView layoutX="368.0" layoutY="173.0" prefHeight="124.0" prefWidth="174.0" />
    </children>
 </AnchorPane>
