@@ -16,6 +16,18 @@
 package client.scenes;
 
 import client.Main;
+import client.utils.ServerUtils;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 import commons.Event;
 import commons.Expense;
 import commons.User;
@@ -25,6 +37,7 @@ import javafx.stage.Stage;
 import javafx.util.Pair;
 import java.util.Locale;
 import java.util.ResourceBundle;
+
 
 public class MainCtrl {
 
@@ -281,7 +294,69 @@ public class MainCtrl {
     }
 
     /**
-     * shows the languageswitch pages
+     * gets the events that the user has joined from the CONFIG file
+     * @return list of events
+     * @param path path to the file
+     * @throws FileNotFoundException if the file is not found
+     */
+    public List<Long> getJoinedEventsIDProvidingPath(String path) throws IOException {
+        List<Long> list = new ArrayList<>();
+        ServerUtils serverUtils = new ServerUtils();
+
+        String jsonString = readConfigFile(path);
+        JSONObject jsonObject = new JSONObject(jsonString);
+        JSONObject userObject = jsonObject.getJSONObject("User");
+        JSONArray eventsArray = userObject.getJSONArray("Events");
+
+        for (int i = 0; i < eventsArray.length(); i++) {
+            JSONObject eventObject = eventsArray.getJSONObject(i);
+            long eventId = eventObject.getLong("id");
+            list.add(eventId);
+        }
+        return list;
+    }
+
+    /**
+     * gets the events that the user has joined from the CONFIG file
+     * @return list of events
+     * @throws IOException if the file is not found
+     */
+    public List<Event> getJoinedEvents() throws IOException {
+        return getJoinedEventsProvidingPath("src/main/resources/CONFIG.json");
+    }
+
+
+    /**
+     * interacts with the server to get the events that the user has joined
+     * @param path  path to the file
+     * @return  list of events
+     * @throws IOException  if the file is not found
+     */
+    public List<Event> getJoinedEventsProvidingPath(String path) throws IOException {
+        List<Long> eventIds = getJoinedEventsIDProvidingPath(path);
+        List<Event> events = new ArrayList<>();
+        ServerUtils serverUtils = new ServerUtils();
+
+        for (int i = 0; i < eventIds.size(); i++) {
+            events.add(serverUtils.getEventById(eventIds.get(i)));
+        }
+        return events;
+    }
+
+    /**
+     * reads the config file
+     * @param filePath path to the file
+     * @return the string representation of the file
+     * @throws IOException if the file is not found
+     */
+    public String readConfigFile(String filePath) throws IOException {
+        Path path = Path.of(filePath);
+        String string = Files.readString(path);
+        return string;
+    }
+
+    /**
+     * shows the languageSwitch pages
      * @param c a char from previous page
      */
     public void showLanguageSwitch(char c) {
@@ -296,6 +371,4 @@ public class MainCtrl {
         primaryStage.setScene(languageSwitchScene);
 //        popup.show();
     }
-
-
 }
