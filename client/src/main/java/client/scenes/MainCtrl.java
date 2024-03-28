@@ -25,6 +25,9 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -226,7 +229,7 @@ public class MainCtrl {
      * @throws FileNotFoundException if the file is not found
      */
 
-    public List<Event> getJoinedEvents() throws FileNotFoundException {
+    public List<Event> getJoinedEvents() throws IOException {
         List<Event> list = new ArrayList<>();
         ServerUtils serverUtils = new ServerUtils();
 
@@ -240,15 +243,19 @@ public class MainCtrl {
         return list;
     }
 
-    private String readConfigFile(String filePath) throws FileNotFoundException {
-        File configFile = new File(filePath);
-        Scanner scanner = new Scanner(configFile);
-        StringBuilder builder = new StringBuilder();
-        while(scanner.hasNext()){
-            builder.append(scanner.next());
-        }
-        scanner.close();
-        return builder.toString();
+    public String readConfigFile(String filePath) throws IOException {
+        Path path = Path.of(filePath);
+        String string = Files.readString(path);
+        return string;
+//
+//        File configFile = new File(filePath);
+//        Scanner scanner = new Scanner(configFile);
+//        StringBuilder builder = new StringBuilder();
+//        while(scanner.hasNext()){
+//            builder.append(scanner.next());
+//        }
+//        scanner.close();
+//        return builder.toString();
     }
 
 }

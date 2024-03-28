@@ -15,19 +15,41 @@
  */
 package client.scenes;
 
+import client.utils.ServerUtils;
+import commons.Event;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.*;
 
 public class MainCtrlTest {
 
-    private MainCtrl sut;
+    @InjectMocks
+    private MainCtrl mainCtrl;
+
+    @Mock
+    ServerUtils serverUtils;
 
     /**
      * BeforeEach method
      */
     @BeforeEach
     public void setup() {
-        sut = new MainCtrl();
+        mainCtrl = new MainCtrl();
     }
 
     /**
@@ -40,8 +62,10 @@ public class MainCtrlTest {
     }
 
     @Test
-    public void testGetJoinedEvents() {
-        String testString = "{\n" +
+    public void testReadConfigFile() throws IOException {
+        // Create a temporary file with sample JSON data
+        String tempFilePath = "CONFIGTest.json";
+        String configJson = "{\n" +
                 "  \"User\" : {\n" +
                 "    \"name\": \"John Doe\",\n" +
                 "    \"Language\": \"en\",\n" +
@@ -68,6 +92,46 @@ public class MainCtrlTest {
                 "    ]\n" +
                 "  }\n" +
                 "}";
-        //TODO make a new method that allows the reader to be decoupled from the file.
+
+        // Write sample JSON to the temporary file
+        Path path = Paths.get(tempFilePath);
+        Files.writeString(path, configJson);
+
+        // Call the method under test
+        MainCtrl mainCtrl = new MainCtrl();
+        String result = mainCtrl.readConfigFile(tempFilePath);
+        assertEquals(configJson, result);
+
+        // Clean up: delete the temporary file
+        Files.deleteIfExists(path);
     }
+
+
+    // NOT WORKING YET
+    @Test
+    void testGetJoinedEvents() throws IOException {
+        // Initialize mocks
+        MockitoAnnotations.openMocks(this);
+
+        // Create a sample CONFIG.json content for testing
+        String configJson = "{\"events\":[{\"id\":1},{\"id\":2},{\"id\":3}]}";
+
+        // Mock the behavior of readConfigFile method to return the sample JSON
+
+        MainCtrl mainCtrl = spy(new MainCtrl());
+        doReturn(configJson).when(mainCtrl).readConfigFile(anyString());
+
+        // Mock the behavior of serverUtils.getEventById() to return a dummy Event
+        when(serverUtils.getEventById(anyLong())).thenReturn(new Event());
+
+        // Call the method under test
+        List<Event> joinedEvents = mainCtrl.getJoinedEvents();
+
+        // Verify that serverUtils.getEventById was called the correct number of times
+        verify(serverUtils, times(3)).getEventById(anyLong());
+
+        // Assert the size of the returned list
+        assertEquals(3, joinedEvents.size());
+    }
+
 }
