@@ -62,6 +62,16 @@ public class Expense {
     }
 
     /**
+     * Partial constructor
+     *
+     * @param event   event of the expense
+     */
+    public Expense(Event event) {
+        this.event = event;
+        this.payingParticipants = new ArrayList<>();
+    }
+
+    /**
      * Getter method
      *
      * @return expense name

@@ -119,6 +119,7 @@ public class MainCtrl {
      */
     public void showStartPage() {
         primaryStage.setTitle("Home");
+        startPageCtrl.removeErrorMessage();
         primaryStage.setScene(startPage);
         startPageCtrl.refresh();
     }
@@ -141,11 +142,12 @@ public class MainCtrl {
     public void showEventInfo(Event event) {
         primaryStage.setTitle(event.getTitle());
         eventInfoCtrl.setEvent(event);
-        eventInfoCtrl.updateLabelText(event);
-        eventInfoCtrl.updateDesc(event);
+        eventInfoCtrl.setData(event);
         primaryStage.setScene(eventInfo);
         eventInfo.setOnKeyPressed(e -> eventInfoCtrl.keyPressed(e));
     }
+
+
 
     /**
      * Shows add or edit expense page
@@ -162,11 +164,13 @@ public class MainCtrl {
 
     /**
      * shows participants
-     * @param user
+     * @param user that will be added/edited
+     * @param event where the change will happen
      */
-    public void showAddOrEditParticipants(User user) {
+    public void showAddOrEditParticipants(User user, Event event) {
         primaryStage.setTitle("Add/Edit participant");
         addOrEditParticipantCtrl.setUser(user);
+        addOrEditParticipantCtrl.setEvent(event);
         primaryStage.setScene(addOrEditParticipant);
         addOrEditParticipant.setOnKeyPressed(e -> addOrEditParticipantCtrl.keyPressed(e));
     }

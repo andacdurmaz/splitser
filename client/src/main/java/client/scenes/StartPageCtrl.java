@@ -7,7 +7,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+
 import java.util.Optional;
 
 
@@ -19,6 +21,8 @@ public class StartPageCtrl {
 
     @FXML
     private TextField eventid;
+    @FXML
+    private Label noCode;
 
     /**
      * constructor for the starting page
@@ -40,17 +44,24 @@ public class StartPageCtrl {
     }
 
     /**
-     * when admin login text is clicked on, the login page opens
-     * @param mouseEvent the clicking of the text
+     * makes the error message invisible
      */
-    public void login(javafx.scene.input.MouseEvent mouseEvent) {
-        mainCtrl.login();
+    public void removeErrorMessage() {
+        noCode.setVisible(false);
     }
     /**
-     * when create event text is clicked on, the addEvent page opens
-     * @param mouseEvent the clicking of the text
+     * when login button is clicked on, the login page opens
+     * @param actionEvent the clicking of the button
      */
-    public void createEvent(javafx.scene.input.MouseEvent mouseEvent) {
+    public void login(ActionEvent actionEvent) {
+        mainCtrl.login();
+
+    }
+    /**
+     * when create  button is clicked on, the addEvent page opens
+     * @param mouseEvent the clicking of the button
+     */
+    public void createEvent(ActionEvent mouseEvent) {
         mainCtrl.showAdd();
     }
 
@@ -64,6 +75,10 @@ public class StartPageCtrl {
                 .findFirst();
         if (event.isPresent())
             mainCtrl.showEventInfo(event.get());
-//        else
+        else
+            noCode.setVisible(true);
     }
+
+
+
 }

@@ -65,8 +65,8 @@ public class Main extends Application {
         var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
         var adminEventInfo = FXML.load(AdminEventInfoCtrl.class, "client",
                 "scenes", "AdminEventInfo.fxml");
-        var eventOverview = FXML.load(EventOverviewCtrl.class,
-                "clients", "scenes", "EventOverview.fxml");
+        var eventOverview = FXML.load(EventOverviewCtrl.class, "client",
+                "scenes", "EventOverview.fxml");
         mainCtrl.initialize(primaryStage, startPage, addOrEditExpense,
                 add, eventInfo, addOrEditParticipant);
         mainCtrl.overviewInitialize(eventOverview);

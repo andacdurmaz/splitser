@@ -91,6 +91,16 @@ public class EventControllerTest {
                 .andExpect(content().string(List.of().toString()));
     }
 
+    @Test
+    public void testGetParticipantsById() throws Exception {
+        Event event = new Event("Title", 4, "Description");
+        when(eventService.getParticipantsByEventId(1)).thenReturn(List.of());
+
+        mockMvc.perform(get("/api/events/1/participants"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(List.of().toString()));
+    }
+
 
     @Test
     public void testGetDescriptionByEventId() throws Exception {

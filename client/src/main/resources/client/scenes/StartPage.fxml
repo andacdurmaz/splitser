@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -20,7 +21,7 @@
             <Font size="18.0" />
          </font>
       </Text>
-      <Text layoutX="37.0" layoutY="205.0" onMouseClicked="#createEvent" strokeType="OUTSIDE" strokeWidth="0.0" text="Create Event">
+      <Text layoutX="37.0" layoutY="205.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create Event">
          <font>
             <Font size="18.0" />
          </font>
@@ -32,10 +33,17 @@
             <Font size="18.0" />
          </font>
       </Text>
-      <Text layoutX="36.0" layoutY="247.0" onMouseClicked="#login" strokeType="OUTSIDE" strokeWidth="0.0" text="Admin Login">
+      <Text layoutX="36.0" layoutY="247.0"  strokeType="OUTSIDE" strokeWidth="0.0" text="Admin Login">
          <font>
             <Font size="18.0" />
          </font>
       </Text>
+      <Button layoutX="149.0" layoutY="185.0" mnemonicParsing="false" onAction="#createEvent" text="Create" />
+      <Button layoutX="149.0" layoutY="227.0" mnemonicParsing="false" onAction="#login" text="Log In" />
+      <Label fx:id="noCode" layoutX="215.0" layoutY="157.0" text="Wrong code. Try again.">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

@@ -51,7 +51,8 @@ public class AddEventCtrl {
     public void ok() {
         Event newEvent = getEvent();
         try {
-            server.addEvent(newEvent);
+            Event tmp = server.addEvent(newEvent);
+            newEvent.setId(tmp.getId());
         } catch (WebApplicationException e) {
             var alert = new Alert(Alert.AlertType.ERROR);
             alert.initModality(Modality.APPLICATION_MODAL);
@@ -72,9 +73,9 @@ public class AddEventCtrl {
         List<Long> eventCodes = server.getEvents().stream().map(q -> q.getEventCode()).toList();
         Event event = new Event(title.getText());
         Random random = new Random();
-        long eventCode = random.nextLong() % 100000000;
+        long eventCode;
         do {
-            eventCode = random.nextLong() % 100000000;
+            eventCode = Math.abs(random.nextLong() % 100000000);
         }
         while (eventCodes.contains(eventCode));
 
