@@ -159,10 +159,18 @@ public class Expense {
                 && Objects.equals(getPayingParticipants(), expense.getPayingParticipants());
     }
 
+    /**
+     * Getter method
+     * @return expense tag
+     */
     public ExpenseTag getExpenseTag() {
         return expenseTag;
     }
 
+    /**
+     * Setter method
+     * @param expenseTag sets expense tag of the expense
+     */
     public void setExpenseTag(ExpenseTag expenseTag) {
         this.expenseTag = expenseTag;
     }

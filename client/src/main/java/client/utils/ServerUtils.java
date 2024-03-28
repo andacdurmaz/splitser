@@ -163,8 +163,8 @@ public class ServerUtils extends Util {
 
     /**
      * Adds expense
-     *
      * @param expense to add
+     * @return add expense
      */
     public Expense addExpense(Expense expense) {
         Response response = ClientBuilder.newClient(new ClientConfig())
