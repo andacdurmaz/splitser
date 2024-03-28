@@ -1,5 +1,6 @@
 package commons;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import commons.exceptions.BICFormatException;
 import commons.exceptions.EmailFormatException;
 import commons.exceptions.IBANFormatException;
@@ -8,6 +9,7 @@ import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
 @Table(name = "participant")
 public class User {

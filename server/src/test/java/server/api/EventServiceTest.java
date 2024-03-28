@@ -38,6 +38,17 @@ public class EventServiceTest {
         assertEquals(event, foundEvent);
     }
 
+//    @Test
+//    public void testGetEventByEventCode() {
+//        Event event = new Event("Title", 4, "Description");
+//        EventRepository eventRepository = mock(EventRepository.class);
+//        EventService eventService = new EventService(eventRepository);
+//
+//        when(eventRepository.getEventByEventCode(event.getEventCode())).thenReturn(event);
+//        Event foundEvent = eventService.getEventByEventCode(event.getEventCode());
+//        assertEquals(event, foundEvent);
+//    }
+
     @Test
     public void testGetEventTitleById() {
         Event event = new Event("Title", 4, "Description");
@@ -69,6 +80,17 @@ public class EventServiceTest {
         when(eventRepository.getExpensesById(1)).thenReturn(new ArrayList<>());
         List<Expense> expenses = eventService.getExpensesByEventId(1);
         assertEquals(0, expenses.size());
+    }
+
+    @Test
+    public void testGetParticipantsById() {
+        Event event = new Event("Title", 4, "Description");
+        EventRepository eventRepository = mock(EventRepository.class);
+        EventService eventService = new EventService(eventRepository);
+
+        when(eventRepository.getParticipantsById(1)).thenReturn(new ArrayList<>());
+        List<User> participants = eventService.getParticipantsByEventId(1);
+        assertEquals(0, participants.size());
     }
 
     @Test
