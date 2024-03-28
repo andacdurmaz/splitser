@@ -10,6 +10,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Modality;
 
+import java.util.List;
+import java.util.Random;
+
 public class AddEventCtrl {
 
     private final ServerUtils server;
@@ -18,6 +21,8 @@ public class AddEventCtrl {
     @FXML
     private TextField title;
 
+    @FXML
+    private TextField description;
 
     /**
      * Inject method
@@ -46,7 +51,8 @@ public class AddEventCtrl {
     public void ok() {
         Event newEvent = getEvent();
         try {
-            server.addEvent(newEvent);
+            Event tmp = server.addEvent(newEvent);
+            newEvent.setId(tmp.getId());
         } catch (WebApplicationException e) {
             var alert = new Alert(Alert.AlertType.ERROR);
             alert.initModality(Modality.APPLICATION_MODAL);
@@ -64,7 +70,20 @@ public class AddEventCtrl {
      * @return specified event
      */
     private Event getEvent() {
-        return new Event(title.getText());
+        List<Long> eventCodes = server.getEvents().stream().map(q -> q.getEventCode()).toList();
+        Event event = new Event(title.getText());
+        Random random = new Random();
+        long eventCode;
+        do {
+            eventCode = Math.abs(random.nextLong() % 100000000);
+        }
+        while (eventCodes.contains(eventCode));
+
+
+        event.setEventCode(eventCode);
+        if (description.getText() != null)
+            event.setDescription(description.getText());
+        return event;
     }
 
     /**
@@ -72,6 +91,7 @@ public class AddEventCtrl {
      */
     private void clearFields() {
         title.clear();
+        description.clear();
     }
 
     /**

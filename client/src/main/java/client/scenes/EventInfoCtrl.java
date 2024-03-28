@@ -2,14 +2,18 @@ package client.scenes;
 
 import client.utils.ServerUtils;
 import commons.Event;
-import commons.Expense;
 import commons.User;
+import javafx.event.ActionEvent;
+import commons.Expense;
 import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class EventInfoCtrl {
@@ -20,12 +24,18 @@ public class EventInfoCtrl {
     @FXML
     private AnchorPane rootPane;
     @FXML
-    private Label titleLabel;
+    private Label eventTitle;
+    @FXML
+    private Label description;
     @FXML
     private Label participantsLabel;
     @FXML
     private Label expensesLabel;
-
+    @FXML
+    private ComboBox<User> expenseComboBox;
+    @FXML
+    private ComboBox<User> participantCombobox;
+    private List<User> participants = new ArrayList<>();
 
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
@@ -42,15 +52,7 @@ public class EventInfoCtrl {
         this.mainCtrl = mainCtrl;
     }
 
-    /**
-     * initialize method
-     *
-     * @param event
-     */
-    public void initialize(Event event) {
-        this.event = event;
-        titleLabel.setText(event.getTitle());
-    }
+
 
     /**
      * Update label text
@@ -58,7 +60,17 @@ public class EventInfoCtrl {
      * @param event
      */
     public void updateLabelText(Event event) {
-        titleLabel.setText(event.getTitle());
+        if (event != null || event.getTitle().length() != 0)
+            eventTitle.setText(event.getTitle());
+    }
+
+    /**
+     * Update label text
+     * @param event
+     */
+    public void updateDesc(Event event) {
+        if (event != null || event.getTitle().length() != 0)
+            description.setText(event.getDescription());
     }
 
     /**
@@ -68,6 +80,17 @@ public class EventInfoCtrl {
      */
     public void setEvent(Event event) {
         this.event = event;
+    }
+
+
+
+
+    /**
+     * goes back to the main page
+     * @param actionEvent when the button is clicked
+     */
+    public void back(ActionEvent actionEvent) {
+        mainCtrl.showStartPage();
     }
 
     /**
@@ -86,11 +109,19 @@ public class EventInfoCtrl {
      */
     public void addOrEditParticipant(){
         if (selectedParticipant == null) {
-            mainCtrl.showAddOrEditParticipants(new User());
+            mainCtrl.showAddOrEditParticipants(new User(), event);
         }
-        mainCtrl.showAddOrEditParticipants(selectedParticipant);
+        mainCtrl.showAddOrEditParticipants(selectedParticipant, event);
 
     }
+
+    /**
+     *  sends invitations
+     */
+    public void sendInvitations() {
+        mainCtrl.showSendInvitations(event);
+    }
+
     /**
      * This method is for usability. Checks the pressed key
      *
@@ -108,4 +139,27 @@ public class EventInfoCtrl {
                 break;
         }
     }
+
+    /**
+     * refreshes the data as the page is opened again
+     * @param event of the page
+     */
+    public void setData(Event event) {
+        updateDesc(event);
+        updateLabelText(event);
+        participantCombobox.getItems().setAll(event.getParticipants());
+        expenseComboBox.getItems().setAll(event.getParticipants());
+
+    }
+
+    /**
+     * selects a specific participant from the combobox
+     * @param actionEvent selecting of the participant
+     */
+    public void selectParticipant(ActionEvent actionEvent) {
+        selectedParticipant = participantCombobox.getValue();
+    }
+
+
+
 }

@@ -226,6 +226,17 @@ public class EventRepositoryTest implements EventRepository{
         return null;
     }
 
+//    @Override
+//    public Event getEventByTitle(String title) {
+//        return null;
+//    }
+//
+//    @Override
+//    public Event getEventByEventCode(long eventCode) {
+//        return null;
+//    }
+
+
     /**
      * Checks if the event with this ID exists
      *
@@ -278,6 +289,11 @@ public class EventRepositoryTest implements EventRepository{
      */
     @Override
     public ResponseEntity<String> getDescriptionById(long id) {
+        return null;
+    }
+
+    @Override
+    public List<User> getParticipantsById(long id) {
         return null;
     }
 }

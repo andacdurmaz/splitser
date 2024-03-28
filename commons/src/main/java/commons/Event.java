@@ -23,6 +23,14 @@ public class Event {
     private List<Expense> expenses;
     private String description;
 
+    @ManyToMany(targetEntity = User.class)
+    @JoinTable(
+            name = "user_event_mapping",
+            joinColumns = @JoinColumn(name = "event", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "participant", referencedColumnName = "id")
+    )
+    private List<User> participants = new ArrayList<>();
+
     /**
      * this constructor is needed for JPA
      */
@@ -171,6 +179,30 @@ public class Event {
     }
 
     /**
+     * setter method for the eventcode
+     * @param eventCode the new eventcode
+     */
+    public void setEventCode(long eventCode) {
+        this.eventCode = eventCode;
+    }
+
+    /**
+     * getter method for an event's participants
+     * @return a list of the event's participants
+     */
+    public List<User> getParticipants() {
+        return participants;
+    }
+
+    /**
+     * setter method for the participants
+     * @param participants the new list of participants of the event
+     */
+    public void setParticipants(List<User> participants) {
+        this.participants = participants;
+    }
+
+    /**
      * lets the user remove certain expenses
      *
      * @param expense to be removed
@@ -267,6 +299,7 @@ public class Event {
                 ",\"amountOfParticipants\":" + amountOfParticipants +
                 ",\"expenses\":" + expenses +
                 ",\"description\":\"" + description + '\"' +
+                ",\"participants\":" +  participants  +
                 ",\"sumOfExpenses\":" + getSumOfExpenses() +
                 '}';
     }
