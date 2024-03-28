@@ -223,21 +223,28 @@ public class MainCtrl {
         primaryStage.setScene(loginScreenScene);
     }
 
+    public List<Event> getJoinedEvents() throws IOException {
+        return getJoinedEventsProvidingPath("src/main/resources/config.json");
+    }
+
     /**
      * gets the events that the user has joined from the CONFIG file
      * @return list of events
      * @throws FileNotFoundException if the file is not found
      */
 
-    public List<Event> getJoinedEvents() throws IOException {
+    public List<Event> getJoinedEventsProvidingPath(String path) throws IOException {
         List<Event> list = new ArrayList<>();
         ServerUtils serverUtils = new ServerUtils();
 
-        String jsonString = readConfigFile("client/src/main/resources/CONFIG.json");
+        String jsonString = readConfigFile(path);
         JSONObject jsonObject = new JSONObject(jsonString);
-        JSONArray events = jsonObject.getJSONArray("events");
-        for (int i = 0; i < events.length(); i++) {
-            long eventId = events.getJSONObject(i).getLong("id");
+        JSONObject userObject = jsonObject.getJSONObject("User");
+        JSONArray eventsArray = userObject.getJSONArray("Events");
+
+        for (int i = 0; i < eventsArray.length(); i++) {
+            JSONObject eventObject = eventsArray.getJSONObject(i);
+            long eventId = eventObject.getLong("id");
             list.add(serverUtils.getEventById(eventId));
         }
         return list;
@@ -247,15 +254,6 @@ public class MainCtrl {
         Path path = Path.of(filePath);
         String string = Files.readString(path);
         return string;
-//
-//        File configFile = new File(filePath);
-//        Scanner scanner = new Scanner(configFile);
-//        StringBuilder builder = new StringBuilder();
-//        while(scanner.hasNext()){
-//            builder.append(scanner.next());
-//        }
-//        scanner.close();
-//        return builder.toString();
     }
 
 }
