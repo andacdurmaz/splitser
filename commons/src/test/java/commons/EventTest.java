@@ -41,6 +41,16 @@ class EventTest {
     }
 
     @Test
+    public void participantsTest(){
+        Event event = new Event();
+        User user = new User();
+        assertTrue(event.getParticipants().isEmpty());
+        List<User> participants = new ArrayList<>();
+        participants.add(user);
+        event.setParticipants(participants);
+        assertEquals(participants, event.getParticipants());
+    }
+    @Test
     void testTitleSetter() {
         Event event = new Event("test", 3, "this is for a test");
         event.setTitle("newTitle");
@@ -178,7 +188,7 @@ class EventTest {
     @Test
     void testToStringMethod(){
         Event event = new Event("test", 3, "this is for a test");
-        assertEquals("{\"id\":0,\"eventCode\":0,\"title\":\"test\",\"amountOfParticipants\":3,\"expenses\":[],\"description\":\"this is for a test\",\"sumOfExpenses\":0.0}",
+        assertEquals("{\"id\":0,\"eventCode\":0,\"title\":\"test\",\"amountOfParticipants\":3,\"expenses\":[],\"description\":\"this is for a test\",\"participants\":[],\"sumOfExpenses\":0.0}",
                 event.toString());
     }
 }

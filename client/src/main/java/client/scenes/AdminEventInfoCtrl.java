@@ -60,7 +60,7 @@ public class AdminEventInfoCtrl {
 
             try {
                 ObjectMapper mapper = new ObjectMapper();
-
+                currentEvent.setId(0);
                 mapper.writeValue(file, currentEvent);
 
                 System.out.println("File created successfully at: " + file.getAbsolutePath());
@@ -80,6 +80,14 @@ public class AdminEventInfoCtrl {
         eventCodeLabel.setText(String.valueOf(event.getEventCode()));
         descriptionLabel.setText(event.getDescription());
         this.currentEvent = event;
+    }
+
+    /**
+     * Delete event method
+     */
+    public void deleteEvent() {
+        server.deleteEvent(currentEvent);
+        mainCtrl.showAdminOverview();
     }
 
     /**

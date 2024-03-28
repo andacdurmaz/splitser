@@ -3,14 +3,17 @@ package client.scenes;
 import client.utils.ServerUtils;
 import commons.Event;
 import commons.Expense;
+import commons.User;
 import jakarta.ws.rs.WebApplicationException;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
+import javafx.scene.control.*;
 import javafx.stage.Modality;
 
 import javax.inject.Inject;
 import javafx.scene.input.KeyEvent;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AddOrEditExpenseCtrl {
     private final ServerUtils server;
@@ -20,6 +23,12 @@ public class AddOrEditExpenseCtrl {
 
     @FXML
     private Button ok;
+    @FXML
+    private ComboBox<User> payer;
+    @FXML
+    private TextField name;
+    @FXML
+    private Spinner<Double> amount;
 
     /**
      * Constructor
@@ -75,7 +84,14 @@ public class AddOrEditExpenseCtrl {
      * @return expense
      */
     private Expense getExpense() {
-        var p = new Expense();
+        var p = new Expense(event);
+        p.setPayer(payer.getValue());
+        p.setName(name.getText());
+        p.setAmount(amount.getValue());
+        List<User> eventParticipants = new ArrayList<>();
+        for (Expense e: event.getExpenses()) {
+
+        }
         return p;
     }
 
