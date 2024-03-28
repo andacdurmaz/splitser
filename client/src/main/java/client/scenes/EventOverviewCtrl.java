@@ -16,7 +16,7 @@ import javafx.scene.input.MouseEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class HomePageCtrl implements Initializable {
+public class EventOverviewCtrl implements Initializable {
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
     private ObservableList<Event> data;
@@ -42,7 +42,7 @@ public class HomePageCtrl implements Initializable {
      * @param mainCtrl main controller
      */
     @Inject
-    public HomePageCtrl(ServerUtils server, MainCtrl mainCtrl) {
+    public EventOverviewCtrl(ServerUtils server, MainCtrl mainCtrl) {
         this.mainCtrl = mainCtrl;
         this.server = server;
     }

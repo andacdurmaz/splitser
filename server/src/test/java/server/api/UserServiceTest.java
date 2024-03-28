@@ -65,7 +65,7 @@ public class UserServiceTest {
     public void getUserTest() throws NoUserFoundException {
         UserRepoTest repo = new UserRepoTest();
         UserService service = new UserService(repo);
-        User user = new User("andac","andac@gmail.com");
+        User user = new User("andac","andac@gmail.com","iban","bic");
         service.save(user);
         long id = user.getUserID();
         assertEquals(user, service.getUserById(id));
@@ -115,8 +115,8 @@ public class UserServiceTest {
         DebtRepoTest debtrepo = new DebtRepoTest();
         DebtService debtService = new DebtService(debtrepo);
         service.setDebtService(debtService);
-        User payer = new User("andac", "andac@gmail.com");
-        User payee = new User("mete", "mete@mail.com");
+        User payer = new User("andac", "andac@gmail.com","iban","bic");
+        User payee = new User("mete", "mete@mail.com","iban","bic");
         repo.save(payer);
         repo.save(payee);
         List<User> payers = new ArrayList<>();
@@ -139,8 +139,8 @@ public class UserServiceTest {
         DebtRepoTest debtrepo = new DebtRepoTest();
         DebtService debtService = new DebtService(debtrepo);
         service.setDebtService(debtService);
-        User payer = new User("andac", "andac@gmail.com");
-        User payee = new User("mete", "mete@mail.com");
+        User payer = new User("andac", "andac@gmail.com","iban","bic");
+        User payee = new User("mete", "mete@mail.com","iban","bic");
         repo.save(payer);
         repo.save(payee);
         service.addDebts(payer, payee, 5.0);
@@ -158,8 +158,8 @@ public class UserServiceTest {
         DebtRepoTest debtrepo = new DebtRepoTest();
         DebtService debtService = new DebtService(debtrepo);
         service.setDebtService(debtService);
-        User payer = new User("andac", "andac@gmail.com");
-        User payee = new User("mete", "mete@mail.com");
+        User payer = new User("andac", "andac@gmail.com","iban","bic");
+        User payee = new User("mete", "mete@mail.com","iban","bic");
         repo.save(payer);
         repo.save(payee);
         service.addDebts(payer, payee, 5.0);
@@ -178,8 +178,8 @@ public class UserServiceTest {
         DebtRepoTest debtrepo = new DebtRepoTest();
         DebtService debtService = new DebtService(debtrepo);
         service.setDebtService(debtService);
-        User payer = new User("andac", "andac@gmail.com");
-        User payee = new User("mete", "mete@mail.com");
+        User payer = new User("andac", "andac@gmail.com","iban","bic");
+        User payee = new User("mete", "mete@mail.com","iban","bic");
         repo.save(payer);
         repo.save(payee);
         service.addDebts(payer, payee, 5.0);
@@ -199,8 +199,8 @@ public class UserServiceTest {
         DebtRepoTest debtrepo = new DebtRepoTest();
         DebtService debtService = new DebtService(debtrepo);
         service.setDebtService(debtService);
-        User payer = new User("andac", "andac@gmail.com");
-        User payee = new User("mete", "mete@mail.com");
+        User payer = new User("andac", "andac@gmail.com","iban","bic");
+        User payee = new User("mete", "mete@mail.com","iban","bic");
         repo.save(payer);
         repo.save(payee);
         service.addDebts(payer, payee, 5.0);
@@ -220,8 +220,8 @@ public class UserServiceTest {
         DebtRepoTest debtrepo = new DebtRepoTest();
         DebtService debtService = new DebtService(debtrepo);
         service.setDebtService(debtService);
-        User payer = new User("andac", "andac@gmail.com");
-        User payee = new User("mete", "mete@mail.com");
+        User payer = new User("andac", "andac@gmail.com","iban","bic");
+        User payee = new User("mete", "mete@mail.com","iban","bic");
         repo.save(payer);
         repo.save(payee);
         service.addDebts(payer, payee, 5.0);

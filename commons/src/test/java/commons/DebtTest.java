@@ -7,8 +7,8 @@ import static org.junit.jupiter.api.Assertions.*;
 public class DebtTest {
     @Test
     public void constructorTest() {
-        User payer = new User("andac", "andac@gmail.com");
-        User payee = new User("james", "james@gmail.com");
+        User payer = new User("andac", "andac@gmail.com","iban", "bic");
+        User payee = new User("james", "james@gmail.com","iban", "bic");
         Debt debt = new Debt(payer, payee, 5.0);
         assertNotNull(debt);
         assertEquals(payer, debt.getPayer());
@@ -29,7 +29,7 @@ public class DebtTest {
     public void payerTest(){
         Debt debt = new Debt();
         assertEquals(null, debt.getPayer());
-        User payer = new User("andac", "andac@gmail.com");
+        User payer = new User("andac", "andac@gmail.com","iban", "bic");
         debt.setPayer(payer);
         assertEquals(payer, debt.getPayer());
     }
@@ -38,7 +38,7 @@ public class DebtTest {
     public void payeeTest(){
         Debt debt = new Debt();
         assertEquals(null, debt.getPayee());
-        User payee = new User("andac", "andac@gmail.com");
+        User payee = new User("andac", "andac@gmail.com","iban", "bic");
         debt.setPayee(payee);
         assertEquals(payee, debt.getPayee());
     }

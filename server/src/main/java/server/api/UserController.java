@@ -17,6 +17,7 @@ package server.api;
 
 import commons.User;
 import commons.exceptions.NoUserFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.service.UserService;
@@ -36,6 +37,7 @@ public class UserController {
      *
      * @param service the repository for the users
      */
+    @Autowired
     public UserController(UserService service) {
         this.service = service;
     }
@@ -199,7 +201,7 @@ public class UserController {
      * @param user user to add
      * @return added user
      */
-    @PostMapping(path = {"", "/"})
+    @PostMapping(value = "/add")
     public ResponseEntity<User> add(@RequestBody User user) {
         if ((user == null)) {
             return ResponseEntity.badRequest().build();
@@ -207,6 +209,7 @@ public class UserController {
         User saved = service.save(user);
         return ResponseEntity.ok(saved);
     }
+
 
     /**
      * Gets the specified users debts
