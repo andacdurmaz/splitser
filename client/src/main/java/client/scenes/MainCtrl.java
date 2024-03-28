@@ -19,10 +19,13 @@ import client.Main;
 import commons.Event;
 import commons.Expense;
 import commons.User;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.util.Pair;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class MainCtrl {
 
@@ -49,6 +52,9 @@ public class MainCtrl {
     private AdminEventInfoCtrl adminEventInfoCtrl;
 
     private Scene adminEventInfo;
+    private ResourceBundle bundle;
+    public Locale locale = new Locale("en");
+
 
     /**
      * Initialize mainCtrl
@@ -84,8 +90,17 @@ public class MainCtrl {
         this.addOrEditParticipantCtrl = addOrEditParticipantCtrParentPair.getKey();
         this.addOrEditParticipant = new Scene(addOrEditParticipantCtrParentPair.getValue());
 
+        getConfigLocale();
         showStartPage();
         primaryStage.show();
+
+    }
+    public void getConfigLocale(){
+        setLocale("en");
+    }
+    public void setLocale(String language){
+        this.locale = new Locale(language);
+        this.bundle = ResourceBundle.getBundle("locales.resource", locale);
 
     }
 
@@ -175,29 +190,28 @@ public class MainCtrl {
      * Shows AdminOverview
      */
     public void showAdminOverview() {
+        var adminOverview = Main.FXML.load(AdminOverviewCtrl.class,bundle, "client",
+                "scenes", "AdminOverview.fxml");
+        AdminOverviewCtrl adminOverviewCtrl = adminOverview.getKey();
+        Scene adminOverviewScene = new Scene(adminOverview.getValue());
         primaryStage.setTitle("Admin: Overview");
-        primaryStage.setScene(adminOverview);
+        primaryStage.setScene(adminOverviewScene);
         adminOverviewCtrl.refresh();
     }
 
     /**
      * Shows AdminEventInfo
+     * @param event event which need to be displayed
      */
-    public void showAdminEventInfo() {
+    public void showAdminEventInfo(Event event) {
+        var adminEventInfo = Main.FXML.load(AdminEventInfoCtrl.class,bundle, "client",
+                "scenes", "AdminEventInfo.fxml");
+        AdminEventInfoCtrl adminEventInfoCtrl = adminEventInfo.getKey();
+        Scene adminOverviewScene = new Scene(adminEventInfo.getValue());
         primaryStage.setTitle("Admin: Event info");
-        primaryStage.setScene(adminEventInfo);
-        adminOverviewCtrl.refresh();
-    }
-
-    /**
-     * This method gives the AdminEventInfoCtrl the event, which is clicked on
-     *
-     * @param event the event which is clicked on in the admin overview
-     */
-    public void setAdminEvent(Event event) {
+        primaryStage.setScene(adminOverviewScene);
         adminEventInfoCtrl.setEvent(event);
     }
-
 
     /**
      * creates the login page
@@ -214,6 +228,19 @@ public class MainCtrl {
         loginCtrl.returnToMenu();
         primaryStage.setTitle("Login");
         primaryStage.setScene(loginScreenScene);
+    }
+
+    public void showLanguageSwitch(char c) {
+        var languageSwitch = Main.FXML.load(LanguageSwitchCtrl.class,bundle, "client",
+                "scenes", "LanguageSwitch.fxml");
+        LanguageSwitchCtrl languageSwitchCtrl = languageSwitch.getKey();
+        Scene languageSwitchScene = new Scene(languageSwitch.getValue());
+
+        languageSwitchCtrl.setReturn(c);
+//        Stage popup = new Stage();
+        primaryStage.setTitle("Language switch");
+        primaryStage.setScene(languageSwitchScene);
+//        popup.show();
     }
 
 
