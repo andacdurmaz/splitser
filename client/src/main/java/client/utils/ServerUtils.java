@@ -153,7 +153,6 @@ public class ServerUtils extends Util {
     public Event addEvent(Event event) {
         Response response = ClientBuilder.newClient(new ClientConfig()) //
                 .target(serverAddress).path("api/events/add") //
-                client/src/main/java/client/utils/ServerUtils.java
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
                 .post(Entity.entity(event, APPLICATION_JSON));
@@ -168,7 +167,7 @@ public class ServerUtils extends Util {
      */
     public void deleteEvent(Event event) {
         ClientBuilder.newClient(new ClientConfig()) //
-                .target(SERVER).path("api/events/delete/" + event.getId()) //
+                .target(serverAddress).path("api/events/delete/" + event.getId()) //
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
                 .delete();
