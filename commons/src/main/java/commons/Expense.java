@@ -159,6 +159,14 @@ public class Expense {
                 && Objects.equals(getPayingParticipants(), expense.getPayingParticipants());
     }
 
+    public ExpenseTag getExpenseTag() {
+        return expenseTag;
+    }
+
+    public void setExpenseTag(ExpenseTag expenseTag) {
+        this.expenseTag = expenseTag;
+    }
+
     /**
      * getter method for the id of an expense
      *

@@ -3,6 +3,7 @@ package client.scenes;
 import client.utils.ServerUtils;
 import commons.Event;
 import commons.Expense;
+import commons.ExpenseTag;
 import commons.User;
 import jakarta.ws.rs.WebApplicationException;
 import javafx.fxml.FXML;
@@ -20,6 +21,8 @@ public class AddOrEditExpenseCtrl {
     private final MainCtrl mainCtrl;
     private final Event event;
     private Expense expense;
+    @FXML
+    private ExpenseTag expenseTag;
 
     @FXML
     private Button ok;
@@ -64,9 +67,45 @@ public class AddOrEditExpenseCtrl {
      * Confirm add/edit
      */
     public void ok() {
+        if(expense == null) {
+            expense = getExpense();
+            try {
+                Expense temp = server.addExpense(getExpense());
+                expense.setId(temp.getId());
+            } catch (WebApplicationException e) {
+                var alert = new Alert(Alert.AlertType.ERROR);
+                alert.initModality(Modality.APPLICATION_MODAL);
+                alert.setContentText(e.getMessage());
+                alert.showAndWait();
+                return;
+            }
+            List<Expense> expenses = event.getExpenses();
+            if(!expenses.contains(expense)) {
+                expenses.add(expense);
+            }
+            event.setExpenses(expenses);
+            server.updateEvent(event);
+            clearFields();
+            mainCtrl.showEventInfo(event);
+        }
+        else {
+            selectedExpense();
+        }
 
+    }
+    private void selectedExpense() {
         try {
-            server.addExpense(getExpense());
+            List<Expense> expenses = event.getExpenses();
+            expenses.remove(expense);
+            expense.setExpenseTag(expenseTag);
+            expense.setAmount(amount.getValue());
+            expense.setName(name.getText());
+            expense.setPayer(payer.getValue());
+            expense.setPayingParticipants(selectedParticipants());
+            server.updateExpense(expense);
+            expenses.add(expense);
+            event.setExpenses(expenses);
+            server.updateEvent(event);
         } catch (WebApplicationException e) {
             var alert = new Alert(Alert.AlertType.ERROR);
             alert.initModality(Modality.APPLICATION_MODAL);
@@ -74,12 +113,9 @@ public class AddOrEditExpenseCtrl {
             alert.showAndWait();
             return;
         }
-        clearFields();
-        mainCtrl.showEventInfo(event);
     }
-
     /**
-     * Get expense
+     * Get expense for adding a new expense
      *
      * @return expense
      */
@@ -88,11 +124,21 @@ public class AddOrEditExpenseCtrl {
         p.setPayer(payer.getValue());
         p.setName(name.getText());
         p.setAmount(amount.getValue());
-        List<User> eventParticipants = new ArrayList<>();
-        for (Expense e: event.getExpenses()) {
-
-        }
+        p.setExpenseTag(expense.getExpenseTag());
+        List<User> payingParticipants = new ArrayList<>();
+        payingParticipants.addAll(selectedParticipants());
         return p;
+    }
+
+    /**
+     * IMPORTANT
+     * This method should be changed
+     * for now it returns all participants but it should be only
+     * the selected ones
+     * @return paying participants
+     */
+    private List<User> selectedParticipants() {
+        return event.getParticipants();
     }
 
     /**

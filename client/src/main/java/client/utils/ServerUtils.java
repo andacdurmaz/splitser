@@ -143,7 +143,8 @@ public class ServerUtils extends Util {
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
                 .post(Entity.entity(event, APPLICATION_JSON));
-        Event event1 = response.readEntity(new GenericType<>(){});
+        Event event1 = response.readEntity(new GenericType<>() {
+        });
         return event1;
     }
 
@@ -162,14 +163,19 @@ public class ServerUtils extends Util {
 
     /**
      * Adds expense
+     *
      * @param expense to add
      */
-    public void addExpense(Expense expense) {
-        ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER).path("api/expenses/addOrEdit")
+    public Expense addExpense(Expense expense) {
+        Response response = ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER)
+                .path("api/expenses/addOrEdit")
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
-                .post(Entity.entity(expense, APPLICATION_JSON), Expense.class);
+                .post(Entity.entity(expense, APPLICATION_JSON));
+        Expense newExpense = response.readEntity(new GenericType<>() {
+        });
+        return newExpense;
     }
 
     /**
@@ -188,6 +194,7 @@ public class ServerUtils extends Util {
 
     /**
      * user to add
+     *
      * @param user
      * @return the added User
      */
@@ -197,13 +204,15 @@ public class ServerUtils extends Util {
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .post(Entity.entity(user, APPLICATION_JSON));
-        User newUser = response.readEntity(new GenericType<>(){});
+        User newUser = response.readEntity(new GenericType<>() {
+        });
         return newUser;
 
     }
 
     /**
      * update user
+     *
      * @param user
      */
     public void updateUser(User user) {
