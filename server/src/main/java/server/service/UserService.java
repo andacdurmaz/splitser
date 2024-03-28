@@ -259,4 +259,14 @@ public class UserService {
         double payment = expense.getAmount() / people;
         this.addDebts(payer, expense.getPayer(), payment);
     }
+
+    /**
+     * updates the user
+     * @param user the updated version of the user
+     * @return the new user
+     */
+    public User updateUser(User user) {
+        return repo.save(user);
+    }
+
 }

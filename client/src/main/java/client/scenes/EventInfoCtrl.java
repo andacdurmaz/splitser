@@ -10,6 +10,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.util.StringConverter;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -52,7 +53,34 @@ public class EventInfoCtrl {
         this.mainCtrl = mainCtrl;
     }
 
+    /**
+     * makes the combobox's display names of the users
+     */
+    public void initialize() {
+        participantCombobox.setConverter(new StringConverter<User>() {
+            @Override
+            public String toString(User user) {
+                return user.getUsername(); // Display the user name
+            }
 
+            @Override
+            public User fromString(String string) {
+                return null;
+            }
+        });
+
+        expenseComboBox.setConverter(new StringConverter<User>() {
+            @Override
+            public String toString(User user) {
+                return user.getUsername(); // Display the user name
+            }
+
+            @Override
+            public User fromString(String string) {
+                return null;
+            }
+        });
+    }
 
     /**
      * Update label text
@@ -105,14 +133,23 @@ public class EventInfoCtrl {
 
 
     /**
-     * adds participant
+     * adds a new participant to database and event
+     * @param actionEvent when the button is clicked
      */
-    public void addOrEditParticipant(){
+    public void addParticipant(ActionEvent actionEvent){
+        selectedParticipant = null;
+        mainCtrl.showAddOrEditParticipants(selectedParticipant, event);
+    }
+
+    /**
+     * edits a selected participant's information
+     * @param actionEvent when the button is clicked
+     */
+    public void editParticipant(ActionEvent actionEvent){
         if (selectedParticipant == null) {
-            mainCtrl.showAddOrEditParticipants(new User(), event);
+            //mainCtrl.showAddOrEditParticipants(new User(), event);
         }
         mainCtrl.showAddOrEditParticipants(selectedParticipant, event);
-
     }
     /**
      * This method is for usability. Checks the pressed key
