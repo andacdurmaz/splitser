@@ -192,8 +192,8 @@ public class ServerUtils extends Util {
      * @param expense to add
      * @return add expense
      */
-    public void addExpense(Expense expense) {
-        ClientBuilder.newClient(new ClientConfig())
+    public Expense addExpense(Expense expense) {
+        Response response = ClientBuilder.newClient(new ClientConfig())
                 .target(serverAddress).path("api/expenses/addOrEdit")
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
