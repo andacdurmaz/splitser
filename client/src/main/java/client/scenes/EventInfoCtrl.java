@@ -8,6 +8,7 @@ import commons.Expense;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.StringConverter;
@@ -25,9 +26,9 @@ public class EventInfoCtrl {
     @FXML
     private AnchorPane rootPane;
     @FXML
-    private Label eventTitle;
+    private TextField eventTitle;
     @FXML
-    private Label description;
+    private TextField description;
     @FXML
     private Label participantsLabel;
     @FXML
@@ -57,6 +58,8 @@ public class EventInfoCtrl {
      * makes the combobox's display names of the users
      */
     public void initialize() {
+        disableEditingDesc();
+        disableEditingTitle();
         participantCombobox.setConverter(new StringConverter<User>() {
             @Override
             public String toString(User user) {
@@ -214,5 +217,65 @@ public class EventInfoCtrl {
         event.setParticipants(oldParticipants);
         server.updateEvent(event);
         setData(event);
+    }
+
+
+    /**
+     * Method to enable editing of the event title
+     */
+    public void enableEditingTitle() {
+        eventTitle.setEditable(true);
+    }
+
+    /**
+     * Method to disable editing of the event title
+     */
+    public void disableEditingTitle() {
+        eventTitle.setEditable(false);
+    }
+
+    /**
+     * allows to edit the title of an event
+     * @param actionEvent when the button is clicked
+     */
+    public void editTitle(ActionEvent actionEvent) {
+        if (eventTitle.isEditable()) {
+            event.setTitle(eventTitle.getText());
+            server.updateEvent(event);
+            disableEditingTitle();
+        }
+        else {
+            enableEditingTitle();
+        }
+    }
+
+    /**
+     * Method to enable editing of the event description
+     */
+    public void enableEditingDesc() {
+        description.setEditable(true);
+    }
+
+    /**
+     * Method to disable editing of the event description
+     */
+    public void disableEditingDesc() {
+        description.setEditable(false);
+    }
+
+
+    /**
+     * allows to edit the description of an event
+     * @param actionEvent when the button is clicked
+     */
+    public void editDescription(ActionEvent actionEvent) {
+        if (description.isEditable()) {
+            event.setDescription(description.getText());
+            server.updateEvent(event);
+            disableEditingDesc();
+        }
+        else {
+            enableEditingDesc();
+        }
     }
 }
