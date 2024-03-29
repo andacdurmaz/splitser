@@ -150,7 +150,7 @@ public class ServerUtils extends Util {
      */
     public Event getEventById(long id) {
         return ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER)
+                .target(serverAddress)
                 .path("api/events/" + id)
                 .request(APPLICATION_JSON).accept(APPLICATION_JSON)
                 .get(new GenericType<Event>() {
@@ -257,7 +257,7 @@ public class ServerUtils extends Util {
      */
     public void deleteUser(User user) {
         ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER)
+                .target(serverAddress)
                 .path("api/users/delete/" + user.getUserID())
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
