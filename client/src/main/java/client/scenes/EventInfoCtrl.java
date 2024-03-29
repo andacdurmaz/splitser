@@ -126,9 +126,9 @@ public class EventInfoCtrl {
      */
     public void addOrEditExpense() {
         if (selectedExpense == null) {
-            mainCtrl.showAddOrEditExpense(new Expense());
+            mainCtrl.showAddOrEditExpense(this.event, new Expense());
         }
-        mainCtrl.showAddOrEditExpense(selectedExpense);
+        mainCtrl.showAddOrEditExpense(this.event, selectedExpense);
     }
 
 
