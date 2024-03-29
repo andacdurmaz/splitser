@@ -151,6 +151,14 @@ public class EventInfoCtrl {
         }
         mainCtrl.showAddOrEditParticipants(selectedParticipant, event);
     }
+
+    /**
+     *  sends invitations
+     */
+    public void sendInvitations() {
+        mainCtrl.showSendInvitations(event);
+    }
+
     /**
      * This method is for usability. Checks the pressed key
      *

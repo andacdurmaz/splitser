@@ -16,6 +16,18 @@
 package client.scenes;
 
 import client.Main;
+import client.utils.ServerUtils;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 import commons.Event;
 import commons.Expense;
 import commons.User;
@@ -23,6 +35,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.util.Pair;
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 
 public class MainCtrl {
 
@@ -40,16 +55,25 @@ public class MainCtrl {
     private Scene eventInfo;
     private AddOrEditExpenseCtrl addOrEditExpenseCtrl;
 
+
     private Scene addOrEditExpense;
 
     private AddOrEditParticipantCtrl addOrEditParticipantCtrl;
 
+
     private Scene addOrEditParticipant;
+    private InvitationCtrl invitationCtrl;
+
+    private Scene invitationOverview;
     private AdminOverviewCtrl adminOverviewCtrl;
     private Scene adminOverview;
     private AdminEventInfoCtrl adminEventInfoCtrl;
 
     private Scene adminEventInfo;
+    private ResourceBundle bundle;
+    private Locale locale = new Locale("en");
+
+
 
     /**
      * Initialize mainCtrl
@@ -85,6 +109,7 @@ public class MainCtrl {
         this.addOrEditParticipantCtrl = addOrEditParticipantCtrParentPair.getKey();
         this.addOrEditParticipant = new Scene(addOrEditParticipantCtrParentPair.getValue());
 
+        getConfigLocale();
         showStartPage();
         primaryStage.show();
 
@@ -92,6 +117,23 @@ public class MainCtrl {
 
 
 
+
+    /**
+     * Method which checks the language in config file
+     */
+    public void getConfigLocale(){
+        setLocale("en");
+    }
+
+    /**
+     * Method which sets the language
+     * @param language the language
+     */
+    public void setLocale(String language){
+        this.locale = new Locale(language);
+        this.bundle = ResourceBundle.getBundle("locales.resource", locale);
+
+    }
 
     /**
      * initializes the eventOverview page
@@ -115,6 +157,26 @@ public class MainCtrl {
         this.adminEventInfoCtrl = adminEventInfo.getKey();
         this.adminEventInfo = new Scene(adminEventInfo.getValue());
 
+
+    }
+
+    /**
+<<<<<<< HEAD
+     * Getter for language
+     * @return returns the locale
+     */
+    public Locale getLocale() {
+        return locale;
+
+    }
+    /**
+     * Initialize invitations
+     * @param invitationOverview
+     */
+    public void invitationsInitialize(
+            Pair<InvitationCtrl, Parent> invitationOverview){
+        this.invitationCtrl = invitationOverview.getKey();
+        this.invitationOverview = new Scene(invitationOverview.getValue());
 
     }
 
@@ -180,33 +242,44 @@ public class MainCtrl {
         addOrEditParticipant.setOnKeyPressed(e -> addOrEditParticipantCtrl.keyPressed(e));
     }
 
+
+    /**
+     * Shows SendInvitations
+     * @param event
+     */
+    public void showSendInvitations(Event event) {
+        invitationCtrl.setEvent(event);
+        invitationCtrl.setData(event);
+        primaryStage.setScene(invitationOverview);
+    }
+
+
     /**
      * Shows AdminOverview
      */
     public void showAdminOverview() {
+        var adminOverview = Main.FXML.load(AdminOverviewCtrl.class,bundle, "client",
+                "scenes", "AdminOverview.fxml");
+        AdminOverviewCtrl adminOverviewCtrl = adminOverview.getKey();
+        Scene adminOverviewScene = new Scene(adminOverview.getValue());
         primaryStage.setTitle("Admin: Overview");
-        primaryStage.setScene(adminOverview);
+        primaryStage.setScene(adminOverviewScene);
         adminOverviewCtrl.refresh();
     }
 
     /**
      * Shows AdminEventInfo
+     * @param event event which need to be displayed
      */
-    public void showAdminEventInfo() {
+    public void showAdminEventInfo(Event event) {
+        var adminEventInfo = Main.FXML.load(AdminEventInfoCtrl.class,bundle, "client",
+                "scenes", "AdminEventInfo.fxml");
+        AdminEventInfoCtrl adminEventInfoCtrl = adminEventInfo.getKey();
+        Scene adminOverviewScene = new Scene(adminEventInfo.getValue());
         primaryStage.setTitle("Admin: Event info");
-        primaryStage.setScene(adminEventInfo);
-        adminOverviewCtrl.refresh();
-    }
-
-    /**
-     * This method gives the AdminEventInfoCtrl the event, which is clicked on
-     *
-     * @param event the event which is clicked on in the admin overview
-     */
-    public void setAdminEvent(Event event) {
+        primaryStage.setScene(adminOverviewScene);
         adminEventInfoCtrl.setEvent(event);
     }
-
 
     /**
      * creates the login page
@@ -225,5 +298,82 @@ public class MainCtrl {
         primaryStage.setScene(loginScreenScene);
     }
 
+    /**
+     * gets the events that the user has joined from the CONFIG file
+     * @return list of events
+     * @param path path to the file
+     * @throws FileNotFoundException if the file is not found
+     */
+    public List<Long> getJoinedEventsIDProvidingPath(String path) throws IOException {
+        List<Long> list = new ArrayList<>();
+        ServerUtils serverUtils = new ServerUtils();
 
+        String jsonString = readConfigFile(path);
+        JSONObject jsonObject = new JSONObject(jsonString);
+        JSONObject userObject = jsonObject.getJSONObject("User");
+        JSONArray eventsArray = userObject.getJSONArray("Events");
+
+        for (int i = 0; i < eventsArray.length(); i++) {
+            JSONObject eventObject = eventsArray.getJSONObject(i);
+            long eventId = eventObject.getLong("id");
+            list.add(eventId);
+        }
+        return list;
+    }
+
+    /**
+     * gets the events that the user has joined from the CONFIG file
+     * @return list of events
+     * @throws IOException if the file is not found
+     */
+    public List<Event> getJoinedEvents() throws IOException {
+        return getJoinedEventsProvidingPath("src/main/resources/CONFIG.json");
+    }
+
+
+    /**
+     * interacts with the server to get the events that the user has joined
+     * @param path  path to the file
+     * @return  list of events
+     * @throws IOException  if the file is not found
+     */
+    public List<Event> getJoinedEventsProvidingPath(String path) throws IOException {
+        List<Long> eventIds = getJoinedEventsIDProvidingPath(path);
+        List<Event> events = new ArrayList<>();
+        ServerUtils serverUtils = new ServerUtils();
+
+        for (int i = 0; i < eventIds.size(); i++) {
+            events.add(serverUtils.getEventById(eventIds.get(i)));
+        }
+        return events;
+    }
+
+    /**
+     * reads the config file
+     * @param filePath path to the file
+     * @return the string representation of the file
+     * @throws IOException if the file is not found
+     */
+    public String readConfigFile(String filePath) throws IOException {
+        Path path = Path.of(filePath);
+        String string = Files.readString(path);
+        return string;
+    }
+
+    /**
+     * shows the languageSwitch pages
+     * @param c a char from previous page
+     */
+    public void showLanguageSwitch(char c) {
+        var languageSwitch = Main.FXML.load(LanguageSwitchCtrl.class,bundle, "client",
+                "scenes", "LanguageSwitch.fxml");
+        LanguageSwitchCtrl languageSwitchCtrl = languageSwitch.getKey();
+        Scene languageSwitchScene = new Scene(languageSwitch.getValue());
+
+        languageSwitchCtrl.setReturn(c);
+//        Stage popup = new Stage();
+        primaryStage.setTitle("Language switch");
+        primaryStage.setScene(languageSwitchScene);
+//        popup.show();
+    }
 }
