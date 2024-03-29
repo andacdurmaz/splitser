@@ -16,14 +16,24 @@
 package client.scenes;
 
 import client.utils.ServerUtils;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Inject;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.image.Image;
+import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.Stage;
 
+import java.awt.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.URL;
-import java.util.ResourceBundle;
+import java.nio.file.Files;
+import java.util.*;
 
 public class LanguageSwitchCtrl implements Initializable {
 
@@ -34,6 +44,8 @@ public class LanguageSwitchCtrl implements Initializable {
     private ImageView englishImage;
     @FXML
     private ImageView dutchImage;
+    @FXML
+    private Button downloadThemplate;
 
     /**
      * Constructor for AdminOverview
@@ -97,5 +109,33 @@ public class LanguageSwitchCtrl implements Initializable {
     public void setDutch(){
         mainCtrl.setLocale("nl");
         backButton();
+    }
+
+    public void downloadThemplate(ActionEvent e) {
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        directoryChooser.setTitle("Select Directory");
+        Stage stage = (Stage) downloadThemplate.getScene().getWindow();
+        File selectedDirectory = directoryChooser.showDialog(stage);
+        File file = new File(selectedDirectory, "resource_THEMPLATE.properties");
+
+        try {
+
+            Enumeration<String> bundleSet =ResourceBundle.getBundle("locales.resource", new Locale("en")).getKeys();
+
+            Properties properties = new Properties();
+
+            while (bundleSet.hasMoreElements()) {
+                String key = bundleSet.nextElement();
+                properties.put(key, "PUT-SOMETHING-HERE");
+            }
+
+            System.out.println(bundleSet);
+            properties.store(new FileOutputStream(file), "THEMPLATE FILE OF SPLITTY");
+
+            System.out.println("File created successfully at: " + file.getAbsolutePath());
+            downloadThemplate.setText(mainCtrl.getBundle().getString("download_successful"));
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
     }
 }

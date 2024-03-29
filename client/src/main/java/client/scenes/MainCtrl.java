@@ -157,7 +157,6 @@ public class MainCtrl {
     }
 
     /**
-<<<<<<< HEAD
      * Getter for language
      * @return returns the locale
      */
@@ -165,6 +164,15 @@ public class MainCtrl {
         return locale;
 
     }
+
+    /**
+     * Getter for bundle
+     * @return returns the bundle
+     */
+    public ResourceBundle getBundle() {
+        return bundle;
+    }
+
     /**
      * Initialize invitations
      * @param invitationOverview
