@@ -162,6 +162,14 @@ public class EventInfoCtrl {
         mainCtrl.showSendInvitations(event);
     }
 
+
+    /**
+     * adds expnse tag
+     */
+    public void addExpenseTag() {
+        mainCtrl.showExpenseTags(event);
+    }
+
     /**
      * This method is for usability. Checks the pressed key
      *

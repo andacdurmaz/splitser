@@ -3,6 +3,7 @@ package commons;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -30,6 +31,9 @@ public class Event {
             inverseJoinColumns = @JoinColumn(name = "participant", referencedColumnName = "id")
     )
     private List<User> participants = new ArrayList<>();
+    @OneToMany(mappedBy = "event")
+    private List<ExpenseTag> eventTags;
+    private LocalDateTime lastViewed;
 
     /**
      * this constructor is needed for JPA

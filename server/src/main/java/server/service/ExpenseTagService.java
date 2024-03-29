@@ -1,5 +1,8 @@
 package server.service;
+import commons.Event;
+import commons.Expense;
 import commons.ExpenseTag;
+import commons.User;
 import commons.exceptions.NoSuchEventException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -47,6 +50,15 @@ public class ExpenseTagService {
     }
 
     /**
+     * checks whether an expense tag exists by its id
+     * @param id
+     * @return boolean
+     */
+    public boolean existsById(long id) {
+        return expenseTagRepository.existsById(id);
+    }
+
+    /**
      * adds an expense tag to the database
      * @param e
      * @return ReponseEntity of expenseTag
@@ -57,24 +69,25 @@ public class ExpenseTagService {
     }
 
     /**
-     * updates an expense tag
-     * @param id
-     * @param newName
-     * @param newColour
-     * @return expenseTag
-     * @throws NoSuchEventException
+     * updates the expense tag in the repository
+     * @param expenseTag
+     * @return ExpenseTag
      */
-    public ExpenseTag updateExpenseTag(long id, String newName, String newColour)
-            throws NoSuchEventException {
-        Optional<ExpenseTag> expenseTag = expenseTagRepository.findById(id);
-        if (expenseTag.isPresent()) {
-            ExpenseTag e = expenseTag.get();
-            e.setName(newName);
-            e.setColour(newColour);
-            return expenseTagRepository.save(e);
-        } else {
-            throw new NoSuchEventException();
-        }
-
+    public ExpenseTag updateExpenseTag(ExpenseTag expenseTag) {
+        return expenseTagRepository.save(expenseTag);
     }
+
+    /**
+     * deletes an expense tag by its id from the repository
+     * @param id
+     * @return response entity
+     */
+    public ResponseEntity<ExpenseTag> deleteExpenseTag(long id) {
+        if (!existsById(id)) {
+            return ResponseEntity.badRequest().build();
+        }
+        expenseTagRepository.deleteById(id);
+        return ResponseEntity.ok().build();
+    }
+
 }

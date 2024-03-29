@@ -57,6 +57,8 @@ public class MainCtrl {
 
 
     private Scene addOrEditExpense;
+    private AddExpenseTagCtrl addExpenseTagCtrl;
+    private Scene addExpenseTag;
 
     private AddOrEditParticipantCtrl addOrEditParticipantCtrl;
 
@@ -180,6 +182,18 @@ public class MainCtrl {
     }
 
     /**
+     *  Initialize expense tags
+     * @param addExpenseTag
+     */
+    public void expenseTagsInitialize(
+            Pair<AddExpenseTagCtrl, Parent> addExpenseTag){
+        this.addExpenseTagCtrl = addExpenseTag.getKey();
+        this.addExpenseTag = new Scene(addExpenseTag.getValue());
+
+    }
+
+
+    /**
      * Shows start page
      */
     public void showStartPage() {
@@ -252,6 +266,15 @@ public class MainCtrl {
         primaryStage.setScene(invitationOverview);
     }
 
+    /**
+     * Shows expense tags
+     * @param event
+     */
+
+    public void showExpenseTags(Event event) {
+        addExpenseTagCtrl.setEvent(event);
+        primaryStage.setScene(addExpenseTag);
+    }
 
     /**
      * Shows AdminOverview

@@ -2,6 +2,7 @@ package commons;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -26,6 +27,8 @@ public class Expense {
 
     @ManyToOne()
     private ExpenseTag expenseTag;
+
+    private LocalDate expenseDate;
     /**
      * Constructor for mapping
      */

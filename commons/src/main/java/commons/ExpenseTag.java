@@ -16,6 +16,8 @@ public class ExpenseTag {
     @OneToMany(mappedBy = "expenseTag")
     private List<Expense> expenses;
 
+    @ManyToOne()
+    private Event event;
     /**
      * Empty constructor for the expense tag
      */
@@ -32,6 +34,22 @@ public class ExpenseTag {
     public ExpenseTag(String name, String colour) {
         this.name = name;
         this.colour = colour;
+    }
+
+    /**
+     * set expense tag id
+     * @param id
+     */
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    /**
+     * get expense tag id
+     * @return id
+     */
+    public long getId() {
+        return id;
     }
 
     /**
