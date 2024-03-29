@@ -157,7 +157,6 @@ public class MainCtrl {
     }
 
     /**
-<<<<<<< HEAD
      * Getter for language
      * @return returns the locale
      */
@@ -353,6 +352,50 @@ public class MainCtrl {
         Path path = Path.of(filePath);
         String string = Files.readString(path);
         return string;
+    }
+
+    /**
+     * writes to the config file
+     * @param content content to be written (IN JSON FORMAT)
+     * @throws IOException if the file is not found
+     */
+    public void writeEventToConfigFile(String content) throws IOException {
+        writeEventToConfigFileByPath("client/src/main/resources/CONFIG.json", content);
+    }
+
+    /**
+     * writes to the config file by path
+     * @param filePath path to the file
+     * @param content content to be written (IN JSON FORMAT)
+     * @throws IOException if the file is not found
+     */
+    public void writeEventToConfigFileByPath(String filePath, String content) throws IOException {
+        // Read the JSON file
+        JSONObject jsonObject = new JSONObject(readConfigFile(filePath));
+        // Get the User object
+        JSONObject userObject = jsonObject.getJSONObject("User");
+        // Get the Events array
+        JSONArray eventsArray = new JSONArray();
+
+        // Get the existing events
+        JSONArray existingEvents = userObject.getJSONArray("Events");
+
+        // Add the existing events to the new array
+        for (int i = 0; i < existingEvents.length(); i++) {
+            eventsArray.put(existingEvents.getJSONObject(i));
+        }
+
+        // Add the new event to the array
+        JSONObject newEvent = new JSONObject(content);
+
+        // Add all events back to the array
+        eventsArray.put(newEvent);
+        // Add the array back to the user object
+        userObject.put("Events", eventsArray);
+
+        // write to file
+        Path path = Path.of(filePath);
+        Files.writeString(path, jsonObject.toString());
     }
 
     /**

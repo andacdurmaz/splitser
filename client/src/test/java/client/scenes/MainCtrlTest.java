@@ -34,6 +34,7 @@ import java.nio.file.Paths;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
@@ -161,6 +162,65 @@ public class MainCtrlTest {
 
         assertEquals(0, result.get(0));
         assertEquals(1, result.get(1));
+
+        // Clean up: delete the temporary file
+        Files.deleteIfExists(path);
+    }
+
+    @Test
+    public void testWriteEventToFile() throws IOException {
+        String tempFilePath = "CONFIGTest.json";
+        String jsonString = "{" +
+                "  \"User\":{" +
+                "    \"name\":\"John Doe\"," +
+                "    \"Events\":[" +
+                "      {" +
+                "        \"id\":0," +
+                "        \"title\": \"title\"," +
+                "        \"amountOfParticipants\":3," +
+                "        \"expenses\":[]," +
+                "        \"description\":\"description\"," +
+                "        \"sumOfExpenses\":0.0" +
+                "      }" +
+                "    ]" +
+                "  }" +
+                "}";
+
+        // Write sample JSON to the temporary file
+        Path path = Paths.get(tempFilePath);
+        Files.writeString(path, jsonString);
+
+
+
+        String newEvent = new Event("title 3", 5, "description 3").toString();
+        mainCtrl.writeEventToConfigFileByPath(tempFilePath, newEvent);
+
+        String newContent = mainCtrl.readConfigFile(tempFilePath);
+        String expected = "{" +
+                "\"User\":{" +
+                "\"Events\":[{" +
+                "\"amountOfParticipants\":3," +
+                "\"sumOfExpenses\":0," +
+                "\"description\":\"description\"," +
+                "\"id\":0," +
+                "\"title\":\"title\"," +
+                "\"expenses\":[]" +
+                "}," +
+                "{" +
+                "\"eventCode\":0," +
+                "\"amountOfParticipants\":5," +
+                "\"sumOfExpenses\":0," +
+                "\"description\":\"description 3\"," +
+                "\"id\":0," +
+                "\"title\":\"title 3\"," +
+                "\"expenses\":[]," +
+                "\"participants\":[]" +
+                "}" +
+                "]," +
+                "\"name\":\"John Doe\"" +
+                "}" +
+                "}";
+        assertEquals(expected, newContent);
 
         // Clean up: delete the temporary file
         Files.deleteIfExists(path);
