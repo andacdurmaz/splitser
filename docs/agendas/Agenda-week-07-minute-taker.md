@@ -11,12 +11,13 @@
 ##### Check -in: How is everyone doing? (1 min) - 14:44
 ##### Announcements by the team (2 min) - 14:46
 ##### Approval of the agenda - Does anyone have any additions? (2 min) 14 46
-	-----No additions 
+	
+      No additions 
 
 ##### Approval of last minutes - Did everyone read the minutes from the previous meeting? (2 min) 14:46
 
 ### Announcements by the TA (3 min) 14:47
-     -----No objections to the presentation scedule
+      No objections to the presentation scedule
 
 ### Presentation of the project model (5 min) 14:48
 
@@ -25,24 +26,24 @@
 #### Formative Assignments (8 min)  14:51
 - Product Pitch & Oral Examination (Thursday 28-3-2024)
     - What needs to be done? And by who?
-    ---- Product pitch until Thursday
+    Product pitch until Thursday
 
 - Implemented Features (Thursday 28-3-2024)  14:53
     - What have we already done? What are we going to implement?
-    ---- Try to implement basic features until Friday
-    ---- Discuss how to implement the event codes 14 58
-    ---- Talk about what we have left to implement 15 03
+      Try to implement basic features until Friday
+      Discuss how to implement the event codes 14 58
+      Talk about what we have left to implement 15 03
 
 #### Main Topics
 - What do we still need to implement? (15 min) 15:25
     - Who is going to do what?
 
-     ---Tudor see/add expenses long-polling 
-     ---Storm Live language switch, delete event
-     ---Andanc invite/join event
-     ---Ivan Add participants 
-     ---Jort Recent events, join event, config file
-     ---Mete front end 
+     Tudor see/add expenses long-polling ,
+     Storm Live language switch, delete event,
+     Andanc invite/join event,
+     Ivan Add participants ,
+     Jort Recent events, join event, config file,
+     Mete front end 
 
 - Testing the frontend (5 min) 15:32
     - How do we want to test the frontend
