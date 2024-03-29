@@ -343,6 +343,50 @@ public class MainCtrl {
     }
 
     /**
+     * gets the language from the CONFIG file
+     * @return the language
+     * @throws IOException if the file is not found
+     */
+    public String getLanguage() throws IOException {
+        return getLanguageProvidingPath("src/main/resources/CONFIG.json");
+    }
+
+    /**
+     * gets the language from the CONFIG file by path
+     * @param path path to the file
+     * @return  the language
+     * @throws IOException if the file is not found
+     */
+    public String getLanguageProvidingPath(String path) throws IOException {
+        String jsonString = readConfigFile(path);
+        JSONObject jsonObject = new JSONObject(jsonString);
+        JSONObject userObject = jsonObject.getJSONObject("User");
+        return userObject.getString("Language");
+    }
+
+    /**
+     * gets the currency from the CONFIG file
+     * @return the currency
+     * @throws IOException if the file is not found
+     */
+    public String getCurrency() throws IOException {
+        return getCurrencyProvidingPath("src/main/resources/CONFIG.json");
+    }
+
+    /**
+     * gets the currency from the CONFIG file by path
+     * @param path path to the file
+     * @return  the currency
+     * @throws IOException if the file is not found
+     */
+    public String getCurrencyProvidingPath(String path) throws IOException {
+        String jsonString = readConfigFile(path);
+        JSONObject jsonObject = new JSONObject(jsonString);
+        JSONObject userObject = jsonObject.getJSONObject("User");
+        return userObject.getString("Currency");
+    }
+
+    /**
      * reads the config file
      * @param filePath path to the file
      * @return the string representation of the file
