@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
+@Table
 public class ExpenseTag {
 
     @Id
@@ -82,5 +83,21 @@ public class ExpenseTag {
      */
     public void setColour(String colour) {
         this.colour = colour;
+    }
+
+    /**
+     * Getter for the event
+     * @return event
+     */
+    public Event getEvent() {
+        return event;
+    }
+
+    /**
+     * Setter for the event
+     * @param event
+     */
+    public void setEvent(Event event) {
+        this.event = event;
     }
 }

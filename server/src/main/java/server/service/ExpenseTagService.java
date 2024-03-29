@@ -1,9 +1,5 @@
 package server.service;
-import commons.Event;
-import commons.Expense;
 import commons.ExpenseTag;
-import commons.User;
-import commons.exceptions.NoSuchEventException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -11,7 +7,6 @@ import org.springframework.stereotype.Service;
 import server.database.ExpenseTagRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ExpenseTagService {

@@ -29,6 +29,10 @@ public class ExpenseTagController {
 
     private final ExpenseTagService expenseTagService;
 
+    /**
+     * initialize service for the controller
+     * @param expenseTagService
+     */
     @Autowired
     public ExpenseTagController(ExpenseTagService expenseTagService) {
         this.expenseTagService = expenseTagService;

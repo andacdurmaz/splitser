@@ -221,7 +221,7 @@ public class ServerUtils extends Util {
     /**
      * adds expense tag
      * @param expenseTag
-     * @return
+     * @return adds an expense tag
      */
     public ExpenseTag addExpenseTag(ExpenseTag expenseTag) {
         Response response = ClientBuilder.newClient(new ClientConfig())

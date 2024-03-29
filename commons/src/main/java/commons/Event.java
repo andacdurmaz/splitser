@@ -31,8 +31,8 @@ public class Event {
             inverseJoinColumns = @JoinColumn(name = "participant", referencedColumnName = "id")
     )
     private List<User> participants = new ArrayList<>();
-    @OneToMany(mappedBy = "event")
-    private List<ExpenseTag> eventTags;
+    @OneToMany(mappedBy = "event", targetEntity = ExpenseTag.class)
+    private List<ExpenseTag> expenseTags = new ArrayList<>();
     private LocalDateTime lastViewed;
 
     /**
@@ -172,6 +172,13 @@ public class Event {
         return expenses;
     }
 
+    /**
+     * Getter for the expense tags
+     * @return expense tag
+     */
+    public List<ExpenseTag> getExpenseTags() {
+        return expenseTags;
+    }
 
     /**
      * lets the user add expenses to the event
@@ -212,6 +219,14 @@ public class Event {
      */
     public void setExpenses(List<Expense> expenses) {
         this.expenses = expenses;
+    }
+
+    /**
+     * Setter for the expense tags
+     * @param expenseTags
+     */
+    public void setExpenseTags(List<ExpenseTag> expenseTags) {
+        this.expenseTags = expenseTags;
     }
 
     /**

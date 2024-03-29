@@ -2,9 +2,6 @@ package client.scenes;
 
 import client.utils.ServerUtils;
 import commons.*;
-import commons.exceptions.BICFormatException;
-import commons.exceptions.EmailFormatException;
-import commons.exceptions.IBANFormatException;
 import jakarta.ws.rs.WebApplicationException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -18,7 +15,6 @@ import javafx.scene.input.KeyEvent;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class AddExpenseTagCtrl {
     private final ServerUtils server;
@@ -81,6 +77,12 @@ public class AddExpenseTagCtrl {
             return;
         }
         clearFields();
+
+        List<ExpenseTag> expenseTags = new ArrayList<>(event.getExpenseTags());
+        if (!expenseTags.contains(newExpenseTag))
+            expenseTags.add(newExpenseTag);
+        event.setExpenseTags(expenseTags);
+        server.updateEvent(event);
         mainCtrl.showEventInfo(event);
 
     }
