@@ -47,6 +47,14 @@ public class LanguageSwitchCtrl implements Initializable {
     @FXML
     private ImageView turkishImage;
     @FXML
+    private ImageView spanishImage;
+    @FXML
+    private ImageView frenchImage;
+    @FXML
+    private ImageView chineseImage;
+    @FXML
+    private ImageView germanImage;
+    @FXML
     private Button downloadThemplate;
 
     /**
@@ -80,6 +88,18 @@ public class LanguageSwitchCtrl implements Initializable {
         Image turkishFlag = new Image(getClass()
                 .getResourceAsStream("/client/images/turkishIcon.png"));
         turkishImage.setImage(turkishFlag);
+        Image germanFlag = new Image(getClass()
+                .getResourceAsStream("/client/images/germanyIcon.png"));
+        germanImage.setImage(germanFlag);
+        Image frenchFlag = new Image(getClass()
+                .getResourceAsStream("/client/images/franceIcon.png"));
+        frenchImage.setImage(frenchFlag);
+        Image chineseFlag = new Image(getClass()
+                .getResourceAsStream("/client/images/chinaIcon.png"));
+        chineseImage.setImage(chineseFlag);
+        Image spanishFlag = new Image(getClass()
+                .getResourceAsStream("/client/images/spainIcon.png"));
+        spanishImage.setImage(spanishFlag);
     }
 
     /**
@@ -117,10 +137,38 @@ public class LanguageSwitchCtrl implements Initializable {
     }
 
     /**
-     * Method to set language to dutch
+     * Method to set language to turkish
      */
     public void setTurkish(){
         mainCtrl.setLocale("tr");
+        backButton();
+    }
+    /**
+     * Method to set language to french
+     */
+    public void setFrench(){
+        mainCtrl.setLocale("fr");
+        backButton();
+    }
+    /**
+     * Method to set language to spanish
+     */
+    public void setSpanish(){
+        mainCtrl.setLocale("es");
+        backButton();
+    }
+    /**
+     * Method to set language to chinese
+     */
+    public void setChinese(){
+        mainCtrl.setLocale("zh");
+        backButton();
+    }
+    /**
+     * Method to set language to german
+     */
+    public void setGerman(){
+        mainCtrl.setLocale("de");
         backButton();
     }
 

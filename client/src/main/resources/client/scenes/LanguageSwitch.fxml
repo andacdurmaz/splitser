@@ -3,6 +3,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ContentDisplay?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -10,42 +11,98 @@
 
 <AnchorPane prefHeight="178.0" prefWidth="404.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.LanguageSwitchCtrl">
     <children>
-        <Button layoutX="67.0" layoutY="75.0" onAction="#setEnglish" prefHeight="60.0" prefWidth="70.0" text="%english">
-            <contentDisplay>
-                <ContentDisplay fx:value="BOTTOM" />
-            </contentDisplay>
-            <graphic>
-                <ImageView fx:id="englishImage" fitHeight="30.0" fitWidth="30.0">
-                    <Image url="@../images/englishIcon.png" />
-                </ImageView>
-            </graphic>
-        </Button>
-        <Button layoutX="172.0" layoutY="75.0" onAction="#setDutch" prefHeight="60.0" prefWidth="70.0" text="%dutch">
-            <contentDisplay>
-                <ContentDisplay fx:value="BOTTOM" />
-            </contentDisplay>
-            <graphic>
-                <ImageView fx:id="dutchImage" fitHeight="30.0" fitWidth="30.0">
-                    <Image url="@../images/dutchIcon.png" />
-                </ImageView>
-            </graphic>
-        </Button>
-        <Button layoutX="278.0" layoutY="75.0" onAction="#setTurkish" prefHeight="60.0" prefWidth="70.0" text="%turkish">
-            <contentDisplay>
-                <ContentDisplay fx:value="BOTTOM" />
-            </contentDisplay>
-            <graphic>
-                <ImageView fx:id="turkishImage"  fitHeight="30.0" fitWidth="30.0">
-                    <Image url="@../images/turkishIcon.png" />
-                </ImageView>
-            </graphic>
-        </Button>
+      <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#backButton" text="%back" />
       <Label layoutX="138.0" layoutY="31.0" text="%choose-language" textAlignment="CENTER">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#backButton" text="Back" />
+      <ScrollPane layoutX="19.0" layoutY="59.0" prefHeight="80.0" prefWidth="367.0">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="52.0" prefWidth="675.0">
+               <children>
+
+                    <Button onAction="#setEnglish" prefHeight="60.0" prefWidth="70.0" text="%english">
+                        <contentDisplay>
+                            <ContentDisplay fx:value="BOTTOM" />
+                        </contentDisplay>
+                        <graphic>
+                            <ImageView fx:id="englishImage" fitHeight="30.0" fitWidth="30.0">
+                                <Image url="@../images/englishIcon.png" />
+                            </ImageView>
+                        </graphic>
+                    </Button>
+
+                    <Button layoutX="100.0" onAction="#setDutch" prefHeight="60.0" prefWidth="70.0" text="%dutch">
+                        <contentDisplay>
+                            <ContentDisplay fx:value="BOTTOM" />
+                        </contentDisplay>
+                        <graphic>
+                            <ImageView fx:id="dutchImage" fitHeight="30.0" fitWidth="30.0">
+                                <Image url="@../images/dutchIcon.png" />
+                            </ImageView>
+                        </graphic>
+                    </Button>
+
+                    <Button layoutX="200.0" onAction="#setTurkish" prefHeight="60.0" prefWidth="70.0" text="%turkish">
+                        <contentDisplay>
+                            <ContentDisplay fx:value="BOTTOM" />
+                        </contentDisplay>
+                        <graphic>
+                            <ImageView fx:id="turkishImage" fitHeight="30.0" fitWidth="30.0">
+                                <Image url="@../images/turkishIcon.png" />
+                            </ImageView>
+                        </graphic>
+                    </Button>
+
+                   <Button layoutX="300.0" onAction="#setFrench" prefHeight="60.0" prefWidth="70.0" text="%french">
+                       <contentDisplay>
+                           <ContentDisplay fx:value="BOTTOM" />
+                       </contentDisplay>
+                       <graphic>
+                           <ImageView fx:id="frenchImage" fitHeight="30.0" fitWidth="30.0">
+                               <Image url="@../images/franceIcon.png" />
+                           </ImageView>
+                       </graphic>
+                   </Button>
+
+                   <Button layoutX="400.0" onAction="#setSpanish" prefHeight="60.0" prefWidth="70.0" text="%spanish">
+                       <contentDisplay>
+                           <ContentDisplay fx:value="BOTTOM" />
+                       </contentDisplay>
+                       <graphic>
+                           <ImageView fx:id="spanishImage" fitHeight="30.0" fitWidth="30.0">
+                               <Image url="@../images/spainIcon.png" />
+                           </ImageView>
+                       </graphic>
+                   </Button>
+
+                   <Button layoutX="500.0" onAction="#setGerman" prefHeight="60.0" prefWidth="70.0" text="%german">
+                       <contentDisplay>
+                           <ContentDisplay fx:value="BOTTOM" />
+                       </contentDisplay>
+                       <graphic>
+                           <ImageView fx:id="germanImage" fitHeight="30.0" fitWidth="30.0">
+                               <Image url="@../images/germanyIcon.png" />
+                           </ImageView>
+                       </graphic>
+                   </Button>
+
+                   <Button layoutX="600.0" onAction="#setChinese" prefHeight="60.0" prefWidth="70.0" text="%chinese">
+                       <contentDisplay>
+                           <ContentDisplay fx:value="BOTTOM" />
+                       </contentDisplay>
+                       <graphic>
+                           <ImageView fx:id="chineseImage" fitHeight="30.0" fitWidth="30.0">
+                               <Image url="@../images/chinaIcon.png" />
+                           </ImageView>
+                       </graphic>
+                   </Button>
+
+               </children>
+            </AnchorPane>
+        </content>
+      </ScrollPane>
       <Button fx:id="downloadThemplate" layoutX="140.0" layoutY="148.0" mnemonicParsing="false" onAction="#downloadThemplate" prefHeight="25.0" prefWidth="134.0" text="%download-themplate" textAlignment="CENTER" wrapText="true" />
     </children>
 </AnchorPane>
