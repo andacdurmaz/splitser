@@ -41,6 +41,7 @@ public class Event {
     public Event() {
         this.eventCode = hashEventCode(id);
         this.expenses = new ArrayList<>();
+        this.expenseTags = new ArrayList<>();
     }
 
     /**
@@ -55,6 +56,7 @@ public class Event {
         this.amountOfParticipants = amountOfParticipants;
         this.eventCode = hashEventCode(id);
         this.expenses = new ArrayList<>();
+        this.expenseTags = new ArrayList<>();
         this.description = description;
     }
 
@@ -327,6 +329,7 @@ public class Event {
                 ",\"expenses\":" + expenses +
                 ",\"description\":\"" + description + '\"' +
                 ",\"participants\":" +  participants  +
+                ",\"expenseTags\":" +  expenseTags  +
                 ",\"sumOfExpenses\":" + getSumOfExpenses() +
                 '}';
     }

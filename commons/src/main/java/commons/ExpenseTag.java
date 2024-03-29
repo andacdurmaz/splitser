@@ -38,6 +38,14 @@ public class ExpenseTag {
     }
 
     /**
+     * ExpenseTag constructor
+     * @param event
+     */
+    public ExpenseTag(Event event) {
+        this.event = event;
+    }
+
+    /**
      * set expense tag id
      * @param id
      */

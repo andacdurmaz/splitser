@@ -79,6 +79,7 @@ public class MainCtrlTest {
                 "        \"title\": \"title\",\n" +
                 "        \"amountOfParticipants\": 3,\n" +
                 "        \"expenses\": [],\n" +
+                "        \"expenseTags\": [],\n" +
                 "        \"description\": \"description\",\n" +
                 "        \"sumOfExpenses\": 0.0\n" +
                 "      },\n" +
@@ -88,6 +89,7 @@ public class MainCtrlTest {
                 "        \"title\": \"title 2\",\n" +
                 "        \"amountOfParticipants\": 4,\n" +
                 "        \"expenses\": [],\n" +
+                "        \"expenseTags\": [],\n" +
                 "        \"description\": \"description 2\",\n" +
                 "        \"sumOfExpenses\": 21.89\n" +
                 "      }\n" +
@@ -126,6 +128,7 @@ public class MainCtrlTest {
                 "        \"title\": \"title\",\n" +
                 "        \"amountOfParticipants\": 3,\n" +
                 "        \"expenses\": [],\n" +
+                "        \"expenseTags\": [],\n" +
                 "        \"description\": \"description\",\n" +
                 "        \"sumOfExpenses\": 0.0\n" +
                 "      },\n" +
@@ -134,6 +137,7 @@ public class MainCtrlTest {
                 "        \"title\": \"title 2\",\n" +
                 "        \"amountOfParticipants\": 4,\n" +
                 "        \"expenses\": [],\n" +
+                "        \"expenseTags\": [],\n" +
                 "        \"description\": \"description 2\",\n" +
                 "        \"sumOfExpenses\": 21.89\n" +
                 "      }\n" +
@@ -280,6 +284,7 @@ public class MainCtrlTest {
                 "        \"title\": \"title\"," +
                 "        \"amountOfParticipants\":3," +
                 "        \"expenses\":[]," +
+                "        \"expenseTags\": []," +
                 "        \"description\":\"description\"," +
                 "        \"sumOfExpenses\":0.0" +
                 "      }" +
@@ -304,6 +309,7 @@ public class MainCtrlTest {
         String expected = "{" +
                 "\"User\":{" +
                 "\"Events\":[{" +
+                "\"expenseTags\":[]," +
                 "\"amountOfParticipants\":3," +
                 "\"sumOfExpenses\":0," +
                 "\"description\":\"description\"," +
@@ -313,6 +319,7 @@ public class MainCtrlTest {
                 "}," +
                 "{" +
                 "\"eventCode\":0," +
+                "\"expenseTags\":[]," +
                 "\"amountOfParticipants\":5," +
                 "\"sumOfExpenses\":0," +
                 "\"description\":\"description 3\"," +
