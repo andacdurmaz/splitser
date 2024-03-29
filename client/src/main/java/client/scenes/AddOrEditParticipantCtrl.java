@@ -172,7 +172,7 @@ public class AddOrEditParticipantCtrl {
         u.setUsername(name.getText());
         u.setEmail(email.getText());
         u.setIban(iban.getText());
-        u.setBic(iban.getText());
+        u.setBic(bic.getText());
         return u;
     }
 
