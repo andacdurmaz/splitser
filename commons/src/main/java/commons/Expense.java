@@ -160,6 +160,22 @@ public class Expense {
     }
 
     /**
+     * Getter method
+     * @return expense tag
+     */
+    public ExpenseTag getExpenseTag() {
+        return expenseTag;
+    }
+
+    /**
+     * Setter method
+     * @param expenseTag sets expense tag of the expense
+     */
+    public void setExpenseTag(ExpenseTag expenseTag) {
+        this.expenseTag = expenseTag;
+    }
+
+    /**
      * getter method for the id of an expense
      *
      * @return the id

@@ -230,4 +230,19 @@ public class UserServiceTest {
         assertTrue(payee.getDebts().isEmpty());
         assertTrue((debtService.getRepo()).findAll().isEmpty());
     }
+
+    @Test
+    public void updateTest() {
+        UserRepoTest repo = new UserRepoTest();
+        UserService service = new UserService(repo);
+        User user = new User("andac", "andac@gmail.com",
+                "1234123412341234123412341234123412",
+                "12312312312");
+        repo.save(user);
+        User updated = new User();
+        service.updateUser(updated);
+        assertTrue(repo.getUsers().contains(updated));
+        //assertTrue(!repo.getUsers().contains(user));
+    }
+
 }

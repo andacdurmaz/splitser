@@ -203,6 +203,14 @@ public class Event {
     }
 
     /**
+     * Setter method for expenses
+     * @param expenses the new list of expenses of this event
+     */
+    public void setExpenses(List<Expense> expenses) {
+        this.expenses = expenses;
+    }
+
+    /**
      * lets the user remove certain expenses
      *
      * @param expense to be removed

@@ -42,6 +42,7 @@ import java.util.ResourceBundle;
 public class MainCtrl {
 
     private Stage primaryStage;
+    private Stage popupStage;
     private StartPageCtrl startPageCtrl;
     private Scene startPage;
 
@@ -113,6 +114,9 @@ public class MainCtrl {
         primaryStage.show();
 
     }
+
+
+
 
     /**
      * Method which checks the language in config file
@@ -233,6 +237,7 @@ public class MainCtrl {
         primaryStage.setTitle("Add/Edit participant");
         addOrEditParticipantCtrl.setUser(user);
         addOrEditParticipantCtrl.setEvent(event);
+        addOrEditParticipantCtrl.editFields(user);
         primaryStage.setScene(addOrEditParticipant);
         addOrEditParticipant.setOnKeyPressed(e -> addOrEditParticipantCtrl.keyPressed(e));
     }

@@ -2,6 +2,9 @@ package client.scenes;
 
 import client.utils.ServerUtils;
 import commons.*;
+import commons.exceptions.BICFormatException;
+import commons.exceptions.EmailFormatException;
+import commons.exceptions.IBANFormatException;
 import jakarta.ws.rs.WebApplicationException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -11,6 +14,8 @@ import javafx.stage.Modality;
 
 import javax.inject.Inject;
 import javafx.scene.input.KeyEvent;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class AddOrEditParticipantCtrl {
@@ -18,7 +23,7 @@ public class AddOrEditParticipantCtrl {
     private final MainCtrl mainCtrl;
 
     private Event event;
-    private  User user;
+    private User user;
 
     @FXML
     private TextField name;
@@ -77,6 +82,65 @@ public class AddOrEditParticipantCtrl {
      * Confirm add/edit
      */
     public void ok() {
+        if (user == null) {
+            noSelectedParticipant();
+        }
+        else {
+            selectedParticipant();
+        }
+
+    }
+
+    /**
+     * if edit option is used, the fields contain info from old user
+     * @param user the edited user
+      */
+    public void editFields(User user) {
+        if (user == null)
+            clearFields();
+        else {
+            name.setText(user.getUsername());
+            email.setText(user.getEmail());
+            iban.setText(user.getIban());
+            bic.setText(user.getBic());
+        }
+
+    }
+    /**
+     * updates a selected participant
+     */
+    private void selectedParticipant() {
+        try {
+            List<User> participants = new ArrayList<>(event.getParticipants());
+            participants.remove(user);
+            user.setUsername(name.getText());
+            user.setEmail(email.getText());
+            user.setIban(iban.getText());
+            user.setBic(bic.getText());
+            server.updateUser(user);
+            participants.add(user);
+            event.setParticipants(participants);
+            server.updateEvent(event);
+        } catch (WebApplicationException e) {
+            var alert = new Alert(Alert.AlertType.ERROR);
+            alert.initModality(Modality.APPLICATION_MODAL);
+            alert.setContentText(e.getMessage());
+            alert.showAndWait();
+            return;
+        } catch (EmailFormatException e) {
+            throw new RuntimeException(e);
+        } catch (IBANFormatException e) {
+            throw new RuntimeException(e);
+        } catch (BICFormatException e) {
+            throw new RuntimeException(e);
+        }
+        mainCtrl.showEventInfo(event);
+    }
+
+    /**
+     * creates a new user and adds it to the database
+     */
+    private void noSelectedParticipant() {
         user = getUser();
         try {
             User temp = server.addUser(getUser());
@@ -88,12 +152,11 @@ public class AddOrEditParticipantCtrl {
             alert.showAndWait();
             return;
         }
-        List<User> participants = event.getParticipants();
+        List<User> participants = new ArrayList<>(event.getParticipants());
         if (!participants.contains(user))
             participants.add(user);
         event.setParticipants(participants);
         server.updateEvent(event);
-        clearFields();
         mainCtrl.showEventInfo(event);
     }
 
@@ -111,10 +174,10 @@ public class AddOrEditParticipantCtrl {
      * Clears fields
      */
     private void clearFields() {
-        name.clear();
-        email.clear();
-        iban.clear();
-        bic.clear();
+        name.setText("");
+        email.setText("");
+        iban.setText("");
+        bic.setText("");
     }
 
     /**
