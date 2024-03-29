@@ -427,7 +427,7 @@ public class MainCtrl {
      * writes the currency to the config file
      * @param currency currency to be written
      */
-    public void writeCurrencyToConfigFile(String currency) {
+    public void writeCurrencyToConfigFile(String currency) throws IOException {
         writeCurrencyToConfigFileByPath("client/src/main/resources/CONFIG.json", currency);
     }
 
@@ -436,8 +436,14 @@ public class MainCtrl {
      * @param filePath path to the file
      * @param currency currency to be written
      */
-    public void writeCurrencyToConfigFileByPath(String filePath, String currency){
+    public void writeCurrencyToConfigFileByPath(String filePath, String currency)
+            throws IOException {
+        JSONObject jsonObject = new JSONObject(readConfigFile(filePath));
+        JSONObject userObject = jsonObject.getJSONObject("User");
+        userObject.put("Currency", currency);
 
+        Path path = Path.of(filePath);
+        Files.writeString(path, jsonObject.toString());
     }
     /**
      * shows the languageSwitch pages
