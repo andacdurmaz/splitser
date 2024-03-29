@@ -4,16 +4,20 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../../styles.css"  xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.LoginCtrl">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.LoginCtrl">
    <children>
-      <Label layoutX="232.0" layoutY="125.0" prefHeight="47.0" prefWidth="88.0" text="Login">
+      <Label layoutX="232.0" layoutY="152.0" prefHeight="47.0" prefWidth="88.0" text="Login">
          <font>
             <Font size="32.0" />
          </font>
       </Label>
-      <TextField fx:id="adminNameField" layoutX="204.0" layoutY="188.0" />
-      <TextField fx:id="passwordAddressField" layoutX="204.0" layoutY="221.0" />
+      <TextField fx:id="passwordAddressField" layoutX="201.0" layoutY="209.0" />
        <Button fx:id="loginButton" layoutX="382.0" layoutY="209.0" mnemonicParsing="false" onAction="#connect" prefHeight="25.0" prefWidth="88.0" text="Connect" />
       <Button fx:id="backButton" layoutX="32.0" layoutY="14.0" mnemonicParsing="false" onAction="#returnToMenu" text="&lt;Back" />
+      <Label fx:id="error" layoutX="211.0" layoutY="271.0" prefHeight="47.0" prefWidth="142.0" textFill="RED">
+         <font>
+            <Font size="32.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
