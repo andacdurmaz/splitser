@@ -54,6 +54,22 @@ public class Expense {
         this.date = date;
     }
 
+    /**
+     * Expense constructor
+     *
+     * @param name               expense name
+     * @param amount             expense amount
+     * @param payer              expense payer
+     * @param payingParticipants expense participants
+     */
+    public Expense(String name, double amount, User payer,
+                   List<User> payingParticipants) {
+        this.name = name;
+        this.amount = amount;
+        this.payer = payer;
+        this.payingParticipants = payingParticipants;
+    }
+
 
     /**
      * Partial constructor
@@ -227,6 +243,7 @@ public class Expense {
 
     /**
      * Getter method for the date
+     *
      * @return date of expense
      */
     public LocalDate getDate() {
