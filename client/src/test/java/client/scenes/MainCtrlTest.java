@@ -143,7 +143,11 @@ public class MainCtrlTest {
 
         // Write sample JSON to the temporary file
         Path path = Paths.get(tempFilePath);
-        Files.writeString(path, jsonString);
+        try {
+            Files.writeString(path, jsonString);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         ServerUtils serverUtilsMock = Mockito.mock(ServerUtils.class);
         mainCtrl = Mockito.spy(new MainCtrl());
@@ -188,7 +192,11 @@ public class MainCtrlTest {
 
         // Write sample JSON to the temporary file
         Path path = Paths.get(tempFilePath);
-        Files.writeString(path, jsonString);
+        try {
+            Files.writeString(path, jsonString);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
 
@@ -217,6 +225,61 @@ public class MainCtrlTest {
                 "\"participants\":[]" +
                 "}" +
                 "]," +
+                "\"name\":\"John Doe\"" +
+                "}" +
+                "}";
+        assertEquals(expected, newContent);
+
+        // Clean up: delete the temporary file
+        Files.deleteIfExists(path);
+    }
+
+    @Test
+    public void testWriteLanguageToConfigFile() throws IOException {
+        String tempFilePath = "CONFIGTest.json";
+        String jsonString = "{" +
+                "  \"User\":{" +
+                "    \"name\":\"John Doe\"," +
+                "    \"Language\":\"en\"," +
+                "    \"Currency\":\"USD\"," +
+                "    \"Events\":[" +
+                "      {" +
+                "        \"id\":0," +
+                "        \"title\": \"title\"," +
+                "        \"amountOfParticipants\":3," +
+                "        \"expenses\":[]," +
+                "        \"description\":\"description\"," +
+                "        \"sumOfExpenses\":0.0" +
+                "      }" +
+                "    ]" +
+                "  }" +
+                "}";
+
+        // Write sample JSON to the temporary file
+        Path path = Paths.get(tempFilePath);
+        try {
+            Files.writeString(path, jsonString);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        mainCtrl.writeLanguageToConfigFileByPath(tempFilePath, "nl");
+
+        String newContent = mainCtrl.readConfigFile(tempFilePath);
+        String expected = "{" +
+                "\"User\":{" +
+                "\"Language\":\"nl\"," +
+                "\"Events\":[" +
+                "{" +
+                "\"amountOfParticipants\":3," +
+                "\"sumOfExpenses\":0," +
+                "\"description\":\"description\"," +
+                "\"id\":0," +
+                "\"title\":\"title\"," +
+                "\"expenses\":[]" +
+                "}" +
+                "]," +
+                "\"Currency\":\"USD\"," +
                 "\"name\":\"John Doe\"" +
                 "}" +
                 "}";

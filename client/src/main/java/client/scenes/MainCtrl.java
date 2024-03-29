@@ -399,6 +399,47 @@ public class MainCtrl {
     }
 
     /**
+     * writes the language to the config file
+     * @param language language to be written
+     * @throws IOException if the file is not found
+     */
+    public void writeLanguageToConfigFile(String language) throws IOException {
+        writeLanguageToConfigFileByPath("client/src/main/resources/CONFIG.json", language);
+    }
+
+    /**
+     * writes the language to the config file by path
+     * @param filePath path to the file
+     * @param language language to be written
+     * @throws IOException if the file is not found
+     */
+    public void writeLanguageToConfigFileByPath(String filePath, String language)
+            throws IOException {
+        JSONObject jsonObject = new JSONObject(readConfigFile(filePath));
+        JSONObject userObject = jsonObject.getJSONObject("User");
+        userObject.put("Language", language);
+
+        Path path = Path.of(filePath);
+        Files.writeString(path, jsonObject.toString());
+    }
+
+    /**
+     * writes the currency to the config file
+     * @param currency currency to be written
+     */
+    public void writeCurrencyToConfigFile(String currency) {
+        writeCurrencyToConfigFileByPath("client/src/main/resources/CONFIG.json", currency);
+    }
+
+    /**
+     * writes the currency to the config file by path
+     * @param filePath path to the file
+     * @param currency currency to be written
+     */
+    public void writeCurrencyToConfigFileByPath(String filePath, String currency){
+
+    }
+    /**
      * shows the languageSwitch pages
      * @param c a char from previous page
      */
