@@ -175,6 +175,7 @@ public class MainCtrl {
         primaryStage.setTitle("Add/Edit participant");
         addOrEditParticipantCtrl.setUser(user);
         addOrEditParticipantCtrl.setEvent(event);
+        addOrEditParticipantCtrl.editFields(user);
         primaryStage.setScene(addOrEditParticipant);
         addOrEditParticipant.setOnKeyPressed(e -> addOrEditParticipantCtrl.keyPressed(e));
     }

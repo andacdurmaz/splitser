@@ -176,6 +176,18 @@ public class EventInfoCtrl {
     public void setData(Event event) {
         updateDesc(event);
         updateLabelText(event);
+        if (event.getParticipants() != null && event.getParticipants().size() !=0) {
+            String label = "";
+
+            for (int i = 0; i <event.getParticipants().size() - 1; i++) {
+                label += event.getParticipants().get(i).getUsername() + ", ";
+            }
+            label += event.getParticipants().get(event.getParticipants().size() - 1).getUsername();
+            participantsLabel.setText(label);
+        }
+        else {
+            participantsLabel.setText("No available participants.");
+        }
         participantCombobox.getItems().setAll(event.getParticipants());
         expenseComboBox.getItems().setAll(event.getParticipants());
 
@@ -201,5 +213,6 @@ public class EventInfoCtrl {
         oldParticipants = oldParticipants.stream().filter(q -> !q.equals(temp)).toList();
         event.setParticipants(oldParticipants);
         server.updateEvent(event);
+        setData(event);
     }
 }
