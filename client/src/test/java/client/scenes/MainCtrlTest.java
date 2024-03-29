@@ -29,11 +29,12 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
@@ -142,7 +143,11 @@ public class MainCtrlTest {
 
         // Write sample JSON to the temporary file
         Path path = Paths.get(tempFilePath);
-        Files.writeString(path, jsonString);
+        try {
+            Files.writeString(path, jsonString);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         ServerUtils serverUtilsMock = Mockito.mock(ServerUtils.class);
         mainCtrl = Mockito.spy(new MainCtrl());
@@ -164,6 +169,280 @@ public class MainCtrlTest {
 
         // Clean up: delete the temporary file
         Files.deleteIfExists(path);
+    }
+
+    @Test
+    public void testGetLanguage() throws IOException {
+        String tempFilePath = "CONFIGTest.json";
+        String jsonString = "{\n" +
+                "  \"User\" : {\n" +
+                "    \"name\": \"John Doe\",\n" +
+                "    \"Language\": \"en\",\n" +
+                "    \"Currency\": \"USD\",\n" +
+                "    \"Events\": [\n" +
+                "      {\n" +
+                "        \"id\": 0,\n" +
+                "        \"title\": \"title\",\n" +
+                "        \"amountOfParticipants\": 3,\n" +
+                "        \"expenses\": [],\n" +
+                "        \"description\": \"description\",\n" +
+                "        \"sumOfExpenses\": 0.0\n" +
+                "      },\n" +
+                "      {\n" +
+                "        \"id\": 1,\n" +
+                "        \"title\": \"title 2\",\n" +
+                "        \"amountOfParticipants\": 4,\n" +
+                "        \"expenses\": [],\n" +
+                "        \"description\": \"description 2\",\n" +
+                "        \"sumOfExpenses\": 21.89\n" +
+                "      }\n" +
+                "    ]\n" +
+                "  }\n" +
+                "}";
+
+        // Write sample JSON to the temporary file
+        Path path = Paths.get(tempFilePath);
+        try {
+            Files.writeString(path, jsonString);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String result = mainCtrl.getLanguageProvidingPath(tempFilePath);
+        assertEquals("en", result);
+
+        // Clean up: delete the temporary file
+        try {
+            Files.deleteIfExists(path);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testGetCurrency() throws IOException {
+        String tempFilePath = "CONFIGTest.json";
+        String jsonString = "{\n" +
+                "  \"User\" : {\n" +
+                "    \"name\": \"John Doe\",\n" +
+                "    \"Language\": \"en\",\n" +
+                "    \"Currency\": \"USD\",\n" +
+                "    \"Events\": [\n" +
+                "      {\n" +
+                "        \"id\": 0,\n" +
+                "        \"title\": \"title\",\n" +
+                "        \"amountOfParticipants\": 3,\n" +
+                "        \"expenses\": [],\n" +
+                "        \"description\": \"description\",\n" +
+                "        \"sumOfExpenses\": 0.0\n" +
+                "      },\n" +
+                "      {\n" +
+                "        \"id\": 1,\n" +
+                "        \"title\": \"title 2\",\n" +
+                "        \"amountOfParticipants\": 4,\n" +
+                "        \"expenses\": [],\n" +
+                "        \"description\": \"description 2\",\n" +
+                "        \"sumOfExpenses\": 21.89\n" +
+                "      }\n" +
+                "    ]\n" +
+                "  }\n" +
+                "}";
+
+        // Write sample JSON to the temporary file
+        Path path = Paths.get(tempFilePath);
+        try {
+            Files.writeString(path, jsonString);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String result = mainCtrl.getCurrencyProvidingPath(tempFilePath);
+        assertEquals("USD", result);
+
+        // Clean up: delete the temporary file
+        try {
+            Files.deleteIfExists(path);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Test
+    public void testWriteEventToFile() throws IOException {
+        String tempFilePath = "CONFIGTest.json";
+        String jsonString = "{" +
+                "  \"User\":{" +
+                "    \"name\":\"John Doe\"," +
+                "    \"Events\":[" +
+                "      {" +
+                "        \"id\":0," +
+                "        \"title\": \"title\"," +
+                "        \"amountOfParticipants\":3," +
+                "        \"expenses\":[]," +
+                "        \"description\":\"description\"," +
+                "        \"sumOfExpenses\":0.0" +
+                "      }" +
+                "    ]" +
+                "  }" +
+                "}";
+
+        // Write sample JSON to the temporary file
+        Path path = Paths.get(tempFilePath);
+        try {
+            Files.writeString(path, jsonString);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+
+        String newEvent = new Event("title 3", 5, "description 3").toString();
+        mainCtrl.writeEventToConfigFileByPath(tempFilePath, newEvent);
+
+        String newContent = mainCtrl.readConfigFile(tempFilePath);
+        String expected = "{" +
+                "\"User\":{" +
+                "\"Events\":[{" +
+                "\"amountOfParticipants\":3," +
+                "\"sumOfExpenses\":0," +
+                "\"description\":\"description\"," +
+                "\"id\":0," +
+                "\"title\":\"title\"," +
+                "\"expenses\":[]" +
+                "}," +
+                "{" +
+                "\"eventCode\":0," +
+                "\"amountOfParticipants\":5," +
+                "\"sumOfExpenses\":0," +
+                "\"description\":\"description 3\"," +
+                "\"id\":0," +
+                "\"title\":\"title 3\"," +
+                "\"expenses\":[]," +
+                "\"participants\":[]" +
+                "}" +
+                "]," +
+                "\"name\":\"John Doe\"" +
+                "}" +
+                "}";
+        assertEquals(expected, newContent);
+
+        // Clean up: delete the temporary file
+        Files.deleteIfExists(path);
+    }
+
+    @Test
+    public void testWriteLanguageToConfigFile() throws IOException {
+        String tempFilePath = "CONFIGTest.json";
+        String jsonString = "{" +
+                "  \"User\":{" +
+                "    \"name\":\"John Doe\"," +
+                "    \"Language\":\"en\"," +
+                "    \"Currency\":\"USD\"," +
+                "    \"Events\":[" +
+                "      {" +
+                "        \"id\":0," +
+                "        \"title\": \"title\"," +
+                "        \"amountOfParticipants\":3," +
+                "        \"expenses\":[]," +
+                "        \"description\":\"description\"," +
+                "        \"sumOfExpenses\":0.0" +
+                "      }" +
+                "    ]" +
+                "  }" +
+                "}";
+
+        // Write sample JSON to the temporary file
+        Path path = Paths.get(tempFilePath);
+        try {
+            Files.writeString(path, jsonString);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        mainCtrl.writeLanguageToConfigFileByPath(tempFilePath, "nl");
+
+        String newContent = mainCtrl.readConfigFile(tempFilePath);
+        String expected = "{" +
+                "\"User\":{" +
+                "\"Language\":\"nl\"," +
+                "\"Events\":[" +
+                "{" +
+                "\"amountOfParticipants\":3," +
+                "\"sumOfExpenses\":0," +
+                "\"description\":\"description\"," +
+                "\"id\":0," +
+                "\"title\":\"title\"," +
+                "\"expenses\":[]" +
+                "}" +
+                "]," +
+                "\"Currency\":\"USD\"," +
+                "\"name\":\"John Doe\"" +
+                "}" +
+                "}";
+        assertEquals(expected, newContent);
+
+        // Clean up: delete the temporary file
+        Files.deleteIfExists(path);
+    }
+
+    @Test
+    public void testWriteCurrencyToConfigFile() throws IOException {
+        String tempFilePath = "CONFIGTest.json";
+        String jsonString = "{" +
+                "  \"User\":{" +
+                "    \"name\":\"John Doe\"," +
+                "    \"Language\":\"en\"," +
+                "    \"Currency\":\"USD\"," +
+                "    \"Events\":[" +
+                "      {" +
+                "        \"id\":0," +
+                "        \"title\": \"title\"," +
+                "        \"amountOfParticipants\":3," +
+                "        \"expenses\":[]," +
+                "        \"description\":\"description\"," +
+                "        \"sumOfExpenses\":0.0" +
+                "      }" +
+                "    ]" +
+                "  }" +
+                "}";
+
+        // Write sample JSON to the temporary file
+        Path path = Paths.get(tempFilePath);
+        try {
+            Files.writeString(path, jsonString);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        mainCtrl.writeCurrencyToConfigFileByPath(tempFilePath, "EUR");
+
+        String newContent = mainCtrl.readConfigFile(tempFilePath);
+        String expected = "{" +
+                "\"User\":{" +
+                "\"Language\":\"en\"," +
+                "\"Events\":[" +
+                "{" +
+                "\"amountOfParticipants\":3," +
+                "\"sumOfExpenses\":0," +
+                "\"description\":\"description\"," +
+                "\"id\":0," +
+                "\"title\":\"title\"," +
+                "\"expenses\":[]" +
+                "}" +
+                "]," +
+                "\"Currency\":\"EUR\"," +
+                "\"name\":\"John Doe\"" +
+                "}" +
+                "}";
+        assertEquals(expected, newContent);
+
+        // Clean up: delete the temporary file
+        try {
+            Files.deleteIfExists(path);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

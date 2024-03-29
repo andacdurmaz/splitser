@@ -161,7 +161,6 @@ public class MainCtrl {
     }
 
     /**
-<<<<<<< HEAD
      * Getter for language
      * @return returns the locale
      */
@@ -349,6 +348,50 @@ public class MainCtrl {
     }
 
     /**
+     * gets the language from the CONFIG file
+     * @return the language
+     * @throws IOException if the file is not found
+     */
+    public String getLanguage() throws IOException {
+        return getLanguageProvidingPath("src/main/resources/CONFIG.json");
+    }
+
+    /**
+     * gets the language from the CONFIG file by path
+     * @param path path to the file
+     * @return  the language
+     * @throws IOException if the file is not found
+     */
+    public String getLanguageProvidingPath(String path) throws IOException {
+        String jsonString = readConfigFile(path);
+        JSONObject jsonObject = new JSONObject(jsonString);
+        JSONObject userObject = jsonObject.getJSONObject("User");
+        return userObject.getString("Language");
+    }
+
+    /**
+     * gets the currency from the CONFIG file
+     * @return the currency
+     * @throws IOException if the file is not found
+     */
+    public String getCurrency() throws IOException {
+        return getCurrencyProvidingPath("src/main/resources/CONFIG.json");
+    }
+
+    /**
+     * gets the currency from the CONFIG file by path
+     * @param path path to the file
+     * @return  the currency
+     * @throws IOException if the file is not found
+     */
+    public String getCurrencyProvidingPath(String path) throws IOException {
+        String jsonString = readConfigFile(path);
+        JSONObject jsonObject = new JSONObject(jsonString);
+        JSONObject userObject = jsonObject.getJSONObject("User");
+        return userObject.getString("Currency");
+    }
+
+    /**
      * reads the config file
      * @param filePath path to the file
      * @return the string representation of the file
@@ -360,6 +403,97 @@ public class MainCtrl {
         return string;
     }
 
+    /**
+     * writes to the config file
+     * @param content content to be written (IN JSON FORMAT)
+     * @throws IOException if the file is not found
+     */
+    public void writeEventToConfigFile(String content) throws IOException {
+        writeEventToConfigFileByPath("client/src/main/resources/CONFIG.json", content);
+    }
+
+    /**
+     * writes to the config file by path
+     * @param filePath path to the file
+     * @param content content to be written (IN JSON FORMAT)
+     * @throws IOException if the file is not found
+     */
+    public void writeEventToConfigFileByPath(String filePath, String content) throws IOException {
+        // Read the JSON file
+        JSONObject jsonObject = new JSONObject(readConfigFile(filePath));
+        // Get the User object
+        JSONObject userObject = jsonObject.getJSONObject("User");
+        // Get the Events array
+        JSONArray eventsArray = new JSONArray();
+
+        // Get the existing events
+        JSONArray existingEvents = userObject.getJSONArray("Events");
+
+        // Add the existing events to the new array
+        for (int i = 0; i < existingEvents.length(); i++) {
+            eventsArray.put(existingEvents.getJSONObject(i));
+        }
+
+        // Add the new event to the array
+        JSONObject newEvent = new JSONObject(content);
+
+        // Add all events back to the array
+        eventsArray.put(newEvent);
+        // Add the array back to the user object
+        userObject.put("Events", eventsArray);
+
+        // write to file
+        Path path = Path.of(filePath);
+        Files.writeString(path, jsonObject.toString());
+    }
+
+    /**
+     * writes the language to the config file
+     * @param language language to be written
+     * @throws IOException if the file is not found
+     */
+    public void writeLanguageToConfigFile(String language) throws IOException {
+        writeLanguageToConfigFileByPath("client/src/main/resources/CONFIG.json", language);
+    }
+
+    /**
+     * writes the language to the config file by path
+     * @param filePath path to the file
+     * @param language language to be written
+     * @throws IOException if the file is not found
+     */
+    public void writeLanguageToConfigFileByPath(String filePath, String language)
+            throws IOException {
+        JSONObject jsonObject = new JSONObject(readConfigFile(filePath));
+        JSONObject userObject = jsonObject.getJSONObject("User");
+        userObject.put("Language", language);
+
+        Path path = Path.of(filePath);
+        Files.writeString(path, jsonObject.toString());
+    }
+
+    /**
+     * writes the currency to the config file
+     * @param currency currency to be written
+     */
+    public void writeCurrencyToConfigFile(String currency) throws IOException {
+        writeCurrencyToConfigFileByPath("client/src/main/resources/CONFIG.json", currency);
+    }
+
+    /**
+     * writes the currency to the config file by path
+     * @param filePath path to the file
+     * @param currency currency to be written
+     */
+    public void writeCurrencyToConfigFileByPath(String filePath, String currency)
+            throws IOException {
+        JSONObject jsonObject = new JSONObject(readConfigFile(filePath));
+        JSONObject userObject = jsonObject.getJSONObject("User");
+        userObject.put("Currency", currency);
+
+        Path path = Path.of(filePath);
+        Files.writeString(path, jsonObject.toString());
+    }
     /**
      * shows the languageSwitch pages
      * @param c a char from previous page
