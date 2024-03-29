@@ -81,7 +81,7 @@ public class AddOrEditParticipantCtrl {
     /**
      * Confirm add/edit
      */
-    public void ok() {
+    public void ok() throws EmailFormatException, IBANFormatException, BICFormatException {
         if (user == null) {
             noSelectedParticipant();
         }
@@ -140,7 +140,8 @@ public class AddOrEditParticipantCtrl {
     /**
      * creates a new user and adds it to the database
      */
-    private void noSelectedParticipant() {
+    private void noSelectedParticipant() throws EmailFormatException,
+            IBANFormatException, BICFormatException {
         user = getUser();
         try {
             User temp = server.addUser(getUser());
@@ -165,8 +166,13 @@ public class AddOrEditParticipantCtrl {
      *
      * @return expense
      */
-    private User getUser() {
-        var u = new User(name.getText(), email.getText(), iban.getText(), bic.getText());
+    private User getUser() throws EmailFormatException,
+            IBANFormatException, BICFormatException {
+        User u = new User();
+        u.setUsername(name.getText());
+        u.setEmail(email.getText());
+        u.setIban(iban.getText());
+        u.setBic(iban.getText());
         return u;
     }
 
@@ -183,7 +189,8 @@ public class AddOrEditParticipantCtrl {
     /**
      * @param e key event
      */
-    public void keyPressed(KeyEvent e) {
+    public void keyPressed(KeyEvent e) throws EmailFormatException,
+            IBANFormatException, BICFormatException {
         switch (e.getCode()) {
             case ENTER:
                 ok();
