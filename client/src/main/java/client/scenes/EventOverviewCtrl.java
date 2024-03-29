@@ -64,6 +64,9 @@ public class EventOverviewCtrl implements Initializable {
                 new SimpleStringProperty(String.valueOf(q.getValue().getEventCode())));
         description.setCellValueFactory(q ->
                 new SimpleStringProperty(q.getValue().getDescription()));
+//         Listen for changes to the items in the ListView,
+//         if there are events make the label invisible
+
         // Listen for changes to the items in the ListView,
         // if there are events make the label invisible
         table.setOnMouseClicked(getEvent);
@@ -102,6 +105,7 @@ public class EventOverviewCtrl implements Initializable {
     public void refresh() {
         var events = server.getEvents();
         data = FXCollections.observableList(events);
+        TableView<Event> table = new TableView<>();
         table.setItems(data);
     }
 
@@ -109,7 +113,7 @@ public class EventOverviewCtrl implements Initializable {
      * deprecated
      */
     public void login(){
-        mainCtrl.login();
+        loginButton.setOnAction(event1 ->  mainCtrl.login());
     }
 
     /**

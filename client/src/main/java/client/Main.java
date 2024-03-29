@@ -16,7 +16,6 @@
 package client;
 
 import static com.google.inject.Guice.createInjector;
-
 import java.io.IOException;
 import java.net.URISyntaxException;
 
@@ -32,7 +31,6 @@ public class Main extends Application {
 
     /**
      * Main method
-     *
      * @param args arguments
      * @throws URISyntaxException exception
      * @throws IOException        exception
@@ -43,11 +41,10 @@ public class Main extends Application {
 
     /**
      * Starts application
-     *
      * @param primaryStage the primary stage for this application, onto which
-     *                     the application scene can be set.
-     *                     Applications may create other stages, if needed, but they will not be
-     *                     primary stages.
+     * the application scene can be set.
+     * Applications may create other stages, if needed, but they will not be
+     * primary stages.
      * @throws IOException exception
      */
     @Override
@@ -60,16 +57,23 @@ public class Main extends Application {
                 "AddOrEditParticipant.fxml");
         var add = FXML.load(AddEventCtrl.class, "client", "scenes", "AddEvent.fxml");
         var eventInfo = FXML.load(EventInfoCtrl.class, "client", "scenes", "EventInfo.fxml");
-        var adminOverview = FXML.load(AdminOverviewCtrl.class, "client",
-                "scenes", "AdminOverview.fxml");
+
+        var invitationsOverview = FXML.load(InvitationCtrl.class, "client",
+                "scenes", "Invitation.fxml");
+//        var adminOverview = FXML.load(AdminOverviewCtrl.class, "client",
+//                "scenes", "AdminOverview.fxml");
         var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
-        var adminEventInfo = FXML.load(AdminEventInfoCtrl.class, "client",
-                "scenes", "AdminEventInfo.fxml");
+//        var adminEventInfo = FXML.load(AdminEventInfoCtrl.class, "client",
+//                "scenes", "AdminEventInfo.fxml");
         var eventOverview = FXML.load(EventOverviewCtrl.class, "client",
                 "scenes", "EventOverview.fxml");
+
+
         mainCtrl.initialize(primaryStage, startPage, addOrEditExpense,
                 add, eventInfo, addOrEditParticipant);
         mainCtrl.overviewInitialize(eventOverview);
-        mainCtrl.adminInitialize(adminOverview, adminEventInfo);
+        mainCtrl.invitationsInitialize(invitationsOverview);
+//        mainCtrl.adminInitialize(adminOverview, adminEventInfo);
+
     }
 }

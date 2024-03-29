@@ -1,0 +1,27 @@
+{
+  "User" : {
+    "name": "John Doe",
+    "Language": "en",
+    "Currency": "USD",
+    "Events": [
+      {
+        "id": 0,
+        "eventCode": 4434,
+        "title": "title",
+        "amountOfParticipants": 3,
+        "expenses": [],
+        "description": "description",
+        "sumOfExpenses": 0.0
+      },
+      {
+        "id": 1,
+        "eventCode": 7239,
+        "title": "title 2",
+        "amountOfParticipants": 4,
+        "expenses": [],
+        "description": "description 2",
+        "sumOfExpenses": 21.89
+      }
+    ]
+  }
+}

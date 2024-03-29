@@ -47,13 +47,19 @@ public class LoginService {
         server.setSession();
     }
 
+
     /**
-     * @param username provided user name of admin
-     * @param password the password, which the server will be randomly generating
+     * @param password the password that was submitted
+     * @return the boolean of the success of the login attempt
      */
-    public void connect(String username, String password){
-        if(adminUtils.checkCredentials(username, password))
+    public boolean connect(String password){
+        int code = server.checkCredentials(password);
+        if(code == 200) {
             mainCtrl.showAdminOverview();
+            return true;
+        }
+        return false;
+
     }
 
 
