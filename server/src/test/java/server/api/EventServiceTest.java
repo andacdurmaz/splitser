@@ -3,6 +3,9 @@ package server.api;
 
 import commons.Expense;
 import commons.User;
+import commons.exceptions.BICFormatException;
+import commons.exceptions.EmailFormatException;
+import commons.exceptions.IBANFormatException;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
@@ -61,14 +64,15 @@ public class EventServiceTest {
     }
 
     @Test
-    public void testGetCreatorById() {
+    public void testGetCreatorById() throws EmailFormatException, IBANFormatException, BICFormatException {
         Event event = new Event("Title", 4, "Description");
         EventRepository eventRepository = mock(EventRepository.class);
         EventService eventService = new EventService(eventRepository);
-
-        when(eventRepository.getCreatorById(1)).thenReturn(new User("username", "password","iban","bic"));
+        when(eventRepository.getCreatorById(1)).thenReturn(new User("username", "@.",
+                "1234123412341234123412341234123412","12312312312"));
         User creator = eventService.getCreatorById(1);
-        assertEquals(new User("username", "password","iban","bic"), creator);
+        assertEquals(new User("username", "@.",
+                "1234123412341234123412341234123412","12312312312"), creator);
     }
 
     @Test
