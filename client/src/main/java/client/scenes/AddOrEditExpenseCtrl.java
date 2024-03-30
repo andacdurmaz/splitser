@@ -176,7 +176,6 @@ public class AddOrEditExpenseCtrl implements Initializable {
             alert.initModality(Modality.APPLICATION_MODAL);
             alert.setContentText(e.getMessage());
             alert.showAndWait();
-            return;
         }
     }
 
@@ -194,6 +193,7 @@ public class AddOrEditExpenseCtrl implements Initializable {
         p.setExpenseDate(when.getValue());
         List<User> payingParticipants = new ArrayList<>();
         payingParticipants.addAll(selectedParticipants());
+        p.setPayingParticipants(payingParticipants);
         return p;
     }
 
@@ -206,7 +206,22 @@ public class AddOrEditExpenseCtrl implements Initializable {
      * @return paying participants
      */
     private List<User> selectedParticipants() {
-        return event.getParticipants();
+        if (allParticipants.isSelected()) {
+            return event.getParticipants();
+        }
+        else {
+            List <User> selected = new ArrayList<>();
+            for(Node n : someParticipantsSelector.getChildren()) {
+                if(((CheckBox) n).isSelected()) {
+                    String text = ((CheckBox) n).getText();
+                    int index = text.indexOf("(id: ");
+                    long id = Long.parseLong(text.substring(index +5, text.length() -1));
+                    selected.add(server.getUserById(id));
+                }
+            }
+            return selected;
+
+        }
     }
 
     /**
@@ -258,7 +273,7 @@ public class AddOrEditExpenseCtrl implements Initializable {
         someParticipantsSelector.getChildren().clear();
         for (User u : event.getParticipants()) {
             someParticipantsSelector.getChildren()
-                    .add(new CheckBox(u.getUsername()));
+                    .add(new CheckBox(u.getUsername() + "(id: " + u.getUserID() + ")"));
         }
         howMuch.setText("");
         whatFor.setText("");

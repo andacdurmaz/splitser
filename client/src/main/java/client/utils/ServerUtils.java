@@ -282,6 +282,20 @@ public class ServerUtils extends Util {
                 .put(Entity.entity(user, APPLICATION_JSON), User.class);
     }
 
+
+    /**
+     * Get event by id
+     * @param id of the event
+     * @return the event from the id
+     */
+    public User getUserById(long id) {
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(serverAddress)
+                .path("api/users/" + id)
+                .request(APPLICATION_JSON).accept(APPLICATION_JSON)
+                .get(new GenericType<User>() {
+                });
+    }
     /**
      * updates given event
      *
