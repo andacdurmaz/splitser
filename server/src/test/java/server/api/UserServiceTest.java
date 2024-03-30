@@ -3,9 +3,7 @@ package server.api;
 import commons.Expense;
 import commons.User;
 import commons.Debt;
-import commons.exceptions.NoDebtFoundException;
-import commons.exceptions.NoSuchExpenseException;
-import commons.exceptions.NoUserFoundException;
+import commons.exceptions.*;
 import org.junit.jupiter.api.Test;
 import server.service.DebtService;
 import server.service.ExpenseService;
@@ -62,10 +60,12 @@ public class UserServiceTest {
     }
 
     @Test
-    public void getUserTest() throws NoUserFoundException {
+    public void getUserTest() throws NoUserFoundException, EmailFormatException,
+            IBANFormatException, BICFormatException {
         UserRepoTest repo = new UserRepoTest();
         UserService service = new UserService(repo);
-        User user = new User("andac","andac@gmail.com","iban","bic");
+        User user = new User("andac","andac@gmail.com",
+                "1234123412341234123412341234123412","12312312312");
         service.save(user);
         long id = user.getUserID();
         assertEquals(user, service.getUserById(id));
@@ -106,7 +106,8 @@ public class UserServiceTest {
     }
 
     @Test
-    public void settleDebtTest() throws NoDebtFoundException, NoSuchExpenseException {
+    public void settleDebtTest() throws NoDebtFoundException, NoSuchExpenseException,
+            EmailFormatException, IBANFormatException, BICFormatException {
         UserRepoTest repo = new UserRepoTest();
         UserService service = new UserService(repo);
         ExpenseRepositoryTest expenseRepository = new ExpenseRepositoryTest();
@@ -115,8 +116,10 @@ public class UserServiceTest {
         DebtRepoTest debtrepo = new DebtRepoTest();
         DebtService debtService = new DebtService(debtrepo);
         service.setDebtService(debtService);
-        User payer = new User("andac", "andac@gmail.com","iban","bic");
-        User payee = new User("mete", "mete@mail.com","iban","bic");
+        User payer = new User("andac", "andac@gmail.com",
+                "1234123412341234123412341234123412","12312312312");
+        User payee = new User("mete", "mete@mail.com",
+                "1234123412341234123412341234123412","12312312312");
         repo.save(payer);
         repo.save(payee);
         List<User> payers = new ArrayList<>();
@@ -130,7 +133,8 @@ public class UserServiceTest {
 
 
     @Test
-    public void addDebtCase1() throws NoDebtFoundException {
+    public void addDebtCase1() throws NoDebtFoundException, EmailFormatException,
+            IBANFormatException, BICFormatException {
         UserRepoTest repo = new UserRepoTest();
         UserService service = new UserService(repo);
         ExpenseRepositoryTest expenseRepository = new ExpenseRepositoryTest();
@@ -139,8 +143,10 @@ public class UserServiceTest {
         DebtRepoTest debtrepo = new DebtRepoTest();
         DebtService debtService = new DebtService(debtrepo);
         service.setDebtService(debtService);
-        User payer = new User("andac", "andac@gmail.com","iban","bic");
-        User payee = new User("mete", "mete@mail.com","iban","bic");
+        User payer = new User("andac", "andac@gmail.com",
+                "1234123412341234123412341234123412","12312312312");
+        User payee = new User("mete", "mete@mail.com",
+                "1234123412341234123412341234123412","12312312312");
         repo.save(payer);
         repo.save(payee);
         service.addDebts(payer, payee, 5.0);
@@ -149,7 +155,8 @@ public class UserServiceTest {
         assertTrue((debtService.getRepo()).findAll().contains(debtService.getDebtByPayerAndPayee(payer, payee)) );
     }
     @Test
-    public void addDebtCase2() throws NoDebtFoundException {
+    public void addDebtCase2() throws NoDebtFoundException, EmailFormatException,
+            IBANFormatException, BICFormatException {
         UserRepoTest repo = new UserRepoTest();
         UserService service = new UserService(repo);
         ExpenseRepositoryTest expenseRepository = new ExpenseRepositoryTest();
@@ -158,8 +165,10 @@ public class UserServiceTest {
         DebtRepoTest debtrepo = new DebtRepoTest();
         DebtService debtService = new DebtService(debtrepo);
         service.setDebtService(debtService);
-        User payer = new User("andac", "andac@gmail.com","iban","bic");
-        User payee = new User("mete", "mete@mail.com","iban","bic");
+        User payer = new User("andac", "andac@gmail.com",
+                "1234123412341234123412341234123412","12312312312");
+        User payee = new User("mete", "mete@mail.com",
+                "1234123412341234123412341234123412","12312312312");
         repo.save(payer);
         repo.save(payee);
         service.addDebts(payer, payee, 5.0);
@@ -169,7 +178,8 @@ public class UserServiceTest {
         assertTrue((debtService.getRepo()).findAll().contains(debtService.getDebtByPayerAndPayee(payer, payee)) );
     }
     @Test
-    public void addDebtCase3() throws NoDebtFoundException {
+    public void addDebtCase3() throws NoDebtFoundException,
+            EmailFormatException, IBANFormatException, BICFormatException {
         UserRepoTest repo = new UserRepoTest();
         UserService service = new UserService(repo);
         ExpenseRepositoryTest expenseRepository = new ExpenseRepositoryTest();
@@ -178,8 +188,10 @@ public class UserServiceTest {
         DebtRepoTest debtrepo = new DebtRepoTest();
         DebtService debtService = new DebtService(debtrepo);
         service.setDebtService(debtService);
-        User payer = new User("andac", "andac@gmail.com","iban","bic");
-        User payee = new User("mete", "mete@mail.com","iban","bic");
+        User payer = new User("andac", "andac@gmail.com",
+                "1234123412341234123412341234123412","12312312312");
+        User payee = new User("mete", "mete@mail.com",
+                "1234123412341234123412341234123412","12312312312");
         repo.save(payer);
         repo.save(payee);
         service.addDebts(payer, payee, 5.0);
@@ -190,7 +202,8 @@ public class UserServiceTest {
     }
 
     @Test
-    public void addDebtCase4() throws NoDebtFoundException {
+    public void addDebtCase4() throws NoDebtFoundException, EmailFormatException,
+            IBANFormatException, BICFormatException {
         UserRepoTest repo = new UserRepoTest();
         UserService service = new UserService(repo);
         ExpenseRepositoryTest expenseRepository = new ExpenseRepositoryTest();
@@ -199,8 +212,10 @@ public class UserServiceTest {
         DebtRepoTest debtrepo = new DebtRepoTest();
         DebtService debtService = new DebtService(debtrepo);
         service.setDebtService(debtService);
-        User payer = new User("andac", "andac@gmail.com","iban","bic");
-        User payee = new User("mete", "mete@mail.com","iban","bic");
+        User payer = new User("andac", "andac@gmail.com",
+                "1234123412341234123412341234123412","12312312312");
+        User payee = new User("mete", "mete@mail.com",
+                "1234123412341234123412341234123412","12312312312");
         repo.save(payer);
         repo.save(payee);
         service.addDebts(payer, payee, 5.0);
@@ -211,7 +226,8 @@ public class UserServiceTest {
     }
 
     @Test
-    public void addDebtCase5() throws NoDebtFoundException {
+    public void addDebtCase5() throws NoDebtFoundException, EmailFormatException,
+            IBANFormatException, BICFormatException {
         UserRepoTest repo = new UserRepoTest();
         UserService service = new UserService(repo);
         ExpenseRepositoryTest expenseRepository = new ExpenseRepositoryTest();
@@ -220,8 +236,10 @@ public class UserServiceTest {
         DebtRepoTest debtrepo = new DebtRepoTest();
         DebtService debtService = new DebtService(debtrepo);
         service.setDebtService(debtService);
-        User payer = new User("andac", "andac@gmail.com","iban","bic");
-        User payee = new User("mete", "mete@mail.com","iban","bic");
+        User payer = new User("andac", "andac@gmail.com",
+                "1234123412341234123412341234123412","12312312312");
+        User payee = new User("mete", "mete@mail.com",
+                "1234123412341234123412341234123412","12312312312");
         repo.save(payer);
         repo.save(payee);
         service.addDebts(payer, payee, 5.0);
@@ -232,7 +250,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void updateTest() {
+    public void updateTest() throws EmailFormatException, IBANFormatException, BICFormatException {
         UserRepoTest repo = new UserRepoTest();
         UserService service = new UserService(repo);
         User user = new User("andac", "andac@gmail.com",

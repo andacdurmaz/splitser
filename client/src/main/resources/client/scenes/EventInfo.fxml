@@ -26,6 +26,11 @@
       <ComboBox fx:id="expenseComboBox" layoutX="24.0" layoutY="213.0" prefWidth="150.0" promptText="Participants" />
       <Button layoutX="21.0" layoutY="299.0" mnemonicParsing="false" onAction="#addOrEditExpense" prefHeight="55.0" prefWidth="317.0" text="Add Expense" />
       <ListView layoutX="361.0" layoutY="109.0" prefHeight="246.0" prefWidth="290.0" />
+      <Label fx:id="titleLabel" layoutX="21.0" layoutY="26.0" prefHeight="51.0" prefWidth="282.0" text="EVENT TITLE">
+         <font>
+            <Font name="Dubai Bold" size="24.0" />
+         </font>
+      </Label>
       <TextField fx:id="eventTitle" layoutX="21.0" layoutY="26.0" prefHeight="51.0" prefWidth="282.0" text="EVENT TITLE">
          <font>
             <Font name="Dubai Bold" size="24.0" />
@@ -34,6 +39,7 @@
       <Button layoutX="361.0" layoutY="76.0" mnemonicParsing="false" text="All" />
       <Button layoutX="403.0" layoutY="76.0" mnemonicParsing="false" text="Paid by Participant" />
       <Button layoutX="526.0" layoutY="76.0" mnemonicParsing="false" text="Including Participant" />
+      <Label fx:id="descriptionLabel" layoutX="17.0" layoutY="80.0" prefHeight="18.0" prefWidth="290.0" text="Description " />
       <TextField fx:id="description" layoutX="17.0" layoutY="80.0" prefHeight="18.0" prefWidth="290.0" text="Description " />
       <Button layoutX="311.0" layoutY="70.0" mnemonicParsing="false" onAction="#editDescription" prefHeight="26.0" prefWidth="30.0">
          <graphic>
