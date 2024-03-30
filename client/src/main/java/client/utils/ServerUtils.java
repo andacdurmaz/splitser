@@ -217,6 +217,24 @@ public class ServerUtils extends Util {
                 .put(Entity.entity(expense, APPLICATION_JSON), Expense.class);
     }
 
+
+    /**
+     * adds expense tag
+     * @param expenseTag
+     * @return adds an expense tag
+     */
+    public ExpenseTag addExpenseTag(ExpenseTag expenseTag) {
+        Response response = ClientBuilder.newClient(new ClientConfig())
+                .target(serverAddress).path("api/tags/add")
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .post(Entity.entity(expenseTag, APPLICATION_JSON));
+        ExpenseTag newExpenseTag = response.readEntity(new GenericType<>() {
+        });
+        return newExpenseTag;
+
+    }
+
     /**
      * user to add
      *

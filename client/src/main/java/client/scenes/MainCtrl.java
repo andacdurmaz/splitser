@@ -17,6 +17,9 @@ package client.scenes;
 
 import client.Main;
 import client.utils.ServerUtils;
+import commons.exceptions.BICFormatException;
+import commons.exceptions.EmailFormatException;
+import commons.exceptions.IBANFormatException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -58,6 +61,8 @@ public class MainCtrl {
 
 
     private Scene addOrEditExpense;
+    private AddExpenseTagCtrl addExpenseTagCtrl;
+    private Scene addExpenseTag;
 
     private AddOrEditParticipantCtrl addOrEditParticipantCtrl;
 
@@ -184,6 +189,18 @@ public class MainCtrl {
     }
 
     /**
+     *  Initialize expense tags
+     * @param addExpenseTag
+     */
+    public void expenseTagsInitialize(
+            Pair<AddExpenseTagCtrl, Parent> addExpenseTag){
+        this.addExpenseTagCtrl = addExpenseTag.getKey();
+        this.addExpenseTag = new Scene(addExpenseTag.getValue());
+
+    }
+
+
+    /**
      * Shows start page
      */
     public void showStartPage() {
@@ -243,7 +260,17 @@ public class MainCtrl {
         addOrEditParticipantCtrl.setEvent(event);
         addOrEditParticipantCtrl.editFields(user);
         primaryStage.setScene(addOrEditParticipant);
-        addOrEditParticipant.setOnKeyPressed(e -> addOrEditParticipantCtrl.keyPressed(e));
+        addOrEditParticipant.setOnKeyPressed(e -> {
+            try {
+                addOrEditParticipantCtrl.keyPressed(e);
+            } catch (EmailFormatException ex) {
+                throw new RuntimeException(ex);
+            } catch (IBANFormatException ex) {
+                throw new RuntimeException(ex);
+            } catch (BICFormatException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
     }
 
 
@@ -258,6 +285,15 @@ public class MainCtrl {
         primaryStage.setScene(invitationOverview);
     }
 
+    /**
+     * Shows expense tags
+     * @param event
+     */
+
+    public void showExpenseTags(Event event) {
+        addExpenseTagCtrl.setEvent(event);
+        primaryStage.setScene(addExpenseTag);
+    }
 
     /**
      * Shows AdminOverview

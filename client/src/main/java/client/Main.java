@@ -68,11 +68,13 @@ public class Main extends Application {
         var eventOverview = FXML.load(EventOverviewCtrl.class, "client",
                 "scenes", "EventOverview.fxml");
 
-
+        var addExpenseTags = FXML.load(AddExpenseTagCtrl.class, "client",
+                "scenes", "AddExpenseTag.fxml");
         mainCtrl.initialize(primaryStage, startPage, addOrEditExpense,
                 add, eventInfo, addOrEditParticipant);
         mainCtrl.overviewInitialize(eventOverview);
         mainCtrl.invitationsInitialize(invitationsOverview);
+        mainCtrl.expenseTagsInitialize(addExpenseTags);
 //        mainCtrl.adminInitialize(adminOverview, adminEventInfo);
 
     }

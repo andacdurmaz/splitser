@@ -29,6 +29,7 @@ public class Expense {
     @ManyToOne()
     private ExpenseTag expenseTag;
 
+    private LocalDate expenseDate;
     /**
      * Constructor for mapping
      */

@@ -12,9 +12,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.StringConverter;
-
 import javax.inject.Inject;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -28,6 +26,8 @@ public class EventInfoCtrl {
     @FXML
     private TextField eventTitle;
     @FXML
+    private Label titleLabel;
+    @FXML
     private TextField description;
     @FXML
     private Label participantsLabel;
@@ -37,8 +37,8 @@ public class EventInfoCtrl {
     private ComboBox<User> expenseComboBox;
     @FXML
     private ComboBox<User> participantCombobox;
-    private List<User> participants = new ArrayList<>();
-
+    @FXML
+    private Label descriptionLabel;
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
 
@@ -91,8 +91,10 @@ public class EventInfoCtrl {
      * @param event
      */
     public void updateLabelText(Event event) {
-        if (event != null || event.getTitle().length() != 0)
+        if (event != null || event.getTitle().length() != 0) {
+            titleLabel.setText(event.getTitle());
             eventTitle.setText(event.getTitle());
+        }
     }
 
     /**
@@ -100,8 +102,10 @@ public class EventInfoCtrl {
      * @param event
      */
     public void updateDesc(Event event) {
-        if (event != null || event.getTitle().length() != 0)
+        if (event != null || event.getTitle().length() != 0) {
+            descriptionLabel.setText(event.getDescription());
             description.setText(event.getDescription());
+        }
     }
 
     /**
@@ -112,8 +116,6 @@ public class EventInfoCtrl {
     public void setEvent(Event event) {
         this.event = event;
     }
-
-
 
 
     /**
@@ -160,6 +162,14 @@ public class EventInfoCtrl {
      */
     public void sendInvitations() {
         mainCtrl.showSendInvitations(event);
+    }
+
+
+    /**
+     * adds expnse tag
+     */
+    public void addExpenseTag() {
+        mainCtrl.showExpenseTags(event);
     }
 
     /**
@@ -232,6 +242,8 @@ public class EventInfoCtrl {
      * Method to enable editing of the event title
      */
     public void enableEditingTitle() {
+        titleLabel.setVisible(false);
+        eventTitle.setVisible(true);
         eventTitle.setEditable(true);
     }
 
@@ -239,6 +251,8 @@ public class EventInfoCtrl {
      * Method to disable editing of the event title
      */
     public void disableEditingTitle() {
+        titleLabel.setVisible(true);
+        eventTitle.setVisible(false);
         eventTitle.setEditable(false);
     }
 
@@ -248,9 +262,11 @@ public class EventInfoCtrl {
      */
     public void editTitle(ActionEvent actionEvent) {
         if (eventTitle.isEditable()) {
-            event.setTitle(eventTitle.getText());
-            server.updateEvent(event);
+            String newTitle = eventTitle.getText();
             disableEditingTitle();
+            titleLabel.setText(newTitle);
+            event.setTitle(newTitle);
+            server.updateEvent(event);
         }
         else {
             enableEditingTitle();
@@ -261,6 +277,8 @@ public class EventInfoCtrl {
      * Method to enable editing of the event description
      */
     public void enableEditingDesc() {
+        descriptionLabel.setVisible(false);
+        description.setVisible(true);
         description.setEditable(true);
     }
 
@@ -268,6 +286,8 @@ public class EventInfoCtrl {
      * Method to disable editing of the event description
      */
     public void disableEditingDesc() {
+        descriptionLabel.setVisible(true);
+        description.setVisible(false);
         description.setEditable(false);
     }
 
@@ -278,9 +298,11 @@ public class EventInfoCtrl {
      */
     public void editDescription(ActionEvent actionEvent) {
         if (description.isEditable()) {
-            event.setDescription(description.getText());
-            server.updateEvent(event);
+            String newDesc = description.getText();
+            descriptionLabel.setText(newDesc);
             disableEditingDesc();
+            event.setDescription(newDesc);
+            server.updateEvent(event);
         }
         else {
             enableEditingDesc();
