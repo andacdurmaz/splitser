@@ -31,8 +31,12 @@ public class Event {
             inverseJoinColumns = @JoinColumn(name = "participant", referencedColumnName = "id")
     )
     private List<User> participants = new ArrayList<>();
-    @OneToMany(mappedBy = "event", targetEntity = ExpenseTag.class)
-    private List<ExpenseTag> expenseTags = new ArrayList<>();
+    @ManyToMany(targetEntity = ExpenseTag.class)
+    @JoinTable(
+            name = "tag_event_mapping",
+            joinColumns = @JoinColumn(name = "event", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "expense_tag", referencedColumnName = "id")
+    )    private List<ExpenseTag> expenseTags = new ArrayList<>();
     private LocalDateTime lastViewed;
 
     /**
