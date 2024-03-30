@@ -64,7 +64,8 @@
       <Button layoutX="613.0" layoutY="12.0" mnemonicParsing="false" onAction="#back" text="Back" />
       <Button id="deleteParticipant" layoutX="273.0" layoutY="153.0" mnemonicParsing="false" onAction="#deleteParticipant" text="Delete" />
       <ComboBox fx:id="participantCombobox" layoutX="174.0" layoutY="122.0" onAction="#selectParticipant" prefWidth="150.0" promptText="Participants" />
-      <Button fx:id="invitation"  layoutX="435.0" layoutY="30.0" mnemonicParsing="false" onAction="#sendInvitations" text="Invitations" />
-      <Button layoutX="518.0" layoutY="30.0" mnemonicParsing="false"  text="Statistics" />
+      <Button fx:id="invitation" layoutX="376.0" layoutY="42.0" mnemonicParsing="false" onAction="#sendInvitations" text="Invitations" />
+      <Button layoutX="460.0" layoutY="42.0" mnemonicParsing="false" text="Statistics" />
+      <Button fx:id="expense_tag"  onAction="#addExpenseTag" layoutX="534.0" layoutY="42.0" mnemonicParsing="false" text="Add Expense Tag" />
    </children>
 </AnchorPane>

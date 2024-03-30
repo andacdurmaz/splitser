@@ -3,6 +3,7 @@ package server.api;
 import commons.Event;
 import commons.Expense;
 
+import commons.ExpenseTag;
 import commons.User;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
@@ -294,6 +295,11 @@ public class EventRepositoryTest implements EventRepository{
 
     @Override
     public List<User> getParticipantsById(long id) {
+        return null;
+    }
+
+    @Override
+    public List<ExpenseTag> getExpenseTagsById(long id) {
         return null;
     }
 }
