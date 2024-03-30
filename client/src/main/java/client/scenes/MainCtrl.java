@@ -24,13 +24,13 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+
 import commons.Event;
 import commons.Expense;
 import commons.User;
@@ -38,6 +38,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.util.Pair;
+
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -79,23 +80,22 @@ public class MainCtrl {
     private Locale locale = new Locale("en");
 
 
-
     /**
      * Initialize mainCtrl
      *
-     * @param startPage                      start page
-     * @param primaryStage                   stage
+     * @param startPage                         start page
+     * @param primaryStage                      stage
      * @param addOrEditExpenseCtrlParentPair
-     * @param add                            add
-     * @param eventInfo                      eventInfo
-     * @param addOrEditParticipantCtrParentPair  addOrEditParticipantCtrlParentPair
+     * @param add                               add
+     * @param eventInfo                         eventInfo
+     * @param addOrEditParticipantCtrParentPair addOrEditParticipantCtrlParentPair
      */
     public void initialize(Stage primaryStage,
                            Pair<StartPageCtrl, Parent> startPage,
                            Pair<AddOrEditExpenseCtrl, Parent> addOrEditExpenseCtrlParentPair,
                            Pair<AddEventCtrl, Parent> add,
                            Pair<EventInfoCtrl, Parent> eventInfo,
-                           Pair<AddOrEditParticipantCtrl,Parent>
+                           Pair<AddOrEditParticipantCtrl, Parent>
                                    addOrEditParticipantCtrParentPair) {
         this.primaryStage = primaryStage;
 
@@ -121,20 +121,19 @@ public class MainCtrl {
     }
 
 
-
-
     /**
      * Method which checks the language in config file
      */
-    public void getConfigLocale(){
+    public void getConfigLocale() {
         setLocale("en");
     }
 
     /**
      * Method which sets the language
+     *
      * @param language the language
      */
-    public void setLocale(String language){
+    public void setLocale(String language) {
         this.locale = new Locale(language);
         this.bundle = ResourceBundle.getBundle("locales.resource", locale);
 
@@ -142,12 +141,14 @@ public class MainCtrl {
 
     /**
      * initializes the eventOverview page
+     *
      * @param overview the control page of the EventOverview
      */
     public void overviewInitialize(Pair<EventOverviewCtrl, Parent> overview) {
         this.eventOverviewCtrl = overview.getKey();
         this.overview = new Scene(overview.getValue());
     }
+
     /**
      * Initialize mainCtrl
      *
@@ -167,18 +168,21 @@ public class MainCtrl {
 
     /**
      * Getter for language
+     *
      * @return returns the locale
      */
     public Locale getLocale() {
         return locale;
 
     }
+
     /**
      * Initialize invitations
+     *
      * @param invitationOverview
      */
     public void invitationsInitialize(
-            Pair<InvitationCtrl, Parent> invitationOverview){
+            Pair<InvitationCtrl, Parent> invitationOverview) {
         this.invitationCtrl = invitationOverview.getKey();
         this.invitationOverview = new Scene(invitationOverview.getValue());
 
@@ -230,15 +234,15 @@ public class MainCtrl {
     }
 
 
-
     /**
      * Shows add or edit expense page
      *
-     * @param expense
+     * @param event   event of the expense
+     * @param expense expense to add or edit
      */
-    public void showAddOrEditExpense(Expense expense) {
+    public void showAddOrEditExpense(Event event, Expense expense) {
         primaryStage.setTitle("Add/Edit expense");
-        addOrEditExpenseCtrl.setExpense(expense);
+        addOrEditExpenseCtrl.setup(event, expense);
         primaryStage.setScene(addOrEditExpense);
         addOrEditExpense.setOnKeyPressed(e -> addOrEditExpenseCtrl.keyPressed(e));
     }
@@ -246,7 +250,8 @@ public class MainCtrl {
 
     /**
      * shows participants
-     * @param user that will be added/edited
+     *
+     * @param user  that will be added/edited
      * @param event where the change will happen
      */
     public void showAddOrEditParticipants(User user, Event event) {
@@ -271,6 +276,7 @@ public class MainCtrl {
 
     /**
      * Shows SendInvitations
+     *
      * @param event
      */
     public void showSendInvitations(Event event) {
@@ -293,7 +299,7 @@ public class MainCtrl {
      * Shows AdminOverview
      */
     public void showAdminOverview() {
-        var adminOverview = Main.FXML.load(AdminOverviewCtrl.class,bundle, "client",
+        var adminOverview = Main.FXML.load(AdminOverviewCtrl.class, bundle, "client",
                 "scenes", "AdminOverview.fxml");
         AdminOverviewCtrl adminOverviewCtrl = adminOverview.getKey();
         Scene adminOverviewScene = new Scene(adminOverview.getValue());
@@ -304,10 +310,11 @@ public class MainCtrl {
 
     /**
      * Shows AdminEventInfo
+     *
      * @param event event which need to be displayed
      */
     public void showAdminEventInfo(Event event) {
-        var adminEventInfo = Main.FXML.load(AdminEventInfoCtrl.class,bundle, "client",
+        var adminEventInfo = Main.FXML.load(AdminEventInfoCtrl.class, bundle, "client",
                 "scenes", "AdminEventInfo.fxml");
         AdminEventInfoCtrl adminEventInfoCtrl = adminEventInfo.getKey();
         Scene adminOverviewScene = new Scene(adminEventInfo.getValue());
@@ -335,8 +342,9 @@ public class MainCtrl {
 
     /**
      * gets the events that the user has joined from the CONFIG file
-     * @return list of events
+     *
      * @param path path to the file
+     * @return list of events
      * @throws FileNotFoundException if the file is not found
      */
     public List<Long> getJoinedEventsIDProvidingPath(String path) throws IOException {
@@ -358,6 +366,7 @@ public class MainCtrl {
 
     /**
      * gets the events that the user has joined from the CONFIG file
+     *
      * @return list of events
      * @throws IOException if the file is not found
      */
@@ -368,9 +377,10 @@ public class MainCtrl {
 
     /**
      * interacts with the server to get the events that the user has joined
-     * @param path  path to the file
-     * @return  list of events
-     * @throws IOException  if the file is not found
+     *
+     * @param path path to the file
+     * @return list of events
+     * @throws IOException if the file is not found
      */
     public List<Event> getJoinedEventsProvidingPath(String path) throws IOException {
         List<Long> eventIds = getJoinedEventsIDProvidingPath(path);
@@ -429,6 +439,7 @@ public class MainCtrl {
 
     /**
      * reads the config file
+     *
      * @param filePath path to the file
      * @return the string representation of the file
      * @throws IOException if the file is not found
@@ -532,10 +543,11 @@ public class MainCtrl {
     }
     /**
      * shows the languageSwitch pages
+     *
      * @param c a char from previous page
      */
     public void showLanguageSwitch(char c) {
-        var languageSwitch = Main.FXML.load(LanguageSwitchCtrl.class,bundle, "client",
+        var languageSwitch = Main.FXML.load(LanguageSwitchCtrl.class, bundle, "client",
                 "scenes", "LanguageSwitch.fxml");
         LanguageSwitchCtrl languageSwitchCtrl = languageSwitch.getKey();
         Scene languageSwitchScene = new Scene(languageSwitch.getValue());
