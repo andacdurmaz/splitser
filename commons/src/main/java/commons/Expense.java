@@ -23,7 +23,8 @@ public class Expense {
     @ManyToMany()
     private List<User> payingParticipants;
 
-    @ManyToOne()
+    @ManyToOne(targetEntity = Event.class)
+    @JoinColumn(name = "event", referencedColumnName = "id")
     private Event event;
 
     @ManyToOne()
@@ -165,6 +166,14 @@ public class Expense {
      */
     public void setPayer(User payer) {
         this.payer = payer;
+    }
+
+    /**
+     * setter method for the date the expense was made
+     * @param expenseDate the new date
+     */
+    public void setExpenseDate(LocalDate expenseDate) {
+        this.expenseDate = expenseDate;
     }
 
     /**

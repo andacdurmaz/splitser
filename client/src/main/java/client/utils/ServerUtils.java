@@ -194,7 +194,7 @@ public class ServerUtils extends Util {
      */
     public Expense addExpense(Expense expense) {
         Response response = ClientBuilder.newClient(new ClientConfig())
-                .target(serverAddress).path("api/expenses/addOrEdit")
+                .target(serverAddress).path("api/expenses/add")
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .post(Entity.entity(expense, APPLICATION_JSON));
