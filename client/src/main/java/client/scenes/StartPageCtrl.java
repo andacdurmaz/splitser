@@ -47,40 +47,43 @@ public class StartPageCtrl {
      * Sets the image of the liveLanguage button
      */
     public void imageset(){
-        if (mainCtrl.getLocale().getLanguage().equals("en")){
-            Image newImage = new Image(getClass()
-                    .getResourceAsStream("/client/images/englishIcon.png"));
-            flagDisplay.setImage(newImage);
-        }
-        else if (mainCtrl.getLocale().getLanguage().equals("nl")){
-            Image newImage = new Image(getClass()
-                    .getResourceAsStream("/client/images/dutchIcon.png"));
-            flagDisplay.setImage(newImage);
-        }
-        else if (mainCtrl.getLocale().getLanguage().equals("tr")){
-            Image newImage = new Image(getClass()
-                    .getResourceAsStream("/client/images/turkishIcon.png"));
-            flagDisplay.setImage(newImage);
-        }
-        else if (mainCtrl.getLocale().getLanguage().equals("de")){
-            Image germanFlag = new Image(getClass()
-                    .getResourceAsStream("/client/images/germanyIcon.png"));
-            flagDisplay.setImage(germanFlag);
-        }
-        else if (mainCtrl.getLocale().getLanguage().equals("fr")){
-            Image frenchFlag = new Image(getClass()
-                    .getResourceAsStream("/client/images/franceIcon.png"));
-            flagDisplay.setImage(frenchFlag);
-        }
-        else if (mainCtrl.getLocale().getLanguage().equals("zh")){
-            Image chineseFlag = new Image(getClass()
-                    .getResourceAsStream("/client/images/chinaIcon.png"));
-            flagDisplay.setImage(chineseFlag);
-        }
-        else if (mainCtrl.getLocale().getLanguage().equals("es")){
-            Image spanishFlag = new Image(getClass()
-                    .getResourceAsStream("/client/images/spainIcon.png"));
-            flagDisplay.setImage(spanishFlag);
+        Image newImage;
+        switch(mainCtrl.getLocale().getLanguage()){
+            case("en"):
+                newImage = new Image(getClass()
+                        .getResourceAsStream("/client/images/englishIcon.png"));
+                flagDisplay.setImage(newImage);
+                break;
+            case("nl"):
+                newImage = new Image(getClass()
+                        .getResourceAsStream("/client/images/dutchIcon.png"));
+                flagDisplay.setImage(newImage);
+                break;
+            case("tr"):
+                newImage = new Image(getClass()
+                        .getResourceAsStream("/client/images/turkishIcon.png"));
+                flagDisplay.setImage(newImage);
+                break;
+            case("de"):
+                newImage = new Image(getClass()
+                        .getResourceAsStream("/client/images/germanyIcon.png"));
+                flagDisplay.setImage(newImage);
+                break;
+            case("fr"):
+                newImage = new Image(getClass()
+                        .getResourceAsStream("/client/images/franceIcon.png"));
+                flagDisplay.setImage(newImage);
+                break;
+            case("zh"):
+                newImage = new Image(getClass()
+                        .getResourceAsStream("/client/images/chinaIcon.png"));
+                flagDisplay.setImage(newImage);
+                break;
+            case("es"):
+                newImage = new Image(getClass()
+                        .getResourceAsStream("/client/images/spainIcon.png"));
+                flagDisplay.setImage(newImage);
+                break;
         }
     }
 
