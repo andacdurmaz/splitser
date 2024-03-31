@@ -60,19 +60,22 @@ public class Main extends Application {
 
         var invitationsOverview = FXML.load(InvitationCtrl.class, "client",
                 "scenes", "Invitation.fxml");
-        var adminOverview = FXML.load(AdminOverviewCtrl.class, "client",
-                "scenes", "AdminOverview.fxml");
+//        var adminOverview = FXML.load(AdminOverviewCtrl.class, "client",
+//                "scenes", "AdminOverview.fxml");
         var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
-        var adminEventInfo = FXML.load(AdminEventInfoCtrl.class, "client",
-                "scenes", "AdminEventInfo.fxml");
+//        var adminEventInfo = FXML.load(AdminEventInfoCtrl.class, "client",
+//                "scenes", "AdminEventInfo.fxml");
         var eventOverview = FXML.load(EventOverviewCtrl.class, "client",
                 "scenes", "EventOverview.fxml");
 
-
+        var addExpenseTags = FXML.load(AddExpenseTagCtrl.class, "client",
+                "scenes", "AddExpenseTag.fxml");
         mainCtrl.initialize(primaryStage, startPage, addOrEditExpense,
                 add, eventInfo, addOrEditParticipant);
         mainCtrl.overviewInitialize(eventOverview);
         mainCtrl.invitationsInitialize(invitationsOverview);
-        mainCtrl.adminInitialize(adminOverview, adminEventInfo);
+        mainCtrl.expenseTagsInitialize(addExpenseTags);
+//        mainCtrl.adminInitialize(adminOverview, adminEventInfo);
+
     }
 }

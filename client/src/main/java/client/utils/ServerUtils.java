@@ -146,6 +146,19 @@ public class ServerUtils extends Util {
     }
 
     /**
+     * Get event by id
+     * @param id of the event
+     * @return the event from the id
+     */
+    public Event getEventById(long id) {
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(serverAddress)
+                .path("api/events/" + id)
+                .request(APPLICATION_JSON).accept(APPLICATION_JSON)
+                .get(new GenericType<Event>() {
+                });
+    }
+    /**
      * Adds event
      *
      * @param event event to add
@@ -158,7 +171,8 @@ public class ServerUtils extends Util {
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
                 .post(Entity.entity(event, APPLICATION_JSON));
-        Event event1 = response.readEntity(new GenericType<>(){});
+        Event event1 = response.readEntity(new GenericType<>() {
+        });
         return event1;
     }
 
@@ -178,13 +192,17 @@ public class ServerUtils extends Util {
     /**
      * Adds expense
      * @param expense to add
+     * @return add expense
      */
-    public void addExpense(Expense expense) {
-        ClientBuilder.newClient(new ClientConfig())
+    public Expense addExpense(Expense expense) {
+        Response response = ClientBuilder.newClient(new ClientConfig())
                 .target(serverAddress).path("api/expenses/addOrEdit")
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
-                .post(Entity.entity(expense, APPLICATION_JSON), Expense.class);
+                .post(Entity.entity(expense, APPLICATION_JSON));
+        Expense newExpense = response.readEntity(new GenericType<>() {
+        });
+        return newExpense;
     }
 
     /**
@@ -201,6 +219,24 @@ public class ServerUtils extends Util {
                 .put(Entity.entity(expense, APPLICATION_JSON), Expense.class);
     }
 
+
+    /**
+     * adds expense tag
+     * @param expenseTag
+     * @return adds an expense tag
+     */
+    public ExpenseTag addExpenseTag(ExpenseTag expenseTag) {
+        Response response = ClientBuilder.newClient(new ClientConfig())
+                .target(serverAddress).path("api/tags/add")
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .post(Entity.entity(expenseTag, APPLICATION_JSON));
+        ExpenseTag newExpenseTag = response.readEntity(new GenericType<>() {
+        });
+        return newExpenseTag;
+
+    }
+
     /**
      * user to add
      * @param user
@@ -213,7 +249,8 @@ public class ServerUtils extends Util {
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .post(Entity.entity(user, APPLICATION_JSON));
-        User newUser = response.readEntity(new GenericType<>(){});
+        User newUser = response.readEntity(new GenericType<>() {
+        });
         return newUser;
 
     }
@@ -226,6 +263,20 @@ public class ServerUtils extends Util {
         ClientBuilder.newClient(new ClientConfig())
                 .target(serverAddress)
                 .path("api/users/update/" + user.getUserID())
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .put(Entity.entity(user, APPLICATION_JSON), User.class);
+    }
+
+
+    /**
+     * deletes a user from the database
+     * @param user the deleted user
+     */
+    public void deleteUser(User user) {
+        ClientBuilder.newClient(new ClientConfig())
+                .target(serverAddress)
+                .path("api/users/delete/" + user.getUserID())
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .put(Entity.entity(user, APPLICATION_JSON), User.class);
