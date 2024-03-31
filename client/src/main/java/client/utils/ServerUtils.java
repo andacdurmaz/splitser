@@ -25,6 +25,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
 import commons.*;
@@ -339,10 +341,62 @@ public class ServerUtils extends Util {
         Response ans = clientBuilder
                 .target(serverAddress)
                 .request(String.valueOf(Boolean.class))
-                .header("name", "val")
                 .get(Response.class);
         return (String) ans.getEntity();
     }
 
+
+    private static final ExecutorService DELEXPENSE = Executors.newSingleThreadExecutor();
+
+    /**
+     * Creates the long polling connection that registers
+     * and notifies when expenses are deleted
+     * @param consumer buffer that keeps created expenses
+     */
+    public void regDeleteExpenses(Consumer<Expense> consumer) {
+        DELEXPENSE.submit(() -> {
+            while(!Thread.interrupted()) {
+                var result = ClientBuilder
+                        .newClient(new ClientConfig())
+                        .target(serverAddress).path("api/card/delete/updates")
+                        .request(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON)
+                        .get(Response.class);
+
+                if (result.getStatus() == 204) {
+                    continue;
+                }
+                var expense = result.readEntity(Expense.class);
+                consumer.accept(expense);
+            }
+        });
+    }
+
+
+    private static final ExecutorService ADDEXPENSE = Executors.newSingleThreadExecutor();
+
+    /**
+     * Creates the long polling connection that registers
+     * and notifies when new expenses are created
+     * @param consumer buffer that keeps created expenses
+     */
+    public void regAddExpenses(Consumer<Expense> consumer) {
+        ADDEXPENSE.submit(() -> {
+            while(!Thread.interrupted()) {
+                var result = ClientBuilder
+                        .newClient(new ClientConfig())
+                        .target(serverAddress).path("api/card/delete/updates")
+                        .request(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON)
+                        .get(Response.class);
+
+                if(result.getStatus() == 204) {
+                    continue;
+                }
+                var expense = result.readEntity(Expense.class);
+                consumer.accept(expense);
+            }
+        });
+    }
 
 }
