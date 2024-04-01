@@ -6,10 +6,13 @@ import commons.exceptions.BICFormatException;
 import commons.exceptions.EmailFormatException;
 import commons.exceptions.IBANFormatException;
 import jakarta.ws.rs.WebApplicationException;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 
 import javax.inject.Inject;
@@ -36,7 +39,8 @@ public class AddOrEditParticipantCtrl {
     @FXML
     private TextField bic;
 
-
+    @FXML
+    private AnchorPane wrongEmail;
     @FXML
     private Button ok;
 
@@ -110,30 +114,30 @@ public class AddOrEditParticipantCtrl {
      * updates a selected participant
      */
     private void selectedParticipant() {
+        List<User> participants = new ArrayList<>(event.getParticipants());
+        participants.remove(user);
         try {
-            List<User> participants = new ArrayList<>(event.getParticipants());
-            participants.remove(user);
             user.setUsername(name.getText());
             user.setEmail(email.getText());
             user.setIban(iban.getText());
             user.setBic(bic.getText());
-            server.updateUser(user);
-            participants.add(user);
-            event.setParticipants(participants);
-            server.updateEvent(event);
         } catch (WebApplicationException e) {
             var alert = new Alert(Alert.AlertType.ERROR);
             alert.initModality(Modality.APPLICATION_MODAL);
             alert.setContentText(e.getMessage());
             alert.showAndWait();
             return;
-        } catch (EmailFormatException e) {
-            throw new RuntimeException(e);
+        } catch (EmailFormatException | BICFormatException e) {
+            errorMessage();
+            return;
         } catch (IBANFormatException e) {
-            throw new RuntimeException(e);
-        } catch (BICFormatException e) {
-            throw new RuntimeException(e);
+            errorMessage();
+            return;
         }
+        server.updateUser(user);
+        participants.add(user);
+        event.setParticipants(participants);
+        server.updateEvent(event);
         mainCtrl.showEventInfo(event);
     }
 
@@ -143,6 +147,8 @@ public class AddOrEditParticipantCtrl {
     private void noSelectedParticipant() throws EmailFormatException,
             IBANFormatException, BICFormatException {
         user = getUser();
+        if (user == null)
+            return;
         try {
             User temp = server.addUser(getUser());
             user.setUserID(temp.getUserID());
@@ -152,7 +158,14 @@ public class AddOrEditParticipantCtrl {
             alert.setContentText(e.getMessage());
             alert.showAndWait();
             return;
+        }catch (EmailFormatException e) {
+            errorMessage();
+        } catch (IBANFormatException e) {
+            errorMessage();
+        } catch (BICFormatException e) {
+            errorMessage();
         }
+
         List<User> participants = new ArrayList<>(event.getParticipants());
         if (!participants.contains(user))
             participants.add(user);
@@ -169,17 +182,44 @@ public class AddOrEditParticipantCtrl {
     private User getUser() throws EmailFormatException,
             IBANFormatException, BICFormatException {
         User u = new User();
-        u.setUsername(name.getText());
-        u.setEmail(email.getText());
-        u.setIban(iban.getText());
-        u.setBic(bic.getText());
-        return u;
+        try {
+            u.setUsername(name.getText());
+            u.setEmail(email.getText());
+            u.setIban(iban.getText());
+            u.setBic(bic.getText());
+            return u;
+        }
+        catch (WebApplicationException e) {
+            var alert = new Alert(Alert.AlertType.ERROR);
+            alert.initModality(Modality.APPLICATION_MODAL);
+            alert.setContentText(e.getMessage());
+            alert.showAndWait();
+            return null;
+        }catch (EmailFormatException e) {
+            errorMessage();
+        } catch (IBANFormatException e) {
+            errorMessage();
+        } catch (BICFormatException e) {
+            errorMessage();
+        }
+        return null;
+    }
+
+    /**
+     * displays error message if the e-mail, IBAN, or BIC is in wrong format
+     */
+    private void errorMessage() {
+        ((Label) wrongEmail.getChildren().get(0))
+                .setText("Invalid e-mail, IBAN or BIC.\nPlease try again.");
+        wrongEmail.toFront();
+        wrongEmail.setVisible(true);
     }
 
     /**
      * Clears fields
      */
     private void clearFields() {
+        wrongEmail.setVisible(false);
         name.setText("");
         email.setText("");
         iban.setText("");
@@ -202,5 +242,12 @@ public class AddOrEditParticipantCtrl {
         }
     }
 
+    /**
+     * closes the pop-up
+     * @param actionEvent
+     */
+    public void goBack(ActionEvent actionEvent) {
+        wrongEmail.setVisible(false);
+    }
 }
 
