@@ -17,6 +17,7 @@ import javafx.stage.Modality;
 import javax.inject.Inject;
 
 import javafx.scene.input.KeyEvent;
+import javafx.util.StringConverter;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -67,6 +68,23 @@ public class AddOrEditExpenseCtrl implements Initializable {
         this.event = event;
     }
 
+    /**
+     * during each page load, makes sure
+     * the participant combobox display only usernames
+     */
+    public void initialize() {
+        payer.setConverter(new StringConverter<User>() {
+            @Override
+            public String toString(User user) {
+                return user.getUsername();
+            }
+
+            @Override
+            public User fromString(String string) {
+                return null;
+            }
+        });
+    }
     /**
      * Checkbox method for allParticipants
      * if-clause is there to check only when the checkbox is
@@ -126,7 +144,7 @@ public class AddOrEditExpenseCtrl implements Initializable {
                 alert.showAndWait();
                 return;
             }
-            List<Expense> expenses = event.getExpenses();
+            List<Expense> expenses = new ArrayList<>(event.getExpenses());
             if (!expenses.contains(expense)) {
                 expenses.add(expense);
             }
@@ -142,7 +160,7 @@ public class AddOrEditExpenseCtrl implements Initializable {
 
     private void selectedExpense() {
         try {
-            List<Expense> expenses = event.getExpenses();
+            List<Expense> expenses = new ArrayList<>(event.getExpenses());
             expenses.remove(expense);
             expense.setExpenseTag(expenseTag.getValue());
             expense.setAmount(Double.parseDouble(howMuch.getText()));
@@ -158,7 +176,6 @@ public class AddOrEditExpenseCtrl implements Initializable {
             alert.initModality(Modality.APPLICATION_MODAL);
             alert.setContentText(e.getMessage());
             alert.showAndWait();
-            return;
         }
     }
 
@@ -172,9 +189,11 @@ public class AddOrEditExpenseCtrl implements Initializable {
         p.setPayer(payer.getValue());
         p.setName(whatFor.getText());
         p.setAmount(Double.parseDouble(howMuch.getText()));
-        p.setExpenseTag(expense.getExpenseTag());
+        p.setExpenseTag(expenseTag.getValue());
+        p.setExpenseDate(when.getValue());
         List<User> payingParticipants = new ArrayList<>();
         payingParticipants.addAll(selectedParticipants());
+        p.setPayingParticipants(payingParticipants);
         return p;
     }
 
@@ -187,7 +206,22 @@ public class AddOrEditExpenseCtrl implements Initializable {
      * @return paying participants
      */
     private List<User> selectedParticipants() {
-        return event.getParticipants();
+        if (allParticipants.isSelected()) {
+            return event.getParticipants();
+        }
+        else {
+            List <User> selected = new ArrayList<>();
+            for(Node n : someParticipantsSelector.getChildren()) {
+                if(((CheckBox) n).isSelected()) {
+                    String text = ((CheckBox) n).getText();
+                    int index = text.indexOf("(id: ");
+                    long id = Long.parseLong(text.substring(index +5, text.length() -1));
+                    selected.add(server.getUserById(id));
+                }
+            }
+            return selected;
+
+        }
     }
 
     /**
@@ -234,11 +268,12 @@ public class AddOrEditExpenseCtrl implements Initializable {
     public void setup(Event event, Expense expense) {
         this.event = event;
         this.expense = expense;
+        expenseTag.getItems().setAll(event.getExpenseTags());
         someParticipantsSelector.setVisible(false);
         someParticipantsSelector.getChildren().clear();
         for (User u : event.getParticipants()) {
             someParticipantsSelector.getChildren()
-                    .add(new CheckBox(u.getUsername()));
+                    .add(new CheckBox(u.getUsername() + "(id: " + u.getUserID() + ")"));
         }
         howMuch.setText("");
         whatFor.setText("");

@@ -20,8 +20,8 @@ public class Event {
     private long eventCode;
     private String title;
     private int amountOfParticipants;
-    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
-    private List<Expense> expenses;
+    @OneToMany(targetEntity = Expense.class)
+    private List<Expense> expenses = new ArrayList<>();
     private String description;
 
     @ManyToMany(targetEntity = User.class)
