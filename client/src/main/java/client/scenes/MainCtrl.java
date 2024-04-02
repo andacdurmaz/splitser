@@ -177,6 +177,14 @@ public class MainCtrl {
     }
 
     /**
+     * Getter for bundle
+     * @return returns the bundle
+     */
+    public ResourceBundle getBundle() {
+        return bundle;
+    }
+
+    /**
      * Initialize invitations
      *
      * @param invitationOverview

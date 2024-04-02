@@ -10,7 +10,7 @@
 
 <AnchorPane prefHeight="178.0" prefWidth="404.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.LanguageSwitchCtrl">
     <children>
-        <Button layoutX="67.0" layoutY="75.0" onAction="#setEnglish" prefHeight="60.0" prefWidth="70.0" text="English">
+        <Button layoutX="67.0" layoutY="75.0" onAction="#setEnglish" prefHeight="60.0" prefWidth="70.0" text="%english">
             <contentDisplay>
                 <ContentDisplay fx:value="BOTTOM" />
             </contentDisplay>
@@ -20,7 +20,7 @@
                 </ImageView>
             </graphic>
         </Button>
-        <Button layoutX="172.0" layoutY="75.0" onAction="#setDutch" prefHeight="60.0" prefWidth="70.0" text="Dutch">
+        <Button layoutX="172.0" layoutY="75.0" onAction="#setDutch" prefHeight="60.0" prefWidth="70.0" text="%dutch">
             <contentDisplay>
                 <ContentDisplay fx:value="BOTTOM" />
             </contentDisplay>
@@ -46,5 +46,6 @@
          </font>
       </Label>
       <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#backButton" text="Back" />
+        <Button fx:id="downloadThemplate" layoutX="140.0" layoutY="148.0" mnemonicParsing="false" onAction="#downloadThemplate" prefHeight="25.0" prefWidth="134.0" text="Download themplate" textAlignment="CENTER" wrapText="true" />
     </children>
 </AnchorPane>
