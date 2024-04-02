@@ -1,6 +1,7 @@
 package server.api;
 
 import commons.Event;
+import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,8 +35,8 @@ public class ServController {
      * @return all events
      */
     @GetMapping(path = {"", "/"})
-    public List<Event> getAllEvents() {
-        return sserv.findAll();
+    public ResponseEntity<List<Event>> getAllEvents() {
+        return ResponseEntity.ok(sserv.findAll());
     }
 
     /**
@@ -45,7 +46,7 @@ public class ServController {
      * @return event with the specified id
      */
     @GetMapping("/{id}")
-    public ResponseEntity<?> getById(@PathVariable("id") long id) {
+    public ResponseEntity<Event> getById(@PathVariable("id") long id) {
         if (id < 0 || !sserv.existsById(id)) {
             return ResponseEntity.badRequest().build();
         }
@@ -66,18 +67,34 @@ public class ServController {
 
     /**
      * Login method
-     *
-     * @param email    email to login with
      * @param password password to login with
      * @return body
      */
-    @PostMapping("/login")
-    public ResponseEntity<?> login
-    (@RequestBody String email, @RequestBody String password) {
-        if (sserv.login(email, password))
-            return ResponseEntity.ok("Login successful!");
-        return ResponseEntity.badRequest().body(401);
+    @GetMapping("/login")
+    public ResponseEntity<Boolean> login
+    (@PathParam("password") String password) {
+        try{
+            Boolean b  = false;
+            if (sserv.login(Long.valueOf(password))) {
+                b = true;
+                return ResponseEntity.ok(b);
+            }
+        }catch (NumberFormatException e){
+            return ResponseEntity.status(400).build();
+        }
+        return ResponseEntity.status(401).build();
     }
+
+    /**
+     * method to get the randomly generated
+     * password of the server
+     * @return returns the password of the server
+     */
+    @GetMapping( "/pass")
+    public ResponseEntity<Long> getPass() {
+        return ResponseEntity.ok(sserv.getPass());
+    }
+
 
     /**
      * Shortcut method

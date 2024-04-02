@@ -16,7 +16,6 @@
 package client;
 
 import static com.google.inject.Guice.createInjector;
-
 import java.io.IOException;
 import java.net.URISyntaxException;
 
@@ -32,7 +31,6 @@ public class Main extends Application {
 
     /**
      * Main method
-     *
      * @param args arguments
      * @throws URISyntaxException exception
      * @throws IOException        exception
@@ -43,11 +41,10 @@ public class Main extends Application {
 
     /**
      * Starts application
-     *
      * @param primaryStage the primary stage for this application, onto which
-     *                     the application scene can be set.
-     *                     Applications may create other stages, if needed, but they will not be
-     *                     primary stages.
+     * the application scene can be set.
+     * Applications may create other stages, if needed, but they will not be
+     * primary stages.
      * @throws IOException exception
      */
     @Override
@@ -71,11 +68,13 @@ public class Main extends Application {
         var eventOverview = FXML.load(EventOverviewCtrl.class, "client",
                 "scenes", "EventOverview.fxml");
 
-
+        var addExpenseTags = FXML.load(AddExpenseTagCtrl.class, "client",
+                "scenes", "AddExpenseTag.fxml");
         mainCtrl.initialize(primaryStage, startPage, addOrEditExpense,
                 add, eventInfo, addOrEditParticipant);
         mainCtrl.overviewInitialize(eventOverview);
         mainCtrl.invitationsInitialize(invitationsOverview);
+        mainCtrl.expenseTagsInitialize(addExpenseTags);
 //        mainCtrl.adminInitialize(adminOverview, adminEventInfo);
 
     }

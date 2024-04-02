@@ -25,6 +25,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
 import commons.*;
@@ -46,15 +48,28 @@ import org.springframework.web.socket.messaging.WebSocketStompClient;
 
 public class ServerUtils extends Util {
 
-    private static final String SERVER = "http://localhost:8080/";
+
+    /**
+     * @return the current server address
+     */
+    public static String getServer() {
+        return serverAddress;
+    }
+
+    /**
+     * @param server setter for the server address parameter
+     */
+    public static void setServer(String server) {
+        ServerUtils.serverAddress = server;
+    }
+
     private static StompSession session;
 
     /**
      * Sets session
      */
     public void setSession() {
-        //session = connect("ws://localhost:8080/websocket");
-        session = connect("ws://" + address + "/websocket");
+        session = connect("ws://localhost:8080/websocket");
     }
 
     /**
@@ -64,7 +79,7 @@ public class ServerUtils extends Util {
      * @throws URISyntaxException exception
      */
     public void getQuotesTheHardWay() throws IOException, URISyntaxException {
-        var url = new URI("http://localhost:8080/api/quotes").toURL();
+        var url = new URI(serverAddress + "api/quotes").toURL();
         var is = url.openConnection().getInputStream();
         var br = new BufferedReader(new InputStreamReader(is));
         String line;
@@ -80,7 +95,7 @@ public class ServerUtils extends Util {
      */
     public List<Quote> getQuotes() {
         return ClientBuilder.newClient(new ClientConfig()) //
-                .target(SERVER).path("api/quotes") //
+                .target(serverAddress).path("api/quotes") //
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
                 .get(new GenericType<List<Quote>>() {
@@ -95,7 +110,7 @@ public class ServerUtils extends Util {
      */
     public Quote addQuote(Quote quote) {
         return ClientBuilder.newClient(new ClientConfig()) //
-                .target(SERVER).path("api/quotes") //
+                .target(serverAddress).path("api/quotes") //
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
                 .post(Entity.entity(quote, APPLICATION_JSON), Quote.class);
@@ -124,8 +139,7 @@ public class ServerUtils extends Util {
      */
     public List<Event> getEvents() {
         return ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER)
-                .path("api/events/all")
+                .target(serverAddress).path("api/events/all")
                 .request(APPLICATION_JSON).accept(APPLICATION_JSON)
                 .get(new GenericType<List<Event>>() {
                 });
@@ -138,7 +152,7 @@ public class ServerUtils extends Util {
      */
     public Event getEventById(long id) {
         return ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER)
+                .target(serverAddress)
                 .path("api/events/" + id)
                 .request(APPLICATION_JSON).accept(APPLICATION_JSON)
                 .get(new GenericType<Event>() {
@@ -150,13 +164,15 @@ public class ServerUtils extends Util {
      * @param event event to add
      * @return the added event
      */
+
     public Event addEvent(Event event) {
         Response response = ClientBuilder.newClient(new ClientConfig()) //
-                .target(SERVER).path("api/events/add") //
+                .target(serverAddress).path("api/events/add") //
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
                 .post(Entity.entity(event, APPLICATION_JSON));
-        Event event1 = response.readEntity(new GenericType<>(){});
+        Event event1 = response.readEntity(new GenericType<>() {
+        });
         return event1;
     }
 
@@ -167,7 +183,7 @@ public class ServerUtils extends Util {
      */
     public void deleteEvent(Event event) {
         ClientBuilder.newClient(new ClientConfig()) //
-                .target(SERVER).path("api/events/delete/" + event.getId()) //
+                .target(serverAddress).path("api/events/delete/" + event.getId()) //
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
                 .delete();
@@ -176,13 +192,17 @@ public class ServerUtils extends Util {
     /**
      * Adds expense
      * @param expense to add
+     * @return add expense
      */
-    public void addExpense(Expense expense) {
-        ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER).path("api/expenses/addOrEdit")
+    public Expense addExpense(Expense expense) {
+        Response response = ClientBuilder.newClient(new ClientConfig())
+                .target(serverAddress).path("api/expenses/add")
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
-                .post(Entity.entity(expense, APPLICATION_JSON), Expense.class);
+                .post(Entity.entity(expense, APPLICATION_JSON));
+        Expense newExpense = response.readEntity(new GenericType<>() {
+        });
+        return newExpense;
     }
 
     /**
@@ -192,11 +212,29 @@ public class ServerUtils extends Util {
      */
     public void updateExpense(Expense expense) {
         ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER)
+                .target(serverAddress)
                 .path("api/expenses/update/" + expense.getId())
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .put(Entity.entity(expense, APPLICATION_JSON), Expense.class);
+    }
+
+
+    /**
+     * adds expense tag
+     * @param expenseTag
+     * @return adds an expense tag
+     */
+    public ExpenseTag addExpenseTag(ExpenseTag expenseTag) {
+        Response response = ClientBuilder.newClient(new ClientConfig())
+                .target(serverAddress).path("api/tags/add")
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .post(Entity.entity(expenseTag, APPLICATION_JSON));
+        ExpenseTag newExpenseTag = response.readEntity(new GenericType<>() {
+        });
+        return newExpenseTag;
+
     }
 
     /**
@@ -204,13 +242,15 @@ public class ServerUtils extends Util {
      * @param user
      * @return the added User
      */
+
     public User addUser(User user) {
         Response response = ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER).path("api/users/add")
+                .target(serverAddress).path("api/users/add")
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .post(Entity.entity(user, APPLICATION_JSON));
-        User newUser = response.readEntity(new GenericType<>(){});
+        User newUser = response.readEntity(new GenericType<>() {
+        });
         return newUser;
 
     }
@@ -221,13 +261,41 @@ public class ServerUtils extends Util {
      */
     public void updateUser(User user) {
         ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER)
+                .target(serverAddress)
                 .path("api/users/update/" + user.getUserID())
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .put(Entity.entity(user, APPLICATION_JSON), User.class);
     }
 
+
+    /**
+     * deletes a user from the database
+     * @param user the deleted user
+     */
+    public void deleteUser(User user) {
+        ClientBuilder.newClient(new ClientConfig())
+                .target(serverAddress)
+                .path("api/users/delete/" + user.getUserID())
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .put(Entity.entity(user, APPLICATION_JSON), User.class);
+    }
+
+
+    /**
+     * Get event by id
+     * @param id of the event
+     * @return the event from the id
+     */
+    public User getUserById(long id) {
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(serverAddress)
+                .path("api/users/" + id)
+                .request(APPLICATION_JSON).accept(APPLICATION_JSON)
+                .get(new GenericType<User>() {
+                });
+    }
     /**
      * updates given event
      *
@@ -235,7 +303,7 @@ public class ServerUtils extends Util {
      */
     public void updateEvent(Event event) {
         ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER)
+                .target(serverAddress)
                 .path("api/events/update/" + event.getId())
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
@@ -311,4 +379,89 @@ public class ServerUtils extends Util {
         session.send(destinationAddress, o);
         return destinationAddress + o;
     }
+
+    /**
+     * @param password the password that was submitted
+     * @return the boolean of the success of the login attempt
+     */
+    public int checkCredentials(String password) {
+
+        Response ans = ClientBuilder
+                .newClient(new ClientConfig())
+                .target(serverAddress)
+                .path("/api/servers/login")
+                .queryParam("password", password)
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .get(Response.class);
+        return ans.getStatusInfo().getStatusCode();
+
+    }
+
+    /**
+     * @return returns the server password
+     * here for testing, will be removed later
+     */
+    public String getCredentials() {
+        Response ans = clientBuilder
+                .target(serverAddress)
+                .request(String.valueOf(Boolean.class))
+                .get(Response.class);
+        return (String) ans.getEntity();
+    }
+
+
+    private static final ExecutorService DELEXPENSE = Executors.newSingleThreadExecutor();
+
+    /**
+     * Creates the long polling connection that registers
+     * and notifies when expenses are deleted
+     * @param consumer buffer that keeps created expenses
+     */
+    public void regDeleteExpenses(Consumer<Expense> consumer) {
+        DELEXPENSE.submit(() -> {
+            while(!Thread.interrupted()) {
+                var result = ClientBuilder
+                        .newClient(new ClientConfig())
+                        .target(serverAddress).path("api/card/delete/updates")
+                        .request(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON)
+                        .get(Response.class);
+
+                if (result.getStatus() == 204) {
+                    continue;
+                }
+                var expense = result.readEntity(Expense.class);
+                consumer.accept(expense);
+            }
+        });
+    }
+
+
+    private static final ExecutorService ADDEXPENSE = Executors.newSingleThreadExecutor();
+
+    /**
+     * Creates the long polling connection that registers
+     * and notifies when new expenses are created
+     * @param consumer buffer that keeps created expenses
+     */
+    public void regAddExpenses(Consumer<Expense> consumer) {
+        ADDEXPENSE.submit(() -> {
+            while(!Thread.interrupted()) {
+                var result = ClientBuilder
+                        .newClient(new ClientConfig())
+                        .target(serverAddress).path("api/card/delete/updates")
+                        .request(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON)
+                        .get(Response.class);
+
+                if(result.getStatus() == 204) {
+                    continue;
+                }
+                var expense = result.readEntity(Expense.class);
+                consumer.accept(expense);
+            }
+        });
+    }
+
 }

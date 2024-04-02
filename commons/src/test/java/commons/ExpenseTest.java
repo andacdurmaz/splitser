@@ -1,5 +1,8 @@
 package commons;
 
+import commons.exceptions.BICFormatException;
+import commons.exceptions.EmailFormatException;
+import commons.exceptions.IBANFormatException;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -9,8 +12,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ExpenseTest {
     @Test
-    void ConstructorTest() {
-        User user = new User("ivan","test", null, null);
+    void ConstructorTest(){
+        User user = new User();
         List<User> payingParticipants = new ArrayList<>();
         payingParticipants.add(user);
         Expense expense = new Expense("Drinks", 3.29, user, payingParticipants);
@@ -42,8 +45,10 @@ class ExpenseTest {
     }
 
     @Test
-    void setName() {
-        User user = new User("ivan","test", "dasdad", "dadsdad");
+    void setName() throws EmailFormatException, IBANFormatException, BICFormatException {
+        User user = new User("ivan","@.",
+                "1234123412341234123412341234123412",
+                "12312312312");
         Expense expense = new Expense("Drinks", 3.29);
         expense.setName("Food");
         assertEquals("Food",expense.getName());
@@ -52,8 +57,10 @@ class ExpenseTest {
 
 
     @Test
-    void testSetPayer() {
-        User user = new User("ivan","test", "dasdad", "dadsdad");
+    void testSetPayer() throws EmailFormatException, IBANFormatException, BICFormatException {
+        User user = new User("ivan","@.",
+                "1234123412341234123412341234123412",
+                "12312312312");
         Expense expense = new Expense("Drinks", 3.29);
         expense.setPayer(user);
         assertEquals(user,expense.getPayer());
@@ -80,8 +87,10 @@ class ExpenseTest {
     }
 
     @Test
-    void getPayingParticipants() {
-        User user = new User("ivan","test", "dasdad", "dadsdad");
+    void getPayingParticipants() throws EmailFormatException, IBANFormatException, BICFormatException {
+        User user = new User("ivan","@.",
+                "1234123412341234123412341234123412",
+                "12312312312");
         List<User> payingParticipants = new ArrayList<>();
         payingParticipants.add(user);
         Expense expense = new Expense("Drinks", 3.29, user, payingParticipants);
@@ -89,8 +98,10 @@ class ExpenseTest {
     }
 
     @Test
-    void setPayingParticipants() {
-        User user = new User("ivan","test", "dasdad", "dadsdad");
+    void setPayingParticipants() throws EmailFormatException, IBANFormatException, BICFormatException {
+        User user = new User("ivan","@.",
+                "1234123412341234123412341234123412",
+                "12312312312");
         List<User> payingParticipants = new ArrayList<>();
         payingParticipants.add(user);
         Expense expense = new Expense("Drinks", 3.29);

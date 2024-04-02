@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
+@Table
 public class ExpenseTag {
 
     @Id
@@ -32,6 +33,23 @@ public class ExpenseTag {
     public ExpenseTag(String name, String colour) {
         this.name = name;
         this.colour = colour;
+    }
+
+
+    /**
+     * set expense tag id
+     * @param id
+     */
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    /**
+     * get expense tag id
+     * @return id
+     */
+    public long getId() {
+        return id;
     }
 
     /**
@@ -65,4 +83,5 @@ public class ExpenseTag {
     public void setColour(String colour) {
         this.colour = colour;
     }
+
 }

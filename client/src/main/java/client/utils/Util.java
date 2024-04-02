@@ -9,9 +9,23 @@ import java.net.InetAddress;
 
 public class Util {
 
-    protected static String serverAddress;
+    /**
+     * @return the current server address
+     */
+    public static String getAddress() {
+        return address;
+    }
 
-    protected static String address;
+    /**
+     * @param address  setter for the server address parameter
+     */
+    public static void setAddress(String address) {
+        Util.address = address;
+    }
+
+    protected static String serverAddress = "http://localhost:8080/";
+
+    protected static String address = "localhost:8080/";
     @Resource
     protected Client clientBuilder;
 
