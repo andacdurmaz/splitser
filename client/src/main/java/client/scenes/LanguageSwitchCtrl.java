@@ -42,6 +42,8 @@ public class LanguageSwitchCtrl implements Initializable {
     @FXML
     private ImageView dutchImage;
     @FXML
+    private ImageView turkishImage;
+    @FXML
     private Button downloadThemplate;
 
     /**
@@ -72,6 +74,9 @@ public class LanguageSwitchCtrl implements Initializable {
         Image dutchFlag = new Image(getClass()
                 .getResourceAsStream("/client/images/dutchIcon.png"));
         dutchImage.setImage(dutchFlag);
+        Image turkishFlag = new Image(getClass()
+                .getResourceAsStream("/client/images/turkishIcon.png"));
+        turkishImage.setImage(turkishFlag);
     }
 
     /**
@@ -105,6 +110,14 @@ public class LanguageSwitchCtrl implements Initializable {
      */
     public void setDutch(){
         mainCtrl.setLocale("nl");
+        backButton();
+    }
+
+    /**
+     * Method to set language to turkish
+     */
+    public void setTurkish(){
+        mainCtrl.setLocale("tr");
         backButton();
     }
 

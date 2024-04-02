@@ -57,6 +57,11 @@ public class StartPageCtrl {
                     .getResourceAsStream("/client/images/dutchIcon.png"));
             flagDisplay.setImage(newImage);
         }
+        else if (mainCtrl.getLocale().getLanguage().equals("tr")){
+            Image newImage = new Image(getClass()
+                    .getResourceAsStream("/client/images/turkishIcon.png"));
+            flagDisplay.setImage(newImage);
+        }
     }
 
     /**
