@@ -17,7 +17,6 @@
 package server.database;
 
 import commons.Expense;
-import commons.ExpenseTag;
 import commons.User;
 
 import java.util.List;
@@ -103,13 +102,5 @@ public interface EventRepository extends JpaRepository<Event, Long> {
      * @return the participants in a list
      */
     List<User> getParticipantsById(long id);
-
-    /**
-     * gets the expense tags
-     * @param id
-     * @return expense tags
-     */
-
-    List<ExpenseTag> getExpenseTagsById(long id);
 }
 

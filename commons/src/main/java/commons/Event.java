@@ -3,7 +3,6 @@ package commons;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -20,8 +19,8 @@ public class Event {
     private long eventCode;
     private String title;
     private int amountOfParticipants;
-    @OneToMany(targetEntity = Expense.class)
-    private List<Expense> expenses = new ArrayList<>();
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
+    private List<Expense> expenses;
     private String description;
 
     @ManyToMany(targetEntity = User.class)
@@ -31,13 +30,6 @@ public class Event {
             inverseJoinColumns = @JoinColumn(name = "participant", referencedColumnName = "id")
     )
     private List<User> participants = new ArrayList<>();
-    @ManyToMany(targetEntity = ExpenseTag.class)
-    @JoinTable(
-            name = "tag_event_mapping",
-            joinColumns = @JoinColumn(name = "event", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "expense_tag", referencedColumnName = "id")
-    )    private List<ExpenseTag> expenseTags = new ArrayList<>();
-    private LocalDateTime lastViewed;
 
     /**
      * this constructor is needed for JPA
@@ -45,7 +37,6 @@ public class Event {
     public Event() {
         this.eventCode = hashEventCode(id);
         this.expenses = new ArrayList<>();
-        this.expenseTags = new ArrayList<>();
     }
 
     /**
@@ -60,7 +51,6 @@ public class Event {
         this.amountOfParticipants = amountOfParticipants;
         this.eventCode = hashEventCode(id);
         this.expenses = new ArrayList<>();
-        this.expenseTags = new ArrayList<>();
         this.description = description;
     }
 
@@ -178,13 +168,6 @@ public class Event {
         return expenses;
     }
 
-    /**
-     * Getter for the expense tags
-     * @return expense tag
-     */
-    public List<ExpenseTag> getExpenseTags() {
-        return expenseTags;
-    }
 
     /**
      * lets the user add expenses to the event
@@ -217,22 +200,6 @@ public class Event {
      */
     public void setParticipants(List<User> participants) {
         this.participants = participants;
-    }
-
-    /**
-     * Setter method for expenses
-     * @param expenses the new list of expenses of this event
-     */
-    public void setExpenses(List<Expense> expenses) {
-        this.expenses = expenses;
-    }
-
-    /**
-     * Setter for the expense tags
-     * @param expenseTags
-     */
-    public void setExpenseTags(List<ExpenseTag> expenseTags) {
-        this.expenseTags = expenseTags;
     }
 
     /**
@@ -333,7 +300,6 @@ public class Event {
                 ",\"expenses\":" + expenses +
                 ",\"description\":\"" + description + '\"' +
                 ",\"participants\":" +  participants  +
-                ",\"expenseTags\":" +  expenseTags  +
                 ",\"sumOfExpenses\":" + getSumOfExpenses() +
                 '}';
     }

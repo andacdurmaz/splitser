@@ -119,7 +119,7 @@ public class EventControllerTest {
 
         mockMvc.perform(post("/api/events/add")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"id\":0,\"eventCode\":0,\"title\":\"Title\",\"amountOfParticipants\":4,\"expenses\":[],\"description\":\"Description\",\"expenseTags\":[],\"sumOfExpenses\":0.0}"))
+                        .content("{\"id\":0,\"eventCode\":0,\"title\":\"Title\",\"amountOfParticipants\":4,\"expenses\":[],\"description\":\"Description\",\"sumOfExpenses\":0.0}"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(event.toString()));
     }

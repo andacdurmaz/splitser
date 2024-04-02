@@ -7,9 +7,9 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
+<?import javafx.scene.control.Spinner?>
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.AddOrEditExpenseCtrl">
    <children>
       <Label layoutX="204.0" layoutY="14.0" text="Add/Edit Expense">
@@ -18,21 +18,20 @@
          </font>
       </Label>
       <Label layoutX="50.0" layoutY="63.0" text="What for?" />
-      <TextField fx:id="whatFor" layoutX="151.0" layoutY="59.0" />
+      <TextField fx:id="name" layoutX="151.0" layoutY="59.0" />
       <Label layoutX="47.0" layoutY="107.0" text="Who paid?" />
       <ComboBox fx:id="payer" layoutX="151.0" layoutY="103.0" prefWidth="150.0" promptText="Payer" />
       <Label layoutX="45.0" layoutY="151.0" text="How much?" />
-      <TextField fx:id="howMuch" layoutX="151.0" layoutY="147.0" />
-      <ComboBox fx:id="currency" layoutX="314.0" layoutY="147.0" prefHeight="26.0" prefWidth="97.0" promptText="Currency" />
+      <Spinner fx:id="amount" layoutX="151.0" layoutY="147.0" />
+      <ComboBox layoutX="314.0" layoutY="147.0" prefHeight="26.0" prefWidth="97.0" promptText="Currency" />
       <Label layoutX="55.0" layoutY="191.0" prefHeight="18.0" prefWidth="42.0" text="When?" />
-      <DatePicker fx:id="when" layoutX="151.0" layoutY="187.0" prefHeight="26.0" prefWidth="150.0" />
+      <DatePicker layoutX="151.0" layoutY="187.0" prefHeight="26.0" prefWidth="150.0" />
       <Label layoutX="39.0" layoutY="235.0" text="How To Split?" />
-      <CheckBox fx:id="allParticipants" layoutX="121.0" layoutY="235.0" mnemonicParsing="false" onAction="#allParticipantsPay" text="All Participants" />
-      <CheckBox fx:id="someParticipants" layoutX="226.0" layoutY="235.0" mnemonicParsing="false" onAction="#someParticipantsPay" text="Some Participants" />
-      <VBox fx:id="someParticipantsSelector" layoutX="42.0" layoutY="260.0" prefHeight="67.0" prefWidth="307.0" />
-      <Label layoutX="40.0" layoutY="342.0" text="Expense Type" />
-      <ComboBox fx:id="expenseTag" layoutX="150.0" layoutY="338.0" prefWidth="150.0" />
-      <Button fx:id="cancelButton" layoutX="478.0" layoutY="351.0" mnemonicParsing="false" onAction="#cancel" onMouseClicked="#cancel" text="Cancel" />
-      <Button fx:id="okButton" layoutX="543.0" layoutY="351.0" mnemonicParsing="false" onAction="#ok" onMouseClicked="#ok" text="Ok" />
+      <Label layoutX="40.0" layoutY="322.0" text="Expense Type" />
+      <ComboBox layoutX="151.0" layoutY="318.0" prefWidth="150.0" />
+      <Button layoutX="478.0" layoutY="351.0" mnemonicParsing="false" onMouseClicked="#cancel" text="Cancel" />
+      <Button layoutX="543.0" layoutY="351.0" mnemonicParsing="false" onMouseClicked="#ok" text="Ok" />
+      <CheckBox layoutX="121.0" layoutY="235.0" mnemonicParsing="false" text="Add all" />
+      <CheckBox layoutX="190.0" layoutY="235.0" mnemonicParsing="false" text="Some Participants" />
    </children>
 </AnchorPane>

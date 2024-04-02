@@ -3,7 +3,6 @@ package client.scenes;
 import com.google.inject.Inject;
 import client.utils.ServerUtils;
 import commons.Event;
-import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -65,18 +64,9 @@ public class EventOverviewCtrl implements Initializable {
                 new SimpleStringProperty(String.valueOf(q.getValue().getEventCode())));
         description.setCellValueFactory(q ->
                 new SimpleStringProperty(q.getValue().getDescription()));
-//         Listen for changes to the items in the ListView,
-//         if there are events make the label invisible
-
         // Listen for changes to the items in the ListView,
         // if there are events make the label invisible
         table.setOnMouseClicked(getEvent);
-        server.regAddExpenses( expense -> {
-            Platform.runLater(() -> refresh());
-        });
-        server.regDeleteExpenses( expense -> {
-            Platform.runLater(() -> refresh());
-        });
     }
 
     /**
@@ -112,7 +102,6 @@ public class EventOverviewCtrl implements Initializable {
     public void refresh() {
         var events = server.getEvents();
         data = FXCollections.observableList(events);
-        TableView<Event> table = new TableView<>();
         table.setItems(data);
     }
 
@@ -120,7 +109,7 @@ public class EventOverviewCtrl implements Initializable {
      * deprecated
      */
     public void login(){
-        loginButton.setOnAction(event1 ->  mainCtrl.login());
+        mainCtrl.login();
     }
 
     /**

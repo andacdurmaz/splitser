@@ -210,35 +210,6 @@ public class UserController {
         return ResponseEntity.ok(saved);
     }
 
-    /**
-     * Updates the information of a user with the given id
-     * to be renamed to the given newName
-     *
-     * @param id    user id
-     * @param user user to update
-     * @return the updated user or bad request
-     */
-    @PutMapping("/update/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable("id") long id,
-                                             @RequestBody User user) {
-        if (!service.existsById(id)) {
-            return ResponseEntity.badRequest().build();
-        }
-
-        User updatedUser = service.updateUser(user);
-        return ResponseEntity.ok(updatedUser);
-    }
-
-    /**
-     * Deletes a user by id.
-     * @param id the user's id
-     * @return the response entity
-     */
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<User> deleteUser(@PathVariable("id") long id) {
-        return service.deleteUser(id);
-    }
-
 
     /**
      * Gets the specified users debts

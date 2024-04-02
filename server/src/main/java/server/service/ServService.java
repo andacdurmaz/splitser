@@ -8,14 +8,11 @@ import server.database.EventRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 
 @Service
 public class ServService {
     private EventRepository repo;
     private List<Admin> admins;
-    private final Random random;
-    private final long pass;
 
     /**
      * Constructor
@@ -26,18 +23,24 @@ public class ServService {
         Admin admin = new Admin("admin", "admin1");
         admins = new ArrayList<>();
         admins.add(admin);
-        random = new Random();
-        pass = random.nextLong() + random.nextInt();
     }
 
     /**
      * Login method
+     * @param email email to login with
      * @param password password to login with
      * @return true if login was successful, false otherwise
      */
-    public boolean login(long password){
-        if(password == pass)
-            return true;
+    public boolean login(String email, String password){
+        for(Admin a : admins){
+            String adminEmail = a.getEmail();
+            if(adminEmail.equals(email))
+                return true;
+            String adminPassword = a.getPassword();
+            if(adminPassword.equals(password))
+                return true;
+            return false;
+        }
         return false;
     }
 
@@ -88,10 +91,4 @@ public class ServService {
         repo.delete(e);
     }
 
-    /**
-     * @return the server password
-     */
-    public Long getPass() {
-        return pass;
-    }
 }

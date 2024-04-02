@@ -188,7 +188,7 @@ class EventTest {
     @Test
     void testToStringMethod(){
         Event event = new Event("test", 3, "this is for a test");
-        assertEquals("{\"id\":0,\"eventCode\":0,\"title\":\"test\",\"amountOfParticipants\":3,\"expenses\":[],\"description\":\"this is for a test\",\"participants\":[],\"expenseTags\":[],\"sumOfExpenses\":0.0}",
+        assertEquals("{\"id\":0,\"eventCode\":0,\"title\":\"test\",\"amountOfParticipants\":3,\"expenses\":[],\"description\":\"this is for a test\",\"participants\":[],\"sumOfExpenses\":0.0}",
                 event.toString());
     }
 }

@@ -16,11 +16,13 @@ public class AdminUtils extends Util{
      * @return whether login was successful or not
      */
     public boolean checkCredentials(String userName, String password) {
-        var response = clientBuilder
+        Response response = clientBuilder
                 .target(serverAddress)
                 .path("api/servers/login")
                 .request(APPLICATION_JSON)
-                .post(Entity.json(password ));
+                .post(Entity.
+                        json("{\"email\": \"" + userName
+                                + "\", \"password\": \"" + password + "\"}"));
 
         if (response.getStatus() == Response.Status.OK.getStatusCode()) {
             return true;
