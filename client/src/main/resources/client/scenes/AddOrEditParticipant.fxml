@@ -14,10 +14,11 @@
             </font>
         </Label>
         <Label layoutX="129.0" layoutY="120.0" prefHeight="28.0" prefWidth="51.0" text="Name">
-         <font>
-            <Font name="System Bold" size="16.0" />
-         </font></Label>
+            <font>
+                <Font name="System Bold" size="16.0" />
+            </font></Label>
       <TextField fx:id="name" layoutX="193.0" layoutY="116.0" prefHeight="36.0" prefWidth="213.0" promptText="Enter your name" />
+
         <Label layoutX="129.0" layoutY="190.0" text="Email">
          <font>
             <Font name="SansSerif Bold" size="16.0" />
@@ -28,6 +29,11 @@
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
+        <TextField fx:id="iban" layoutX="192.0" layoutY="245.0" prefHeight="36.0" prefWidth="213.0" promptText="Enter your IBAN" />
+        <Label layoutX="129.0" layoutY="314.0" prefHeight="18.0" prefWidth="51.0" text="BIC">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font></Label>
         <TextField fx:id="iban" layoutX="192.0" layoutY="245.0" prefHeight="36.0" prefWidth="213.0" promptText="Enter your IBAN" />
         <Label layoutX="129.0" layoutY="314.0" prefHeight="18.0" prefWidth="51.0" text="BIC">
          <font>

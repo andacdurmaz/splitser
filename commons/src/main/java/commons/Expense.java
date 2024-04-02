@@ -2,6 +2,7 @@ package commons;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -14,6 +15,7 @@ public class Expense {
     private long id;
     private String name;
     private double amount;
+    private LocalDate date;
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "payer", referencedColumnName = "id")
     private User payer;
@@ -21,11 +23,14 @@ public class Expense {
     @ManyToMany()
     private List<User> payingParticipants;
 
-    @ManyToOne()
+    @ManyToOne(targetEntity = Event.class)
+    @JoinColumn(name = "event", referencedColumnName = "id")
     private Event event;
 
     @ManyToOne()
     private ExpenseTag expenseTag;
+
+    private LocalDate expenseDate;
     /**
      * Constructor for mapping
      */
@@ -40,8 +45,27 @@ public class Expense {
      * @param amount             expense amount
      * @param payer              expense payer
      * @param payingParticipants expense participants
+     * @param date               expense date
      */
-    public Expense(String name, double amount, User payer, List<User> payingParticipants) {
+    public Expense(String name, double amount, User payer,
+                   List<User> payingParticipants, LocalDate date) {
+        this.name = name;
+        this.amount = amount;
+        this.payer = payer;
+        this.payingParticipants = payingParticipants;
+        this.date = date;
+    }
+
+    /**
+     * Expense constructor
+     *
+     * @param name               expense name
+     * @param amount             expense amount
+     * @param payer              expense payer
+     * @param payingParticipants expense participants
+     */
+    public Expense(String name, double amount, User payer,
+                   List<User> payingParticipants) {
         this.name = name;
         this.amount = amount;
         this.payer = payer;
@@ -64,7 +88,7 @@ public class Expense {
     /**
      * Partial constructor
      *
-     * @param event   event of the expense
+     * @param event event of the expense
      */
     public Expense(Event event) {
         this.event = event;
@@ -145,6 +169,14 @@ public class Expense {
     }
 
     /**
+     * setter method for the date the expense was made
+     * @param expenseDate the new date
+     */
+    public void setExpenseDate(LocalDate expenseDate) {
+        this.expenseDate = expenseDate;
+    }
+
+    /**
      * Equals method
      *
      * @param o other object to compare to
@@ -157,6 +189,24 @@ public class Expense {
         return id == expense.id && Double.compare(getAmount(), expense.getAmount()) == 0
                 && Objects.equals(getName(), expense.getName())
                 && Objects.equals(getPayingParticipants(), expense.getPayingParticipants());
+    }
+
+    /**
+     * Getter method
+     *
+     * @return expense tag
+     */
+    public ExpenseTag getExpenseTag() {
+        return expenseTag;
+    }
+
+    /**
+     * Setter method
+     *
+     * @param expenseTag sets expense tag of the expense
+     */
+    public void setExpenseTag(ExpenseTag expenseTag) {
+        this.expenseTag = expenseTag;
     }
 
     /**
@@ -199,5 +249,14 @@ public class Expense {
                 ", amount=" + amount +
                 ", payingParticipants=" + payingParticipants +
                 '}';
+    }
+
+    /**
+     * Getter method for the date
+     *
+     * @return date of expense
+     */
+    public LocalDate getDate() {
+        return date;
     }
 }
