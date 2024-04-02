@@ -16,12 +16,17 @@
 package server.api;
 
 import commons.Expense;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.async.DeferredResult;
 import server.service.ExpenseService;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
+import java.util.function.Consumer;
 
 @RestController
 @RequestMapping("/api/expenses")
@@ -110,5 +115,57 @@ public class ExpenseController {
         }
         Expense updatedExpense = service.updateExpense(id, expense);
         return ResponseEntity.ok(updatedExpense);
+    }
+
+
+    private Map<Object, Consumer<Expense>> delMap = new HashMap<>();
+
+    /**
+     * Creates a 1000 ms connection to the server
+     * Returns a NO CONTENT entity when no updates
+     * have been done, or the expense that was deleted
+     * when it is deleted
+     * @return defferedResult
+     */
+    @GetMapping("/delete/updates")
+    public DeferredResult<ResponseEntity<Expense>> getDeleteUpdates() {
+        var result = new DeferredResult<ResponseEntity<Expense>>(1000L,
+                ResponseEntity.status(HttpStatus.NO_CONTENT).build());
+
+        var key = new Object();
+        delMap.put(key, expense -> {
+            result.setResult(ResponseEntity.ok(expense));
+        });
+        result.onCompletion(() -> {
+            delMap.remove(key);
+        });
+
+        return result;
+    }
+
+
+    private Map<Object, Consumer<Expense>> addMap = new HashMap<>();
+
+    /**
+     * Creates a 1000 ms connection to the server
+     * Returns a NO CONTENT entity when no updates
+     * have been done, or the expense that was created
+     * when it is created
+     * @return defferedResult
+     */
+    @GetMapping("/add/updates")
+    public DeferredResult<ResponseEntity<Expense>> getExpenseUpdates() {
+        var result = new DeferredResult<ResponseEntity<Expense>>(1000L,
+                ResponseEntity.status(HttpStatus.NO_CONTENT).build());
+
+        var key = new Object();
+        addMap.put(key, expense -> {
+            result.setResult(ResponseEntity.ok(expense));
+        });
+        result.onCompletion(() -> {
+            addMap.remove(key);
+        });
+
+        return result;
     }
 }

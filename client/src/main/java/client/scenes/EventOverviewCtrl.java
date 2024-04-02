@@ -3,6 +3,7 @@ package client.scenes;
 import com.google.inject.Inject;
 import client.utils.ServerUtils;
 import commons.Event;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -70,6 +71,12 @@ public class EventOverviewCtrl implements Initializable {
         // Listen for changes to the items in the ListView,
         // if there are events make the label invisible
         table.setOnMouseClicked(getEvent);
+        server.regAddExpenses( expense -> {
+            Platform.runLater(() -> refresh());
+        });
+        server.regDeleteExpenses( expense -> {
+            Platform.runLater(() -> refresh());
+        });
     }
 
     /**
