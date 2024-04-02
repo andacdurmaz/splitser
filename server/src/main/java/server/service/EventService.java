@@ -2,7 +2,6 @@ package server.service;
 
 import commons.Event;
 import commons.Expense;
-import commons.ExpenseTag;
 import commons.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -119,15 +118,6 @@ public class EventService {
      */
     public List<User> getParticipantsByEventId(long id) {
         return eventRepository.getParticipantsById(id);
-    }
-
-    /**
-     * expense tags
-     * @param id
-     * @return expense tags
-     */
-    public List<ExpenseTag> getExpenseTagsByEventId(long id) {
-        return eventRepository.getExpenseTagsById(id);
     }
 
     /**

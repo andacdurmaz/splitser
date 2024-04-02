@@ -2,7 +2,6 @@ package server.api;
 
 import commons.Event;
 import commons.Expense;
-import commons.ExpenseTag;
 import commons.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -97,16 +96,6 @@ public class EventController {
     }
 
     /**
-     * Method to get the expense tags of an event by its id
-     * @param id
-     * @return the expense tags of the event
-     */
-    @GetMapping(value = "/{id}/tags")
-    public List<ExpenseTag> getExpenseTagsByEventId(@PathVariable long id) {
-        return eventService.getExpenseTagsByEventId(id);
-    }
-
-    /**
      * Method to get the description of an event by its id
      *
      * @param id of the event
@@ -116,9 +105,6 @@ public class EventController {
     public ResponseEntity<String> getDescriptionByEventId(@PathVariable long id) {
         return eventService.getDescriptionByEventId(id);
     }
-
-
-
 
     /**
      * Method to add an event

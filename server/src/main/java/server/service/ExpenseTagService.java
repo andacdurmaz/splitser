@@ -1,5 +1,6 @@
 package server.service;
 import commons.ExpenseTag;
+import commons.exceptions.NoSuchEventException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Service;
 import server.database.ExpenseTagRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ExpenseTagService {
@@ -45,15 +47,6 @@ public class ExpenseTagService {
     }
 
     /**
-     * checks whether an expense tag exists by its id
-     * @param id
-     * @return boolean
-     */
-    public boolean existsById(long id) {
-        return expenseTagRepository.existsById(id);
-    }
-
-    /**
      * adds an expense tag to the database
      * @param e
      * @return ReponseEntity of expenseTag
@@ -64,25 +57,24 @@ public class ExpenseTagService {
     }
 
     /**
-     * updates the expense tag in the repository
-     * @param expenseTag
-     * @return ExpenseTag
-     */
-    public ExpenseTag updateExpenseTag(ExpenseTag expenseTag) {
-        return expenseTagRepository.save(expenseTag);
-    }
-
-    /**
-     * deletes an expense tag by its id from the repository
+     * updates an expense tag
      * @param id
-     * @return response entity
+     * @param newName
+     * @param newColour
+     * @return expenseTag
+     * @throws NoSuchEventException
      */
-    public ResponseEntity<ExpenseTag> deleteExpenseTag(long id) {
-        if (!existsById(id)) {
-            return ResponseEntity.badRequest().build();
+    public ExpenseTag updateExpenseTag(long id, String newName, String newColour)
+            throws NoSuchEventException {
+        Optional<ExpenseTag> expenseTag = expenseTagRepository.findById(id);
+        if (expenseTag.isPresent()) {
+            ExpenseTag e = expenseTag.get();
+            e.setName(newName);
+            e.setColour(newColour);
+            return expenseTagRepository.save(e);
+        } else {
+            throw new NoSuchEventException();
         }
-        expenseTagRepository.deleteById(id);
-        return ResponseEntity.ok().build();
-    }
 
+    }
 }

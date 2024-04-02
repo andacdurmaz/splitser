@@ -76,20 +76,10 @@ public class User {
      * @param iban
      * @param bic
      */
-    public User(String username, String email, String iban, String bic)
-            throws BICFormatException, IBANFormatException,
-            EmailFormatException {
+    public User(String username, String email, String iban, String bic) {
         this.username = username;
-        if (email.indexOf('@') == -1 || email.indexOf('.') == -1)
-            throw new EmailFormatException();
         this.email = email;
-        if (iban.length() != 34) {
-            throw new IBANFormatException();
-        }
         this.iban = iban;
-        if (bic.length() != 11) {
-            throw new BICFormatException();
-        }
         this.bic = bic;
         this.language = Language.EN;
         this.expenses = new ArrayList<>();
@@ -131,7 +121,7 @@ public class User {
      * @throws EmailFormatException if the format is incorrect
      */
     public void setEmail(String email) throws EmailFormatException {
-        if (email.indexOf('@') == -1 || email.indexOf('.') == -1) {
+        if (email.indexOf('@') == -1) {
             throw new EmailFormatException();
         }
         this.email = email;

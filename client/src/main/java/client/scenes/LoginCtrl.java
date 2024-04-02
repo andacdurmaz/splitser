@@ -4,7 +4,6 @@ import client.services.LoginService;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
@@ -17,6 +16,8 @@ public class LoginCtrl implements Initializable {
     @FXML
     private AnchorPane root;
     @FXML
+    private TextField adminNameField;
+    @FXML
     private TextField passwordAddressField;
 
     @FXML
@@ -24,8 +25,6 @@ public class LoginCtrl implements Initializable {
 
     @FXML
     private Button loginButton;
-    @FXML
-    private Label error;
     private LoginService service;
 
 
@@ -49,7 +48,8 @@ public class LoginCtrl implements Initializable {
 
         passwordAddressField.setOnKeyPressed(action -> {
             if (action.getCode().equals(KeyCode.ENTER)){
-                if(!passwordAddressField.getText().equals(""))
+                if(!adminNameField.getText().equals("") &&
+                        !passwordAddressField.getText().equals(""))
                     connect();
             }
         });
@@ -59,12 +59,12 @@ public class LoginCtrl implements Initializable {
      * attempts to login to the server
      * with the inputted text
      */
+
     public void connect() {
+        String admin = adminNameField.getText();
         String password = passwordAddressField.getText();
-        if(service.connect(password))
-            service.setSession();
-        else
-            error.setText("Incorrect Password.");
+        service.connect(admin, password);
+        service.setSession();
     }
 
     /**
