@@ -98,6 +98,20 @@ public class AddOrEditExpenseCtrl implements Initializable {
             }
         });
     }
+
+    /**
+     * Clears fields
+     */
+    public void clearFields() {
+        expenseTag.setValue(null);
+        howMuch.clear();
+        currency.setValue(null);
+        payer.setValue(null);
+        whatFor.clear();
+        when.setValue(null);
+        allParticipants.setSelected(false);
+        someParticipants.setSelected(false);
+    }
     /**
      * Checkbox method for allParticipants
      * if-clause is there to check only when the checkbox is
@@ -180,10 +194,12 @@ public class AddOrEditExpenseCtrl implements Initializable {
             expense.setName(whatFor.getText());
             expense.setPayer(payer.getValue());
             expense.setPayingParticipants(selectedParticipants());
+            expense.setExpenseDate(when.getValue());
             server.updateExpense(expense);
             expenses.add(expense);
             event.setExpenses(expenses);
             server.updateEvent(event);
+            mainCtrl.showEventInfo(event);
         } catch (WebApplicationException e) {
             var alert = new Alert(Alert.AlertType.ERROR);
             alert.initModality(Modality.APPLICATION_MODAL);
@@ -237,12 +253,6 @@ public class AddOrEditExpenseCtrl implements Initializable {
         }
     }
 
-    /**
-     * Clears fields
-     */
-    private void clearFields() {
-
-    }
 
     /**
      * @param e key event
@@ -281,6 +291,7 @@ public class AddOrEditExpenseCtrl implements Initializable {
     public void setup(Event event, Expense expense) {
         this.event = event;
         this.expense = expense;
+        setFields();
         expenseTag.getItems().setAll(event.getExpenseTags());
         someParticipantsSelector.setVisible(false);
         someParticipantsSelector.getChildren().clear();
@@ -288,11 +299,6 @@ public class AddOrEditExpenseCtrl implements Initializable {
             someParticipantsSelector.getChildren()
                     .add(new CheckBox(u.getUsername() + "(id: " + u.getUserID() + ")"));
         }
-        howMuch.setText("");
-        whatFor.setText("");
-        when.setValue(null);
-        someParticipants.setSelected(false);
-        allParticipants.setSelected(false);
         payer.setItems(FXCollections.observableList(event.getParticipants()));
         payer.setValue(event.getParticipants().get(0));
         if(expense == null) {
@@ -332,6 +338,32 @@ public class AddOrEditExpenseCtrl implements Initializable {
         } else {
             allParticipants.setSelected(true);
             allParticipantsPay();
+        }
+    }
+
+    /**
+     * fills the field with the edited expense's info
+     * or with blank if a new expense is added
+     */
+    public void setFields() {
+        if (expense == null)
+            clearFields();
+        else {
+            expenseTag.setValue(expense.getExpenseTag());
+            howMuch.setText(String.valueOf(expense.getAmount()));
+            currency.setValue(null);
+            payer.setValue(expense.getPayer());
+            whatFor.setText(expense.getName());
+            when.setValue(expense.getDate());
+            if (expense.getPayingParticipants().size() == event.getParticipants().size()) {
+                allParticipants.setSelected(true);
+                someParticipants.setSelected(false);
+            }
+            else {
+                allParticipants.setSelected(false);
+                someParticipants.setSelected(true);
+            }
+
         }
     }
 }
