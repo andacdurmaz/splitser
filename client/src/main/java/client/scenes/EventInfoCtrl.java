@@ -89,12 +89,16 @@ public class EventInfoCtrl {
         });
 
 
-        ImageView imageView = new ImageView(getClass().getResource("/client/images/EditPencilIcon.png").toExternalForm());
+        ImageView imageView = new ImageView(getClass()
+                .getResource("/client/images/EditPencilIcon.png")
+                .toExternalForm());
         imageView.setFitWidth(17);
         imageView.setFitHeight(17);
         editTitle.setGraphic(imageView);
 
-        ImageView imageView2 = new ImageView(getClass().getResource("/client/images/EditPencilIcon.png").toExternalForm());
+        ImageView imageView2 = new ImageView(getClass()
+                .getResource("/client/images/EditPencilIcon.png")
+                .toExternalForm());
         imageView2.setFitWidth(17);
         imageView2.setFitHeight(17);
         editDescription.setGraphic(imageView2);
