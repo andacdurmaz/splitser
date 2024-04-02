@@ -196,10 +196,16 @@ public class AddOrEditParticipantCtrl {
             alert.showAndWait();
             return null;
         }catch (EmailFormatException e) {
+            ((Label) wrongEmail.getChildren().get(0))
+                    .setText("   Invalid e-mail.\nPlease try again.");
             errorMessage();
         } catch (IBANFormatException e) {
+            ((Label) wrongEmail.getChildren().get(0))
+                    .setText("  Invalid IBAN.\nPlease try again.");
             errorMessage();
         } catch (BICFormatException e) {
+            ((Label) wrongEmail.getChildren().get(0))
+                    .setText("  Invalid BIC.\nPlease try again.");
             errorMessage();
         }
         return null;
@@ -209,8 +215,7 @@ public class AddOrEditParticipantCtrl {
      * displays error message if the e-mail, IBAN, or BIC is in wrong format
      */
     private void errorMessage() {
-        ((Label) wrongEmail.getChildren().get(0))
-                .setText("Invalid e-mail, IBAN or BIC.\nPlease try again.");
+
         wrongEmail.toFront();
         wrongEmail.setVisible(true);
     }
