@@ -16,7 +16,6 @@
 package client.scenes;
 
 import client.utils.ServerUtils;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Inject;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -27,12 +26,10 @@ import javafx.scene.image.ImageView;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
-import java.awt.*;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.file.Files;
 import java.util.*;
 
 public class LanguageSwitchCtrl implements Initializable {
@@ -172,6 +169,10 @@ public class LanguageSwitchCtrl implements Initializable {
         backButton();
     }
 
+    /**
+     * Method to download the language themplate
+     * @param e the action event
+     */
     public void downloadThemplate(ActionEvent e) {
         DirectoryChooser directoryChooser = new DirectoryChooser();
         directoryChooser.setTitle("Select Directory");
@@ -181,7 +182,8 @@ public class LanguageSwitchCtrl implements Initializable {
 
         try {
 
-            Enumeration<String> bundleSet =ResourceBundle.getBundle("locales.resource", new Locale("en")).getKeys();
+            Enumeration<String> bundleSet =
+                    ResourceBundle.getBundle("locales.resource", new Locale("en")).getKeys();
 
             Properties properties = new Properties();
 
