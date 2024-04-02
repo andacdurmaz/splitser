@@ -119,8 +119,11 @@ public class AddOrEditParticipantCtrl {
         try {
             user.setUsername(name.getText());
             user.setEmail(email.getText());
-            user.setIban(iban.getText());
-            user.setBic(bic.getText());
+            if(!iban.getText().isEmpty()){
+                user.setIban(iban.getText());
+            } if (!bic.getText().isEmpty()) {
+                user.setBic(bic.getText());
+            }
         } catch (WebApplicationException e) {
             var alert = new Alert(Alert.AlertType.ERROR);
             alert.initModality(Modality.APPLICATION_MODAL);
@@ -159,10 +162,16 @@ public class AddOrEditParticipantCtrl {
             alert.showAndWait();
             return;
         }catch (EmailFormatException e) {
+            ((Label) wrongEmail.getChildren().get(0))
+                    .setText("   Invalid e-mail.\nPlease try again.");
             errorMessage();
         } catch (IBANFormatException e) {
+            ((Label) wrongEmail.getChildren().get(0))
+                    .setText("   Invalid IBAN.\nPlease try again.");
             errorMessage();
         } catch (BICFormatException e) {
+            ((Label) wrongEmail.getChildren().get(0))
+                    .setText("   Invalid BIC.\nPlease try again.");
             errorMessage();
         }
 
@@ -185,8 +194,11 @@ public class AddOrEditParticipantCtrl {
         try {
             u.setUsername(name.getText());
             u.setEmail(email.getText());
-            u.setIban(iban.getText());
-            u.setBic(bic.getText());
+            if(!iban.getText().isEmpty()){
+                u.setIban(iban.getText());
+            } if (!bic.getText().isEmpty()) {
+                u.setBic(bic.getText());
+            }
             return u;
         }
         catch (WebApplicationException e) {
