@@ -80,7 +80,6 @@ public class EventInfoCtrl {
                 return "(" + expense.getDate() + ") " + expense.getPayer().getUsername() +
                         " paid " + expense.getAmount() + " for " + expense.getName();
             }
-
             @Override
             public Expense fromString(String string) {
                 return null;
@@ -91,41 +90,33 @@ public class EventInfoCtrl {
             public String toString(User user) {
                 return user.getUsername(); // Display the user name
             }
-
             @Override
             public User fromString(String string) {
                 return null;
             }
         });
-
         expenseComboBox.setConverter(new StringConverter<User>() {
             @Override
             public String toString(User user) {
                 return user.getUsername(); // Display the user name
             }
-
             @Override
             public User fromString(String string) {
                 return null;
             }
         });
-
-
         ImageView imageView = new ImageView(getClass()
                 .getResource("/client/images/EditPencilIcon.png")
                 .toExternalForm());
         imageView.setFitWidth(17);
         imageView.setFitHeight(17);
         editTitle.setGraphic(imageView);
-
         ImageView imageView2 = new ImageView(getClass()
                 .getResource("/client/images/EditPencilIcon.png")
                 .toExternalForm());
         imageView2.setFitWidth(17);
         imageView2.setFitHeight(17);
         editDescription.setGraphic(imageView2);
-
-
     }
 
     /**
