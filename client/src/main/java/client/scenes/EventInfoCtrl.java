@@ -2,16 +2,16 @@ package client.scenes;
 
 import client.utils.ServerUtils;
 import commons.Event;
+import commons.Expense;
 import commons.User;
 import javafx.event.ActionEvent;
-import commons.Expense;
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.StringConverter;
+
 import javax.inject.Inject;
 import java.util.List;
 
@@ -39,6 +39,10 @@ public class EventInfoCtrl {
     private ComboBox<User> participantCombobox;
     @FXML
     private Label descriptionLabel;
+    @FXML
+    private Button editTitle;
+    @FXML
+    private Button editDescription;
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
 
@@ -83,6 +87,19 @@ public class EventInfoCtrl {
                 return null;
             }
         });
+
+
+        ImageView imageView = new ImageView(getClass().getResource("/client/images/EditPencilIcon.png").toExternalForm());
+        imageView.setFitWidth(17);
+        imageView.setFitHeight(17);
+        editTitle.setGraphic(imageView);
+
+        ImageView imageView2 = new ImageView(getClass().getResource("/client/images/EditPencilIcon.png").toExternalForm());
+        imageView2.setFitWidth(17);
+        imageView2.setFitHeight(17);
+        editDescription.setGraphic(imageView2);
+
+
     }
 
     /**
