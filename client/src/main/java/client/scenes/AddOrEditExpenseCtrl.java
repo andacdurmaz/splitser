@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 
@@ -73,6 +74,18 @@ public class AddOrEditExpenseCtrl implements Initializable {
      * the participant combobox display only usernames
      */
     public void initialize() {
+
+        expenseTag.setCellFactory(param -> new TextFieldListCell<>(new StringConverter<>() {
+            @Override
+            public String toString(ExpenseTag tag) {
+                return tag.getName();
+            }
+
+            @Override
+            public ExpenseTag fromString(String string) {
+                return null;
+            }
+        }));
         payer.setConverter(new StringConverter<User>() {
             @Override
             public String toString(User user) {
