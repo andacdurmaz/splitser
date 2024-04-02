@@ -16,6 +16,7 @@
 package client.scenes;
 
 import client.utils.ServerUtils;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Inject;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -26,10 +27,12 @@ import javafx.scene.image.ImageView;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
+import java.awt.*;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
 import java.util.*;
 
 public class LanguageSwitchCtrl implements Initializable {
@@ -43,6 +46,14 @@ public class LanguageSwitchCtrl implements Initializable {
     private ImageView dutchImage;
     @FXML
     private ImageView turkishImage;
+    @FXML
+    private ImageView spanishImage;
+    @FXML
+    private ImageView frenchImage;
+    @FXML
+    private ImageView chineseImage;
+    @FXML
+    private ImageView germanImage;
     @FXML
     private Button downloadThemplate;
 
@@ -77,6 +88,18 @@ public class LanguageSwitchCtrl implements Initializable {
         Image turkishFlag = new Image(getClass()
                 .getResourceAsStream("/client/images/turkishIcon.png"));
         turkishImage.setImage(turkishFlag);
+        Image germanFlag = new Image(getClass()
+                .getResourceAsStream("/client/images/germanyIcon.png"));
+        germanImage.setImage(germanFlag);
+        Image frenchFlag = new Image(getClass()
+                .getResourceAsStream("/client/images/franceIcon.png"));
+        frenchImage.setImage(frenchFlag);
+        Image chineseFlag = new Image(getClass()
+                .getResourceAsStream("/client/images/chinaIcon.png"));
+        chineseImage.setImage(chineseFlag);
+        Image spanishFlag = new Image(getClass()
+                .getResourceAsStream("/client/images/spainIcon.png"));
+        spanishImage.setImage(spanishFlag);
     }
 
     /**
@@ -118,6 +141,34 @@ public class LanguageSwitchCtrl implements Initializable {
      */
     public void setTurkish(){
         mainCtrl.setLocale("tr");
+        backButton();
+    }
+    /**
+     * Method to set language to french
+     */
+    public void setFrench(){
+        mainCtrl.setLocale("fr");
+        backButton();
+    }
+    /**
+     * Method to set language to spanish
+     */
+    public void setSpanish(){
+        mainCtrl.setLocale("es");
+        backButton();
+    }
+    /**
+     * Method to set language to chinese
+     */
+    public void setChinese(){
+        mainCtrl.setLocale("zh");
+        backButton();
+    }
+    /**
+     * Method to set language to german
+     */
+    public void setGerman(){
+        mainCtrl.setLocale("de");
         backButton();
     }
 
