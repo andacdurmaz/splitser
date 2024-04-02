@@ -6,9 +6,8 @@ import commons.User;
 import javafx.event.ActionEvent;
 import commons.Expense;
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.StringConverter;
@@ -21,6 +20,8 @@ public class EventInfoCtrl {
     private Expense selectedExpense;
 
     private User selectedParticipant;
+    private User selectedExpenseParticipant;
+
     @FXML
     private AnchorPane rootPane;
     @FXML
@@ -39,6 +40,12 @@ public class EventInfoCtrl {
     private ComboBox<User> participantCombobox;
     @FXML
     private Label descriptionLabel;
+    @FXML
+    private ListView<Expense> expenseList;
+    @FXML
+    private Button paidByButton;
+    @FXML
+    private Button includingButton;
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
 
@@ -60,6 +67,18 @@ public class EventInfoCtrl {
     public void initialize() {
         disableEditingDesc();
         disableEditingTitle();
+        expenseList.setCellFactory(param -> new TextFieldListCell<>(new StringConverter<Expense>() {
+            @Override
+            public String toString(Expense expense) {
+                return "(" + expense.getDate() + ") " + expense.getPayer().getUsername() +
+                        " paid " + expense.getAmount() + " for " + expense.getName();
+            }
+
+            @Override
+            public Expense fromString(String string) {
+                return null;
+            }
+        }));
         participantCombobox.setConverter(new StringConverter<User>() {
             @Override
             public String toString(User user) {
@@ -130,6 +149,9 @@ public class EventInfoCtrl {
      * add or edit expense method
      */
     public void addOrEditExpense() {
+        if (this.event.getParticipants().size() == 0) {
+            return;
+        }
         if (selectedExpense == null) {
             mainCtrl.showAddOrEditExpense(this.event, new Expense());
         }
@@ -197,6 +219,7 @@ public class EventInfoCtrl {
     public void setData(Event event) {
         updateDesc(event);
         updateLabelText(event);
+        expenseList.getItems().setAll(event.getExpenses());
         if (event.getParticipants() != null && event.getParticipants().size() !=0) {
             String label = "";
 
@@ -220,6 +243,14 @@ public class EventInfoCtrl {
      */
     public void selectParticipant(ActionEvent actionEvent) {
         selectedParticipant = participantCombobox.getValue();
+    }
+
+    /**
+     * selects a specific participant from the combobox
+     * @param actionEvent selecting of the participant
+     */
+    public void selectExpense(ActionEvent actionEvent) {
+        selectedExpenseParticipant = expenseComboBox.getValue();
     }
 
     /**
@@ -307,5 +338,33 @@ public class EventInfoCtrl {
         else {
             enableEditingDesc();
         }
+    }
+
+    /**
+     * lists only expenses that includes the selected user as a paying participant
+     * @param actionEvent when the button is clicked
+     */
+    public void includingParticipantList(ActionEvent actionEvent) {
+        List<Expense> newList = event.getExpenses().stream()
+                .filter(q -> q.getPayingParticipants().contains(selectedExpenseParticipant))
+                .toList();
+        expenseList.getItems().setAll(newList);
+    }
+    /**
+     * lists only expenses that includes the selected user is the payer of
+     * @param actionEvent when the button is clicked
+     */
+    public void paidByParticipantList(ActionEvent actionEvent) {
+        List<Expense> newList = event.getExpenses().stream()
+                .filter(q -> q.getPayer().equals(selectedExpenseParticipant)).toList();
+        expenseList.getItems().setAll(newList);
+    }
+
+    /**
+     * lists all the expenses of an event
+     * @param actionEvent when the button is clicked
+     */
+    public void allExpenses(ActionEvent actionEvent) {
+        expenseList.getItems().setAll(event.getExpenses());
     }
 }
