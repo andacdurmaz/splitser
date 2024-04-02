@@ -65,5 +65,10 @@
       </Button>
 
       <ListView layoutX="368.0" layoutY="173.0" prefHeight="124.0" prefWidth="174.0" />
+      <Label fx:id="badFormat" layoutX="207.0" layoutY="182.0" prefHeight="16.0" prefWidth="150.0" text="Event code must be a number">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
