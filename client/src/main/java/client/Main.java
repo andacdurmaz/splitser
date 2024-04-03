@@ -50,13 +50,13 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
 
-        var startPage = FXML.load(StartPageCtrl.class, "client", "scenes", "StartPage.fxml");
-        var addOrEditExpense = FXML.load(AddOrEditExpenseCtrl.class,
-                "client", "scenes", "AddOrEditExpense.fxml");
+//        var startPage = FXML.load(StartPageCtrl.class, "client", "scenes", "StartPage.fxml");
+//        var addOrEditExpense = FXML.load(AddOrEditExpenseCtrl.class,
+//                "client", "scenes", "AddOrEditExpense.fxml");
         var addOrEditParticipant = FXML.load(AddOrEditParticipantCtrl.class, "client", "scenes",
                 "AddOrEditParticipant.fxml");
-        var add = FXML.load(AddEventCtrl.class, "client", "scenes", "AddEvent.fxml");
-        var eventInfo = FXML.load(EventInfoCtrl.class, "client", "scenes", "EventInfo.fxml");
+//        var add = FXML.load(AddEventCtrl.class, "client", "scenes", "AddEvent.fxml");
+//        var eventInfo = FXML.load(EventInfoCtrl.class, "client", "scenes", "EventInfo.fxml");
 
         var invitationsOverview = FXML.load(InvitationCtrl.class, "client",
                 "scenes", "Invitation.fxml");
@@ -70,8 +70,7 @@ public class Main extends Application {
 
         var addExpenseTags = FXML.load(AddExpenseTagCtrl.class, "client",
                 "scenes", "AddExpenseTag.fxml");
-        mainCtrl.initialize(primaryStage, startPage, addOrEditExpense,
-                add, eventInfo, addOrEditParticipant);
+        mainCtrl.initialize(primaryStage, addOrEditParticipant);
         mainCtrl.overviewInitialize(eventOverview);
         mainCtrl.invitationsInitialize(invitationsOverview);
         mainCtrl.expenseTagsInitialize(addExpenseTags);

@@ -19,35 +19,35 @@
             <Font name="Dubai Medium" size="48.0" />
          </font>
       </Label>
-      <Text layoutX="62.0" layoutY="154.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create Event">
+      <Text layoutX="62.0" layoutY="154.0" strokeType="OUTSIDE" strokeWidth="0.0" text="%create-event">
          <font>
             <Font size="18.0" />
          </font>
       </Text>
-      <Button layoutX="177.0" layoutY="134.0" mnemonicParsing="false" onAction="#createEvent" text="Create" />
-      <Text layoutX="62.0" layoutY="197.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Join Event">
+      <Button layoutX="177.0" layoutY="134.0" mnemonicParsing="false" onAction="#createEvent" text="%create" />
+      <Text layoutX="62.0" layoutY="197.0" strokeType="OUTSIDE" strokeWidth="0.0" text="%join-event">
          <font>
             <Font size="18.0" />
          </font>
       </Text>
       <Button layoutX="154.0" layoutY="179.0" minHeight="-Infinity" mnemonicParsing="false" onAction="#joinEvent" prefHeight="22.0" prefWidth="32.0" text="→" />
-      <Label fx:id="noCode" layoutX="207.0" layoutY="182.0" prefHeight="16.0" prefWidth="132.0" text="Wrong code. Try again.">
+      <Label fx:id="noCode" layoutX="207.0" layoutY="182.0" prefHeight="16.0" prefWidth="132.0" text="%wrong-code">
          <font>
             <Font size="11.0" />
          </font>
       </Label>
-      <TextField fx:id="eventid" layoutX="62.0" layoutY="220.0" minHeight="-Infinity" prefHeight="20.0" prefWidth="132.0" promptText="Enter the event code">
+      <TextField fx:id="eventid" layoutX="62.0" layoutY="220.0" minHeight="-Infinity" prefHeight="20.0" prefWidth="132.0" promptText="%enter-event-code">
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
       </TextField>
-      <Text layoutX="61.0" layoutY="280.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Admin Login">
+      <Text layoutX="61.0" layoutY="280.0" strokeType="OUTSIDE" strokeWidth="0.0" text="%admin-login">
          <font>
             <Font size="18.0" />
          </font>
       </Text>
-      <Button layoutX="178.0" layoutY="260.0" mnemonicParsing="false" onAction="#login" text="Log In" />
-      <Text layoutX="368.0" layoutY="153.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Recent Events" textAlignment="CENTER" wrappingWidth="132.0">
+      <Button layoutX="178.0" layoutY="260.0" mnemonicParsing="false" onAction="#login" text="%log-in" />
+      <Text layoutX="368.0" layoutY="153.0" strokeType="OUTSIDE" strokeWidth="0.0" text="%recent-events" textAlignment="CENTER" wrappingWidth="132.0">
          <font>
             <Font size="18.0" />
          </font>

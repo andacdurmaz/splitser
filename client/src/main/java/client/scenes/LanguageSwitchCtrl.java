@@ -111,6 +111,8 @@ public class LanguageSwitchCtrl implements Initializable {
      * Method to go back to previous page
      */
     public void backButton(){
+        Stage stage = (Stage) englishImage.getScene().getWindow();
+        stage.close();
         if (returningPage=='o')
             System.out.println("overview");
         else

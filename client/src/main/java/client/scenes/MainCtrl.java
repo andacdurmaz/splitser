@@ -83,7 +83,6 @@ public class MainCtrl {
     /**
      * Initialize mainCtrl
      *
-     * @param startPage                         start page
      * @param primaryStage                      stage
      * @param addOrEditExpenseCtrlParentPair
      * @param add                               add
@@ -91,25 +90,21 @@ public class MainCtrl {
      * @param addOrEditParticipantCtrParentPair addOrEditParticipantCtrlParentPair
      */
     public void initialize(Stage primaryStage,
-                           Pair<StartPageCtrl, Parent> startPage,
-                           Pair<AddOrEditExpenseCtrl, Parent> addOrEditExpenseCtrlParentPair,
-                           Pair<AddEventCtrl, Parent> add,
-                           Pair<EventInfoCtrl, Parent> eventInfo,
                            Pair<AddOrEditParticipantCtrl, Parent>
                                    addOrEditParticipantCtrParentPair) {
         this.primaryStage = primaryStage;
 
-        this.startPageCtrl = startPage.getKey();
-        this.startPage = new Scene(startPage.getValue());
+//        this.startPageCtrl = startPage.getKey();
+//        this.startPage = new Scene(startPage.getValue());
 
-        this.addOrEditExpenseCtrl = addOrEditExpenseCtrlParentPair.getKey();
-        this.addOrEditExpense = new Scene(addOrEditExpenseCtrlParentPair.getValue());
+//        this.addOrEditExpenseCtrl = addOrEditExpenseCtrlParentPair.getKey();
+//        this.addOrEditExpense = new Scene(addOrEditExpenseCtrlParentPair.getValue());
 
-        this.addCtrl = add.getKey();
-        this.add = new Scene(add.getValue());
+//        this.addCtrl = add.getKey();
+//        this.add = new Scene(add.getValue());
 
-        this.eventInfoCtrl = eventInfo.getKey();
-        this.eventInfo = new Scene(eventInfo.getValue());
+//        this.eventInfoCtrl = eventInfo.getKey();
+//        this.eventInfo = new Scene(eventInfo.getValue());
 
         this.addOrEditParticipantCtrl = addOrEditParticipantCtrParentPair.getKey();
         this.addOrEditParticipant = new Scene(addOrEditParticipantCtrParentPair.getValue());
@@ -147,23 +142,6 @@ public class MainCtrl {
     public void overviewInitialize(Pair<EventOverviewCtrl, Parent> overview) {
         this.eventOverviewCtrl = overview.getKey();
         this.overview = new Scene(overview.getValue());
-    }
-
-    /**
-     * Initialize mainCtrl
-     *
-     * @param adminOverview  Admin overview
-     * @param adminEventInfo Admin event info
-     */
-    public void adminInitialize(Pair<AdminOverviewCtrl,
-            Parent> adminOverview, Pair<AdminEventInfoCtrl, Parent> adminEventInfo) {
-        this.adminOverviewCtrl = adminOverview.getKey();
-        this.adminOverview = new Scene(adminOverview.getValue());
-
-        this.adminEventInfoCtrl = adminEventInfo.getKey();
-        this.adminEventInfo = new Scene(adminEventInfo.getValue());
-
-
     }
 
     /**
@@ -212,9 +190,13 @@ public class MainCtrl {
      * Shows start page
      */
     public void showStartPage() {
+        var startPage = Main.FXML.load(StartPageCtrl.class, bundle, "client",
+                "scenes", "StartPage.fxml");
+        StartPageCtrl startPageCtrl = startPage.getKey();
+        Scene startPageScene = new Scene(startPage.getValue());
         primaryStage.setTitle("Home");
         startPageCtrl.removeErrorMessage();
-        primaryStage.setScene(startPage);
+        primaryStage.setScene(startPageScene);
         startPageCtrl.refresh();
     }
 
@@ -223,9 +205,13 @@ public class MainCtrl {
      * Shows addEvent
      */
     public void showAdd() {
+        var addEvent = Main.FXML.load(AddEventCtrl.class, bundle, "client",
+                "scenes", "AddEvent.fxml");
+        AddEventCtrl addEventCtrl = addEvent.getKey();
+        Scene addEventCtrlScene = new Scene(addEvent.getValue());
         primaryStage.setTitle("Events: Adding Event");
-        primaryStage.setScene(add);
-        add.setOnKeyPressed(e -> addCtrl.keyPressed(e));
+        primaryStage.setScene(addEventCtrlScene);
+        addEventCtrlScene.setOnKeyPressed(e -> addEventCtrl.keyPressed(e));
     }
 
     /**
@@ -234,11 +220,15 @@ public class MainCtrl {
      * @param event event to be shown
      */
     public void showEventInfo(Event event) {
+        var eventInfo = Main.FXML.load(EventInfoCtrl.class, bundle, "client",
+                "scenes", "EventInfo.fxml");
+        EventInfoCtrl eventInfoCtrl = eventInfo.getKey();
+        Scene eventInfoScene = new Scene(eventInfo.getValue());
         primaryStage.setTitle(event.getTitle());
         eventInfoCtrl.setEvent(event);
         eventInfoCtrl.setData(event);
-        primaryStage.setScene(eventInfo);
-        eventInfo.setOnKeyPressed(e -> eventInfoCtrl.keyPressed(e));
+        primaryStage.setScene(eventInfoScene);
+        eventInfoScene.setOnKeyPressed(e -> eventInfoCtrl.keyPressed(e));
     }
 
 
@@ -249,11 +239,15 @@ public class MainCtrl {
      * @param expense expense to add or edit
      */
     public void showAddOrEditExpense(Event event, Expense expense) {
+        var addOrEditExpense = Main.FXML.load(AddOrEditExpenseCtrl.class, bundle, "client",
+                "scenes", "AddOrEditExpense.fxml");
+        AddOrEditExpenseCtrl addOrEditExpenseCtrl = addOrEditExpense.getKey();
+        Scene addOrEditExpenseScene = new Scene(addOrEditExpense.getValue());
         primaryStage.setTitle("Add/Edit expense");
         addOrEditExpenseCtrl.initialize();
         addOrEditExpenseCtrl.setup(event, expense);
-        primaryStage.setScene(addOrEditExpense);
-        addOrEditExpense.setOnKeyPressed(e -> addOrEditExpenseCtrl.keyPressed(e));
+        primaryStage.setScene(addOrEditExpenseScene);
+        addOrEditExpenseScene.setOnKeyPressed(e -> addOrEditExpenseCtrl.keyPressed(e));
     }
 
 
@@ -562,9 +556,9 @@ public class MainCtrl {
         Scene languageSwitchScene = new Scene(languageSwitch.getValue());
 
         languageSwitchCtrl.setReturn(c);
-//        Stage popup = new Stage();
-        primaryStage.setTitle("Language switch");
-        primaryStage.setScene(languageSwitchScene);
-//        popup.show();
+        Stage popup = new Stage();
+        popup.setTitle("Language switch");
+        popup.setScene(languageSwitchScene);
+        popup.show();
     }
 }

@@ -12,35 +12,35 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="679.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.EventInfoCtrl">
    <children>
-      <Label layoutX="21.0" layoutY="121.0" text="Participants">
+      <Label layoutX="21.0" layoutY="121.0" text="%participants">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Label fx:id="participantsLabel" disable="true" layoutX="24.0" layoutY="148.0" prefHeight="18.0" prefWidth="157.0" text="Participants list" />
-      <Label layoutX="21.0" layoutY="186.0" text="Expenses ">
+      <Label fx:id="participantsLabel" disable="true" layoutX="24.0" layoutY="148.0" prefHeight="18.0" prefWidth="157.0" text="%participants-list" />
+      <Label layoutX="21.0" layoutY="186.0" text="%expenses">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <ComboBox fx:id="expenseComboBox" layoutX="24.0" layoutY="213.0" prefWidth="150.0" promptText="Participants" />
-      <Button layoutX="21.0" layoutY="299.0" mnemonicParsing="false" onAction="#addOrEditExpense" prefHeight="55.0" prefWidth="317.0" text="Add Expense" />
+      <ComboBox fx:id="expenseComboBox" layoutX="24.0" layoutY="213.0" prefWidth="150.0" promptText="%participants" />
+      <Button layoutX="21.0" layoutY="299.0" mnemonicParsing="false" onAction="#addOrEditExpense" prefHeight="55.0" prefWidth="317.0" text="%add-expense" />
       <ListView layoutX="361.0" layoutY="109.0" prefHeight="246.0" prefWidth="290.0" />
-      <Label fx:id="titleLabel" layoutX="21.0" layoutY="26.0" prefHeight="51.0" prefWidth="282.0" text="EVENT TITLE">
+      <Label fx:id="titleLabel" layoutX="21.0" layoutY="26.0" prefHeight="51.0" prefWidth="282.0" text="%event_name">
          <font>
             <Font name="Dubai Bold" size="24.0" />
          </font>
       </Label>
-      <TextField fx:id="eventTitle" layoutX="21.0" layoutY="26.0" prefHeight="51.0" prefWidth="282.0" text="EVENT TITLE">
+      <TextField fx:id="eventTitle" layoutX="21.0" layoutY="26.0" prefHeight="51.0" prefWidth="282.0" text="%event_name">
          <font>
             <Font name="Dubai Bold" size="24.0" />
          </font>
       </TextField>
-      <Button layoutX="361.0" layoutY="76.0" mnemonicParsing="false" text="All" />
-      <Button layoutX="403.0" layoutY="76.0" mnemonicParsing="false" text="Paid by Participant" />
-      <Button layoutX="526.0" layoutY="76.0" mnemonicParsing="false" text="Including Participant" />
-      <Label fx:id="descriptionLabel" layoutX="17.0" layoutY="80.0" prefHeight="18.0" prefWidth="290.0" text="Description " />
-      <TextField fx:id="description" layoutX="17.0" layoutY="80.0" prefHeight="18.0" prefWidth="290.0" text="Description " />
+      <Button layoutX="361.0" layoutY="76.0" mnemonicParsing="false" text="%all" />
+      <Button layoutX="403.0" layoutY="76.0" mnemonicParsing="false" text="%paid-by-participant" />
+      <Button layoutX="526.0" layoutY="76.0" mnemonicParsing="false" text="%including-participant" />
+      <Label fx:id="descriptionLabel" layoutX="17.0" layoutY="80.0" prefHeight="18.0" prefWidth="290.0" text="%event_description" />
+      <TextField fx:id="description" layoutX="17.0" layoutY="80.0" prefHeight="18.0" prefWidth="290.0" text="%event_description" />
       <Button layoutX="311.0" layoutY="70.0" mnemonicParsing="false" onAction="#editDescription" prefHeight="26.0" prefWidth="30.0">
          <graphic>
             <ImageView fitHeight="24.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
@@ -59,13 +59,13 @@
             </ImageView>
          </graphic>
       </Button>
-      <Button id="addParticipant" layoutX="129.0" layoutY="122.0" mnemonicParsing="false" onAction="#addParticipant" text="Add" />
-      <Button id="editParticipant" layoutX="231.0" layoutY="153.0" mnemonicParsing="false" onAction="#editParticipant" text="Edit" />
-      <Button layoutX="613.0" layoutY="12.0" mnemonicParsing="false" onAction="#back" text="Back" />
-      <Button id="deleteParticipant" layoutX="273.0" layoutY="153.0" mnemonicParsing="false" onAction="#deleteParticipant" text="Delete" />
-      <ComboBox fx:id="participantCombobox" layoutX="174.0" layoutY="122.0" onAction="#selectParticipant" prefWidth="150.0" promptText="Participants" />
-      <Button fx:id="invitation" layoutX="376.0" layoutY="42.0" mnemonicParsing="false" onAction="#sendInvitations" text="Invitations" />
-      <Button layoutX="460.0" layoutY="42.0" mnemonicParsing="false" text="Statistics" />
-      <Button fx:id="expense_tag"  onAction="#addExpenseTag" layoutX="534.0" layoutY="42.0" mnemonicParsing="false" text="Add Expense Tag" />
+      <Button id="addParticipant" layoutX="129.0" layoutY="122.0" mnemonicParsing="false" onAction="#addParticipant" text="%add" />
+      <Button id="editParticipant" layoutX="231.0" layoutY="153.0" mnemonicParsing="false" onAction="#editParticipant" text="%edit" />
+      <Button layoutX="613.0" layoutY="12.0" mnemonicParsing="false" onAction="#back" text="%back" />
+      <Button id="deleteParticipant" layoutX="273.0" layoutY="153.0" mnemonicParsing="false" onAction="#deleteParticipant" text="%delete" />
+      <ComboBox fx:id="participantCombobox" layoutX="174.0" layoutY="122.0" onAction="#selectParticipant" prefWidth="150.0" promptText="%participants" />
+      <Button fx:id="invitation" layoutX="376.0" layoutY="42.0" mnemonicParsing="false" onAction="#sendInvitations" text="%invitations" />
+      <Button layoutX="460.0" layoutY="42.0" mnemonicParsing="false" text="%statistics" />
+      <Button fx:id="expense_tag"  onAction="#addExpenseTag" layoutX="534.0" layoutY="42.0" mnemonicParsing="false" text="%add-expense-tag" />
    </children>
 </AnchorPane>
