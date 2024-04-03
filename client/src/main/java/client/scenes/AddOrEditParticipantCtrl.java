@@ -100,6 +100,7 @@ public class AddOrEditParticipantCtrl {
      * @param user the edited user
       */
     public void editFields(User user) {
+        name.requestFocus();
         if (user == null)
             clearFields();
         else {

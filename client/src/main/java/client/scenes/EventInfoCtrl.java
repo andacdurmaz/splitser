@@ -2,15 +2,18 @@ package client.scenes;
 
 import client.utils.ServerUtils;
 import commons.Event;
+import commons.Expense;
 import commons.User;
 import javafx.event.ActionEvent;
-import commons.Expense;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldListCell;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.StringConverter;
+
 import javax.inject.Inject;
 import java.util.List;
 
@@ -41,11 +44,16 @@ public class EventInfoCtrl {
     @FXML
     private Label descriptionLabel;
     @FXML
+
     private ListView<Expense> expenseList;
     @FXML
     private Button paidByButton;
     @FXML
     private Button includingButton;
+    @FXML
+    private Button editTitle;
+    @FXML
+    private Button editDescription;
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
 
@@ -73,7 +81,6 @@ public class EventInfoCtrl {
                 return "(" + expense.getDate() + ") " + expense.getPayer().getUsername() +
                         " paid " + expense.getAmount() + " for " + expense.getName();
             }
-
             @Override
             public Expense fromString(String string) {
                 return null;
@@ -84,24 +91,33 @@ public class EventInfoCtrl {
             public String toString(User user) {
                 return user.getUsername(); // Display the user name
             }
-
             @Override
             public User fromString(String string) {
                 return null;
             }
         });
-
         expenseComboBox.setConverter(new StringConverter<User>() {
             @Override
             public String toString(User user) {
                 return user.getUsername(); // Display the user name
             }
-
             @Override
             public User fromString(String string) {
                 return null;
             }
         });
+        ImageView imageView = new ImageView(getClass()
+                .getResource("/client/images/EditPencilIcon.png")
+                .toExternalForm());
+        imageView.setFitWidth(17);
+        imageView.setFitHeight(17);
+        editTitle.setGraphic(imageView);
+        ImageView imageView2 = new ImageView(getClass()
+                .getResource("/client/images/EditPencilIcon.png")
+                .toExternalForm());
+        imageView2.setFitWidth(17);
+        imageView2.setFitHeight(17);
+        editDescription.setGraphic(imageView2);
     }
 
     /**
@@ -159,8 +175,28 @@ public class EventInfoCtrl {
     }
 
 
+
     /**
      * adds a new participant to database and event
+     * @param actionEvent when the button is clicked
+     */
+    public void addExpense(ActionEvent actionEvent){
+        selectedExpense = null;
+        mainCtrl.showAddOrEditExpense(event, selectedExpense);
+    }
+
+    /**
+     * edits a selected participant's information
+     * @param actionEvent when the button is clicked
+     */
+    public void editExpense(ActionEvent actionEvent){
+        if (selectedExpense == null) {
+            //mainCtrl.showAddOrEditParticipants(new User(), event);
+        }
+        mainCtrl.showAddOrEditExpense(event, selectedExpense);
+    }
+    /**
+     * adds a new expense to database and event
      * @param actionEvent when the button is clicked
      */
     public void addParticipant(ActionEvent actionEvent){
@@ -169,7 +205,7 @@ public class EventInfoCtrl {
     }
 
     /**
-     * edits a selected participant's information
+     * edits a selected expense's information
      * @param actionEvent when the button is clicked
      */
     public void editParticipant(ActionEvent actionEvent){
@@ -366,5 +402,13 @@ public class EventInfoCtrl {
      */
     public void allExpenses(ActionEvent actionEvent) {
         expenseList.getItems().setAll(event.getExpenses());
+    }
+
+    /**
+     * selects an expense to be edited
+     * @param mouseEvent when the expense is clicked on from the list
+     */
+    public void selectExpenseList(MouseEvent mouseEvent) {
+        selectedExpense = expenseList.getSelectionModel().getSelectedItem();
     }
 }

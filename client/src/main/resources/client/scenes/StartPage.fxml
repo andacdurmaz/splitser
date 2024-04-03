@@ -12,25 +12,25 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="379.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.StartPageCtrl">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="379.0" prefWidth="600.0"  xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.StartPageCtrl" style="background-color: white;">
    <children>
-      <Label layoutX="232.0" layoutY="27.0" text="Splitty" textFill="#fd7f20" underline="true">
+      <Label layoutX="203.0" layoutY="39.0" text="Splitty" textFill="#fd7f20" underline="true">
          <font>
-            <Font name="Dubai Medium" size="48.0" />
+            <Font name="Showcard Gothic" size="48.0" />
          </font>
       </Label>
       <Text layoutX="62.0" layoutY="154.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create Event">
          <font>
-            <Font size="18.0" />
+            <Font name="System Bold" size="18.0" />
          </font>
       </Text>
-      <Button layoutX="177.0" layoutY="134.0" mnemonicParsing="false" onAction="#createEvent" text="Create" />
+      <Button layoutX="177.0" layoutY="134.0" mnemonicParsing="false" onAction="#createEvent" text="Create" textFill="WHITE" style=" -fx-background-color: fd7f20" />
       <Text layoutX="62.0" layoutY="197.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Join Event">
          <font>
-            <Font size="18.0" />
+            <Font name="System Bold" size="18.0" />
          </font>
       </Text>
-      <Button layoutX="154.0" layoutY="179.0" minHeight="-Infinity" mnemonicParsing="false" onAction="#joinEvent" prefHeight="22.0" prefWidth="32.0" text="→" />
+      <Button layoutX="154.0" layoutY="179.0" minHeight="-Infinity" mnemonicParsing="false" onAction="#joinEvent" prefHeight="22.0" prefWidth="32.0" text="→" textFill="WHITE" style=" -fx-background-color: fd7f20"/>
       <Label fx:id="noCode" layoutX="207.0" layoutY="182.0" prefHeight="16.0" prefWidth="132.0" text="Wrong code. Try again.">
          <font>
             <Font size="11.0" />
@@ -43,13 +43,13 @@
       </TextField>
       <Text layoutX="61.0" layoutY="280.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Admin Login">
          <font>
-            <Font size="18.0" />
+            <Font name="System Bold" size="18.0" />
          </font>
       </Text>
-      <Button layoutX="178.0" layoutY="260.0" mnemonicParsing="false" onAction="#login" text="Log In" />
+      <Button layoutX="178.0" layoutY="260.0" mnemonicParsing="false" onAction="#login" text="Log In" textFill="WHITE" style=" -fx-background-color: fd7f20" />
       <Text layoutX="368.0" layoutY="153.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Recent Events" textAlignment="CENTER" wrappingWidth="132.0">
          <font>
-            <Font size="18.0" />
+            <Font name="System Bold" size="18.0" />
          </font>
       </Text>
 
@@ -65,5 +65,10 @@
       </Button>
 
       <ListView layoutX="368.0" layoutY="173.0" prefHeight="124.0" prefWidth="174.0" />
+      <Label fx:id="badFormat" layoutX="207.0" layoutY="182.0" prefHeight="16.0" prefWidth="150.0" text="Event code must be a number">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
