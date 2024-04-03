@@ -10,6 +10,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.StringConverter;
 
@@ -174,8 +175,28 @@ public class EventInfoCtrl {
     }
 
 
+
     /**
      * adds a new participant to database and event
+     * @param actionEvent when the button is clicked
+     */
+    public void addExpense(ActionEvent actionEvent){
+        selectedExpense = null;
+        mainCtrl.showAddOrEditExpense(event, selectedExpense);
+    }
+
+    /**
+     * edits a selected participant's information
+     * @param actionEvent when the button is clicked
+     */
+    public void editExpense(ActionEvent actionEvent){
+        if (selectedExpense == null) {
+            //mainCtrl.showAddOrEditParticipants(new User(), event);
+        }
+        mainCtrl.showAddOrEditExpense(event, selectedExpense);
+    }
+    /**
+     * adds a new expense to database and event
      * @param actionEvent when the button is clicked
      */
     public void addParticipant(ActionEvent actionEvent){
@@ -184,7 +205,7 @@ public class EventInfoCtrl {
     }
 
     /**
-     * edits a selected participant's information
+     * edits a selected expense's information
      * @param actionEvent when the button is clicked
      */
     public void editParticipant(ActionEvent actionEvent){
@@ -381,5 +402,13 @@ public class EventInfoCtrl {
      */
     public void allExpenses(ActionEvent actionEvent) {
         expenseList.getItems().setAll(event.getExpenses());
+    }
+
+    /**
+     * selects an expense to be edited
+     * @param mouseEvent when the expense is clicked on from the list
+     */
+    public void selectExpenseList(MouseEvent mouseEvent) {
+        selectedExpense = expenseList.getSelectionModel().getSelectedItem();
     }
 }
