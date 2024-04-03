@@ -23,9 +23,11 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 
+import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
+import javafx.util.StringConverter;
 import org.apache.catalina.valves.rewrite.ResolverImpl;
 
 
@@ -78,6 +80,27 @@ public class StartPageCtrl implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        joinedEvents.setCellFactory(param -> new TextFieldListCell<>(new StringConverter<Event>() {
+            @Override
+            public String toString(Event object) {
+                return object.getTitle();
+            }
+
+            @Override
+            public Event fromString(String string) {
+                return null;
+            }
+        }));
+
+        try {
+            List<Event> events = mainCtrl.getJoinedEvents();
+            joinedEvents.getItems().setAll(events);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+
+
         try {
             getJoinedEvents();
         } catch (IOException e) {
