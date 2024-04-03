@@ -4,23 +4,32 @@ import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Event;
 import javafx.animation.PauseTransition;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 
 
+import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.ResourceBundle;
 
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
+import org.apache.catalina.valves.rewrite.ResolverImpl;
 
 
-public class StartPageCtrl {
+public class StartPageCtrl implements Initializable {
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
     private ObservableList<Event> data;
@@ -33,6 +42,8 @@ public class StartPageCtrl {
     private Label noCode;
     @FXML
     private Label badFormat;
+    @FXML
+    private ListView<Event> joinedEvents;
 
 
     /**
@@ -45,6 +56,34 @@ public class StartPageCtrl {
     public StartPageCtrl(ServerUtils server, MainCtrl mainCtrl) {
         this.mainCtrl = mainCtrl;
         this.server = server;
+    }
+
+    /**
+     * gets all joined events of the user by its config file
+     */
+    public void getJoinedEvents() throws IOException {
+        try {
+            joinedEvents = new ListView<Event>();
+            List<Event> events = mainCtrl.getJoinedEvents();
+            for(Event event : events){
+                joinedEvents.getItems().add(event);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * initializes the page
+     */
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        try {
+            getJoinedEvents();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        imageset();
     }
 
     /**
@@ -94,9 +133,14 @@ public class StartPageCtrl {
     /**
      * refreshes the data of the page
      */
-    public void refresh() {
+    public void refresh()  {
         var events = server.getEvents();
-        data = FXCollections.observableList(events);
+        events = FXCollections.observableList(events);
+        try {
+            getJoinedEvents();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         imageset();
     }
 

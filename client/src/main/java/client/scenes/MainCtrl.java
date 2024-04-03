@@ -44,6 +44,7 @@ import java.util.ResourceBundle;
 
 
 public class MainCtrl {
+    private static final String CONFIG_PATH = "src/main/resources/CONFIG.json";
 
     private Stage primaryStage;
     private Stage popupStage;
@@ -349,7 +350,7 @@ public class MainCtrl {
      * @throws IOException if the file is not found
      */
     public List<Event> getJoinedEvents() throws IOException {
-        return getJoinedEventsProvidingPath("src/main/resources/CONFIG.json");
+        return getJoinedEventsProvidingPath(CONFIG_PATH);
     }
 
 
@@ -377,7 +378,7 @@ public class MainCtrl {
      * @throws IOException if the file is not found
      */
     public String getLanguage() throws IOException {
-        return getLanguageProvidingPath("src/main/resources/CONFIG.json");
+        return getLanguageProvidingPath(CONFIG_PATH);
     }
 
     /**
@@ -399,7 +400,7 @@ public class MainCtrl {
      * @throws IOException if the file is not found
      */
     public String getCurrency() throws IOException {
-        return getCurrencyProvidingPath("src/main/resources/CONFIG.json");
+        return getCurrencyProvidingPath(CONFIG_PATH);
     }
 
     /**
@@ -430,20 +431,20 @@ public class MainCtrl {
 
     /**
      * writes to the config file
-     * @param content content to be written (IN JSON FORMAT)
+     * @param event event to be written (IN JSON FORMAT)
      * @throws IOException if the file is not found
      */
-    public void writeEventToConfigFile(String content) throws IOException {
-        writeEventToConfigFileByPath("client/src/main/resources/CONFIG.json", content);
+    public void writeEventToConfigFile(Event event) throws IOException {
+        writeEventToConfigFileByPath(CONFIG_PATH, event);
     }
 
     /**
      * writes to the config file by path
      * @param filePath path to the file
-     * @param content content to be written (IN JSON FORMAT)
+     * @param event event to be written (IN JSON FORMAT)
      * @throws IOException if the file is not found
      */
-    public void writeEventToConfigFileByPath(String filePath, String content) throws IOException {
+    public void writeEventToConfigFileByPath(String filePath, Event event) throws IOException {
         // Read the JSON file
         JSONObject jsonObject = new JSONObject(readConfigFile(filePath));
         // Get the User object
@@ -460,7 +461,7 @@ public class MainCtrl {
         }
 
         // Add the new event to the array
-        JSONObject newEvent = new JSONObject(content);
+        JSONObject newEvent = new JSONObject(event);
 
         // Add all events back to the array
         eventsArray.put(newEvent);
@@ -478,7 +479,7 @@ public class MainCtrl {
      * @throws IOException if the file is not found
      */
     public void writeLanguageToConfigFile(String language) throws IOException {
-        writeLanguageToConfigFileByPath("src/main/resources/CONFIG.json", language);
+        writeLanguageToConfigFileByPath(CONFIG_PATH, language);
     }
 
     /**
@@ -502,7 +503,7 @@ public class MainCtrl {
      * @param currency currency to be written
      */
     public void writeCurrencyToConfigFile(String currency) throws IOException {
-        writeCurrencyToConfigFileByPath("client/src/main/resources/CONFIG.json", currency);
+        writeCurrencyToConfigFileByPath(CONFIG_PATH, currency);
     }
 
     /**

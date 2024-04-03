@@ -2,7 +2,9 @@ package commons;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import org.codehaus.jackson.map.ObjectMapper;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -325,16 +327,11 @@ public class Event {
      */
     @Override
     public String toString() {
-        return "{" +
-                "\"id\":" + id +
-                ",\"eventCode\":" + eventCode +
-                ",\"title\":\"" + title + '\"' +
-                ",\"amountOfParticipants\":" + amountOfParticipants +
-                ",\"expenses\":" + expenses +
-                ",\"description\":\"" + description + '\"' +
-                ",\"participants\":" +  participants  +
-                ",\"expenseTags\":" +  expenseTags  +
-                ",\"sumOfExpenses\":" + getSumOfExpenses() +
-                '}';
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            return mapper.writeValueAsString(this);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

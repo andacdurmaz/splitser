@@ -10,6 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Modality;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Random;
 
@@ -53,11 +54,15 @@ public class AddEventCtrl {
         try {
             Event tmp = server.addEvent(newEvent);
             newEvent.setId(tmp.getId());
+            mainCtrl.writeEventToConfigFile(newEvent);
         } catch (WebApplicationException e) {
             var alert = new Alert(Alert.AlertType.ERROR);
             alert.initModality(Modality.APPLICATION_MODAL);
             alert.setContentText(e.getMessage());
             alert.showAndWait();
+            return;
+        } catch (IOException e) {
+            e.printStackTrace();
             return;
         }
         clearFields();
