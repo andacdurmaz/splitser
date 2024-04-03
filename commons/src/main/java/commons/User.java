@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import commons.exceptions.BICFormatException;
 import commons.exceptions.EmailFormatException;
 import commons.exceptions.IBANFormatException;
+import fr.marcwrobel.jbanking.bic.Bic;
+import fr.marcwrobel.jbanking.iban.Iban;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -83,11 +85,11 @@ public class User {
         if (email.indexOf('@') == -1 || email.indexOf('.') == -1)
             throw new EmailFormatException();
         this.email = email;
-        if (iban.length() != 34) {
+        if (!Iban.isValid(iban)) {
             throw new IBANFormatException();
         }
         this.iban = iban;
-        if (bic.length() != 11) {
+        if (!Bic.isValid(bic)) {
             throw new BICFormatException();
         }
         this.bic = bic;
@@ -169,9 +171,10 @@ public class User {
      *
      * @param iban new IBAN of the User
      * @throws IBANFormatException if the format is incorrect
+     * https://github.com/marcwrobel/jbanking for info about the Iban class
      */
     public void setIban(String iban) throws IBANFormatException {
-        if (iban.length() != 34) {
+        if (!Iban.isValid(iban)) {
             throw new IBANFormatException();
         }
         this.iban = iban;
@@ -191,9 +194,10 @@ public class User {
      *
      * @param bic new BIC of the User
      * @throws BICFormatException if the format is incorrect
+     * https://github.com/marcwrobel/jbanking for info about the Bic class
      */
     public void setBic(String bic) throws BICFormatException {
-        if (bic.length() != 11) {
+        if (!Bic.isValid(bic)) {
             throw new BICFormatException();
         }
         this.bic = bic;
