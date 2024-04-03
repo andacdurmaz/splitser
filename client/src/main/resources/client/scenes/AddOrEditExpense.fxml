@@ -12,25 +12,45 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.AddOrEditExpenseCtrl">
    <children>
-      <Label layoutX="204.0" layoutY="14.0" text="%add/edit-expense">
+      <Label layoutX="197.0" layoutY="25.0" text="%add/edit-expense"" textFill="#fd7f20">
          <font>
-            <Font size="25.0" />
+            <Font name="System Bold" size="25.0" />
          </font>
       </Label>
-      <Label layoutX="50.0" layoutY="63.0" text="%what-for" />
-      <TextField fx:id="whatFor" layoutX="151.0" layoutY="59.0" />
-      <Label layoutX="47.0" layoutY="107.0" text="%who-paid" />
-      <ComboBox fx:id="payer" layoutX="151.0" layoutY="103.0" prefWidth="150.0" promptText="%payer" />
-      <Label layoutX="45.0" layoutY="151.0" text="%how-much" />
-      <TextField fx:id="howMuch" layoutX="151.0" layoutY="147.0" />
-      <ComboBox fx:id="currency" layoutX="314.0" layoutY="147.0" prefHeight="26.0" prefWidth="97.0" promptText="%currency" />
-      <Label layoutX="55.0" layoutY="191.0" prefHeight="18.0" prefWidth="42.0" text="%when" />
-      <DatePicker fx:id="when" layoutX="151.0" layoutY="187.0" prefHeight="26.0" prefWidth="150.0" />
-      <Label layoutX="39.0" layoutY="235.0" text="%how-to-split" />
-      <CheckBox fx:id="allParticipants" layoutX="121.0" layoutY="235.0" mnemonicParsing="false" onAction="#allParticipantsPay" text="%all-participants" />
-      <CheckBox fx:id="someParticipants" layoutX="226.0" layoutY="235.0" mnemonicParsing="false" onAction="#someParticipantsPay" text="%some-participants" />
+
+      <Label layoutX="50.0" layoutY="84.0" text="%what-for?">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Label>
+      <TextField fx:id="whatFor" layoutX="151.0" layoutY="80.0" promptText="Enter expense name" />
+      <Label layoutX="49.0" layoutY="124.0" text="%who-paid">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Label>
+      <ComboBox fx:id="payer" layoutX="150.0" layoutY="120.0" prefWidth="150.0" promptText="Payer" />
+      <Label layoutX="45.0" layoutY="163.0" text="%how-much">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Label>
+      <TextField fx:id="howMuch" layoutX="151.0" layoutY="159.0" promptText="Enter expense value" />
+      <ComboBox fx:id="currency" layoutX="314.0" layoutY="159.0" prefHeight="26.0" prefWidth="97.0" promptText="%currency" />
+      <Label layoutX="55.0" layoutY="204.0" prefHeight="18.0" prefWidth="42.0" text="%when">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Label>
+      <DatePicker fx:id="when" layoutX="151.0" layoutY="200.0" prefHeight="26.0" prefWidth="150.0" promptText="Enter expense date" />
+      <Label layoutX="39.0" layoutY="243.0" text="%how-to-split">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Label>
+      <CheckBox fx:id="allParticipants" layoutX="126.0" layoutY="243.0" mnemonicParsing="false" onAction="#allParticipantsPay" text="%all-participants" />
+      <CheckBox fx:id="someParticipants" layoutX="243.0" layoutY="243.0" mnemonicParsing="false" onAction="#someParticipantsPay" text="%some-participants" />
       <VBox fx:id="someParticipantsSelector" layoutX="42.0" layoutY="260.0" prefHeight="67.0" prefWidth="307.0" />
       <Label layoutX="40.0" layoutY="342.0" text="%expense-type" />
+      <Label layoutX="40.0" layoutY="342.0" text="Expense Type">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Label>
       <ComboBox fx:id="expenseTag" layoutX="150.0" layoutY="338.0" prefWidth="150.0" />
       <Button fx:id="cancelButton" layoutX="478.0" layoutY="351.0" mnemonicParsing="false" onAction="#cancel" onMouseClicked="#cancel" text="%cancel" />
       <Button fx:id="okButton" layoutX="543.0" layoutY="351.0" mnemonicParsing="false" onAction="#ok" onMouseClicked="#ok" text="%ok" />

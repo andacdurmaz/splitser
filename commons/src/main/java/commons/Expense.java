@@ -257,6 +257,6 @@ public class Expense {
      * @return date of expense
      */
     public LocalDate getDate() {
-        return date;
+        return expenseDate;
     }
 }
