@@ -84,30 +84,9 @@ public class MainCtrl {
      * Initialize mainCtrl
      *
      * @param primaryStage                      stage
-     * @param addOrEditExpenseCtrlParentPair
-     * @param add                               add
-     * @param eventInfo                         eventInfo
-     * @param addOrEditParticipantCtrParentPair addOrEditParticipantCtrlParentPair
      */
-    public void initialize(Stage primaryStage,
-                           Pair<AddOrEditParticipantCtrl, Parent>
-                                   addOrEditParticipantCtrParentPair) {
+    public void initialize(Stage primaryStage) {
         this.primaryStage = primaryStage;
-
-//        this.startPageCtrl = startPage.getKey();
-//        this.startPage = new Scene(startPage.getValue());
-
-//        this.addOrEditExpenseCtrl = addOrEditExpenseCtrlParentPair.getKey();
-//        this.addOrEditExpense = new Scene(addOrEditExpenseCtrlParentPair.getValue());
-
-//        this.addCtrl = add.getKey();
-//        this.add = new Scene(add.getValue());
-
-//        this.eventInfoCtrl = eventInfo.getKey();
-//        this.eventInfo = new Scene(eventInfo.getValue());
-
-        this.addOrEditParticipantCtrl = addOrEditParticipantCtrParentPair.getKey();
-        this.addOrEditParticipant = new Scene(addOrEditParticipantCtrParentPair.getValue());
 
         getConfigLocale();
         showStartPage();
@@ -161,30 +140,6 @@ public class MainCtrl {
     public ResourceBundle getBundle() {
         return bundle;
     }
-
-    /**
-     * Initialize invitations
-     *
-     * @param invitationOverview
-     */
-    public void invitationsInitialize(
-            Pair<InvitationCtrl, Parent> invitationOverview) {
-        this.invitationCtrl = invitationOverview.getKey();
-        this.invitationOverview = new Scene(invitationOverview.getValue());
-
-    }
-
-    /**
-     *  Initialize expense tags
-     * @param addExpenseTag
-     */
-    public void expenseTagsInitialize(
-            Pair<AddExpenseTagCtrl, Parent> addExpenseTag){
-        this.addExpenseTagCtrl = addExpenseTag.getKey();
-        this.addExpenseTag = new Scene(addExpenseTag.getValue());
-
-    }
-
 
     /**
      * Shows start page
@@ -258,12 +213,16 @@ public class MainCtrl {
      * @param event where the change will happen
      */
     public void showAddOrEditParticipants(User user, Event event) {
+        var addOrEditParticipants = Main.FXML.load(AddOrEditParticipantCtrl.class, bundle, "client",
+                "scenes", "AddOrEditParticipant.fxml");
+        AddOrEditParticipantCtrl addOrEditParticipantCtrl = addOrEditParticipants.getKey();
+        Scene addOrEditParticipantsScene = new Scene(addOrEditParticipants.getValue());
         primaryStage.setTitle("Add/Edit participant");
         addOrEditParticipantCtrl.setUser(user);
         addOrEditParticipantCtrl.setEvent(event);
         addOrEditParticipantCtrl.editFields(user);
-        primaryStage.setScene(addOrEditParticipant);
-        addOrEditParticipant.setOnKeyPressed(e -> {
+        primaryStage.setScene(addOrEditParticipantsScene);
+        addOrEditParticipantsScene.setOnKeyPressed(e -> {
             try {
                 addOrEditParticipantCtrl.keyPressed(e);
             } catch (EmailFormatException ex) {
@@ -283,9 +242,13 @@ public class MainCtrl {
      * @param event
      */
     public void showSendInvitations(Event event) {
+        var invitationOverview = Main.FXML.load(InvitationCtrl.class, bundle, "client",
+                "scenes", "Invitation.fxml");
+        InvitationCtrl invitationCtrl = invitationOverview.getKey();
+        Scene invitationOverviewScene = new Scene(invitationOverview.getValue());
         invitationCtrl.setEvent(event);
         invitationCtrl.setData(event);
-        primaryStage.setScene(invitationOverview);
+        primaryStage.setScene(invitationOverviewScene);
     }
 
     /**
@@ -294,8 +257,12 @@ public class MainCtrl {
      */
 
     public void showExpenseTags(Event event) {
+        var addExpenseTags = Main.FXML.load(AddExpenseTagCtrl.class, bundle, "client",
+                "scenes", "AddExpenseTag.fxml");
+        AddExpenseTagCtrl addExpenseTagCtrl = addExpenseTags.getKey();
+        Scene addExpenseTagsScene = new Scene(addExpenseTags.getValue());
         addExpenseTagCtrl.setEvent(event);
-        primaryStage.setScene(addExpenseTag);
+        primaryStage.setScene(addExpenseTagsScene);
     }
 
     /**
