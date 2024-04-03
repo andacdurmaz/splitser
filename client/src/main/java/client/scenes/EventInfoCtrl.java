@@ -43,7 +43,6 @@ public class EventInfoCtrl {
     @FXML
     private Label descriptionLabel;
     @FXML
-
     private ListView<Expense> expenseList;
     @FXML
     private Button paidByButton;
