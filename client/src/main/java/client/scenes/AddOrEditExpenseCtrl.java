@@ -296,8 +296,6 @@ public class AddOrEditExpenseCtrl implements Initializable {
         this.expense = expense;
         setFields();
         expenseTag.getItems().setAll(event.getExpenseTags());
-//        someParticipantsSelector.setVisible(false);
-//        someParticipantsSelector.getChildren().clear();
         for (User u : event.getParticipants()) {
             someParticipantsSelector.getChildren()
                     .add(new CheckBox(u.getUsername() + "(id: " + u.getUserID() + ")"));
