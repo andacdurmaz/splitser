@@ -111,6 +111,9 @@ public class AddOrEditExpenseCtrl implements Initializable {
         when.setValue(null);
         allParticipants.setSelected(false);
         someParticipants.setSelected(false);
+        someParticipantsSelector.setVisible(false);
+        someParticipantsSelector.getChildren().clear();
+
     }
     /**
      * Checkbox method for allParticipants
@@ -293,19 +296,32 @@ public class AddOrEditExpenseCtrl implements Initializable {
         this.expense = expense;
         setFields();
         expenseTag.getItems().setAll(event.getExpenseTags());
-        someParticipantsSelector.setVisible(false);
-        someParticipantsSelector.getChildren().clear();
+//        someParticipantsSelector.setVisible(false);
+//        someParticipantsSelector.getChildren().clear();
         for (User u : event.getParticipants()) {
             someParticipantsSelector.getChildren()
                     .add(new CheckBox(u.getUsername() + "(id: " + u.getUserID() + ")"));
         }
+        if (expense != null) {
+            List<Long> ids = expense.getPayingParticipants()
+                    .stream().map(q -> q.getUserID()).toList();
+            for(Node n : someParticipantsSelector.getChildren()) {
+                String text = ((CheckBox) n).getText();
+                int index = text.indexOf("(id: ");
+                long id = Long.parseLong(text.substring(index +5, text.length() -1));
+                if (ids.contains(id)) {
+                    ((CheckBox) n).setSelected(true);
+                }
+            }
+        }
+
         payer.setItems(FXCollections.observableList(event.getParticipants()));
         payer.setValue(event.getParticipants().get(0));
         if(expense == null) {
             okButton.setText("Add");
         }
         else {
-            editExistingExpenseSetup(expense);
+            okButton.setText("Edit");
         }
     }
 
@@ -313,33 +329,6 @@ public class AddOrEditExpenseCtrl implements Initializable {
      * Setup for editing an existing expense
      * @param expense expense to edit
      */
-    private void editExistingExpenseSetup(Expense expense) {
-        okButton.setText("Edit");
-        payer.setValue(expense.getPayer());
-        howMuch.setText(String.valueOf(expense.getAmount()));
-        when.setValue(expense.getDate());
-        boolean notAllPay = false;
-        List<User> payingParticipants = new ArrayList<>();
-        payingParticipants.addAll(expense.getPayingParticipants());
-        if(payingParticipants.size() < event.getParticipants().size()) {
-            someParticipantsPay();
-            notAllPay = true;
-        }
-        if(notAllPay) {
-            for(User u : payingParticipants) {
-                for(Node n : someParticipantsSelector.getChildren()) {
-                    if(((CheckBox) n).getText().equals(u)) {
-                        ((CheckBox) n).setSelected(true);
-                    }
-                }
-            }
-            someParticipants.setSelected(true);
-            someParticipantsPay();
-        } else {
-            allParticipants.setSelected(true);
-            allParticipantsPay();
-        }
-    }
 
     /**
      * fills the field with the edited expense's info
@@ -355,13 +344,17 @@ public class AddOrEditExpenseCtrl implements Initializable {
             payer.setValue(expense.getPayer());
             whatFor.setText(expense.getName());
             when.setValue(expense.getDate());
+            expenseTag.getSelectionModel().select(expense.getExpenseTag());
             if (expense.getPayingParticipants().size() == event.getParticipants().size()) {
                 allParticipants.setSelected(true);
                 someParticipants.setSelected(false);
             }
             else {
-                allParticipants.setSelected(false);
                 someParticipants.setSelected(true);
+                someParticipantsPay();
+
+
+
             }
 
         }
