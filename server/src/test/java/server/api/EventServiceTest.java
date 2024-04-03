@@ -68,10 +68,10 @@ public class EventServiceTest {
         Event event = new Event("Title", 4, "Description");
         EventRepository eventRepository = mock(EventRepository.class);
         EventService eventService = new EventService(eventRepository);
-        when(eventRepository.getCreatorById(1)).thenReturn(new User("username", "@.",
+        when(eventRepository.getCreatorById(1)).thenReturn(new User("username", "username@gmail.com",
                 "GB94BARC10201530093459","RABONL2UXXX"));
         User creator = eventService.getCreatorById(1);
-        assertEquals(new User("username", "@.",
+        assertEquals(new User("username", "username@gmail.com",
                 "GB94BARC10201530093459","RABONL2UXXX"), creator);
     }
 
