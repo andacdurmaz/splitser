@@ -17,13 +17,20 @@ package client.scenes;
 
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.image.Image;
+import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.Stage;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.URL;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class LanguageSwitchCtrl implements Initializable {
 
@@ -34,6 +41,18 @@ public class LanguageSwitchCtrl implements Initializable {
     private ImageView englishImage;
     @FXML
     private ImageView dutchImage;
+    @FXML
+    private ImageView turkishImage;
+    @FXML
+    private ImageView spanishImage;
+    @FXML
+    private ImageView frenchImage;
+    @FXML
+    private ImageView chineseImage;
+    @FXML
+    private ImageView germanImage;
+    @FXML
+    private Button downloadThemplate;
 
     /**
      * Constructor for AdminOverview
@@ -63,6 +82,21 @@ public class LanguageSwitchCtrl implements Initializable {
         Image dutchFlag = new Image(getClass()
                 .getResourceAsStream("/client/images/dutchIcon.png"));
         dutchImage.setImage(dutchFlag);
+        Image turkishFlag = new Image(getClass()
+                .getResourceAsStream("/client/images/turkishIcon.png"));
+        turkishImage.setImage(turkishFlag);
+        Image germanFlag = new Image(getClass()
+                .getResourceAsStream("/client/images/germanyIcon.png"));
+        germanImage.setImage(germanFlag);
+        Image frenchFlag = new Image(getClass()
+                .getResourceAsStream("/client/images/franceIcon.png"));
+        frenchImage.setImage(frenchFlag);
+        Image chineseFlag = new Image(getClass()
+                .getResourceAsStream("/client/images/chinaIcon.png"));
+        chineseImage.setImage(chineseFlag);
+        Image spanishFlag = new Image(getClass()
+                .getResourceAsStream("/client/images/spainIcon.png"));
+        spanishImage.setImage(spanishFlag);
     }
 
     /**
@@ -77,6 +111,8 @@ public class LanguageSwitchCtrl implements Initializable {
      * Method to go back to previous page
      */
     public void backButton(){
+        Stage stage = (Stage) englishImage.getScene().getWindow();
+        stage.close();
         if (returningPage=='o')
             System.out.println("overview");
         else
@@ -97,5 +133,74 @@ public class LanguageSwitchCtrl implements Initializable {
     public void setDutch(){
         mainCtrl.setLocale("nl");
         backButton();
+    }
+
+    /**
+     * Method to set language to turkish
+     */
+    public void setTurkish(){
+        mainCtrl.setLocale("tr");
+        backButton();
+    }
+    /**
+     * Method to set language to french
+     */
+    public void setFrench(){
+        mainCtrl.setLocale("fr");
+        backButton();
+    }
+    /**
+     * Method to set language to spanish
+     */
+    public void setSpanish(){
+        mainCtrl.setLocale("es");
+        backButton();
+    }
+    /**
+     * Method to set language to chinese
+     */
+    public void setChinese(){
+        mainCtrl.setLocale("zh");
+        backButton();
+    }
+    /**
+     * Method to set language to german
+     */
+    public void setGerman(){
+        mainCtrl.setLocale("de");
+        backButton();
+    }
+
+    /**
+     * Method to download the language themplate
+     * @param e the action event
+     */
+    public void downloadThemplate(ActionEvent e) {
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        directoryChooser.setTitle("Select Directory");
+        Stage stage = (Stage) downloadThemplate.getScene().getWindow();
+        File selectedDirectory = directoryChooser.showDialog(stage);
+        File file = new File(selectedDirectory, "resource_THEMPLATE.properties");
+
+        try {
+
+            Enumeration<String> bundleSet =
+                    ResourceBundle.getBundle("locales.resource", new Locale("en")).getKeys();
+
+            Properties properties = new Properties();
+
+            while (bundleSet.hasMoreElements()) {
+                String key = bundleSet.nextElement();
+                properties.put(key, "PUT-SOMETHING-HERE");
+            }
+
+            System.out.println(bundleSet);
+            properties.store(new FileOutputStream(file), "THEMPLATE FILE OF SPLITTY");
+
+            System.out.println("File created successfully at: " + file.getAbsolutePath());
+            downloadThemplate.setText(mainCtrl.getBundle().getString("download_successful"));
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
     }
 }

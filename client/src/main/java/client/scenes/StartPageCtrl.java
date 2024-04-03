@@ -50,15 +50,44 @@ public class StartPageCtrl {
     /**
      * Sets the image of the liveLanguage button
      */
-    public void imageset() {
-        if (mainCtrl.getLocale().getLanguage().equals("en")) {
-            Image newImage = new Image(getClass()
-                    .getResourceAsStream("/client/images/englishIcon.png"));
-            flagDisplay.setImage(newImage);
-        } else if (mainCtrl.getLocale().getLanguage().equals("nl")) {
-            Image newImage = new Image(getClass()
-                    .getResourceAsStream("/client/images/dutchIcon.png"));
-            flagDisplay.setImage(newImage);
+    public void imageset(){
+        Image newImage;
+        switch(mainCtrl.getLocale().getLanguage()){
+            case("en"):
+                newImage = new Image(getClass()
+                        .getResourceAsStream("/client/images/englishIcon.png"));
+                flagDisplay.setImage(newImage);
+                break;
+            case("nl"):
+                newImage = new Image(getClass()
+                        .getResourceAsStream("/client/images/dutchIcon.png"));
+                flagDisplay.setImage(newImage);
+                break;
+            case("tr"):
+                newImage = new Image(getClass()
+                        .getResourceAsStream("/client/images/turkishIcon.png"));
+                flagDisplay.setImage(newImage);
+                break;
+            case("de"):
+                newImage = new Image(getClass()
+                        .getResourceAsStream("/client/images/germanyIcon.png"));
+                flagDisplay.setImage(newImage);
+                break;
+            case("fr"):
+                newImage = new Image(getClass()
+                        .getResourceAsStream("/client/images/franceIcon.png"));
+                flagDisplay.setImage(newImage);
+                break;
+            case("zh"):
+                newImage = new Image(getClass()
+                        .getResourceAsStream("/client/images/chinaIcon.png"));
+                flagDisplay.setImage(newImage);
+                break;
+            case("es"):
+                newImage = new Image(getClass()
+                        .getResourceAsStream("/client/images/spainIcon.png"));
+                flagDisplay.setImage(newImage);
+                break;
         }
     }
 
@@ -122,7 +151,9 @@ public class StartPageCtrl {
         if (event.isPresent())
             mainCtrl.showEventInfo(event.get());
         else {
-            if(badFormat.isVisible()) badFormat.setVisible(false);
+            if(badFormat.isVisible()) {
+                badFormat.setVisible(false);
+            }
             noCode.setVisible(true);
             PauseTransition pt = new PauseTransition(Duration.seconds(3.0));
             pt.setOnFinished(e -> {
@@ -136,7 +167,7 @@ public class StartPageCtrl {
     /**
      * Method to show the languageSwitch
      */
-    public void languageSwitch() {
+    public void languageSwitch(){
         mainCtrl.showLanguageSwitch('s');
     }
 

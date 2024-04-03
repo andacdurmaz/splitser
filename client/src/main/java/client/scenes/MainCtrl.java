@@ -83,36 +83,10 @@ public class MainCtrl {
     /**
      * Initialize mainCtrl
      *
-     * @param startPage                         start page
      * @param primaryStage                      stage
-     * @param addOrEditExpenseCtrlParentPair
-     * @param add                               add
-     * @param eventInfo                         eventInfo
-     * @param addOrEditParticipantCtrParentPair addOrEditParticipantCtrlParentPair
      */
-    public void initialize(Stage primaryStage,
-                           Pair<StartPageCtrl, Parent> startPage,
-                           Pair<AddOrEditExpenseCtrl, Parent> addOrEditExpenseCtrlParentPair,
-                           Pair<AddEventCtrl, Parent> add,
-                           Pair<EventInfoCtrl, Parent> eventInfo,
-                           Pair<AddOrEditParticipantCtrl, Parent>
-                                   addOrEditParticipantCtrParentPair) {
+    public void initialize(Stage primaryStage) {
         this.primaryStage = primaryStage;
-
-        this.startPageCtrl = startPage.getKey();
-        this.startPage = new Scene(startPage.getValue());
-
-        this.addOrEditExpenseCtrl = addOrEditExpenseCtrlParentPair.getKey();
-        this.addOrEditExpense = new Scene(addOrEditExpenseCtrlParentPair.getValue());
-
-        this.addCtrl = add.getKey();
-        this.add = new Scene(add.getValue());
-
-        this.eventInfoCtrl = eventInfo.getKey();
-        this.eventInfo = new Scene(eventInfo.getValue());
-
-        this.addOrEditParticipantCtrl = addOrEditParticipantCtrParentPair.getKey();
-        this.addOrEditParticipant = new Scene(addOrEditParticipantCtrParentPair.getValue());
 
         getConfigLocale();
         showStartPage();
@@ -125,7 +99,11 @@ public class MainCtrl {
      * Method which checks the language in config file
      */
     public void getConfigLocale() {
-        setLocale("en");
+        try {
+            setLocale(getLanguage());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -136,7 +114,11 @@ public class MainCtrl {
     public void setLocale(String language) {
         this.locale = new Locale(language);
         this.bundle = ResourceBundle.getBundle("locales.resource", locale);
-
+        try {
+            writeLanguageToConfigFile(language);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -150,23 +132,6 @@ public class MainCtrl {
     }
 
     /**
-     * Initialize mainCtrl
-     *
-     * @param adminOverview  Admin overview
-     * @param adminEventInfo Admin event info
-     */
-    public void adminInitialize(Pair<AdminOverviewCtrl,
-            Parent> adminOverview, Pair<AdminEventInfoCtrl, Parent> adminEventInfo) {
-        this.adminOverviewCtrl = adminOverview.getKey();
-        this.adminOverview = new Scene(adminOverview.getValue());
-
-        this.adminEventInfoCtrl = adminEventInfo.getKey();
-        this.adminEventInfo = new Scene(adminEventInfo.getValue());
-
-
-    }
-
-    /**
      * Getter for language
      *
      * @return returns the locale
@@ -177,36 +142,24 @@ public class MainCtrl {
     }
 
     /**
-     * Initialize invitations
-     *
-     * @param invitationOverview
+     * Getter for bundle
+     * @return returns the bundle
      */
-    public void invitationsInitialize(
-            Pair<InvitationCtrl, Parent> invitationOverview) {
-        this.invitationCtrl = invitationOverview.getKey();
-        this.invitationOverview = new Scene(invitationOverview.getValue());
-
+    public ResourceBundle getBundle() {
+        return bundle;
     }
-
-    /**
-     *  Initialize expense tags
-     * @param addExpenseTag
-     */
-    public void expenseTagsInitialize(
-            Pair<AddExpenseTagCtrl, Parent> addExpenseTag){
-        this.addExpenseTagCtrl = addExpenseTag.getKey();
-        this.addExpenseTag = new Scene(addExpenseTag.getValue());
-
-    }
-
 
     /**
      * Shows start page
      */
     public void showStartPage() {
+        var startPage = Main.FXML.load(StartPageCtrl.class, bundle, "client",
+                "scenes", "StartPage.fxml");
+        StartPageCtrl startPageCtrl = startPage.getKey();
+        Scene startPageScene = new Scene(startPage.getValue());
         primaryStage.setTitle("Home");
         startPageCtrl.removeErrorMessage();
-        primaryStage.setScene(startPage);
+        primaryStage.setScene(startPageScene);
         startPageCtrl.refresh();
     }
 
@@ -215,9 +168,13 @@ public class MainCtrl {
      * Shows addEvent
      */
     public void showAdd() {
+        var addEvent = Main.FXML.load(AddEventCtrl.class, bundle, "client",
+                "scenes", "AddEvent.fxml");
+        AddEventCtrl addEventCtrl = addEvent.getKey();
+        Scene addEventCtrlScene = new Scene(addEvent.getValue());
         primaryStage.setTitle("Events: Adding Event");
-        primaryStage.setScene(add);
-        add.setOnKeyPressed(e -> addCtrl.keyPressed(e));
+        primaryStage.setScene(addEventCtrlScene);
+        addEventCtrlScene.setOnKeyPressed(e -> addEventCtrl.keyPressed(e));
     }
 
     /**
@@ -226,11 +183,15 @@ public class MainCtrl {
      * @param event event to be shown
      */
     public void showEventInfo(Event event) {
+        var eventInfo = Main.FXML.load(EventInfoCtrl.class, bundle, "client",
+                "scenes", "EventInfo.fxml");
+        EventInfoCtrl eventInfoCtrl = eventInfo.getKey();
+        Scene eventInfoScene = new Scene(eventInfo.getValue());
         primaryStage.setTitle(event.getTitle());
         eventInfoCtrl.setEvent(event);
         eventInfoCtrl.setData(event);
-        primaryStage.setScene(eventInfo);
-        eventInfo.setOnKeyPressed(e -> eventInfoCtrl.keyPressed(e));
+        primaryStage.setScene(eventInfoScene);
+        eventInfoScene.setOnKeyPressed(e -> eventInfoCtrl.keyPressed(e));
     }
 
 
@@ -241,11 +202,15 @@ public class MainCtrl {
      * @param expense expense to add or edit
      */
     public void showAddOrEditExpense(Event event, Expense expense) {
+        var addOrEditExpense = Main.FXML.load(AddOrEditExpenseCtrl.class, bundle, "client",
+                "scenes", "AddOrEditExpense.fxml");
+        AddOrEditExpenseCtrl addOrEditExpenseCtrl = addOrEditExpense.getKey();
+        Scene addOrEditExpenseScene = new Scene(addOrEditExpense.getValue());
         primaryStage.setTitle("Add/Edit expense");
         addOrEditExpenseCtrl.initialize();
         addOrEditExpenseCtrl.setup(event, expense);
-        primaryStage.setScene(addOrEditExpense);
-        addOrEditExpense.setOnKeyPressed(e -> addOrEditExpenseCtrl.keyPressed(e));
+        primaryStage.setScene(addOrEditExpenseScene);
+        addOrEditExpenseScene.setOnKeyPressed(e -> addOrEditExpenseCtrl.keyPressed(e));
     }
 
 
@@ -256,12 +221,16 @@ public class MainCtrl {
      * @param event where the change will happen
      */
     public void showAddOrEditParticipants(User user, Event event) {
+        var addOrEditParticipants = Main.FXML.load(AddOrEditParticipantCtrl.class, bundle, "client",
+                "scenes", "AddOrEditParticipant.fxml");
+        AddOrEditParticipantCtrl addOrEditParticipantCtrl = addOrEditParticipants.getKey();
+        Scene addOrEditParticipantsScene = new Scene(addOrEditParticipants.getValue());
         primaryStage.setTitle("Add/Edit participant");
         addOrEditParticipantCtrl.setUser(user);
         addOrEditParticipantCtrl.setEvent(event);
         addOrEditParticipantCtrl.editFields(user);
-        primaryStage.setScene(addOrEditParticipant);
-        addOrEditParticipant.setOnKeyPressed(e -> {
+        primaryStage.setScene(addOrEditParticipantsScene);
+        addOrEditParticipantsScene.setOnKeyPressed(e -> {
             try {
                 addOrEditParticipantCtrl.keyPressed(e);
             } catch (EmailFormatException ex) {
@@ -281,9 +250,13 @@ public class MainCtrl {
      * @param event
      */
     public void showSendInvitations(Event event) {
+        var invitationOverview = Main.FXML.load(InvitationCtrl.class, bundle, "client",
+                "scenes", "Invitation.fxml");
+        InvitationCtrl invitationCtrl = invitationOverview.getKey();
+        Scene invitationOverviewScene = new Scene(invitationOverview.getValue());
         invitationCtrl.setEvent(event);
         invitationCtrl.setData(event);
-        primaryStage.setScene(invitationOverview);
+        primaryStage.setScene(invitationOverviewScene);
     }
 
     /**
@@ -292,8 +265,12 @@ public class MainCtrl {
      */
 
     public void showExpenseTags(Event event) {
+        var addExpenseTags = Main.FXML.load(AddExpenseTagCtrl.class, bundle, "client",
+                "scenes", "AddExpenseTag.fxml");
+        AddExpenseTagCtrl addExpenseTagCtrl = addExpenseTags.getKey();
+        Scene addExpenseTagsScene = new Scene(addExpenseTags.getValue());
         addExpenseTagCtrl.setEvent(event);
-        primaryStage.setScene(addExpenseTag);
+        primaryStage.setScene(addExpenseTagsScene);
     }
 
     /**
@@ -501,7 +478,7 @@ public class MainCtrl {
      * @throws IOException if the file is not found
      */
     public void writeLanguageToConfigFile(String language) throws IOException {
-        writeLanguageToConfigFileByPath("client/src/main/resources/CONFIG.json", language);
+        writeLanguageToConfigFileByPath("src/main/resources/CONFIG.json", language);
     }
 
     /**
@@ -554,9 +531,9 @@ public class MainCtrl {
         Scene languageSwitchScene = new Scene(languageSwitch.getValue());
 
         languageSwitchCtrl.setReturn(c);
-//        Stage popup = new Stage();
-        primaryStage.setTitle("Language switch");
-        primaryStage.setScene(languageSwitchScene);
-//        popup.show();
+        Stage popup = new Stage();
+        popup.setTitle("Language switch");
+        popup.setScene(languageSwitchScene);
+        popup.show();
     }
 }
