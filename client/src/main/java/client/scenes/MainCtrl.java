@@ -99,7 +99,11 @@ public class MainCtrl {
      * Method which checks the language in config file
      */
     public void getConfigLocale() {
-        setLocale("en");
+        try {
+            setLocale(getLanguage());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -110,7 +114,11 @@ public class MainCtrl {
     public void setLocale(String language) {
         this.locale = new Locale(language);
         this.bundle = ResourceBundle.getBundle("locales.resource", locale);
-
+        try {
+            writeLanguageToConfigFile(language);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -470,7 +478,7 @@ public class MainCtrl {
      * @throws IOException if the file is not found
      */
     public void writeLanguageToConfigFile(String language) throws IOException {
-        writeLanguageToConfigFileByPath("client/src/main/resources/CONFIG.json", language);
+        writeLanguageToConfigFileByPath("src/main/resources/CONFIG.json", language);
     }
 
     /**
