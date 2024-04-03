@@ -398,17 +398,6 @@ public class ServerUtils extends Util {
 
     }
 
-    /**
-     * @return returns the server password
-     * here for testing, will be removed later
-     */
-    public String getCredentials() {
-        Response ans = clientBuilder
-                .target(serverAddress)
-                .request(String.valueOf(Boolean.class))
-                .get(Response.class);
-        return (String) ans.getEntity();
-    }
 
 
     private static final ExecutorService DELEXPENSE = Executors.newSingleThreadExecutor();
