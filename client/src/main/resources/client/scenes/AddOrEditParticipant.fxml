@@ -19,29 +19,29 @@
                 <Font name="System Bold" size="25.0" />
             </font>
         </Label>
-        <Label layoutX="129.0" layoutY="120.0" prefHeight="28.0" prefWidth="51.0" text="Name">
+        <Label layoutX="129.0" layoutY="120.0" prefHeight="28.0" prefWidth="51.0" text="%name">
             <font>
                 <Font name="System Bold" size="16.0" />
             </font></Label>
-      <TextField fx:id="name" layoutX="193.0" layoutY="116.0" prefHeight="36.0" prefWidth="213.0" promptText="Enter your name" />
+      <TextField fx:id="name" layoutX="193.0" layoutY="116.0" prefHeight="36.0" prefWidth="213.0" promptText="%enter-your-name" />
 
-        <Label layoutX="129.0" layoutY="190.0" text="Email">
+        <Label layoutX="129.0" layoutY="190.0" text="%email">
          <font>
             <Font name="SansSerif Bold" size="16.0" />
          </font></Label>
-      <TextField fx:id="email" layoutX="192.0" layoutY="182.0" prefHeight="36.0" prefWidth="213.0" promptText="Enter your email" />
-        <Label layoutX="129.0" layoutY="250.0" text="IBAN">
+      <TextField fx:id="email" layoutX="192.0" layoutY="182.0" prefHeight="36.0" prefWidth="213.0" promptText="%enter-your-email" />
+        <Label layoutX="129.0" layoutY="250.0" text="%iban">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
-        <TextField fx:id="iban" layoutX="192.0" layoutY="245.0" prefHeight="36.0" prefWidth="213.0" promptText="Enter your IBAN" />
+        <TextField fx:id="iban" layoutX="192.0" layoutY="245.0" prefHeight="36.0" prefWidth="213.0" promptText="%enter-your-iban" />
         <Label layoutX="129.0" layoutY="314.0" prefHeight="18.0" prefWidth="51.0" text="BIC">
          <font>
             <Font name="System Bold" size="16.0" />
          </font></Label>
-      <TextField fx:id="bic" layoutX="192.0" layoutY="309.0" prefHeight="36.0" prefWidth="213.0" promptText="Enter your BIC number" />
-        <Button cancelButton="true" layoutX="432.0" layoutY="346.0" mnemonicParsing="false" onMouseClicked="#cancel" prefHeight="36.0" prefWidth="62.0" text="Cancel" />
+      <TextField fx:id="bic" layoutX="192.0" layoutY="309.0" prefHeight="36.0" prefWidth="213.0" promptText="%enter-your-bic-number" />
+        <Button layoutX="432.0" layoutY="346.0" mnemonicParsing="false" onMouseClicked="#cancel" prefHeight="36.0" prefWidth="62.0" text="%cancel" />
         <Button layoutX="507.0" layoutY="346.0" mnemonicParsing="false" onMouseClicked="#ok" prefHeight="36.0" prefWidth="62.0" text="Ok" />
     </children>
    <cursor>

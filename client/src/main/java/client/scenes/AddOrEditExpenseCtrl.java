@@ -316,7 +316,7 @@ public class AddOrEditExpenseCtrl implements Initializable {
         payer.setItems(FXCollections.observableList(event.getParticipants()));
         payer.setValue(event.getParticipants().get(0));
         if(expense == null) {
-            okButton.setText("Add");
+            okButton.setText(mainCtrl.getBundle().getString("add"));
         }
         else {
             okButton.setText("Edit");
