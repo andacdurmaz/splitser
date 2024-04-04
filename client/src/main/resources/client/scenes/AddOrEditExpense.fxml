@@ -47,10 +47,6 @@
       <CheckBox fx:id="someParticipants" layoutX="243.0" layoutY="243.0" mnemonicParsing="false" onAction="#someParticipantsPay" text="%some-participants" />
       <VBox fx:id="someParticipantsSelector" layoutX="42.0" layoutY="260.0" prefHeight="67.0" prefWidth="307.0" />
       <Label layoutX="40.0" layoutY="342.0" text="%expense-type" />
-      <Label layoutX="40.0" layoutY="342.0" text="Expense Type">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font></Label>
       <ComboBox fx:id="expenseTag" layoutX="150.0" layoutY="338.0" prefWidth="150.0" />
       <Button fx:id="cancelButton" layoutX="478.0" layoutY="351.0" mnemonicParsing="false" onAction="#cancel" onMouseClicked="#cancel" text="%cancel" />
       <Button fx:id="okButton" layoutX="543.0" layoutY="351.0" mnemonicParsing="false" onAction="#ok" onMouseClicked="#ok" text="%ok" />
