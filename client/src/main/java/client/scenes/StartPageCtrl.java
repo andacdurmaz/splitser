@@ -67,17 +67,17 @@ public class StartPageCtrl implements Initializable {
      */
     public void getJoinedEvents() throws IOException {
         try {
-            joinedEvents = new ListView<Event>();
             List<Event> events = mainCtrl.getJoinedEvents();
-            for(Event event : events){
-                joinedEvents.getItems().add(event);
-            }
+            data = FXCollections.observableList(mainCtrl.getJoinedEvents());
+            joinedEvents.setItems(data);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-
+    /**
+     * when an event is clicked on, the event info page opens
+     */
     private EventHandler<MouseEvent> joinJoinedEvents = new EventHandler<MouseEvent>() {
         public void handle(MouseEvent mouseEvent) {
             Event event;
