@@ -226,7 +226,7 @@ public class MainCtrl {
      * @param event event to be shown
      */
     public void showEventInfo(Event event) {
-        primaryStage.setTitle(event.getTitle());
+        primaryStage.setTitle("Event Info");
         eventInfoCtrl.setEvent(event);
         eventInfoCtrl.setData(event);
         primaryStage.setScene(eventInfo);

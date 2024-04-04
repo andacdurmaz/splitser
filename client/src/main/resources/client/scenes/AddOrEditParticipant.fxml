@@ -44,7 +44,4 @@
         <Button cancelButton="true" layoutX="432.0" layoutY="346.0" mnemonicParsing="false" onMouseClicked="#cancel" prefHeight="36.0" prefWidth="62.0" text="Cancel" />
         <Button layoutX="507.0" layoutY="346.0" mnemonicParsing="false" onMouseClicked="#ok" prefHeight="36.0" prefWidth="62.0" text="Ok" />
     </children>
-   <cursor>
-      <Cursor fx:constant="SW_RESIZE" />
-   </cursor>
 </AnchorPane>

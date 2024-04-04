@@ -37,6 +37,7 @@
       <Button fx:id="paidByButton" layoutX="403.0" layoutY="76.0" mnemonicParsing="false" onAction="#paidByParticipantList" text="Paid by Participant" />
       <Button fx:id="includingButton" layoutX="526.0" layoutY="76.0" mnemonicParsing="false" onAction="#includingParticipantList" text="Including Participant" />
       <ListView fx:id="expenseList" layoutX="361.0" layoutY="109.0" onMouseClicked="#selectExpenseList" prefHeight="246.0" prefWidth="290.0" />
+      <Button layoutX="610.0" layoutY="364.0" mnemonicParsing="false" onAction="#back" text="Back" />
       <Label fx:id="titleLabel" layoutX="21.0" layoutY="26.0" prefHeight="51.0" prefWidth="282.0" text="EVENT TITLE">
          <font>
             <Font name="Dubai Bold" size="24.0" />
@@ -67,7 +68,6 @@
             </ImageView>
          </graphic>
       </Button>
-      <Button layoutX="610.0" layoutY="364.0" mnemonicParsing="false" onAction="#back" text="Back" />
       <AnchorPane fx:id="noParticipantPane" layoutY="-3.0" prefHeight="407.0" prefWidth="679.0" style="-fx-background-color: red" visible="false">
          <children>
             <Label layoutX="149.0" layoutY="116.0" prefHeight="142.0" prefWidth="381.0" text="Please add a participant first">
