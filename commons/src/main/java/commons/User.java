@@ -45,15 +45,7 @@ public class User {
 
     }
 
-    /**
-     * Another constructor for user
-     * @param username
-     * @param email
-     */
-    public User(String username, String email) {
-        this.username = username;
-        this.email = email;
-    }
+
 
     /**
      * getter methods for the expenses a user is a part of
@@ -80,6 +72,16 @@ public class User {
      */
     public void addExpense(Expense expense) {
         expenses.add(expense);
+    }
+
+    /**
+     * Another constructor for user
+     * @param username
+     * @param email
+     */
+    public User(String username, String email) {
+        this.username = username;
+        this.email = email;
     }
 
     /**
