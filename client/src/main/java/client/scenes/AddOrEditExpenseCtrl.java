@@ -230,7 +230,8 @@ public class AddOrEditExpenseCtrl implements Initializable {
     }
 
     /**
-     * checks if the all participants button is selected, if it is selected, it return all participants
+     * checks if the all participants button is selected,
+     * if it is selected, it return all participants
      * if not, checks for the selected chechkboxes under some participants
      *
      * @return paying participants

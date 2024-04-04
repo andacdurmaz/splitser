@@ -13,9 +13,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.StringConverter;
-
 import javax.inject.Inject;
-import java.lang.reflect.Field;
 import java.util.List;
 
 
