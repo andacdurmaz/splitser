@@ -24,7 +24,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -100,11 +99,7 @@ public class MainCtrl {
      * Method which checks the language in config file
      */
     public void getConfigLocale() {
-        try {
-            setLocale(getLanguage());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        setLocale(getLanguage());
     }
 
     /**
@@ -115,11 +110,7 @@ public class MainCtrl {
     public void setLocale(String language) {
         this.locale = new Locale(language);
         this.bundle = ResourceBundle.getBundle("locales.resource", locale);
-        try {
-            writeLanguageToConfigFile(language);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        writeLanguageToConfigFile(language);
     }
 
     /**
@@ -324,9 +315,8 @@ public class MainCtrl {
      *
      * @param path path to the file
      * @return list of events
-     * @throws FileNotFoundException if the file is not found
      */
-    public List<Long> getJoinedEventsIDProvidingPath(String path) throws IOException {
+    public List<Long> getJoinedEventsIDProvidingPath(String path) {
         List<Long> list = new ArrayList<>();
         ServerUtils serverUtils = new ServerUtils();
 
@@ -347,9 +337,8 @@ public class MainCtrl {
      * gets the events that the user has joined from the CONFIG file
      *
      * @return list of events
-     * @throws IOException if the file is not found
      */
-    public List<Event> getJoinedEvents() throws IOException {
+    public List<Event> getJoinedEvents() {
         return getJoinedEventsProvidingPath(CONFIG_PATH);
     }
 
@@ -359,9 +348,8 @@ public class MainCtrl {
      *
      * @param path path to the file
      * @return list of events
-     * @throws IOException if the file is not found
      */
-    public List<Event> getJoinedEventsProvidingPath(String path) throws IOException {
+    public List<Event> getJoinedEventsProvidingPath(String path)  {
         List<Long> eventIds = getJoinedEventsIDProvidingPath(path);
         List<Event> events = new ArrayList<>();
         ServerUtils serverUtils = new ServerUtils();
@@ -375,9 +363,8 @@ public class MainCtrl {
     /**
      * gets the language from the CONFIG file
      * @return the language
-     * @throws IOException if the file is not found
      */
-    public String getLanguage() throws IOException {
+    public String getLanguage() {
         return getLanguageProvidingPath(CONFIG_PATH);
     }
 
@@ -385,9 +372,8 @@ public class MainCtrl {
      * gets the language from the CONFIG file by path
      * @param path path to the file
      * @return  the language
-     * @throws IOException if the file is not found
      */
-    public String getLanguageProvidingPath(String path) throws IOException {
+    public String getLanguageProvidingPath(String path) {
         String jsonString = readConfigFile(path);
         JSONObject jsonObject = new JSONObject(jsonString);
         JSONObject userObject = jsonObject.getJSONObject("User");
@@ -397,9 +383,8 @@ public class MainCtrl {
     /**
      * gets the currency from the CONFIG file
      * @return the currency
-     * @throws IOException if the file is not found
      */
-    public String getCurrency() throws IOException {
+    public String getCurrency()  {
         return getCurrencyProvidingPath(CONFIG_PATH);
     }
 
@@ -407,9 +392,8 @@ public class MainCtrl {
      * gets the currency from the CONFIG file by path
      * @param path path to the file
      * @return  the currency
-     * @throws IOException if the file is not found
      */
-    public String getCurrencyProvidingPath(String path) throws IOException {
+    public String getCurrencyProvidingPath(String path) {
         String jsonString = readConfigFile(path);
         JSONObject jsonObject = new JSONObject(jsonString);
         JSONObject userObject = jsonObject.getJSONObject("User");
@@ -421,20 +405,22 @@ public class MainCtrl {
      *
      * @param filePath path to the file
      * @return the string representation of the file
-     * @throws IOException if the file is not found
      */
-    public String readConfigFile(String filePath) throws IOException {
+    public String readConfigFile(String filePath) {
         Path path = Path.of(filePath);
-        String string = Files.readString(path);
-        return string;
+        try {
+            String string = Files.readString(path);
+            return string;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
      * writes to the config file
      * @param event event to be written (IN JSON FORMAT)
-     * @throws IOException if the file is not found
      */
-    public void writeEventToConfigFile(Event event) throws IOException {
+    public void writeEventToConfigFile(Event event)  {
         writeEventToConfigFileByPath(CONFIG_PATH, event);
     }
 
@@ -442,9 +428,8 @@ public class MainCtrl {
      * writes to the config file by path
      * @param filePath path to the file
      * @param event event to be written (IN JSON FORMAT)
-     * @throws IOException if the file is not found
      */
-    public void writeEventToConfigFileByPath(String filePath, Event event) throws IOException {
+    public void writeEventToConfigFileByPath(String filePath, Event event) {
         // Read the JSON file
         JSONObject jsonObject = new JSONObject(readConfigFile(filePath));
         // Get the User object
@@ -470,15 +455,18 @@ public class MainCtrl {
 
         // write to file
         Path path = Path.of(filePath);
-        Files.writeString(path, jsonObject.toString());
+        try {
+            Files.writeString(path, jsonObject.toString());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
      * writes the language to the config file
      * @param language language to be written
-     * @throws IOException if the file is not found
      */
-    public void writeLanguageToConfigFile(String language) throws IOException {
+    public void writeLanguageToConfigFile(String language) {
         writeLanguageToConfigFileByPath(CONFIG_PATH, language);
     }
 
@@ -486,23 +474,25 @@ public class MainCtrl {
      * writes the language to the config file by path
      * @param filePath path to the file
      * @param language language to be written
-     * @throws IOException if the file is not found
      */
-    public void writeLanguageToConfigFileByPath(String filePath, String language)
-            throws IOException {
+    public void writeLanguageToConfigFileByPath(String filePath, String language) {
         JSONObject jsonObject = new JSONObject(readConfigFile(filePath));
         JSONObject userObject = jsonObject.getJSONObject("User");
         userObject.put("Language", language);
 
         Path path = Path.of(filePath);
-        Files.writeString(path, jsonObject.toString());
+        try {
+            Files.writeString(path, jsonObject.toString());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
      * writes the currency to the config file
      * @param currency currency to be written
      */
-    public void writeCurrencyToConfigFile(String currency) throws IOException {
+    public void writeCurrencyToConfigFile(String currency)  {
         writeCurrencyToConfigFileByPath(CONFIG_PATH, currency);
     }
 
@@ -511,14 +501,17 @@ public class MainCtrl {
      * @param filePath path to the file
      * @param currency currency to be written
      */
-    public void writeCurrencyToConfigFileByPath(String filePath, String currency)
-            throws IOException {
+    public void writeCurrencyToConfigFileByPath(String filePath, String currency) {
         JSONObject jsonObject = new JSONObject(readConfigFile(filePath));
         JSONObject userObject = jsonObject.getJSONObject("User");
         userObject.put("Currency", currency);
 
         Path path = Path.of(filePath);
-        Files.writeString(path, jsonObject.toString());
+        try {
+            Files.writeString(path, jsonObject.toString());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
     /**
      * shows the languageSwitch pages

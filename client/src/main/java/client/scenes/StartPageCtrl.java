@@ -4,7 +4,6 @@ import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Event;
 import javafx.animation.PauseTransition;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -18,7 +17,6 @@ import javafx.scene.control.TextField;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -30,7 +28,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
 import javafx.util.StringConverter;
-import org.apache.catalina.valves.rewrite.ResolverImpl;
 
 
 public class StartPageCtrl implements Initializable {
@@ -66,13 +63,9 @@ public class StartPageCtrl implements Initializable {
      * gets all joined events of the user by its config file
      */
     public void getJoinedEvents() throws IOException {
-        try {
-            List<Event> events = mainCtrl.getJoinedEvents();
-            data = FXCollections.observableList(mainCtrl.getJoinedEvents());
-            joinedEvents.setItems(data);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        List<Event> events = mainCtrl.getJoinedEvents();
+        data = FXCollections.observableList(mainCtrl.getJoinedEvents());
+        joinedEvents.setItems(data);
     }
 
     /**
@@ -109,12 +102,8 @@ public class StartPageCtrl implements Initializable {
             }
         }));
 
-        try {
-            List<Event> events = mainCtrl.getJoinedEvents();
-            joinedEvents.getItems().setAll(events);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        List<Event> events = mainCtrl.getJoinedEvents();
+        joinedEvents.getItems().setAll(events);
 
         try {
             getJoinedEvents();
@@ -231,8 +220,10 @@ public class StartPageCtrl implements Initializable {
         Optional<Event> event = server.getEvents().stream()
                 .filter(q -> q.getEventCode() == Long.parseLong(eventid.getText()))
                 .findFirst();
-        if (event.isPresent())
+        if (event.isPresent()) {
             mainCtrl.showEventInfo(event.get());
+            mainCtrl.writeEventToConfigFile(event.get());
+        }
         else {
             if(badFormat.isVisible()) {
                 badFormat.setVisible(false);
