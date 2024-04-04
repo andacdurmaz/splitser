@@ -8,6 +8,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -26,6 +27,7 @@ import java.util.ResourceBundle;
 import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
 import javafx.util.StringConverter;
 import org.apache.catalina.valves.rewrite.ResolverImpl;
@@ -75,6 +77,21 @@ public class StartPageCtrl implements Initializable {
         }
     }
 
+
+    private EventHandler<MouseEvent> joinJoinedEvents = new EventHandler<MouseEvent>() {
+        public void handle(MouseEvent mouseEvent) {
+            Event event;
+            if(mouseEvent.getSource() == joinedEvents){
+                event = joinedEvents.getSelectionModel().getSelectedItem();
+            } else {
+                return;
+            }
+            if(event != null){
+                mainCtrl.showEventInfo(event);
+            }
+        }
+    };
+
     /**
      * initializes the page
      */
@@ -99,14 +116,13 @@ public class StartPageCtrl implements Initializable {
             throw new RuntimeException(e);
         }
 
-
-
         try {
             getJoinedEvents();
         } catch (IOException e) {
             e.printStackTrace();
         }
         imageset();
+        joinedEvents.setOnMouseClicked(joinJoinedEvents);
     }
 
     /**
