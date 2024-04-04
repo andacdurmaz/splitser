@@ -79,9 +79,15 @@ public class User {
      * @param username
      * @param email
      */
-    public User(String username, String email) {
+    public User(String username, String email) throws EmailFormatException {
         this.username = username;
+        if (!EmailValidator.getInstance().isValid(email))
+            throw new EmailFormatException();
         this.email = email;
+        this.language = Language.EN;
+        this.expenses = new ArrayList<>();
+        this.wallet = 0;
+        this.debts = new ArrayList<>();
     }
 
     /**
