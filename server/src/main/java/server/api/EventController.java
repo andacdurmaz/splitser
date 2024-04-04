@@ -23,7 +23,7 @@ public class EventController {
     /**
      * Constructor for the event controller
      *
-     * @param eventService
+     * @param eventService g
      */
     @Autowired
     public EventController(EventService eventService) {
@@ -144,7 +144,7 @@ public class EventController {
     public ResponseEntity<Event> updateEvent(@PathVariable("id") long id,
                                              @RequestBody Event event) {
         if (!eventService.existsById(id)) {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.status(404).build();
         }
 
         Event updatedEvent = eventService.updateEvent(event);

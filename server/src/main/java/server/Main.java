@@ -29,4 +29,11 @@ public class Main {
     public static void main(String[] args) {
         SpringApplication.run(Main.class, args);
     }
+
+    /**
+     * @param s String to print to console
+     */
+    public static void password(String s){
+        System.out.println("Password: " + s + '\n');
+    }
 }
