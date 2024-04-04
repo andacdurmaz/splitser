@@ -24,6 +24,8 @@ public class EventInfoCtrl {
 
     private User selectedParticipant;
     private User selectedExpenseParticipant;
+    @FXML
+    private AnchorPane noParticipantPane;
 
     @FXML
     private AnchorPane rootPane;
@@ -73,6 +75,7 @@ public class EventInfoCtrl {
      * makes the combobox's display names of the users
      */
     public void initialize() {
+        noParticipantPane.setVisible(false);
         disableEditingDesc();
         disableEditingTitle();
         expenseList.setCellFactory(param -> new TextFieldListCell<>(new StringConverter<Expense>() {
@@ -177,12 +180,53 @@ public class EventInfoCtrl {
 
 
     /**
-     * adds a new participant to database and event
+     * adds a new expense to database and event
      * @param actionEvent when the button is clicked
      */
     public void addExpense(ActionEvent actionEvent){
-        selectedExpense = null;
-        mainCtrl.showAddOrEditExpense(event, selectedExpense);
+        if(this.event.getParticipants().size() < 1) {
+            noParticipantPane.setVisible(true);
+            checkForErrorPane();
+        } else {
+            selectedExpense = null;
+            mainCtrl.showAddOrEditExpense(event, selectedExpense);
+        }
+    }
+
+    /**
+     * On action button for the error pane
+     */
+    public void noParticipantErr() {
+        noParticipantPane.setVisible(false);
+        checkForErrorPane();
+    }
+
+    /**
+     * When the error messages pops up this method disables everything
+     */
+    public void checkForErrorPane() {
+        if(noParticipantPane.isVisible()) {
+            eventTitle.setEditable(false);
+            description.setEditable(false);
+            expenseComboBox.setDisable(true);
+            participantCombobox.setDisable(true);
+            expenseList.setDisable(true);
+            paidByButton.setDisable(true);
+            includingButton.setDisable(true);
+            editTitle.setDisable(true);
+            editDescription.setDisable(true);
+
+        } else {
+            eventTitle.setEditable(true);
+            description.setEditable(true);
+            expenseComboBox.setDisable(false);
+            participantCombobox.setDisable(false);
+            expenseList.setDisable(false);
+            paidByButton.setDisable(false);
+            includingButton.setDisable(false);
+            editTitle.setDisable(false);
+            editDescription.setDisable(false);
+        }
     }
 
     /**

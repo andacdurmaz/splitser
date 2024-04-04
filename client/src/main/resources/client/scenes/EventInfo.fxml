@@ -68,5 +68,11 @@
       <Button layoutX="460.0" layoutY="42.0" mnemonicParsing="false" text="Statistics" />
       <Button fx:id="expense_tag" layoutX="534.0" layoutY="42.0" mnemonicParsing="false" onAction="#addExpenseTag" text="Add Expense Tag" />
       <Button layoutX="192.0" layoutY="299.0" mnemonicParsing="false" onAction="#editExpense" prefHeight="55.0" prefWidth="150.0" text="Edit Expense" />
+      <AnchorPane fx:id="noParticipantPane" layoutX="250.0" layoutY="100.0" prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <Label layoutX="20.0" layoutY="67.0" prefHeight="66.0" prefWidth="160.0" text="Please add a participant first" />
+            <Button layoutX="25.0" layoutY="160.0" mnemonicParsing="false" onAction="#noParticipantErr" prefHeight="26.0" prefWidth="150.0" text="Ok" />
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>
