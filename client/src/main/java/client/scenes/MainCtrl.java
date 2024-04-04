@@ -342,6 +342,17 @@ public class MainCtrl {
         return getJoinedEventsProvidingPath(CONFIG_PATH);
     }
 
+    /**
+     * checks if the event is in the config file
+     *
+     * @param event event to be checked
+     * @return true if the event is in the config file
+     */
+    public boolean isEventInConfig(Event event) {
+        List<Long> eventIds = getJoinedEventsIDProvidingPath(CONFIG_PATH);
+        return eventIds.contains(event.getId());
+    }
+
 
     /**
      * interacts with the server to get the events that the user has joined

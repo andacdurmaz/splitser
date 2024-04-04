@@ -222,7 +222,9 @@ public class StartPageCtrl implements Initializable {
                 .findFirst();
         if (event.isPresent()) {
             mainCtrl.showEventInfo(event.get());
-            mainCtrl.writeEventToConfigFile(event.get());
+            if(!mainCtrl.isEventInConfig(event.get())){
+                mainCtrl.writeEventToConfigFile(event.get());
+            }
         }
         else {
             if(badFormat.isVisible()) {
