@@ -56,6 +56,10 @@ public class EventInfoCtrl {
     private Button editTitle;
     @FXML
     private Button editDescription;
+    @FXML
+    private Button invitation;
+    @FXML
+    private Button expenseTag;
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
 
@@ -92,7 +96,7 @@ public class EventInfoCtrl {
         participantCombobox.setConverter(new StringConverter<User>() {
             @Override
             public String toString(User user) {
-                return user.getUsername(); // Display the user name
+                return user.getUsername(); // Display the username
             }
             @Override
             public User fromString(String string) {
@@ -102,7 +106,7 @@ public class EventInfoCtrl {
         expenseComboBox.setConverter(new StringConverter<User>() {
             @Override
             public String toString(User user) {
-                return user.getUsername(); // Display the user name
+                return user.getUsername(); // Display the username
             }
             @Override
             public User fromString(String string) {
@@ -129,7 +133,7 @@ public class EventInfoCtrl {
      * @param event
      */
     public void updateLabelText(Event event) {
-        if (event != null || event.getTitle().length() != 0) {
+        if (event != null || !event.getTitle().isEmpty()) {
             titleLabel.setText(event.getTitle());
             eventTitle.setText(event.getTitle());
         }
@@ -140,7 +144,7 @@ public class EventInfoCtrl {
      * @param event
      */
     public void updateDesc(Event event) {
-        if (event != null || event.getTitle().length() != 0) {
+        if (event != null || !event.getTitle().isEmpty()) {
             descriptionLabel.setText(event.getDescription());
             description.setText(event.getDescription());
         }
@@ -168,7 +172,7 @@ public class EventInfoCtrl {
      * add or edit expense method
      */
     public void addOrEditExpense() {
-        if (this.event.getParticipants().size() == 0) {
+        if (this.event.getParticipants().isEmpty()) {
             return;
         }
         if (selectedExpense == null) {
@@ -184,7 +188,7 @@ public class EventInfoCtrl {
      * @param actionEvent when the button is clicked
      */
     public void addExpense(ActionEvent actionEvent){
-        if(this.event.getParticipants().size() < 1 || this.event.getExpenseTags().size() < 1) {
+        if(this.event.getParticipants().isEmpty() || this.event.getExpenseTags().isEmpty()) {
             noParticipantPane.setVisible(true);
             noParticipantErrButton.requestFocus();
         } else {
@@ -273,7 +277,7 @@ public class EventInfoCtrl {
         updateDesc(event);
         updateLabelText(event);
         expenseList.getItems().setAll(event.getExpenses());
-        if (event.getParticipants() != null && event.getParticipants().size() !=0) {
+        if (event.getParticipants() != null && !event.getParticipants().isEmpty()) {
             String label = "";
 
             for (int i = 0; i <event.getParticipants().size() - 1; i++) {
