@@ -97,6 +97,16 @@ public class AddOrEditExpenseCtrl implements Initializable {
                 return null;
             }
         });
+        expenseTag.setConverter(new StringConverter<ExpenseTag>() {
+            @Override
+            public String toString(ExpenseTag tag) {
+                return tag.getName();
+            }
+            @Override
+            public ExpenseTag fromString(String string) {
+                return null;
+            }
+        });
     }
 
     /**
@@ -230,10 +240,9 @@ public class AddOrEditExpenseCtrl implements Initializable {
     }
 
     /**
-     * IMPORTANT
-     * This method should be changed
-     * for now it returns all participants but it should be only
-     * the selected ones
+     * checks if the all participants button is selected,
+     * if it is selected, it returns all participants
+     * if not, checks for the selected checkboxes under some participants
      *
      * @return paying participants
      */
@@ -315,6 +324,7 @@ public class AddOrEditExpenseCtrl implements Initializable {
 
         payer.setItems(FXCollections.observableList(event.getParticipants()));
         payer.setValue(event.getParticipants().get(0));
+        expenseTag.setValue(event.getExpenseTags().get(0));
         if(expense == null) {
             okButton.setText(mainCtrl.getBundle().getString("add"));
         }

@@ -77,7 +77,7 @@ public class ExpenseController {
      * @param expense to add
      * @return added expense or bad request
      */
-    @PostMapping("/add")
+    @PostMapping(value = "/add")
     public ResponseEntity<Expense> add(@RequestBody Expense expense) {
         if ((expense == null)) {
             return ResponseEntity.badRequest().build();

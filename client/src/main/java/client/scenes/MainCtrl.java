@@ -187,7 +187,7 @@ public class MainCtrl {
                 "scenes", "EventInfo.fxml");
         EventInfoCtrl eventInfoCtrl = eventInfo.getKey();
         Scene eventInfoScene = new Scene(eventInfo.getValue());
-        primaryStage.setTitle(event.getTitle());
+        primaryStage.setTitle("Event Info");
         eventInfoCtrl.setEvent(event);
         eventInfoCtrl.setData(event);
         primaryStage.setScene(eventInfoScene);

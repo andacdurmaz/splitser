@@ -13,7 +13,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.StringConverter;
-
 import javax.inject.Inject;
 import java.util.List;
 
@@ -24,6 +23,8 @@ public class EventInfoCtrl {
 
     private User selectedParticipant;
     private User selectedExpenseParticipant;
+    @FXML
+    private AnchorPane noParticipantPane;
 
     @FXML
     private AnchorPane rootPane;
@@ -50,6 +51,8 @@ public class EventInfoCtrl {
     @FXML
     private Button includingButton;
     @FXML
+    private Button noParticipantErrButton;
+    @FXML
     private Button editTitle;
     @FXML
     private Button editDescription;
@@ -72,6 +75,7 @@ public class EventInfoCtrl {
      * makes the combobox's display names of the users
      */
     public void initialize() {
+        noParticipantPane.setVisible(false);
         disableEditingDesc();
         disableEditingTitle();
         expenseList.setCellFactory(param -> new TextFieldListCell<>(new StringConverter<Expense>() {
@@ -176,13 +180,27 @@ public class EventInfoCtrl {
 
 
     /**
-     * adds a new participant to database and event
+     * adds a new expense to database and event
      * @param actionEvent when the button is clicked
      */
     public void addExpense(ActionEvent actionEvent){
-        selectedExpense = null;
-        mainCtrl.showAddOrEditExpense(event, selectedExpense);
+        if(this.event.getParticipants().size() < 1 || this.event.getExpenseTags().size() < 1) {
+            noParticipantPane.setVisible(true);
+            noParticipantErrButton.requestFocus();
+        } else {
+            selectedExpense = null;
+            mainCtrl.showAddOrEditExpense(event, selectedExpense);
+        }
     }
+
+    /**
+     * On action button for the error pane
+     */
+    public void noParticipantErr() {
+        noParticipantPane.setVisible(false);
+    }
+
+
 
     /**
      * edits a selected participant's information
