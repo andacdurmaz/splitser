@@ -4,7 +4,10 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import commons.exceptions.BICFormatException;
 import commons.exceptions.EmailFormatException;
 import commons.exceptions.IBANFormatException;
+import fr.marcwrobel.jbanking.bic.Bic;
+import fr.marcwrobel.jbanking.iban.Iban;
 import jakarta.persistence.*;
+import org.apache.commons.validator.routines.EmailValidator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,14 +83,14 @@ public class User {
             throws BICFormatException, IBANFormatException,
             EmailFormatException {
         this.username = username;
-        if (email.indexOf('@') == -1 || email.indexOf('.') == -1)
+        if (!EmailValidator.getInstance().isValid(email))
             throw new EmailFormatException();
         this.email = email;
-        if (iban.length() != 34) {
+        if (!Iban.isValid(iban)) {
             throw new IBANFormatException();
         }
         this.iban = iban;
-        if (bic.length() != 11) {
+        if (!Bic.isValid(bic)) {
             throw new BICFormatException();
         }
         this.bic = bic;
@@ -129,9 +132,10 @@ public class User {
      *
      * @param email new e-mail of the User
      * @throws EmailFormatException if the format is incorrect
+     * https://www.baeldung.com/java-email-validation-regex for info about the email regex pattern
      */
     public void setEmail(String email) throws EmailFormatException {
-        if (email.indexOf('@') == -1 || email.indexOf('.') == -1) {
+        if (!EmailValidator.getInstance().isValid(email)){
             throw new EmailFormatException();
         }
         this.email = email;
@@ -169,9 +173,10 @@ public class User {
      *
      * @param iban new IBAN of the User
      * @throws IBANFormatException if the format is incorrect
+     * https://github.com/marcwrobel/jbanking for info about the Iban class
      */
     public void setIban(String iban) throws IBANFormatException {
-        if (iban.length() != 34) {
+        if (!Iban.isValid(iban)) {
             throw new IBANFormatException();
         }
         this.iban = iban;
@@ -191,9 +196,10 @@ public class User {
      *
      * @param bic new BIC of the User
      * @throws BICFormatException if the format is incorrect
+     * https://github.com/marcwrobel/jbanking for info about the Bic class
      */
     public void setBic(String bic) throws BICFormatException {
-        if (bic.length() != 11) {
+        if (!Bic.isValid(bic)) {
             throw new BICFormatException();
         }
         this.bic = bic;

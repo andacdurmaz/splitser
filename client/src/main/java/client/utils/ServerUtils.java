@@ -307,7 +307,7 @@ public class ServerUtils extends Util {
                 .path("api/events/update/" + event.getId())
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
-                .put(Entity.entity(event, APPLICATION_JSON), Event.class);
+                .put(Entity.entity(event, APPLICATION_JSON), Response.class);
     }
 
 
