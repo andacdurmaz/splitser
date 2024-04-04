@@ -65,7 +65,7 @@ public class UserServiceTest {
         UserRepoTest repo = new UserRepoTest();
         UserService service = new UserService(repo);
         User user = new User("andac","andac@gmail.com",
-                "1234123412341234123412341234123412","12312312312");
+                "GB94BARC10201530093459","RABONL2UXXX");
         service.save(user);
         long id = user.getUserID();
         assertEquals(user, service.getUserById(id));
@@ -117,9 +117,9 @@ public class UserServiceTest {
         DebtService debtService = new DebtService(debtrepo);
         service.setDebtService(debtService);
         User payer = new User("andac", "andac@gmail.com",
-                "1234123412341234123412341234123412","12312312312");
+                "GB94BARC10201530093459","RABONL2UXXX");
         User payee = new User("mete", "mete@mail.com",
-                "1234123412341234123412341234123412","12312312312");
+                "GB94BARC10201530093459","RABONL2UXXX");
         repo.save(payer);
         repo.save(payee);
         List<User> payers = new ArrayList<>();
@@ -144,9 +144,9 @@ public class UserServiceTest {
         DebtService debtService = new DebtService(debtrepo);
         service.setDebtService(debtService);
         User payer = new User("andac", "andac@gmail.com",
-                "1234123412341234123412341234123412","12312312312");
+                "GB94BARC10201530093459","RABONL2UXXX");
         User payee = new User("mete", "mete@mail.com",
-                "1234123412341234123412341234123412","12312312312");
+                "GB94BARC10201530093459","RABONL2UXXX");
         repo.save(payer);
         repo.save(payee);
         service.addDebts(payer, payee, 5.0);
@@ -166,9 +166,9 @@ public class UserServiceTest {
         DebtService debtService = new DebtService(debtrepo);
         service.setDebtService(debtService);
         User payer = new User("andac", "andac@gmail.com",
-                "1234123412341234123412341234123412","12312312312");
+                "GB94BARC10201530093459","RABONL2UXXX");
         User payee = new User("mete", "mete@mail.com",
-                "1234123412341234123412341234123412","12312312312");
+                "GB94BARC10201530093459","RABONL2UXXX");
         repo.save(payer);
         repo.save(payee);
         service.addDebts(payer, payee, 5.0);
@@ -189,9 +189,9 @@ public class UserServiceTest {
         DebtService debtService = new DebtService(debtrepo);
         service.setDebtService(debtService);
         User payer = new User("andac", "andac@gmail.com",
-                "1234123412341234123412341234123412","12312312312");
+                "GB94BARC10201530093459","RABONL2UXXX");
         User payee = new User("mete", "mete@mail.com",
-                "1234123412341234123412341234123412","12312312312");
+                "GB94BARC10201530093459","RABONL2UXXX");
         repo.save(payer);
         repo.save(payee);
         service.addDebts(payer, payee, 5.0);
@@ -213,9 +213,9 @@ public class UserServiceTest {
         DebtService debtService = new DebtService(debtrepo);
         service.setDebtService(debtService);
         User payer = new User("andac", "andac@gmail.com",
-                "1234123412341234123412341234123412","12312312312");
+                "GB94BARC10201530093459","RABONL2UXXX");
         User payee = new User("mete", "mete@mail.com",
-                "1234123412341234123412341234123412","12312312312");
+                "GB94BARC10201530093459","RABONL2UXXX");
         repo.save(payer);
         repo.save(payee);
         service.addDebts(payer, payee, 5.0);
@@ -237,9 +237,9 @@ public class UserServiceTest {
         DebtService debtService = new DebtService(debtrepo);
         service.setDebtService(debtService);
         User payer = new User("andac", "andac@gmail.com",
-                "1234123412341234123412341234123412","12312312312");
+                "GB94BARC10201530093459","RABONL2UXXX");
         User payee = new User("mete", "mete@mail.com",
-                "1234123412341234123412341234123412","12312312312");
+                "GB94BARC10201530093459","RABONL2UXXX");
         repo.save(payer);
         repo.save(payee);
         service.addDebts(payer, payee, 5.0);
@@ -254,8 +254,8 @@ public class UserServiceTest {
         UserRepoTest repo = new UserRepoTest();
         UserService service = new UserService(repo);
         User user = new User("andac", "andac@gmail.com",
-                "1234123412341234123412341234123412",
-                "12312312312");
+                "GB94BARC10201530093459",
+                "RABONL2UXXX");
         repo.save(user);
         User updated = new User();
         service.updateUser(updated);

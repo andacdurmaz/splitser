@@ -12,9 +12,9 @@ public class DebtTest {
     public void constructorTest() throws EmailFormatException,
             IBANFormatException, BICFormatException {
         User payer = new User("andac", "andac@gmail.com",
-                "1234123412341234123412341234123412", "12312312312");
+                "GB94BARC10201530093459", "AABNNL2AXXX");
         User payee = new User("james", "james@gmail.com",
-                "1234123412341234123412341234123412", "12312312312");
+                "GB94BARC10201530093459", "AABNNL2AXXX");
         Debt debt = new Debt(payer, payee, 5.0);
         assertNotNull(debt);
         assertEquals(payer, debt.getPayer());
@@ -36,7 +36,7 @@ public class DebtTest {
         Debt debt = new Debt();
         assertEquals(null, debt.getPayer());
         User payer = new User("andac", "andac@gmail.com",
-                "1234123412341234123412341234123412", "12312312312");
+                "GB94BARC10201530093459", "AABNNL2AXXX");
         debt.setPayer(payer);
         assertEquals(payer, debt.getPayer());
     }
@@ -46,7 +46,7 @@ public class DebtTest {
         Debt debt = new Debt();
         assertEquals(null, debt.getPayee());
         User payee = new User("andac", "andac@gmail.com",
-                "1234123412341234123412341234123412", "12312312312");
+                "GB94BARC10201530093459", "AABNNL2AXXX");
         debt.setPayee(payee);
         assertEquals(payee, debt.getPayee());
     }

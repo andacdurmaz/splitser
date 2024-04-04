@@ -103,6 +103,6 @@
                 </AnchorPane>
             </content>
         </ScrollPane>
-        <Button fx:id="downloadThemplate" layoutX="140.0" layoutY="148.0" mnemonicParsing="false" onAction="#downloadThemplate" prefHeight="25.0" prefWidth="134.0" text="%download-themplate" textAlignment="CENTER" wrapText="true" />
+        <Button fx:id="downloadTemplate" layoutX="140.0" layoutY="148.0" mnemonicParsing="false" onAction="#downloadTemplate" prefHeight="25.0" prefWidth="134.0" text="%download-template" textAlignment="CENTER" wrapText="true" />
     </children>
 </AnchorPane>
