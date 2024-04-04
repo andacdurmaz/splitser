@@ -1,0 +1,27 @@
+2024-03-28 18:19:16.756800+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-224]
+2024-03-28 18:19:33.391769+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-224]
+2024-03-28 18:19:40.824114+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-224]
+2024-04-02 12:07:32.802029+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-224]
+2024-04-02 14:39:50.659716+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-224]
+2024-04-02 14:52:45.810817+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-224]
+2024-04-03 02:22:26.664794+02:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "DELETE FROM [*]*"; expected "identifier"; SQL statement:
+DELETE FROM * [42001-224]
+2024-04-03 02:22:56.620400+02:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "DELETE [*]*"; expected "identifier"; SQL statement:
+DELETE * [42001-224]
+2024-04-03 02:23:03.925355+02:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "DELETE [*]*   FROM EVENT"; expected "identifier"; SQL statement:
+DELETE *   FROM EVENT [42001-224]
+2024-04-03 02:23:10.411544+02:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "DELETE FROM [*]*"; expected "identifier"; SQL statement:
+DELETE FROM * [42001-224]
+2024-04-03 02:25:23.105963+02:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "DELETE FROM [*]*"; expected "identifier"; SQL statement:
+DELETE FROM * [42001-224]
