@@ -321,6 +321,16 @@ public class EventInfoCtrl {
         setData(event);
     }
 
+    public void deleteExpense() {
+        Expense temp = selectedExpense;
+        expenseList.getItems().remove(temp);
+        List<Expense> oldExpenses = event.getExpenses();
+        oldExpenses = oldExpenses.stream().filter(q -> !q.equals(temp)).toList();
+        event.setExpenses(oldExpenses);
+        server.updateEvent(event);
+        setData(event);
+    }
+
 
     /**
      * Method to enable editing of the event title
@@ -427,5 +437,8 @@ public class EventInfoCtrl {
      */
     public void selectExpenseList(MouseEvent mouseEvent) {
         selectedExpense = expenseList.getSelectionModel().getSelectedItem();
+        if (mouseEvent.getClickCount() == 2) {
+            mainCtrl.showExpenseInfo(selectedExpense, this);
+        }
     }
 }

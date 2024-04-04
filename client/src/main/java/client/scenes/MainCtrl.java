@@ -57,6 +57,8 @@ public class MainCtrl {
     private Scene add;
     private EventInfoCtrl eventInfoCtrl;
     private Scene eventInfo;
+    private ExpenseInfoCtrl expenseInfoCtrl;
+    private Scene expenseInfo;
     private AddOrEditExpenseCtrl addOrEditExpenseCtrl;
 
 
@@ -535,5 +537,17 @@ public class MainCtrl {
         popup.setTitle("Language switch");
         popup.setScene(languageSwitchScene);
         popup.show();
+    }
+
+    public void showExpenseInfo(Expense expense, EventInfoCtrl eventInfoCtrl) {
+        var expenseInfo = Main.FXML.load(ExpenseInfoCtrl.class, bundle, "client",
+                "scenes", "ExpenseInfo.fxml");
+        ExpenseInfoCtrl expenseInfoCtrl = expenseInfo.getKey();
+        Scene expenseInfoScene = new Scene(expenseInfo.getValue());
+        primaryStage.setTitle("Expense Info");
+        expenseInfoCtrl.setData(expense, eventInfoCtrl);
+        expenseInfoCtrl.setExpense(expense);
+        primaryStage.setScene(expenseInfoScene);
+//        expenseInfoScene.setOnKeyPressed(e -> eventInfoCtrl.keyPressed(e));
     }
 }
