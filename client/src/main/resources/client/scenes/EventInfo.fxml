@@ -70,7 +70,7 @@
       </Button>
       <AnchorPane fx:id="noParticipantPane" layoutY="-3.0" prefHeight="407.0" prefWidth="679.0" style="-fx-background-color: red" visible="false">
          <children>
-            <Label layoutX="149.0" layoutY="116.0" prefHeight="142.0" prefWidth="381.0" text="Please add a participant first">
+            <Label layoutX="88.0" layoutY="116.0" prefHeight="142.0" prefWidth="500.0" text="Make sure you have a participant and an expense tag">
                <font>
                   <Font size="29.0" />
                </font></Label>

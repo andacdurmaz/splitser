@@ -185,7 +185,7 @@ public class EventInfoCtrl {
      * @param actionEvent when the button is clicked
      */
     public void addExpense(ActionEvent actionEvent){
-        if(this.event.getParticipants().size() < 1) {
+        if(this.event.getParticipants().size() < 1 || this.event.getExpenseTags().size() < 1) {
             noParticipantPane.setVisible(true);
             noParticipantErrButton.requestFocus();
         } else {
