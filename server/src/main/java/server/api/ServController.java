@@ -5,6 +5,7 @@ import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import server.Main;
 import server.database.ServRepository;
 import server.service.ServService;
 
@@ -27,6 +28,7 @@ public class ServController {
     @Autowired
     public ServController(ServService sserv) {
         this.sserv = sserv;
+        Main.password(String.valueOf(sserv.getPass()));
     }
 
     /**

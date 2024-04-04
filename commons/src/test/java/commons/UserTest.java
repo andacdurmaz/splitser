@@ -17,13 +17,13 @@ public class UserTest {
     public void constructorTest() throws EmailFormatException,
             IBANFormatException, BICFormatException {
         User user = new User("andac", "andac@gmail.com",
-                "1234123412341234123412341234123412",
-                "12312312312");
+                "GB94BARC10201530093459",
+                "AABNNL2AXXX");
         assertNotNull(user);
         assertEquals("andac", user.getUsername());
         assertEquals("andac@gmail.com", user.getEmail());
-        assertEquals("1234123412341234123412341234123412", user.getIban());
-        assertEquals("12312312312", user.getBic());
+        assertEquals("GB94BARC10201530093459", user.getIban());
+        assertEquals("AABNNL2AXXX", user.getBic());
         assertEquals(Language.EN, user.getLanguage());
     }
 
@@ -40,8 +40,8 @@ public class UserTest {
     public void usernameTest() throws EmailFormatException,
             IBANFormatException, BICFormatException {
         User user = new User("andac", "andac@gmail.com",
-                "1234123412341234123412341234123412",
-                "12312312312");
+                "GB94BARC10201530093459",
+                "AABNNL2AXXX");
         user.setUsername("mete");
         assertEquals("mete", user.getUsername());
     }
@@ -49,8 +49,8 @@ public class UserTest {
     public void testID() throws EmailFormatException,
             IBANFormatException, BICFormatException {
         User user = new User("andac", "andac@gmail.com",
-                "1234123412341234123412341234123412",
-                "12312312312");
+                "GB94BARC10201530093459",
+                "AABNNL2AXXX");
         user.setUserID(486);
         assertEquals(486, user.getUserID());
     }
@@ -59,8 +59,8 @@ public class UserTest {
     public void emailTest() throws EmailFormatException,
             IBANFormatException, BICFormatException {
         User user =new User("andac", "andac@gmail.com",
-                "1234123412341234123412341234123412",
-                "12312312312");
+                "GB94BARC10201530093459",
+                "AABNNL2AXXX");
         user.setEmail("andac72@hotmail.com");
         assertEquals("andac72@hotmail.com", user.getEmail());
     }
@@ -71,28 +71,28 @@ public class UserTest {
     public void bicTest() throws BICFormatException,
             EmailFormatException, IBANFormatException {
         User user = new User("andac", "andac@gmail.com",
-                "1234123412341234123412341234123412",
-                "12312312312");
-        user.setBic("AAAA1212123");
-        assertEquals("AAAA1212123", user.getBic());
+                "GB94BARC10201530093459",
+                "AABNNL2AXXX");
+        user.setBic("RABONL2UXXX");
+        assertEquals("RABONL2UXXX", user.getBic());
     }
 
     @Test
     public void ibanTest() throws IBANFormatException,
             EmailFormatException, BICFormatException {
         User user = new User("andac", "andac@gmail.com",
-                "1234123412341234123412341234123412",
-                "12312312312");
-        user.setIban("NL11112222333344445555666677778888");
-        assertEquals("NL11112222333344445555666677778888", user.getIban());
+                "GB94BARC10201530093459",
+                "AABNNL2AXXX");
+        user.setIban("GB33BUKB20201555555555");
+        assertEquals("GB33BUKB20201555555555", user.getIban());
     }
 
     @Test
     public void serverURLTest() throws EmailFormatException,
             IBANFormatException, BICFormatException {
         User user = new User("andac", "andac@gmail.com",
-                "1234123412341234123412341234123412",
-                "12312312312");
+                "GB94BARC10201530093459",
+                "AABNNL2AXXX");
         assertNull(user.getServerURL());
         user.setServerURL("server.com");
         assertEquals("server.com", user.getServerURL());
@@ -102,8 +102,8 @@ public class UserTest {
     public void walletTest() throws EmailFormatException,
             IBANFormatException, BICFormatException {
         User user = new User("andac", "andac@gmail.com",
-                "1234123412341234123412341234123412",
-                "12312312312");
+                "GB94BARC10201530093459",
+                "AABNNL2AXXX");
         assertEquals(0, user.getWallet());
         user.setWallet(10);
         assertEquals(10, user.getWallet());
@@ -115,8 +115,8 @@ public class UserTest {
     public void languageTest() throws EmailFormatException,
             IBANFormatException, BICFormatException {
         User user = new User("andac", "andac@gmail.com",
-                "1234123412341234123412341234123412",
-                "12312312312");
+                "GB94BARC10201530093459",
+                "AABNNL2AXXX");
         user.setLanguage(Language.NL);
         assertEquals(Language.NL, user.getLanguage());
     }
@@ -126,11 +126,11 @@ public class UserTest {
     public void debtTest() throws EmailFormatException,
             IBANFormatException, BICFormatException {
         User user = new User("andac", "andac@gmail.com",
-                "1234123412341234123412341234123412",
-                "12312312312");
+                "GB94BARC10201530093459",
+                "AABNNL2AXXX");
         User user2 = new User("ivan", "ivan@gmail.com",
-                "1234123412341234123412341234123412",
-                "12312312312");
+                "GB94BARC10201530093459",
+                "AABNNL2AXXX");
         Debt debt = new Debt(user, user2, 15.0);
         List<Debt> debts = new ArrayList<>();
         debts.add(debt);
@@ -143,8 +143,8 @@ public class UserTest {
     public void expenseTest() throws EmailFormatException,
             IBANFormatException, BICFormatException {
         User user = new User("andac", "andac@gmail.com",
-                "1234123412341234123412341234123412",
-                "12312312312");
+                "GB94BARC10201530093459",
+                "AABNNL2AXXX");
         Expense expense = new Expense();
         List<Expense> expensess = new ArrayList<>();
         expensess.add(expense);
@@ -156,8 +156,8 @@ public class UserTest {
     public void addExpenseTest() throws EmailFormatException,
             IBANFormatException, BICFormatException {
         User user = new User("andac", "andac@gmail.com",
-                "1234123412341234123412341234123412",
-                "12312312312");
+                "GB94BARC10201530093459",
+                "AABNNL2AXXX");
         List<Expense> expenses = new ArrayList<>();
         assertTrue(user.getExpenses().isEmpty());
         Expense expense = new Expense();
@@ -173,13 +173,13 @@ public class UserTest {
     public void toStringTest() throws IBANFormatException,
             BICFormatException, EmailFormatException {
         User user = new User("andac", "andac@gmail.com",
-                "1234123412341234123412341234123412",
-                "12312312312");
-        user.setIban("NL11112222333344445555666677778888");
-        user.setBic("AAAA1122333");
+                "GB94BARC10201530093459",
+                "AABNNL2AXXX");
+        user.setIban("GB33BUKB20201555555555");
+        user.setBic("RABONL2UXXX");
         user.setServerURL("server.123");
         String result = "User Information:\nUsername: andac\nE-mail: andac@gmail.com\nServer: server.123\n" +
-                "IBAN: NL11112222333344445555666677778888\nBIC: AAAA1122333\nPreferred Language: EN\n";
+                "IBAN: GB33BUKB20201555555555\nBIC: RABONL2UXXX\nPreferred Language: EN\n";
         assertEquals(result, user.toString());
     }
 
@@ -187,8 +187,8 @@ public class UserTest {
     public void equalsTestSame() throws EmailFormatException,
             IBANFormatException, BICFormatException {
         User user = new User("andac", "andac@gmail.com",
-                "1234123412341234123412341234123412",
-                "12312312312");
+                "GB94BARC10201530093459",
+                "AABNNL2AXXX");
         assertTrue(user.equals(user));
     }
 
@@ -196,19 +196,19 @@ public class UserTest {
     public void equalsTestDifferent() throws EmailFormatException,
             IBANFormatException, BICFormatException {
         User user = new User("andac", "andac@gmail.com",
-                "1234123412341234123412341234123412",
-                "12312312312");
+                "GB94BARC10201530093459",
+                "AABNNL2AXXX");
         User user2 = new User("mehmet", "andac@gmail.com",
-                "1234123412341234123412341234123412",
-                "12312312312");
+                "GB94BARC10201530093459",
+                "AABNNL2AXXX");
         assertFalse(user.equals(user2));
     }
     @Test
     public void equalsNullTest() throws EmailFormatException,
             IBANFormatException, BICFormatException {
         User user = new User("andac", "andac@gmail.com",
-                "1234123412341234123412341234123412",
-                "12312312312");
+                "GB94BARC10201530093459",
+                "AABNNL2AXXX");
         assertFalse(user.equals(null));
     }
     @Test

@@ -307,7 +307,7 @@ public class ServerUtils extends Util {
                 .path("api/events/update/" + event.getId())
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
-                .put(Entity.entity(event, APPLICATION_JSON), Event.class);
+                .put(Entity.entity(event, APPLICATION_JSON), Response.class);
     }
 
 
@@ -398,17 +398,6 @@ public class ServerUtils extends Util {
 
     }
 
-    /**
-     * @return returns the server password
-     * here for testing, will be removed later
-     */
-    public String getCredentials() {
-        Response ans = clientBuilder
-                .target(serverAddress)
-                .request(String.valueOf(Boolean.class))
-                .get(Response.class);
-        return (String) ans.getEntity();
-    }
 
 
     private static final ExecutorService DELEXPENSE = Executors.newSingleThreadExecutor();
