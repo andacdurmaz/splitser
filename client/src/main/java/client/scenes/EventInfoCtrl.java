@@ -15,6 +15,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.util.StringConverter;
 
 import javax.inject.Inject;
+import java.lang.reflect.Field;
 import java.util.List;
 
 
@@ -52,6 +53,8 @@ public class EventInfoCtrl {
     private Button paidByButton;
     @FXML
     private Button includingButton;
+    @FXML
+    private Button noParticipantErrButton;
     @FXML
     private Button editTitle;
     @FXML
@@ -186,7 +189,7 @@ public class EventInfoCtrl {
     public void addExpense(ActionEvent actionEvent){
         if(this.event.getParticipants().size() < 1) {
             noParticipantPane.setVisible(true);
-            checkForErrorPane();
+            noParticipantErrButton.requestFocus();
         } else {
             selectedExpense = null;
             mainCtrl.showAddOrEditExpense(event, selectedExpense);
@@ -198,36 +201,9 @@ public class EventInfoCtrl {
      */
     public void noParticipantErr() {
         noParticipantPane.setVisible(false);
-        checkForErrorPane();
     }
 
-    /**
-     * When the error messages pops up this method disables everything
-     */
-    public void checkForErrorPane() {
-        if(noParticipantPane.isVisible()) {
-            eventTitle.setEditable(false);
-            description.setEditable(false);
-            expenseComboBox.setDisable(true);
-            participantCombobox.setDisable(true);
-            expenseList.setDisable(true);
-            paidByButton.setDisable(true);
-            includingButton.setDisable(true);
-            editTitle.setDisable(true);
-            editDescription.setDisable(true);
 
-        } else {
-            eventTitle.setEditable(true);
-            description.setEditable(true);
-            expenseComboBox.setDisable(false);
-            participantCombobox.setDisable(false);
-            expenseList.setDisable(false);
-            paidByButton.setDisable(false);
-            includingButton.setDisable(false);
-            editTitle.setDisable(false);
-            editDescription.setDisable(false);
-        }
-    }
 
     /**
      * edits a selected participant's information
