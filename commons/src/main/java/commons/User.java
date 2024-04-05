@@ -45,6 +45,8 @@ public class User {
 
     }
 
+
+
     /**
      * getter methods for the expenses a user is a part of
      *
@@ -70,6 +72,22 @@ public class User {
      */
     public void addExpense(Expense expense) {
         expenses.add(expense);
+    }
+
+    /**
+     * Another constructor for user
+     * @param username
+     * @param email
+     */
+    public User(String username, String email) throws EmailFormatException {
+        this.username = username;
+        if (!EmailValidator.getInstance().isValid(email))
+            throw new EmailFormatException();
+        this.email = email;
+        this.language = Language.EN;
+        this.expenses = new ArrayList<>();
+        this.wallet = 0;
+        this.debts = new ArrayList<>();
     }
 
     /**

@@ -74,18 +74,20 @@ public class AddOrEditExpenseCtrl implements Initializable {
      * the participant combobox display only usernames
      */
     public void initialize() {
+        if (!expenseTag.getItems().isEmpty()) {
+            expenseTag.setCellFactory(param -> new TextFieldListCell<>(new StringConverter<>() {
+                @Override
+                public String toString(ExpenseTag tag) {
+                    return tag.getName();
+                }
 
-        expenseTag.setCellFactory(param -> new TextFieldListCell<>(new StringConverter<>() {
-            @Override
-            public String toString(ExpenseTag tag) {
-                return tag.getName();
-            }
+                @Override
+                public ExpenseTag fromString(String string) {
+                    return null;
+                }
+            }));
+        }
 
-            @Override
-            public ExpenseTag fromString(String string) {
-                return null;
-            }
-        }));
         payer.setConverter(new StringConverter<User>() {
             @Override
             public String toString(User user) {
@@ -113,7 +115,7 @@ public class AddOrEditExpenseCtrl implements Initializable {
      * Clears fields
      */
     public void clearFields() {
-        expenseTag.setValue(null);
+        expenseTag.setValue(event.getExpenseTags().get(0));
         howMuch.clear();
         currency.setValue(null);
         payer.setValue(null);
