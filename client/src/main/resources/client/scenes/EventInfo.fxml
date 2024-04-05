@@ -76,9 +76,9 @@
       </Button>
       <AnchorPane fx:id="noParticipantPane" layoutY="-3.0" prefHeight="407.0" prefWidth="679.0" style="-fx-background-color: red" visible="false">
          <children>
-            <Label layoutX="88.0" layoutY="116.0" prefHeight="142.0" prefWidth="500.0" text="Make sure you have a participant and an expense tag">
+            <Label layoutX="65.0" layoutY="113.0" prefHeight="142.0" prefWidth="547.0" text="Make sure you have a participant and an expense tag" textAlignment="JUSTIFY">
                <font>
-                  <Font size="29.0" />
+                  <Font size="23.0" />
                </font></Label>
             <Button fx:id="noParticipantErrButton" layoutX="264.0" layoutY="277.0" mnemonicParsing="false" onAction="#noParticipantErr" prefHeight="26.0" prefWidth="150.0" text="Ok" />
          </children>
