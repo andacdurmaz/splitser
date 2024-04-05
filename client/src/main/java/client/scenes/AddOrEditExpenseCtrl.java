@@ -74,18 +74,20 @@ public class AddOrEditExpenseCtrl implements Initializable {
      * the participant combobox display only usernames
      */
     public void initialize() {
+        if (!expenseTag.getItems().isEmpty()) {
+            expenseTag.setCellFactory(param -> new TextFieldListCell<>(new StringConverter<>() {
+                @Override
+                public String toString(ExpenseTag tag) {
+                    return tag.getName();
+                }
 
-        expenseTag.setCellFactory(param -> new TextFieldListCell<>(new StringConverter<>() {
-            @Override
-            public String toString(ExpenseTag tag) {
-                return tag.getName();
-            }
+                @Override
+                public ExpenseTag fromString(String string) {
+                    return null;
+                }
+            }));
+        }
 
-            @Override
-            public ExpenseTag fromString(String string) {
-                return null;
-            }
-        }));
         payer.setConverter(new StringConverter<User>() {
             @Override
             public String toString(User user) {
@@ -97,13 +99,23 @@ public class AddOrEditExpenseCtrl implements Initializable {
                 return null;
             }
         });
+        expenseTag.setConverter(new StringConverter<ExpenseTag>() {
+            @Override
+            public String toString(ExpenseTag tag) {
+                return tag.getName();
+            }
+            @Override
+            public ExpenseTag fromString(String string) {
+                return null;
+            }
+        });
     }
 
     /**
      * Clears fields
      */
     public void clearFields() {
-        expenseTag.setValue(null);
+        expenseTag.setValue(event.getExpenseTags().get(0));
         howMuch.clear();
         currency.setValue(null);
         payer.setValue(null);
@@ -230,10 +242,9 @@ public class AddOrEditExpenseCtrl implements Initializable {
     }
 
     /**
-     * IMPORTANT
-     * This method should be changed
-     * for now it returns all participants but it should be only
-     * the selected ones
+     * checks if the all participants button is selected,
+     * if it is selected, it returns all participants
+     * if not, checks for the selected checkboxes under some participants
      *
      * @return paying participants
      */
@@ -315,6 +326,7 @@ public class AddOrEditExpenseCtrl implements Initializable {
 
         payer.setItems(FXCollections.observableList(event.getParticipants()));
         payer.setValue(event.getParticipants().get(0));
+        expenseTag.setValue(event.getExpenseTags().get(0));
         if(expense == null) {
             okButton.setText(mainCtrl.getBundle().getString("add"));
         }

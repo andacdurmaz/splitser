@@ -46,9 +46,9 @@ class ExpenseTest {
 
     @Test
     void setName() throws EmailFormatException, IBANFormatException, BICFormatException {
-        User user = new User("ivan","@.",
-                "1234123412341234123412341234123412",
-                "12312312312");
+        User user = new User("ivan","ivan@email.com",
+                "GB94BARC10201530093459",
+                "AABNNL2AXXX");
         Expense expense = new Expense("Drinks", 3.29);
         expense.setName("Food");
         assertEquals("Food",expense.getName());
@@ -58,9 +58,9 @@ class ExpenseTest {
 
     @Test
     void testSetPayer() throws EmailFormatException, IBANFormatException, BICFormatException {
-        User user = new User("ivan","@.",
-                "1234123412341234123412341234123412",
-                "12312312312");
+        User user = new User("ivan","ivan@email.com",
+                "GB94BARC10201530093459",
+                "AABNNL2AXXX");
         Expense expense = new Expense("Drinks", 3.29);
         expense.setPayer(user);
         assertEquals(user,expense.getPayer());
@@ -88,9 +88,9 @@ class ExpenseTest {
 
     @Test
     void getPayingParticipants() throws EmailFormatException, IBANFormatException, BICFormatException {
-        User user = new User("ivan","@.",
-                "1234123412341234123412341234123412",
-                "12312312312");
+        User user = new User("ivan","ivan@email.com",
+                "GB94BARC10201530093459",
+                "AABNNL2AXXX");
         List<User> payingParticipants = new ArrayList<>();
         payingParticipants.add(user);
         Expense expense = new Expense("Drinks", 3.29, user, payingParticipants);
@@ -99,9 +99,9 @@ class ExpenseTest {
 
     @Test
     void setPayingParticipants() throws EmailFormatException, IBANFormatException, BICFormatException {
-        User user = new User("ivan","@.",
-                "1234123412341234123412341234123412",
-                "12312312312");
+        User user = new User("ivan","ivan@email.com",
+                "GB94BARC10201530093459",
+                "AABNNL2AXXX");
         List<User> payingParticipants = new ArrayList<>();
         payingParticipants.add(user);
         Expense expense = new Expense("Drinks", 3.29);

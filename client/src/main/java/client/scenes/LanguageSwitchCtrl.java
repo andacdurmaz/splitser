@@ -52,7 +52,7 @@ public class LanguageSwitchCtrl implements Initializable {
     @FXML
     private ImageView germanImage;
     @FXML
-    private Button downloadThemplate;
+    private Button downloadTemplate;
 
     /**
      * Constructor for AdminOverview
@@ -175,10 +175,10 @@ public class LanguageSwitchCtrl implements Initializable {
      * Method to download the language themplate
      * @param e the action event
      */
-    public void downloadThemplate(ActionEvent e) {
+    public void downloadTemplate(ActionEvent e) {
         DirectoryChooser directoryChooser = new DirectoryChooser();
         directoryChooser.setTitle("Select Directory");
-        Stage stage = (Stage) downloadThemplate.getScene().getWindow();
+        Stage stage = (Stage) downloadTemplate.getScene().getWindow();
         File selectedDirectory = directoryChooser.showDialog(stage);
         File file = new File(selectedDirectory, "resource_THEMPLATE.properties");
 
@@ -198,7 +198,7 @@ public class LanguageSwitchCtrl implements Initializable {
             properties.store(new FileOutputStream(file), "THEMPLATE FILE OF SPLITTY");
 
             System.out.println("File created successfully at: " + file.getAbsolutePath());
-            downloadThemplate.setText(mainCtrl.getBundle().getString("download_successful"));
+            downloadTemplate.setText(mainCtrl.getBundle().getString("download_successful"));
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }

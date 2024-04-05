@@ -174,6 +174,9 @@ public class ServerUtils extends Util {
         Event event1 = response.readEntity(new GenericType<>() {
         });
         return event1;
+
+
+
     }
 
     /**
@@ -244,14 +247,14 @@ public class ServerUtils extends Util {
      */
 
     public User addUser(User user) {
-        Response response = ClientBuilder.newClient(new ClientConfig())
-                .target(serverAddress).path("api/users/add")
-                .request(APPLICATION_JSON)
-                .accept(APPLICATION_JSON)
+        Response response = ClientBuilder.newClient(new ClientConfig()) //
+                .target(serverAddress).path("api/users/add") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
                 .post(Entity.entity(user, APPLICATION_JSON));
-        User newUser = response.readEntity(new GenericType<>() {
+        User user1 = response.readEntity(new GenericType<>() {
         });
-        return newUser;
+        return user1;
 
     }
 
@@ -307,7 +310,7 @@ public class ServerUtils extends Util {
                 .path("api/events/update/" + event.getId())
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
-                .put(Entity.entity(event, APPLICATION_JSON), Event.class);
+                .put(Entity.entity(event, APPLICATION_JSON), Response.class);
     }
 
 
