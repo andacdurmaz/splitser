@@ -171,9 +171,7 @@ public class User {
      * @throws IBANFormatException if the format is incorrect
      */
     public void setIban(String iban) throws IBANFormatException {
-        if (iban.length() != 34) {
-            throw new IBANFormatException();
-        }
+
         this.iban = iban;
     }
 
@@ -193,9 +191,7 @@ public class User {
      * @throws BICFormatException if the format is incorrect
      */
     public void setBic(String bic) throws BICFormatException {
-        if (bic.length() != 11) {
-            throw new BICFormatException();
-        }
+
         this.bic = bic;
     }
 
