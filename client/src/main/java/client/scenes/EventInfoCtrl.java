@@ -211,9 +211,6 @@ public class EventInfoCtrl {
      * @param actionEvent when the button is clicked
      */
     public void editExpense(ActionEvent actionEvent){
-        if (selectedExpense == null) {
-            //mainCtrl.showAddOrEditParticipants(new User(), event);
-        }
         mainCtrl.showAddOrEditExpense(event, selectedExpense);
     }
     /**
@@ -230,9 +227,6 @@ public class EventInfoCtrl {
      * @param actionEvent when the button is clicked
      */
     public void editParticipant(ActionEvent actionEvent){
-        if (selectedParticipant == null) {
-            //mainCtrl.showAddOrEditParticipants(new User(), event);
-        }
         mainCtrl.showAddOrEditParticipants(selectedParticipant, event);
     }
 
