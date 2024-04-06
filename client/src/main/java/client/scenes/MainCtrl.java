@@ -355,6 +355,54 @@ public class MainCtrl {
 
 
     /**
+     * removes the event from the config file
+     * @param event event to be removed
+     * @return true if the event is removed
+     */
+    public boolean removeEventFromConfig(Event event){
+        return removeEventFromConfigProvidingPath(CONFIG_PATH, event);
+    }
+
+    /**
+     * removes the event from the config file by path
+     * @param path path to the file
+     * @param event event to be removed
+     * @return true if the event is removed
+     */
+    public boolean removeEventFromConfigProvidingPath(String path, Event event) {
+        List<Long> eventIds = getJoinedEventsIDProvidingPath(path);
+        if (eventIds.contains(event.getId())) {
+            JSONObject jsonObject = new JSONObject(readConfigFile(path));
+            JSONObject userObject = jsonObject.getJSONObject("User");
+            JSONArray eventsArray = userObject.getJSONArray("Events");
+
+            // Find the index of the event object to remove
+            int index = -1;
+            for (int i = 0; i < eventsArray.length(); i++) {
+                JSONObject eventJSON = eventsArray.getJSONObject(i);
+                if (eventJSON.getLong("id") == event.getId()) {
+                    index = i;
+                    break;
+                }
+            }
+
+            // If the event object is found, remove it from the eventsArray
+            if (index != -1) {
+                eventsArray.remove(index);
+                userObject.put("Events", eventsArray);
+                Path filePath = Path.of(path);
+                try {
+                    Files.writeString(filePath, jsonObject.toString());
+                    return true;
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
      * interacts with the server to get the events that the user has joined
      *
      * @param path path to the file
