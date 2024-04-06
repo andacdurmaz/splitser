@@ -10,6 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -45,6 +46,8 @@ public class StartPageCtrl implements Initializable {
     private Label badFormat;
     @FXML
     private ListView<Event> joinedEvents;
+    @FXML
+    private Button deleteEvent;
 
 
     /**
@@ -74,7 +77,7 @@ public class StartPageCtrl implements Initializable {
     private EventHandler<MouseEvent> joinJoinedEvents = new EventHandler<MouseEvent>() {
         public void handle(MouseEvent mouseEvent) {
             Event event;
-            if(mouseEvent.getSource() == joinedEvents){
+            if(mouseEvent.getSource() == joinedEvents && mouseEvent.getClickCount() == 2){
                 event = joinedEvents.getSelectionModel().getSelectedItem();
             } else {
                 return;
@@ -239,6 +242,19 @@ public class StartPageCtrl implements Initializable {
         }
     }
 
+
+    /**
+     * if the delete button is clicked on, the event is deleted from the config file
+     */
+    public void deleteEvent() {
+        Event event = joinedEvents.getSelectionModel().getSelectedItem();
+        mainCtrl.deleteEventFromConfig(event);
+        try {
+            getJoinedEvents();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
      * Method to show the languageSwitch

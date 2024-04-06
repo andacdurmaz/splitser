@@ -24,20 +24,14 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
 public class MainCtrlTest {
@@ -437,7 +431,7 @@ public class MainCtrlTest {
             e.printStackTrace();
         }
 
-        mainCtrl.removeEventFromConfigProvidingPath(tempFilePath, new Event("title ", 3, "description"));
+        mainCtrl.deleteEventFromConfigProvidingPath(tempFilePath, new Event("title ", 3, "description"));
 
         String newContent = mainCtrl.readConfigFile(tempFilePath);
         String expected = "{\"User\":{\"Language\":\"en\",\"Events\":[{\"amountOfParticipants\":4,\"sumOfExpenses\":21.89,\"description\":\"description 2\",\"id\":1,\"title\":\"title 2\",\"expenses\":[]}],\"Currency\":\"USD\",\"name\":\"John Doe\"}}";
@@ -489,7 +483,7 @@ public class MainCtrlTest {
             e.printStackTrace();
         }
 
-        assertFalse(mainCtrl.removeEventFromConfigProvidingPath(tempFilePath, new Event("title 3", 5, "description 3")));
+        assertFalse(mainCtrl.deleteEventFromConfigProvidingPath(tempFilePath, new Event("title 3", 5, "description 3")));
 
 
         // Clean up: delete the temporary file
@@ -538,7 +532,7 @@ public class MainCtrlTest {
             e.printStackTrace();
         }
         try {
-            mainCtrl.removeEventFromConfigProvidingPath("wrongPath", new Event("title 2", 4, "description 2"));
+            mainCtrl.deleteEventFromConfigProvidingPath("wrongPath", new Event("title 2", 4, "description 2"));
         } catch (RuntimeException e) {
             assertEquals("java.nio.file.NoSuchFileException: wrongPath", e.getMessage());
         }

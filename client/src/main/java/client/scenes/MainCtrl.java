@@ -359,8 +359,8 @@ public class MainCtrl {
      * @param event event to be removed
      * @return true if the event is removed
      */
-    public boolean removeEventFromConfig(Event event){
-        return removeEventFromConfigProvidingPath(CONFIG_PATH, event);
+    public boolean deleteEventFromConfig(Event event){
+        return deleteEventFromConfigProvidingPath(CONFIG_PATH, event);
     }
 
     /**
@@ -369,7 +369,7 @@ public class MainCtrl {
      * @param event event to be removed
      * @return true if the event is removed
      */
-    public boolean removeEventFromConfigProvidingPath(String path, Event event) {
+    public boolean deleteEventFromConfigProvidingPath(String path, Event event) {
         List<Long> eventIds = getJoinedEventsIDProvidingPath(path);
         if (eventIds.contains(event.getId())) {
             JSONObject jsonObject = new JSONObject(readConfigFile(path));
