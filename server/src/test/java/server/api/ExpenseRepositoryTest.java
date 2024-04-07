@@ -17,8 +17,8 @@ import server.database.ExpenseRepository;
 
 public class ExpenseRepositoryTest implements ExpenseRepository {
 
-    public final List<Expense> expenses = new ArrayList<>();
-    public final List<String> calledMethods = new ArrayList<>();
+    public  List<Expense> expenses = new ArrayList<>();
+    public  List<String> calledMethods = new ArrayList<>();
 
     private void call(String name) {
         calledMethods.add(name);
@@ -146,6 +146,7 @@ public class ExpenseRepositoryTest implements ExpenseRepository {
 
     @Override
     public void deleteById(Long id) {
+        expenses = expenses.stream().filter(q -> q.getId() != id).toList();
     }
 
     @Override

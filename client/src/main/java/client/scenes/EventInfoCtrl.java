@@ -188,7 +188,7 @@ public class EventInfoCtrl {
      * @param actionEvent when the button is clicked
      */
     public void addExpense(ActionEvent actionEvent){
-        if(this.event.getParticipants().isEmpty() || this.event.getExpenseTags().isEmpty()) {
+        if(this.event.getParticipants().size() < 2 || this.event.getExpenseTags().isEmpty()) {
             noParticipantPane.setVisible(true);
             noParticipantErrButton.requestFocus();
         } else {
@@ -425,5 +425,8 @@ public class EventInfoCtrl {
      */
     public void selectExpenseList(MouseEvent mouseEvent) {
         selectedExpense = expenseList.getSelectionModel().getSelectedItem();
+        if (mouseEvent.getClickCount() > 1) {
+            mainCtrl.showExpenseInfo(event, selectedExpense);
+        }
     }
 }
