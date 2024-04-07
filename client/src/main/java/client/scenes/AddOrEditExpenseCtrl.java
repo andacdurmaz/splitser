@@ -125,6 +125,7 @@ public class AddOrEditExpenseCtrl implements Initializable {
             public String toString(ExpenseTag tag) {
                 return tag.getName();
             }
+
             @Override
             public ExpenseTag fromString(String string) {
                 return null;
@@ -167,6 +168,7 @@ public class AddOrEditExpenseCtrl implements Initializable {
         someParticipantsSelector.getChildren().clear();
 
     }
+
     /**
      * Checkbox method for allParticipants
      * if-clause is there to check only when the checkbox is
@@ -303,7 +305,7 @@ public class AddOrEditExpenseCtrl implements Initializable {
                 if(((CheckBox) n).isSelected()) {
                     String text = ((CheckBox) n).getText();
                     int index = text.indexOf("(id: ");
-                    long id = Long.parseLong(text.substring(index +5, text.length() -1));
+                    long id = Long.parseLong(text.substring(index + 5, text.length() - 1));
                     selected.add(server.getUserById(id));
                 }
             }
@@ -316,13 +318,27 @@ public class AddOrEditExpenseCtrl implements Initializable {
     /**
      * @param e key event
      */
+    @FXML
     public void keyPressed(KeyEvent e) {
         switch (e.getCode()) {
             case ENTER:
-                ok();
+                if (payer.isFocused()) {
+                    payer.show();
+                    break;
+                } else if (expenseTag.isFocused()) {
+                    expenseTag.show();
+                    break;
+                } else if (currency.isFocused()) {
+                    currency.show();
+                    break;
+                } else {
+                    ok();
+
+                }
                 break;
             case ESCAPE:
                 cancel();
+                break;
             default:
                 break;
         }
@@ -358,10 +374,10 @@ public class AddOrEditExpenseCtrl implements Initializable {
         if (expense != null) {
             List<Long> ids = expense.getPayingParticipants()
                     .stream().map(q -> q.getUserID()).toList();
-            for(Node n : someParticipantsSelector.getChildren()) {
+            for (Node n : someParticipantsSelector.getChildren()) {
                 String text = ((CheckBox) n).getText();
                 int index = text.indexOf("(id: ");
-                long id = Long.parseLong(text.substring(index +5, text.length() -1));
+                long id = Long.parseLong(text.substring(index + 5, text.length() - 1));
                 if (ids.contains(id)) {
                     ((CheckBox) n).setSelected(true);
                 }
@@ -370,10 +386,9 @@ public class AddOrEditExpenseCtrl implements Initializable {
         payer.setItems(FXCollections.observableList(event.getParticipants()));
         payer.setValue(event.getParticipants().get(0));
         expenseTag.setValue(event.getExpenseTags().get(0));
-        if(expense == null) {
+        if (expense == null) {
             okButton.setText(mainCtrl.getBundle().getString("add"));
-        }
-        else {
+        } else {
             okButton.setText("Edit");
         }
     }
@@ -398,10 +413,10 @@ public class AddOrEditExpenseCtrl implements Initializable {
             if (expense.getPayingParticipants().size() == event.getParticipants().size() - 1) {
                 allParticipants.setSelected(true);
                 someParticipants.setSelected(false);
-            }
-            else {
+            } else {
                 someParticipants.setSelected(true);
                 someParticipantsPay();
+
             }
         }
     }
