@@ -17,6 +17,7 @@ public class StatisticsCtrl {
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
     private Event event;
+    private ObservableList<Data> data;
 
     @FXML
     private PieChart pieChart;
@@ -35,14 +36,10 @@ public class StatisticsCtrl {
     public StatisticsCtrl(ServerUtils server, MainCtrl mainCtrl,Event event) {
         this.server = server;
         this.mainCtrl = mainCtrl;
-        this.event = event
+        this.event = event;
     }
 
 
-    public void initialize()
-    {
-        List<Data> data = setPieChart();
-    }
 
     /**
      * Set event
@@ -56,12 +53,12 @@ public class StatisticsCtrl {
      *
      * @return
      */
-    private List<Data> setPieChart() {
-        ObservableList<Data> list = FXCollections.observableArrayList();
+    private void setPieChart(Event event) {
+        data = FXCollections.observableArrayList();
         List<Expense> expenses = event.getExpenses();
         for(Expense expense : expenses)
-            list.addAll(new PieChart.Data(expense.getExpenseTag().getName(), expense.getAmount()));
-        return list;
+            data.addAll(new PieChart.Data(expense.getExpenseTag().getName(), expense.getAmount()));
+
 
     }
 
@@ -81,6 +78,8 @@ public class StatisticsCtrl {
      */
     public void setData(Event event) {
         updateEventTitle(event);
+        setPieChart(event);
+        pieChart.setData(data);
     }
 
 

@@ -251,6 +251,7 @@ public class MainCtrl {
         StatisticsCtrl statisticsCtrl = statistics.getKey();
         Scene statisticsOverview = new Scene(statistics.getValue());
         statisticsCtrl.setEvent(event);
+        statisticsCtrl.setData(event);
         primaryStage.setScene(statisticsOverview);
     }
 
