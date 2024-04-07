@@ -53,6 +53,7 @@ public class AddEventCtrl {
         try {
             Event tmp = server.addEvent(newEvent);
             newEvent.setId(tmp.getId());
+            mainCtrl.writeEventToConfigFile(newEvent);
         } catch (WebApplicationException e) {
             var alert = new Alert(Alert.AlertType.ERROR);
             alert.initModality(Modality.APPLICATION_MODAL);

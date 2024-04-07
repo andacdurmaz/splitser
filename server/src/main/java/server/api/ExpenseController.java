@@ -37,6 +37,14 @@ public class ExpenseController {
     private final Random random;
 
     /**
+     * gets the servide of the controller
+     * @return the service
+     */
+    public ExpenseService getService() {
+        return service;
+    }
+
+    /**
      * Constructor
      *
      * @param random  random
@@ -167,5 +175,15 @@ public class ExpenseController {
         });
 
         return result;
+    }
+
+    /**
+     * Deletes an expense by id.
+     * @param id the expense id
+     * @return the response entity
+     */
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Expense> deleteExpense(@PathVariable("id") long id) {
+        return service.deleteExpense(id);
     }
 }

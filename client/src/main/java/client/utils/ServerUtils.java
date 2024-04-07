@@ -193,6 +193,19 @@ public class ServerUtils extends Util {
     }
 
     /**
+     * Delete event
+     *
+     * @param expense to delete
+     */
+    public void deleteExpense(Expense expense) {
+        ClientBuilder.newClient(new ClientConfig()) //
+                .target(serverAddress).path("api/expenses/delete/" + expense.getId()) //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .delete();
+    }
+
+    /**
      * Adds expense
      * @param expense to add
      * @return add expense

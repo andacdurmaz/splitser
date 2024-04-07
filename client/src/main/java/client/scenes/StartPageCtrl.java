@@ -7,20 +7,31 @@ import javafx.animation.PauseTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 
 
+import java.io.IOException;
+import java.net.URL;
+import java.util.List;
 import java.util.Optional;
+import java.util.ResourceBundle;
 
 
+import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
+import javafx.util.StringConverter;
 
 
-public class StartPageCtrl {
+public class StartPageCtrl implements Initializable {
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
     private ObservableList<Event> data;
@@ -33,6 +44,10 @@ public class StartPageCtrl {
     private Label noCode;
     @FXML
     private Label badFormat;
+    @FXML
+    private ListView<Event> joinedEvents;
+    @FXML
+    private Button deleteEvent;
 
 
     /**
@@ -45,6 +60,61 @@ public class StartPageCtrl {
     public StartPageCtrl(ServerUtils server, MainCtrl mainCtrl) {
         this.mainCtrl = mainCtrl;
         this.server = server;
+    }
+
+    /**
+     * gets all joined events of the user by its config file
+     */
+    public void getJoinedEvents() throws IOException {
+        List<Event> events = mainCtrl.getJoinedEvents();
+        data = FXCollections.observableList(mainCtrl.getJoinedEvents());
+        joinedEvents.setItems(data);
+    }
+
+    /**
+     * when an event is clicked on, the event info page opens
+     */
+    private EventHandler<MouseEvent> joinJoinedEvents = new EventHandler<MouseEvent>() {
+        public void handle(MouseEvent mouseEvent) {
+            Event event;
+            if(mouseEvent.getSource() == joinedEvents && mouseEvent.getClickCount() == 2){
+                event = joinedEvents.getSelectionModel().getSelectedItem();
+            } else {
+                return;
+            }
+            if(event != null){
+                mainCtrl.showEventInfo(event);
+            }
+        }
+    };
+
+    /**
+     * initializes the page
+     */
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        joinedEvents.setCellFactory(param -> new TextFieldListCell<>(new StringConverter<Event>() {
+            @Override
+            public String toString(Event object) {
+                return object.getTitle();
+            }
+
+            @Override
+            public Event fromString(String string) {
+                return null;
+            }
+        }));
+
+        List<Event> events = mainCtrl.getJoinedEvents();
+        joinedEvents.getItems().setAll(events);
+
+        try {
+            getJoinedEvents();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        imageset();
+        joinedEvents.setOnMouseClicked(joinJoinedEvents);
     }
 
     /**
@@ -94,9 +164,14 @@ public class StartPageCtrl {
     /**
      * refreshes the data of the page
      */
-    public void refresh() {
+    public void refresh()  {
         var events = server.getEvents();
-        data = FXCollections.observableList(events);
+        events = FXCollections.observableList(events);
+        try {
+            getJoinedEvents();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         imageset();
     }
 
@@ -148,8 +223,12 @@ public class StartPageCtrl {
         Optional<Event> event = server.getEvents().stream()
                 .filter(q -> q.getEventCode() == Long.parseLong(eventid.getText()))
                 .findFirst();
-        if (event.isPresent())
+        if (event.isPresent()) {
             mainCtrl.showEventInfo(event.get());
+            if(!mainCtrl.isEventInConfig(event.get())){
+                mainCtrl.writeEventToConfigFile(event.get());
+            }
+        }
         else {
             if(badFormat.isVisible()) {
                 badFormat.setVisible(false);
@@ -163,6 +242,19 @@ public class StartPageCtrl {
         }
     }
 
+
+    /**
+     * if the delete button is clicked on, the event is deleted from the config file
+     */
+    public void deleteEvent() {
+        Event event = joinedEvents.getSelectionModel().getSelectedItem();
+        mainCtrl.deleteEventFromConfig(event);
+        try {
+            getJoinedEvents();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
      * Method to show the languageSwitch

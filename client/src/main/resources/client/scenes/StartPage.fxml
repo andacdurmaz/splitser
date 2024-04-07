@@ -63,8 +63,8 @@
             </ImageView>
          </graphic>
       </Button>
-
       <ListView layoutX="386.0" layoutY="168.0" prefHeight="124.0" prefWidth="174.0" />
+      <Button fx:id="deleteEvent" layoutX="368.0" layoutY="313.0" mnemonicParsing="false" style="-fx-background-color: D11A2A;" text="%delete" textFill="WHITE" onAction="#deleteEvent"/>
       <Label fx:id="badFormat" layoutX="206.0" layoutY="222.0" prefHeight="16.0" prefWidth="150.0" text="%event-code-must-be-a-number">
          <font>
             <Font size="11.0" />
