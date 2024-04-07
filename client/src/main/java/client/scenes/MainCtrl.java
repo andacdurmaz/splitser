@@ -20,6 +20,9 @@ import client.utils.ServerUtils;
 import commons.exceptions.BICFormatException;
 import commons.exceptions.EmailFormatException;
 import commons.exceptions.IBANFormatException;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -78,6 +81,8 @@ public class MainCtrl {
     private Scene adminEventInfo;
     private ResourceBundle bundle;
     private Locale locale = new Locale("en");
+    private KeyCombination ctrlT = new KeyCodeCombination(KeyCode.T, KeyCombination.CONTROL_DOWN);
+   private  KeyCombination esc = new KeyCodeCombination(KeyCode.ESCAPE);
 
 
     /**
@@ -284,6 +289,8 @@ public class MainCtrl {
         primaryStage.setTitle("Admin: Overview");
         primaryStage.setScene(adminOverviewScene);
         adminOverviewCtrl.refresh();
+        adminOverviewScene.getAccelerators().put(ctrlT, adminOverviewCtrl::adminAddEvent);
+        adminOverviewScene.getAccelerators().put(esc, adminOverviewCtrl::back);
     }
 
     /**
@@ -295,10 +302,11 @@ public class MainCtrl {
         var adminEventInfo = Main.FXML.load(AdminEventInfoCtrl.class, bundle, "client",
                 "scenes", "AdminEventInfo.fxml");
         AdminEventInfoCtrl adminEventInfoCtrl = adminEventInfo.getKey();
-        Scene adminOverviewScene = new Scene(adminEventInfo.getValue());
+        Scene adminEventInfoScene = new Scene(adminEventInfo.getValue());
         primaryStage.setTitle("Admin: Event info");
-        primaryStage.setScene(adminOverviewScene);
+        primaryStage.setScene(adminEventInfoScene);
         adminEventInfoCtrl.setEvent(event);
+        adminEventInfoScene.getAccelerators().put(esc, adminEventInfoCtrl::backToAdminOverview);
     }
 
     /**
@@ -529,6 +537,7 @@ public class MainCtrl {
                 "scenes", "LanguageSwitch.fxml");
         LanguageSwitchCtrl languageSwitchCtrl = languageSwitch.getKey();
         Scene languageSwitchScene = new Scene(languageSwitch.getValue());
+        languageSwitchScene.getAccelerators().put(esc, languageSwitchCtrl::backButton);
 
         languageSwitchCtrl.setReturn(c);
         Stage popup = new Stage();

@@ -30,6 +30,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -136,6 +139,13 @@ public class AdminOverviewCtrl implements Initializable {
         data = FXCollections.observableList(events);
         table.setItems(data);
         sortEvent.handle(new ActionEvent());
+    }
+
+    /**
+     * Method to go back to startpage
+     */
+    public void back() {
+        mainCtrl.showStartPage();
     }
 
     private EventHandler<ActionEvent> sortEvent = new EventHandler<ActionEvent>() {
