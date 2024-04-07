@@ -6,6 +6,9 @@ import commons.ExpenseTag;
 import commons.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 import server.service.EventService;
 
@@ -161,4 +164,15 @@ public class EventController {
         return eventService.deleteEvent(id);
     }
 
+    /**
+     * @param eventId id of updated event
+     * @param e new version of updated event
+     * @return a notification to clients so that they refresh
+     */
+    @MessageMapping("event/{eventId}")
+    @SendTo("updates/board")
+    public Event eventUpdate(@DestinationVariable long eventId, Event e){
+        Event newEvent = updateEvent(eventId, e).getBody();
+        return newEvent;
+    }
 }

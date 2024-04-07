@@ -469,4 +469,12 @@ public class ServerUtils extends Util {
         });
     }
 
+    /**
+     * shuts down the listeners
+     */
+    public void stop(){
+        ADDEXPENSE.shutdownNow();
+        DELEXPENSE.shutdownNow();
+    }
+
 }
