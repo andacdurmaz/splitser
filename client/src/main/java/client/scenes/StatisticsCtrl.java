@@ -31,6 +31,7 @@ public class StatisticsCtrl {
      *
      * @param server   server
      * @param mainCtrl mainCtrl
+     * @param event  event
      */
     @Inject
     public StatisticsCtrl(ServerUtils server, MainCtrl mainCtrl,Event event) {
@@ -51,7 +52,7 @@ public class StatisticsCtrl {
 
     /**
      *
-     * @return
+     * sets data for the pie chart
      */
     private void setPieChart(Event event) {
         data = FXCollections.observableArrayList();
