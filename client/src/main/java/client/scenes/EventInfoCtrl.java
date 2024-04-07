@@ -1,5 +1,6 @@
 package client.scenes;
 
+import client.services.EventInfoService;
 import client.utils.ServerUtils;
 import commons.Event;
 import commons.User;
@@ -46,19 +47,16 @@ public class EventInfoCtrl {
     private Button paidByButton;
     @FXML
     private Button includingButton;
-    private final ServerUtils server;
-    private final MainCtrl mainCtrl;
+    private final EventInfoService service;
 
     /**
      * Constructor
      *
-     * @param server
-     * @param mainCtrl
+     * @param service DI service
      */
     @Inject
-    public EventInfoCtrl(ServerUtils server, MainCtrl mainCtrl) {
-        this.server = server;
-        this.mainCtrl = mainCtrl;
+    public EventInfoCtrl(EventInfoService service) {
+        this.service = service;
     }
 
     /**
@@ -142,7 +140,7 @@ public class EventInfoCtrl {
      * @param actionEvent when the button is clicked
      */
     public void back(ActionEvent actionEvent) {
-        mainCtrl.showStartPage();
+        service.getMainCtrl().showStartPage();
     }
 
     /**
@@ -153,9 +151,9 @@ public class EventInfoCtrl {
             return;
         }
         if (selectedExpense == null) {
-            mainCtrl.showAddOrEditExpense(this.event, new Expense());
+            service.getMainCtrl().showAddOrEditExpense(this.event, new Expense());
         }
-        mainCtrl.showAddOrEditExpense(this.event, selectedExpense);
+        service.getMainCtrl().showAddOrEditExpense(this.event, selectedExpense);
     }
 
 
@@ -165,7 +163,7 @@ public class EventInfoCtrl {
      */
     public void addParticipant(ActionEvent actionEvent){
         selectedParticipant = null;
-        mainCtrl.showAddOrEditParticipants(selectedParticipant, event);
+        service.getMainCtrl().showAddOrEditParticipants(selectedParticipant, event);
     }
 
     /**
@@ -176,14 +174,14 @@ public class EventInfoCtrl {
         if (selectedParticipant == null) {
             //mainCtrl.showAddOrEditParticipants(new User(), event);
         }
-        mainCtrl.showAddOrEditParticipants(selectedParticipant, event);
+        service.getMainCtrl().showAddOrEditParticipants(selectedParticipant, event);
     }
 
     /**
      *  sends invitations
      */
     public void sendInvitations() {
-        mainCtrl.showSendInvitations(event);
+        service.getMainCtrl().showSendInvitations(event);
     }
 
 
@@ -191,7 +189,7 @@ public class EventInfoCtrl {
      * adds expnse tag
      */
     public void addExpenseTag() {
-        mainCtrl.showExpenseTags(event);
+        service.getMainCtrl().showExpenseTags(event);
     }
 
     /**
@@ -264,7 +262,7 @@ public class EventInfoCtrl {
         List<User> oldParticipants = event.getParticipants();
         oldParticipants = oldParticipants.stream().filter(q -> !q.equals(temp)).toList();
         event.setParticipants(oldParticipants);
-        server.updateEvent(event);
+        service.updateEvent(event);
         setData(event);
     }
 
@@ -297,7 +295,7 @@ public class EventInfoCtrl {
             disableEditingTitle();
             titleLabel.setText(newTitle);
             event.setTitle(newTitle);
-            server.updateEvent(event);
+            service.updateEvent(event);
         }
         else {
             enableEditingTitle();
@@ -333,7 +331,7 @@ public class EventInfoCtrl {
             descriptionLabel.setText(newDesc);
             disableEditingDesc();
             event.setDescription(newDesc);
-            server.updateEvent(event);
+            service.updateEvent(event);
         }
         else {
             enableEditingDesc();
@@ -366,5 +364,11 @@ public class EventInfoCtrl {
      */
     public void allExpenses(ActionEvent actionEvent) {
         expenseList.getItems().setAll(event.getExpenses());
+    }
+
+    public void refresh() {
+        Event e = service.getEventById(event.getId());
+        setEvent(e);
+        setData(e);
     }
 }

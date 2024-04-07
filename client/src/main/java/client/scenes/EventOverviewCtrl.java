@@ -38,8 +38,7 @@ public class EventOverviewCtrl implements Initializable {
     /**
      * Constructor
      *
-     * @param server   server
-     * @param mainCtrl main controller
+     * @param service DI service
      */
     private final EventOverviewService service;
     @Inject

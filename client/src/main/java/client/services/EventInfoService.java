@@ -2,30 +2,31 @@ package client.services;
 
 import client.scenes.MainCtrl;
 import client.utils.ServerUtils;
-import com.google.inject.Inject;
 import commons.Event;
-import org.springframework.stereotype.Service;
 
+import javax.inject.Inject;
 import java.util.List;
 
-@Service
-public class EventOverviewService {
+public class EventInfoService {
 
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
+
 
     public MainCtrl getMainCtrl() {
         return mainCtrl;
     }
 
     /**
-     * @param server server instance
-     * @param mainCtrl main ctrl instance
+     * Constructor
+     *
+     * @param server
+     * @param mainCtrl
      */
     @Inject
-    public EventOverviewService(ServerUtils server, MainCtrl mainCtrl) {
-        this.mainCtrl = mainCtrl;
+    public EventInfoService(ServerUtils server, MainCtrl mainCtrl) {
         this.server = server;
+        this.mainCtrl = mainCtrl;
     }
 
     /**
@@ -69,5 +70,9 @@ public class EventOverviewService {
      */
     public Event getEventById(long id){
         return server.getEventById(id);
+    }
+
+    public void updateEvent(Event event){
+        server.updateEvent(event);
     }
 }
