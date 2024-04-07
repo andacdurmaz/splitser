@@ -38,6 +38,9 @@ public class InvitationCtrl {
         this.event = event;
     }
 
+    /**
+     * send emails method configuration
+     */
     public void sendEmail()
     {
         Properties prop = new Properties();
