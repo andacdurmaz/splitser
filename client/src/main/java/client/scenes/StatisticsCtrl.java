@@ -11,7 +11,9 @@ import javafx.scene.chart.PieChart;
 import javafx.scene.chart.PieChart.Data;
 import javafx.scene.control.Label;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class StatisticsCtrl {
     private final ServerUtils server;
@@ -40,8 +42,6 @@ public class StatisticsCtrl {
         this.event = event;
     }
 
-
-
     /**
      * Set event
      * @param event to set
@@ -51,16 +51,41 @@ public class StatisticsCtrl {
     }
 
     /**
-     *
      * sets data for the pie chart
      */
     private void setPieChart(Event event) {
         data = FXCollections.observableArrayList();
         List<Expense> expenses = event.getExpenses();
-        for(Expense expense : expenses)
-            data.addAll(new PieChart.Data(expense.getExpenseTag().getName(), expense.getAmount()));
+        Map<String, Double> totalExpensesMap = calculateTotalPrices(expenses);
 
+        for (Map.Entry<String, Double> entry : totalExpensesMap.entrySet()) {
+            String expenseType = entry.getKey();
+            double expenseAmount = entry.getValue();
+            data.addAll(new PieChart.Data(expenseType, expenseAmount));
+        }
+    }
 
+    /**
+     * sum prices
+     * @param expenses
+     * @return
+     */
+    public static Map<String, Double> calculateTotalPrices(List<Expense> expenses) {
+        Map<String, Double> totalPrices = new HashMap<>();
+
+        for (Expense expense : expenses) {
+            String expenseType = expense.getExpenseTag().getName();
+            double expenseAmount = expense.getAmount();
+
+            if (totalPrices.containsKey(expenseType)) {
+                double currentTotal = totalPrices.get(expenseType);
+                totalPrices.put(expenseType, currentTotal + expenseAmount);
+            } else {
+                totalPrices.put(expenseType, expenseAmount);
+            }
+        }
+
+        return totalPrices;
     }
 
     /**
