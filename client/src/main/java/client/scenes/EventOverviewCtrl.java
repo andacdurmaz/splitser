@@ -1,5 +1,6 @@
 package client.scenes;
 
+import client.services.EventOverviewService;
 import com.google.inject.Inject;
 import client.utils.ServerUtils;
 import commons.Event;
@@ -17,8 +18,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class EventOverviewCtrl implements Initializable {
-    private final ServerUtils server;
-    private final MainCtrl mainCtrl;
+
     private ObservableList<Event> data;
     @FXML
     private Label emptyLabel;
@@ -41,10 +41,11 @@ public class EventOverviewCtrl implements Initializable {
      * @param server   server
      * @param mainCtrl main controller
      */
+    private final EventOverviewService service;
     @Inject
-    public EventOverviewCtrl(ServerUtils server, MainCtrl mainCtrl) {
-        this.mainCtrl = mainCtrl;
-        this.server = server;
+    public EventOverviewCtrl(EventOverviewService service) {
+        this.service = service;
+        service.getServer().setSession();
     }
 
     /**
@@ -71,10 +72,13 @@ public class EventOverviewCtrl implements Initializable {
         // Listen for changes to the items in the ListView,
         // if there are events make the label invisible
         table.setOnMouseClicked(getEvent);
-        server.regAddExpenses( expense -> {
+        service.getServer().regAddExpenses( expense -> {
             Platform.runLater(() -> refresh());
         });
-        server.regDeleteExpenses( expense -> {
+        service.getServer().regDeleteExpenses( expense -> {
+            Platform.runLater(() -> refresh());
+        });
+        service.getServer().registerForSocketMessages("/updates/events", Event.class, e -> {
             Platform.runLater(() -> refresh());
         });
     }
@@ -94,7 +98,7 @@ public class EventOverviewCtrl implements Initializable {
                 return;
             }
             if (selectedEvent != null) {
-                mainCtrl.showEventInfo(selectedEvent);
+                service.showEventInfo(selectedEvent);
             }
         }
     };
@@ -110,7 +114,7 @@ public class EventOverviewCtrl implements Initializable {
      * Refreshes the page
      */
     public void refresh() {
-        var events = server.getEvents();
+        var events = service.getEvents();
         data = FXCollections.observableList(events);
         TableView<Event> table = new TableView<>();
         table.setItems(data);
@@ -120,14 +124,14 @@ public class EventOverviewCtrl implements Initializable {
      * deprecated
      */
     public void login(){
-        loginButton.setOnAction(event1 ->  mainCtrl.login());
+        loginButton.setOnAction(event1 ->  service.login());
     }
 
     /**
      * Add event method
      */
     public void addEvent() {
-        mainCtrl.showAdd();
+        service.showAdd();
     }
 
     /**
@@ -136,7 +140,7 @@ public class EventOverviewCtrl implements Initializable {
      * @return placeholder
      */
     public ServerUtils getServer() {
-        return server;
+        return service.getServer();
     }
 
     /**
@@ -145,7 +149,7 @@ public class EventOverviewCtrl implements Initializable {
      * @return placeholder
      */
     public MainCtrl getMainCtrl() {
-        return mainCtrl;
+        return service.getMainCtrl();
     }
 
     /**
