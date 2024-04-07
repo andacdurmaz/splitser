@@ -1,14 +1,7 @@
 package commons;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import commons.exceptions.BICFormatException;
-import commons.exceptions.EmailFormatException;
-import commons.exceptions.IBANFormatException;
-import fr.marcwrobel.jbanking.bic.Bic;
-import fr.marcwrobel.jbanking.iban.Iban;
 import jakarta.persistence.*;
-import org.apache.commons.validator.routines.EmailValidator;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,7 +39,6 @@ public class User {
     }
 
 
-
     /**
      * getter methods for the expenses a user is a part of
      *
@@ -79,10 +71,8 @@ public class User {
      * @param username
      * @param email
      */
-    public User(String username, String email) throws EmailFormatException {
+    public User(String username, String email) {
         this.username = username;
-        if (!EmailValidator.getInstance().isValid(email))
-            throw new EmailFormatException();
         this.email = email;
         this.language = Language.EN;
         this.expenses = new ArrayList<>();
@@ -97,20 +87,10 @@ public class User {
      * @param iban
      * @param bic
      */
-    public User(String username, String email, String iban, String bic)
-            throws BICFormatException, IBANFormatException,
-            EmailFormatException {
-        this.username = username;
-        if (!EmailValidator.getInstance().isValid(email))
-            throw new EmailFormatException();
+    public User(String username, String email, String iban, String bic) {
+        this.username = username;;
         this.email = email;
-        if (!Iban.isValid(iban)) {
-            throw new IBANFormatException();
-        }
         this.iban = iban;
-        if (!Bic.isValid(bic)) {
-            throw new BICFormatException();
-        }
         this.bic = bic;
         this.language = Language.EN;
         this.expenses = new ArrayList<>();
@@ -147,21 +127,15 @@ public class User {
 
     /**
      * Setter method for an User's e-mail
-     *
      * @param email new e-mail of the User
-     * @throws EmailFormatException if the format is incorrect
      * https://www.baeldung.com/java-email-validation-regex for info about the email regex pattern
      */
-    public void setEmail(String email) throws EmailFormatException {
-        if (!EmailValidator.getInstance().isValid(email)){
-            throw new EmailFormatException();
-        }
+    public void setEmail(String email) {
         this.email = email;
     }
 
     /**
      * Getter method for User's connected server
-     *
      * @return the server of the User
      */
     public String getServerURL() {
@@ -170,7 +144,6 @@ public class User {
 
     /**
      * Setter method for an User's server URL
-     *
      * @param serverURL new server URL of the User
      */
     public void setServerURL(String serverURL) {
@@ -179,7 +152,6 @@ public class User {
 
     /**
      * Getter method for User IBAN
-     *
      * @return the IBAN of the User
      */
     public String getIban() {
@@ -188,15 +160,10 @@ public class User {
 
     /**
      * Setter method for an User's IBAN
-     *
      * @param iban new IBAN of the User
-     * @throws IBANFormatException if the format is incorrect
      * https://github.com/marcwrobel/jbanking for info about the Iban class
      */
-    public void setIban(String iban) throws IBANFormatException {
-        if (!Iban.isValid(iban)) {
-            throw new IBANFormatException();
-        }
+    public void setIban(String iban)  {
         this.iban = iban;
     }
 
@@ -213,13 +180,9 @@ public class User {
      * Setter method for an User's BIC
      *
      * @param bic new BIC of the User
-     * @throws BICFormatException if the format is incorrect
      * https://github.com/marcwrobel/jbanking for info about the Bic class
      */
-    public void setBic(String bic) throws BICFormatException {
-        if (!Bic.isValid(bic)) {
-            throw new BICFormatException();
-        }
+    public void setBic(String bic)  {
         this.bic = bic;
     }
 

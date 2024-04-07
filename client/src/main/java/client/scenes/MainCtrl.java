@@ -17,9 +17,6 @@ package client.scenes;
 
 import client.Main;
 import client.utils.ServerUtils;
-import commons.exceptions.BICFormatException;
-import commons.exceptions.EmailFormatException;
-import commons.exceptions.IBANFormatException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -231,15 +228,7 @@ public class MainCtrl {
         addOrEditParticipantCtrl.editFields(user);
         primaryStage.setScene(addOrEditParticipantsScene);
         addOrEditParticipantsScene.setOnKeyPressed(e -> {
-            try {
-                addOrEditParticipantCtrl.keyPressed(e);
-            } catch (EmailFormatException ex) {
-                throw new RuntimeException(ex);
-            } catch (IBANFormatException ex) {
-                throw new RuntimeException(ex);
-            } catch (BICFormatException ex) {
-                throw new RuntimeException(ex);
-            }
+            addOrEditParticipantCtrl.keyPressed(e);
         });
     }
 
