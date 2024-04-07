@@ -416,11 +416,7 @@ public class AddOrEditExpenseCtrl implements Initializable {
             } else {
                 someParticipants.setSelected(true);
                 someParticipantsPay();
-<<<<<<< client/src/main/java/client/scenes/AddOrEditExpenseCtrl.java
 
-
-=======
->>>>>>> client/src/main/java/client/scenes/AddOrEditExpenseCtrl.java
             }
         }
     }
