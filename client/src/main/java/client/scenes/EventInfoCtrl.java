@@ -4,6 +4,7 @@ import client.services.EventInfoService;
 import client.utils.ServerUtils;
 import commons.Event;
 import commons.User;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import commons.Expense;
 import javafx.fxml.FXML;
@@ -99,6 +100,16 @@ public class EventInfoCtrl {
             public User fromString(String string) {
                 return null;
             }
+        });
+        service.setSession();
+        service.getServer().regDeleteExpenses( deleteOp-> {
+                    Platform.runLater(() -> refresh());
+                });
+        service.getServer().regAddExpenses( addOp ->  {
+            Platform.runLater(() -> refresh());
+        });
+        service.getServer().registerForSocketMessages("/updates/events", Event.class, e -> {
+            Platform.runLater(() -> refresh());
         });
     }
 

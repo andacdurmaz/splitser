@@ -71,12 +71,6 @@ public class EventOverviewCtrl implements Initializable {
         // Listen for changes to the items in the ListView,
         // if there are events make the label invisible
         table.setOnMouseClicked(getEvent);
-        service.getServer().regAddExpenses( expense -> {
-            Platform.runLater(() -> refresh());
-        });
-        service.getServer().regDeleteExpenses( expense -> {
-            Platform.runLater(() -> refresh());
-        });
         service.getServer().registerForSocketMessages("/updates/events", Event.class, e -> {
             Platform.runLater(() -> refresh());
         });

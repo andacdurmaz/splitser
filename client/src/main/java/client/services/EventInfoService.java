@@ -72,7 +72,17 @@ public class EventInfoService {
         return server.getEventById(id);
     }
 
+    /**
+     * @param event update event method
+     */
     public void updateEvent(Event event){
         server.updateEvent(event);
+    }
+
+    /**
+     * starts a new websocket session
+     */
+    public void setSession(){
+        server.setSession();
     }
 }
