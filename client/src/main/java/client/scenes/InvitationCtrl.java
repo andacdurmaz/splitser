@@ -1,11 +1,16 @@
 
 package client.scenes;
-import com.google.inject.Inject;
+
 import client.utils.ServerUtils;
+import com.google.inject.Inject;
 import commons.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import java.util.Properties;
 
 public class InvitationCtrl {
 
@@ -33,6 +38,37 @@ public class InvitationCtrl {
         this.event = event;
     }
 
+    public void sendEmail()
+    {
+        Properties prop = new Properties();
+        prop.put("mail.smtp.auth", true);
+        prop.put("mail.smtp.starttls.enable", "true");
+        prop.put("mail.smtp.host", "smtp.abv.bg");
+        prop.put("mail.smtp.port", "465");
+        prop.put("mail.transport.protocol", "smtp");
+
+        Session session = Session.getInstance(prop, new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication("user", "password");
+            }
+        });
+
+
+        try{
+            MimeMessage message = new MimeMessage(session);
+            message.setFrom(new InternetAddress("from"));
+            message.addRecipient(Message.RecipientType.TO,new InternetAddress("to"));
+            message.setSubject("Ping");
+            message.setText("Hello, this is example of sending email  ");
+
+            // Send message
+            Transport.send(message);
+            System.out.println("message sent successfully....");
+
+        }catch (MessagingException mex) {mex.printStackTrace();}
+
+    }
 
     /**
      * set the event title label
