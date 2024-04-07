@@ -82,7 +82,7 @@ public class MainCtrl {
     private ResourceBundle bundle;
     private Locale locale = new Locale("en");
     private KeyCombination ctrlT = new KeyCodeCombination(KeyCode.T, KeyCombination.CONTROL_DOWN);
-   private  KeyCombination esc = new KeyCodeCombination(KeyCode.ESCAPE);
+    private  KeyCombination esc = new KeyCodeCombination(KeyCode.ESCAPE);
 
 
     /**
