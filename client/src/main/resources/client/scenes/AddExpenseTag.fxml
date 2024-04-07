@@ -7,7 +7,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.AddExpenseTagCtrl">
    <children>
       <Label layoutX="167.0" layoutY="61.0" prefHeight="43.0" prefWidth="266.0" text="Add/Edit Expense Tag" textFill="#fd7f20">
@@ -15,19 +14,19 @@
             <Font name="System Bold" size="25.0" />
          </font>
       </Label>
-      <Button layoutX="440.0" layoutY="338.0" mnemonicParsing="false" onMouseClicked="#cancel" prefHeight="36.0" prefWidth="62.0" text="Cancel" />
-      <Button layoutX="515.0" layoutY="338.0" mnemonicParsing="false" onMouseClicked="#ok" prefHeight="36.0" prefWidth="62.0" text="Ok" />
-      <TextField fx:id="name" layoutX="204.0" layoutY="158.0" prefHeight="36.0" prefWidth="213.0" promptText="Enter your name" />
       <Label layoutX="139.0" layoutY="162.0" prefHeight="28.0" prefWidth="51.0" text="Name">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
+      <TextField fx:id="name" layoutX="204.0" layoutY="158.0" prefHeight="36.0" prefWidth="213.0" promptText="Enter your name" />
       <Label layoutX="139.0" layoutY="234.0" text="Colour">
          <font>
             <Font name="SansSerif Bold" size="16.0" />
          </font>
       </Label>
-      <ColorPicker fx:id="colour" layoutX="216.0" layoutY="231.0" />
+      <ColorPicker fx:id="colour" layoutX="216.0" layoutY="231.0" onAction="#showColors" onKeyPressed="#keyPressed" />
+      <Button layoutX="440.0" layoutY="338.0" mnemonicParsing="false" onAction="#cancel" onMouseClicked="#cancel" prefHeight="36.0" prefWidth="62.0" text="%cancel" />
+      <Button layoutX="515.0" layoutY="338.0" mnemonicParsing="false" onAction="#ok" onMouseClicked="#ok" prefHeight="36.0" prefWidth="62.0" text="%ok" />
    </children>
 </AnchorPane>

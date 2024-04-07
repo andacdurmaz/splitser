@@ -253,7 +253,14 @@ public class EventInfoCtrl {
     public void keyPressed(KeyEvent e) {
         switch (e.getCode()) {
             case ENTER:
-
+                if(participantCombobox.isFocused()) {
+                    participantCombobox.show();
+                    break;
+                }
+                if(expenseComboBox.isFocused()) {
+                    expenseComboBox.show();
+                    break;
+                }
                 break;
             case ESCAPE:
 

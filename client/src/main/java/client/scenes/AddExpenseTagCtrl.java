@@ -12,7 +12,6 @@ import javafx.stage.Modality;
 
 import javax.inject.Inject;
 import javafx.scene.input.KeyEvent;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,6 +42,7 @@ public class AddExpenseTagCtrl {
         this.mainCtrl = mainCtrl;
         this.event = event;
     }
+
 
 
     /**
@@ -100,9 +100,14 @@ public class AddExpenseTagCtrl {
     /**
      * @param e key event
      */
+    @FXML
     public void keyPressed(KeyEvent e) {
         switch (e.getCode()) {
             case ENTER:
+                if(colour.isFocused()) {
+                    showColors();
+                    break;
+                }
                 ok();
                 break;
             case ESCAPE:
@@ -110,6 +115,10 @@ public class AddExpenseTagCtrl {
             default:
                 break;
         }
+    }
+    @FXML
+    private void showColors() {
+        colour.show();
     }
 
 }

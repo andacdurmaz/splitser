@@ -52,4 +52,3 @@
       <Button fx:id="okButton" layoutX="543.0" layoutY="351.0" mnemonicParsing="false" onAction="#ok" onMouseClicked="#ok" text="%ok" />
    </children>
 </AnchorPane>
-
