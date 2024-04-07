@@ -395,7 +395,7 @@ public class AddOrEditExpenseCtrl implements Initializable {
             whatFor.setText(expense.getName());
             when.setValue(expense.getDate());
             expenseTag.getSelectionModel().select(expense.getExpenseTag());
-            if (expense.getPayingParticipants().size() == event.getParticipants().size()) {
+            if (expense.getPayingParticipants().size() == event.getParticipants().size() - 1) {
                 allParticipants.setSelected(true);
                 someParticipants.setSelected(false);
             }
