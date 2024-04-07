@@ -425,5 +425,8 @@ public class EventInfoCtrl {
      */
     public void selectExpenseList(MouseEvent mouseEvent) {
         selectedExpense = expenseList.getSelectionModel().getSelectedItem();
+        if (mouseEvent.getClickCount() > 1) {
+            mainCtrl.showExpenseInfo(event, selectedExpense);
+        }
     }
 }

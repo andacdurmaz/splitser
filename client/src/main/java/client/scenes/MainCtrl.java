@@ -525,4 +525,16 @@ public class MainCtrl {
         popup.setScene(languageSwitchScene);
         popup.show();
     }
+
+    public void showExpenseInfo(Event event, Expense selectedExpense) {
+        var expenseInfo = Main.FXML.load(ExpenseInfoCtrl.class, bundle, "client",
+                "scenes", "ExpenseInfo.fxml");
+        ExpenseInfoCtrl expenseInfoCtrl = expenseInfo.getKey();
+        Scene expenseInfoScene = new Scene(expenseInfo.getValue());
+//        primaryStage.setTitle("Expense Info");
+//        expenseInfoCtrl.setEvent(event);
+//        expenseInfoCtrl.setExpense(selectedExpense);
+//        expenseInfoCtrl.setData();
+//        primaryStage.setScene(expenseInfoScene);
+    }
 }
