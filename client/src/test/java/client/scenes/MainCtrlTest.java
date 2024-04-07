@@ -16,26 +16,22 @@
 package client.scenes;
 
 import client.utils.ServerUtils;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import commons.Event;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
 public class MainCtrlTest {
@@ -274,6 +270,7 @@ public class MainCtrlTest {
 
     @Test
     public void testWriteEventToFile() throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
         String tempFilePath = "CONFIGTest.json";
         String jsonString = "{" +
                 "  \"User\":{" +
@@ -302,37 +299,12 @@ public class MainCtrlTest {
 
 
 
-        String newEvent = new Event("title 3", 5, "description 3").toString();
+        Event newEvent = new Event("title 3", 5, "description 3");
         mainCtrl.writeEventToConfigFileByPath(tempFilePath, newEvent);
 
         String newContent = mainCtrl.readConfigFile(tempFilePath);
-        String expected = "{" +
-                "\"User\":{" +
-                "\"Events\":[{" +
-                "\"expenseTags\":[]," +
-                "\"amountOfParticipants\":3," +
-                "\"sumOfExpenses\":0," +
-                "\"description\":\"description\"," +
-                "\"id\":0," +
-                "\"title\":\"title\"," +
-                "\"expenses\":[]" +
-                "}," +
-                "{" +
-                "\"eventCode\":0," +
-                "\"expenseTags\":[]," +
-                "\"amountOfParticipants\":5," +
-                "\"sumOfExpenses\":0," +
-                "\"description\":\"description 3\"," +
-                "\"id\":0," +
-                "\"title\":\"title 3\"," +
-                "\"expenses\":[]," +
-                "\"participants\":[]" +
-                "}" +
-                "]," +
-                "\"name\":\"John Doe\"" +
-                "}" +
-                "}";
-        assertEquals(expected, newContent);
+        String expected = "{\"User\":{\"Events\":[{\"expenseTags\":[],\"amountOfParticipants\":3,\"sumOfExpenses\":0,\"description\":\"description\",\"id\":0,\"title\":\"title\",\"expenses\":[]},{\"eventCode\":0,\"expenseTags\":[],\"sumOfExpenses\":0,\"amountOfParticipants\":5,\"description\":\"description 3\",\"id\":0,\"title\":\"title 3\",\"expenses\":[],\"participants\":[]}],\"name\":\"John Doe\"}}";
+        assertEquals(objectMapper.readTree(expected), objectMapper.readTree(newContent));
 
         // Clean up: delete the temporary file
         Files.deleteIfExists(path);
@@ -340,6 +312,7 @@ public class MainCtrlTest {
 
     @Test
     public void testWriteLanguageToConfigFile() throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
         String tempFilePath = "CONFIGTest.json";
         String jsonString = "{" +
                 "  \"User\":{" +
@@ -370,24 +343,8 @@ public class MainCtrlTest {
         mainCtrl.writeLanguageToConfigFileByPath(tempFilePath, "nl");
 
         String newContent = mainCtrl.readConfigFile(tempFilePath);
-        String expected = "{" +
-                "\"User\":{" +
-                "\"Language\":\"nl\"," +
-                "\"Events\":[" +
-                "{" +
-                "\"amountOfParticipants\":3," +
-                "\"sumOfExpenses\":0," +
-                "\"description\":\"description\"," +
-                "\"id\":0," +
-                "\"title\":\"title\"," +
-                "\"expenses\":[]" +
-                "}" +
-                "]," +
-                "\"Currency\":\"USD\"," +
-                "\"name\":\"John Doe\"" +
-                "}" +
-                "}";
-        assertEquals(expected, newContent);
+        String expected = "{\"User\":{\"Language\":\"nl\",\"Events\":[{\"amountOfParticipants\":3,\"sumOfExpenses\":0,\"description\":\"description\",\"id\":0,\"title\":\"title\",\"expenses\":[]}],\"Currency\":\"USD\",\"name\":\"John Doe\"}}";
+        assertEquals(objectMapper.readTree(expected), objectMapper.readTree(newContent));
 
         // Clean up: delete the temporary file
         Files.deleteIfExists(path);
@@ -425,23 +382,7 @@ public class MainCtrlTest {
         mainCtrl.writeCurrencyToConfigFileByPath(tempFilePath, "EUR");
 
         String newContent = mainCtrl.readConfigFile(tempFilePath);
-        String expected = "{" +
-                "\"User\":{" +
-                "\"Language\":\"en\"," +
-                "\"Events\":[" +
-                "{" +
-                "\"amountOfParticipants\":3," +
-                "\"sumOfExpenses\":0," +
-                "\"description\":\"description\"," +
-                "\"id\":0," +
-                "\"title\":\"title\"," +
-                "\"expenses\":[]" +
-                "}" +
-                "]," +
-                "\"Currency\":\"EUR\"," +
-                "\"name\":\"John Doe\"" +
-                "}" +
-                "}";
+        String expected = "{\"User\":{\"Language\":\"en\",\"Events\":[{\"amountOfParticipants\":3,\"sumOfExpenses\":0,\"description\":\"description\",\"id\":0,\"title\":\"title\",\"expenses\":[]}],\"Currency\":\"EUR\",\"name\":\"John Doe\"}}";
         assertEquals(expected, newContent);
 
         // Clean up: delete the temporary file
@@ -449,6 +390,151 @@ public class MainCtrlTest {
             Files.deleteIfExists(path);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testRemoveEventFromConfig() throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        String tempFilePath = "CONFIGTest.json";
+        String jsonString = "{" +
+                "  \"User\":{" +
+                "    \"name\":\"John Doe\"," +
+                "    \"Language\":\"en\"," +
+                "    \"Currency\":\"USD\"," +
+                "    \"Events\":[" +
+                "      {" +
+                "        \"id\":0," +
+                "        \"title\": \"title\"," +
+                "        \"amountOfParticipants\":3," +
+                "        \"expenses\":[]," +
+                "        \"description\":\"description\"," +
+                "        \"sumOfExpenses\":0.0" +
+                "      }," +
+                "      {" +
+                "        \"id\":1," +
+                "        \"title\": \"title 2\"," +
+                "        \"amountOfParticipants\":4," +
+                "        \"expenses\":[]," +
+                "        \"description\":\"description 2\"," +
+                "        \"sumOfExpenses\":21.89" +
+                "      }" +
+                "    ]" +
+                "  }" +
+                "}";
+
+        // Write sample JSON to the temporary file
+        Path path = Paths.get(tempFilePath);
+        try {
+            Files.writeString(path, jsonString);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        mainCtrl.deleteEventFromConfigProvidingPath(tempFilePath, new Event("title ", 3, "description"));
+
+        String newContent = mainCtrl.readConfigFile(tempFilePath);
+        String expected = "{\"User\":{\"Language\":\"en\",\"Events\":[{\"amountOfParticipants\":4,\"sumOfExpenses\":21.89,\"description\":\"description 2\",\"id\":1,\"title\":\"title 2\",\"expenses\":[]}],\"Currency\":\"USD\",\"name\":\"John Doe\"}}";
+        assertEquals(objectMapper.readTree(expected), objectMapper.readTree(newContent));
+
+        // Clean up: delete the temporary file
+        try {
+            Files.deleteIfExists(path);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testRemoveEventFromConfigWrongEvent(){
+        ObjectMapper objectMapper = new ObjectMapper();
+        String tempFilePath = "CONFIGTest.json";
+        String jsonString = "{" +
+                "  \"User\":{" +
+                "    \"name\":\"John Doe\"," +
+                "    \"Language\":\"en\"," +
+                "    \"Currency\":\"USD\"," +
+                "    \"Events\":[" +
+                "      {" +
+                "        \"id\":1," +
+                "        \"title\": \"title\"," +
+                "        \"amountOfParticipants\":3," +
+                "        \"expenses\":[]," +
+                "        \"description\":\"description\"," +
+                "        \"sumOfExpenses\":0.0" +
+                "      }," +
+                "      {" +
+                "        \"id\":2," +
+                "        \"title\": \"title 2\"," +
+                "        \"amountOfParticipants\":4," +
+                "        \"expenses\":[]," +
+                "        \"description\":\"description 2\"," +
+                "        \"sumOfExpenses\":21.89" +
+                "      }" +
+                "    ]" +
+                "  }" +
+                "}";
+
+        // Write sample JSON to the temporary file
+        Path path = Paths.get(tempFilePath);
+        try {
+            Files.writeString(path, jsonString);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        assertFalse(mainCtrl.deleteEventFromConfigProvidingPath(tempFilePath, new Event("title 3", 5, "description 3")));
+
+
+        // Clean up: delete the temporary file
+        try {
+            Files.deleteIfExists(path);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testRemoveEventFromConfigException(){
+        ObjectMapper objectMapper = new ObjectMapper();
+        String tempFilePath = "CONFIGTest.json";
+        String jsonString = "{" +
+                "  \"User\":{" +
+                "    \"name\":\"John Doe\"," +
+                "    \"Language\":\"en\"," +
+                "    \"Currency\":\"USD\"," +
+                "    \"Events\":[" +
+                "      {" +
+                "        \"id\":1," +
+                "        \"title\": \"title\"," +
+                "        \"amountOfParticipants\":3," +
+                "        \"expenses\":[]," +
+                "        \"description\":\"description\"," +
+                "        \"sumOfExpenses\":0.0" +
+                "      }," +
+                "      {" +
+                "        \"id\":2," +
+                "        \"title\": \"title 2\"," +
+                "        \"amountOfParticipants\":4," +
+                "        \"expenses\":[]," +
+                "        \"description\":\"description 2\"," +
+                "        \"sumOfExpenses\":21.89" +
+                "      }" +
+                "    ]" +
+                "  }" +
+                "}";
+
+        // Write sample JSON to the temporary file
+        Path path = Paths.get(tempFilePath);
+        try {
+            Files.writeString(path, jsonString);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            mainCtrl.deleteEventFromConfigProvidingPath("wrongPath", new Event("title 2", 4, "description 2"));
+        } catch (RuntimeException e) {
+            assertEquals("java.nio.file.NoSuchFileException: wrongPath", e.getMessage());
         }
     }
 
