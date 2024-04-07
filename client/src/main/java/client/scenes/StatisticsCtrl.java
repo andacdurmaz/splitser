@@ -19,9 +19,10 @@ public class StatisticsCtrl {
     private Event event;
 
     @FXML
-    private Label eventTitle;
+    private PieChart pieChart;
     @FXML
-    private Label eventCode;
+    private Label eventTitle;
+
 
 
     /**
@@ -29,33 +30,45 @@ public class StatisticsCtrl {
      *
      * @param server   server
      * @param mainCtrl mainCtrl
-     * @param event event
      */
     @Inject
-    public StatisticsCtrl(ServerUtils server, MainCtrl mainCtrl, Event event) {
+    public StatisticsCtrl(ServerUtils server, MainCtrl mainCtrl,Event event) {
         this.server = server;
         this.mainCtrl = mainCtrl;
+        this.event = event
+    }
+
+
+    public void initialize()
+    {
+        List<Data> data = setPieChart();
+    }
+
+    /**
+     * Set event
+     * @param event to set
+     */
+    public void setEvent(Event event) {
         this.event = event;
     }
 
-    public void initialize() {
-        PieChart piechart = new PieChart();
-        piechart.setData(getChartData());
-    }
-
-
-    private ObservableList<Data> getChartData() {
+    /**
+     *
+     * @return
+     */
+    private List<Data> setPieChart() {
         ObservableList<Data> list = FXCollections.observableArrayList();
         List<Expense> expenses = event.getExpenses();
         for(Expense expense : expenses)
             list.addAll(new PieChart.Data(expense.getExpenseTag().getName(), expense.getAmount()));
         return list;
+
     }
 
     /**
-     * * set the event title label
-         * @param event
-         */
+     * set the event title label
+     * @param event
+     */
     public void updateEventTitle(Event event) {
         if (event != null || event.getTitle().length() != 0)
             eventTitle.setText(event.getTitle());
@@ -63,12 +76,13 @@ public class StatisticsCtrl {
 
 
     /**
-     * set the event
+     * set the event title and code
      * @param event
      */
-    public void setEvent(Event event) {
-        this.event = event;
+    public void setData(Event event) {
+        updateEventTitle(event);
     }
+
 
     /**
      *  return back to event info

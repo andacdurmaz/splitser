@@ -34,7 +34,7 @@
       <Button layoutX="21.0" layoutY="299.0" mnemonicParsing="false" onAction="#addExpense" prefHeight="55.0" prefWidth="150.0" text="%add-expense" />
       <Button layoutX="192.0" layoutY="299.0" mnemonicParsing="false" onAction="#editExpense" prefHeight="55.0" prefWidth="150.0" text="%add/edit-expense" />
       <Button fx:id="invitation" layoutX="376.0" layoutY="42.0" mnemonicParsing="false" onAction="#sendInvitations" text="%invitations" />
-      <Button layoutX="460.0" layoutY="42.0" mnemonicParsing="false" text="%statistics" />
+      <Button fx:id="statistics" layoutX="460.0" layoutY="42.0" mnemonicParsing="false" onAction="#showStatistics" text="%statistics" />
       <Button fx:id="expenseTag" layoutX="534.0" layoutY="42.0" mnemonicParsing="false" onAction="#addExpenseTag" text="%add-expense-tag" />
       <Button layoutX="361.0" layoutY="76.0" mnemonicParsing="false" onAction="#allExpenses" text="%all" />
       <Button fx:id="paidByButton" layoutX="403.0" layoutY="76.0" mnemonicParsing="false" onAction="#paidByParticipantList" text="%paid-by-participant" />

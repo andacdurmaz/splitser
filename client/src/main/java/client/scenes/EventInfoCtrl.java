@@ -59,6 +59,8 @@ public class EventInfoCtrl {
     @FXML
     private Button invitation;
     @FXML
+    private Button statistics;
+    @FXML
     private Button expenseTag;
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
@@ -237,6 +239,13 @@ public class EventInfoCtrl {
         mainCtrl.showSendInvitations(event);
     }
 
+
+    /**
+      *  show statistics
+     */
+    public void showStatistics() {
+        mainCtrl.showStatistics(event);
+    }
 
     /**
      * adds expnse tag
