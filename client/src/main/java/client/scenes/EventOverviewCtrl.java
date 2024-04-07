@@ -41,6 +41,10 @@ public class EventOverviewCtrl implements Initializable {
      * @param service DI service
      */
     private final EventOverviewService service;
+
+    /**
+     * @param service DI service
+     */
     @Inject
     public EventOverviewCtrl(EventOverviewService service) {
         this.service = service;

@@ -101,6 +101,10 @@ public class EventInfoCtrl {
         }
     };
 
+    /**
+     * intitialization
+     * done on a singleton process
+     */
     public void initialize() {
         noParticipantPane.setVisible(false);
         disableEditingDesc();

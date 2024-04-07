@@ -13,6 +13,9 @@ public class EventInfoService {
     private final MainCtrl mainCtrl;
 
 
+    /**
+     * @return mainctrl instance
+     */
     public MainCtrl getMainCtrl() {
         return mainCtrl;
     }
@@ -20,8 +23,8 @@ public class EventInfoService {
     /**
      * Constructor
      *
-     * @param server
-     * @param mainCtrl
+     * @param server server connection
+     * @param mainCtrl  mainctrl instance
      */
     @Inject
     public EventInfoService(ServerUtils server, MainCtrl mainCtrl) {

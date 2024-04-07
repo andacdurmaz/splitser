@@ -14,9 +14,7 @@ public class EventOverviewService {
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
 
-    public MainCtrl getMainCtrl() {
-        return mainCtrl;
-    }
+
 
     /**
      * @param server server instance
@@ -33,6 +31,13 @@ public class EventOverviewService {
      */
     public ServerUtils getServer(){
         return this.server;
+    }
+
+    /**
+     * @return  mainctrl instance
+     */
+    public MainCtrl getMainCtrl() {
+        return mainCtrl;
     }
 
     /**
