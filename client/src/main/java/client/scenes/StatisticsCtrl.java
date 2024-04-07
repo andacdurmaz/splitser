@@ -68,7 +68,7 @@ public class StatisticsCtrl {
     /**
      * sum prices
      * @param expenses
-     * @return
+     * @return a mapped of the expenses of the same type summed together
      */
     public static Map<String, Double> calculateTotalPrices(List<Expense> expenses) {
         Map<String, Double> totalPrices = new HashMap<>();
