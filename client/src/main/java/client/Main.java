@@ -58,6 +58,7 @@ public class Main extends Application {
 //                "scenes", "AddExpenseTag.fxml");
         mainCtrl.initialize(primaryStage);
         mainCtrl.overviewInitialize(eventOverview);
+
 //        mainCtrl.invitationsInitialize(invitationsOverview);
 //        mainCtrl.expenseTagsInitialize(addExpenseTags);
 //        mainCtrl.adminInitialize(adminOverview, adminEventInfo);

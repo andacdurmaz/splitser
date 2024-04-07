@@ -5,6 +5,7 @@ import commons.User;
 import commons.Debt;
 import commons.exceptions.*;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.ResponseEntity;
 import server.service.DebtService;
 import server.service.ExpenseService;
 import server.service.UserService;
@@ -59,6 +60,18 @@ public class UserServiceTest {
         assertEquals(users, service.findAll());
     }
 
+
+    @Test
+    public void updateUserTest() {
+        UserRepoTest repo = new UserRepoTest();
+        UserService service = new UserService(repo);
+        User added1 = new User();
+        repo.save(added1);
+        assertNull(added1.getUsername());
+        added1.setUsername("changed");
+        long id1 = added1.getUserID();
+        assertEquals(added1, service.updateUser(added1));
+    }
     @Test
     public void getUserTest() throws NoUserFoundException, EmailFormatException,
             IBANFormatException, BICFormatException {
