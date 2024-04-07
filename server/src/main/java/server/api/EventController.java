@@ -164,6 +164,11 @@ public class EventController {
         return eventService.deleteEvent(id);
     }
 
+    /**
+     * @param eventId id of updated event
+     * @param e new version of updated event
+     * @return a notification to clients so that they refresh
+     */
     @MessageMapping("event/{eventId}")
     @SendTo("updates/board")
     public Event eventUpdate(@DestinationVariable long eventId, Event e){
