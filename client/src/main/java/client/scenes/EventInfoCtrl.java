@@ -1,16 +1,17 @@
 package client.scenes;
 
 import client.services.EventInfoService;
-import client.utils.ServerUtils;
 import commons.Event;
+import commons.Expense;
 import commons.User;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import commons.Expense;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldListCell;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.StringConverter;
 import javax.inject.Inject;
@@ -23,6 +24,8 @@ public class EventInfoCtrl {
 
     private User selectedParticipant;
     private User selectedExpenseParticipant;
+    @FXML
+    private AnchorPane noParticipantPane;
 
     @FXML
     private AnchorPane rootPane;
@@ -49,6 +52,16 @@ public class EventInfoCtrl {
     @FXML
     private Button includingButton;
     private final EventInfoService service;
+    @FXML
+    private Button noParticipantErrButton;
+    @FXML
+    private Button editTitle;
+    @FXML
+    private Button editDescription;
+    @FXML
+    private Button invitation;
+    @FXML
+    private Button expenseTag;
 
     /**
      * Constructor
@@ -63,48 +76,55 @@ public class EventInfoCtrl {
     /**
      * makes the combobox's display names of the users
      */
+    private StringConverter<Expense> sc = new StringConverter<Expense>() {
+        @Override
+        public String toString(Expense expense) {
+            return "(" + expense.getDate() + ") " + expense.getPayer().getUsername() +
+                    " paid " + expense.getAmount() + " for " + expense.getName();
+        }
+
+        @Override
+        public Expense fromString(String string) {
+            return null;
+        }
+    };
+
+    private StringConverter<User> su =new StringConverter<User>() {
+        @Override
+        public String toString(User user) {
+            return user.getUsername(); // Display the username
+        }
+
+        @Override
+        public User fromString(String string) {
+            return null;
+        }
+    };
+
     public void initialize() {
+        noParticipantPane.setVisible(false);
         disableEditingDesc();
         disableEditingTitle();
-        expenseList.setCellFactory(param -> new TextFieldListCell<>(new StringConverter<Expense>() {
-            @Override
-            public String toString(Expense expense) {
-                return "(" + expense.getDate() + ") " + expense.getPayer().getUsername() +
-                        " paid " + expense.getAmount() + " for " + expense.getName();
-            }
+        expenseList.setCellFactory(param -> new TextFieldListCell<>(sc));
+        participantCombobox.setConverter(su);
 
-            @Override
-            public Expense fromString(String string) {
-                return null;
-            }
-        }));
-        participantCombobox.setConverter(new StringConverter<User>() {
-            @Override
-            public String toString(User user) {
-                return user.getUsername(); // Display the user name
-            }
-
-            @Override
-            public User fromString(String string) {
-                return null;
-            }
-        });
-
-        expenseComboBox.setConverter(new StringConverter<User>() {
-            @Override
-            public String toString(User user) {
-                return user.getUsername(); // Display the user name
-            }
-
-            @Override
-            public User fromString(String string) {
-                return null;
-            }
-        });
+        expenseComboBox.setConverter(su);
+        ImageView imageView = new ImageView(getClass()
+                .getResource("/client/images/EditPencilIcon.png")
+                .toExternalForm());
+        imageView.setFitWidth(17);
+        imageView.setFitHeight(17);
+        editTitle.setGraphic(imageView);
+        ImageView imageView2 = new ImageView(getClass()
+                .getResource("/client/images/EditPencilIcon.png")
+                .toExternalForm());
+        imageView2.setFitWidth(17);
+        imageView2.setFitHeight(17);
+        editDescription.setGraphic(imageView2);
         service.setSession();
         service.getServer().regDeleteExpenses( deleteOp-> {
-                    Platform.runLater(() -> refresh());
-                });
+            Platform.runLater(() -> refresh());
+        });
         service.getServer().regAddExpenses( addOp ->  {
             Platform.runLater(() -> refresh());
         });
@@ -119,7 +139,7 @@ public class EventInfoCtrl {
      * @param event
      */
     public void updateLabelText(Event event) {
-        if (event != null || event.getTitle().length() != 0) {
+        if (event != null || !event.getTitle().isEmpty()) {
             titleLabel.setText(event.getTitle());
             eventTitle.setText(event.getTitle());
         }
@@ -130,7 +150,7 @@ public class EventInfoCtrl {
      * @param event
      */
     public void updateDesc(Event event) {
-        if (event != null || event.getTitle().length() != 0) {
+        if (event != null || !event.getTitle().isEmpty()) {
             descriptionLabel.setText(event.getDescription());
             description.setText(event.getDescription());
         }
@@ -158,7 +178,7 @@ public class EventInfoCtrl {
      * add or edit expense method
      */
     public void addOrEditExpense() {
-        if (this.event.getParticipants().size() == 0) {
+        if (this.event.getParticipants().isEmpty()) {
             return;
         }
         if (selectedExpense == null) {
@@ -168,8 +188,39 @@ public class EventInfoCtrl {
     }
 
 
+
     /**
-     * adds a new participant to database and event
+     * adds a new expense to database and event
+     * @param actionEvent when the button is clicked
+     */
+    public void addExpense(ActionEvent actionEvent){
+        if(this.event.getParticipants().isEmpty() || this.event.getExpenseTags().isEmpty()) {
+            noParticipantPane.setVisible(true);
+            noParticipantErrButton.requestFocus();
+        } else {
+            selectedExpense = null;
+            service.getMainCtrl().showAddOrEditExpense(event, selectedExpense);
+        }
+    }
+
+    /**
+     * On action button for the error pane
+     */
+    public void noParticipantErr() {
+        noParticipantPane.setVisible(false);
+    }
+
+
+
+    /**
+     * edits a selected participant's information
+     * @param actionEvent when the button is clicked
+     */
+    public void editExpense(ActionEvent actionEvent){
+        service.getMainCtrl().showAddOrEditExpense(event, selectedExpense);
+    }
+    /**
+     * adds a new expense to database and event
      * @param actionEvent when the button is clicked
      */
     public void addParticipant(ActionEvent actionEvent){
@@ -178,7 +229,7 @@ public class EventInfoCtrl {
     }
 
     /**
-     * edits a selected participant's information
+     * edits a selected expense's information
      * @param actionEvent when the button is clicked
      */
     public void editParticipant(ActionEvent actionEvent){
@@ -229,7 +280,7 @@ public class EventInfoCtrl {
         updateDesc(event);
         updateLabelText(event);
         expenseList.getItems().setAll(event.getExpenses());
-        if (event.getParticipants() != null && event.getParticipants().size() !=0) {
+        if (event.getParticipants() != null && !event.getParticipants().isEmpty()) {
             String label = "";
 
             for (int i = 0; i <event.getParticipants().size() - 1; i++) {
@@ -377,6 +428,17 @@ public class EventInfoCtrl {
         expenseList.getItems().setAll(event.getExpenses());
     }
 
+    /**
+     * selects an expense to be edited
+     * @param mouseEvent when the expense is clicked on from the list
+     */
+    public void selectExpenseList(MouseEvent mouseEvent) {
+        selectedExpense = expenseList.getSelectionModel().getSelectedItem();
+    }
+
+    /**
+     * refreshes the page
+     */
     public void refresh() {
         Event e = service.getEventById(event.getId());
         setEvent(e);

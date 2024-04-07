@@ -10,22 +10,22 @@
    <children>
       <TextField fx:id="title" layoutX="184.0" layoutY="116.0" prefHeight="26.0" prefWidth="345.0" />
       <TextField fx:id="description" alignment="TOP_LEFT" layoutX="184.0" layoutY="170.0" prefHeight="95.0" prefWidth="345.0" />
-      <Button layoutX="398.0" layoutY="309.0" mnemonicParsing="false" onAction="#cancel" prefHeight="36.0" prefWidth="71.0" text="Cancel" />
-      <Button layoutX="494.0" layoutY="309.0" mnemonicParsing="false" onAction="#ok" prefHeight="36.0" prefWidth="71.0" text="Ok" />
-      <Label layoutX="110.0" layoutY="115.0" text="Title*">
+      <Button layoutX="398.0" layoutY="309.0" mnemonicParsing="false" onAction="#cancel" prefHeight="36.0" prefWidth="71.0" text="%cancel" />
+      <Button layoutX="494.0" layoutY="309.0" mnemonicParsing="false" onAction="#ok" prefHeight="36.0" prefWidth="71.0" text="%ok" />
+      <Label layoutX="110.0" layoutY="115.0" text="%event_name">
          <font>
             <Font size="18.0" />
          </font></Label>
-      <Label alignment="TOP_CENTER" layoutX="143.0" layoutY="40.0" prefHeight="46.0" prefWidth="314.0" text="Please add an event" textFill="#fd7f20">
+      <Label alignment="TOP_CENTER" layoutX="143.0" layoutY="40.0" prefHeight="46.0" prefWidth="314.0" text="%please-add-event" textFill="#fd7f20">
          <font>
             <Font name="System Bold" size="30.0" />
          </font>
       </Label>
-      <Label layoutX="61.0" layoutY="170.0" text="Description">
+      <Label layoutX="61.0" layoutY="170.0" text="%event_description">
          <font>
             <Font size="18.0" />
          </font></Label>
-      <Label layoutX="86.0" layoutY="217.0" text="*required">
+      <Label layoutX="86.0" layoutY="217.0" text="%required">
          <font>
             <Font size="16.0" />
          </font></Label>
