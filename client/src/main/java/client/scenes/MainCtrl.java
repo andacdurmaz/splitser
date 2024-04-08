@@ -19,6 +19,7 @@ import client.Main;
 import client.utils.ServerUtils;
 import commons.Event;
 import commons.Expense;
+import commons.ExpenseTag;
 import commons.User;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -444,6 +445,53 @@ public class MainCtrl {
     }
 
     /**
+     * get expense tags
+     * @return list of expense tags
+     */
+    public List<ExpenseTag> getDefaultExpenseTag(){
+        return getDefaultExpenseTagProvidingPath(CONFIG_PATH);
+    }
+
+    /**
+     * get expense tags
+     * @param path
+     * @return list of expense tags
+     */
+    public List<ExpenseTag> getDefaultExpenseTagProvidingPath(String path){
+        List<Long> expenseTagIds = getExpenseTagIDsByProvidingPath(path);
+        List<ExpenseTag> expenseTags = new ArrayList<>();
+        ServerUtils serverUtils = new ServerUtils();
+
+        for (int i = 0; i < expenseTagIds.size(); i++) {
+            expenseTags.add(serverUtils.getExpenseTagById(expenseTagIds.get(i)));
+        }
+        return expenseTags;
+    }
+
+
+    /**
+     * get expense tags by ids
+     * @param path
+     * @return list od
+     */
+    public List<Long> getExpenseTagIDsByProvidingPath(String path) {
+        List<Long> list = new ArrayList<>();
+        ServerUtils serverUtils = new ServerUtils();
+
+        String jsonString = readConfigFile(path);
+        JSONObject jsonObject = new JSONObject(jsonString);
+        JSONObject userObject = jsonObject.getJSONObject("User");
+        JSONArray defaultTags = userObject.getJSONArray("DefaultExpenseTags");
+
+        for (int i = 0; i < defaultTags.length(); i++) {
+            JSONObject defaultTagsJSONObject = defaultTags.getJSONObject(i);
+            long expenseTagId = defaultTagsJSONObject.getLong("id");
+            list.add(expenseTagId);
+        }
+        return list;
+    }
+
+    /**
      * gets the currency from the CONFIG file
      * @return the currency
      */
@@ -576,6 +624,54 @@ public class MainCtrl {
             throw new RuntimeException(e);
         }
     }
+
+    /**
+     * write expense tags to config file
+     * @param defaultExpenseTags
+     */
+    public void writeDefaultExpenseTagToConfigFile(String defaultExpenseTags){
+        writeDefaultExpenseTagToConfigFileByPath(CONFIG_PATH, defaultExpenseTags);
+    }
+
+    /**
+     * write expense tags to the config file
+     * @param filePath
+     * @param defaultExpenseTags
+     */
+    public void writeDefaultExpenseTagToConfigFileByPath(String filePath,
+                                                         String defaultExpenseTags){
+        // Read the JSON file
+        JSONObject jsonObject = new JSONObject(readConfigFile(filePath));
+        // Get the User object
+        JSONObject userObject = jsonObject.getJSONObject("User");
+        // Get the Events array
+        JSONArray tagsArray = new JSONArray();
+
+        // Get the existing events
+        JSONArray existingTags = userObject.getJSONArray("DefaultExpenseTags");
+
+        // Add the existing events to the new array
+        for (int i = 0; i < existingTags.length(); i++) {
+            tagsArray.put(existingTags.getJSONObject(i));
+        }
+
+        // Add the new event to the array
+        JSONObject newExpenseTag = new JSONObject(defaultExpenseTags);
+
+        // Add all events back to the array
+        existingTags.put(newExpenseTag);
+        // Add the array back to the user object
+        userObject.put("DefaultExpenseTags", tagsArray);
+
+        // write to file
+        Path path = Path.of(filePath);
+        try {
+            Files.writeString(path, jsonObject.toString());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     /**
      * shows the languageSwitch pages
      *

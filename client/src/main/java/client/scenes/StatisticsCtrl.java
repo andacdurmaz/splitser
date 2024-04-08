@@ -6,10 +6,15 @@ import commons.Event;
 import commons.Expense;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.geometry.Side;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.PieChart.Data;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 
 import java.util.HashMap;
 import java.util.List;
@@ -19,12 +24,14 @@ public class StatisticsCtrl {
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
     private Event event;
+
+    private double totalSumOfExpenses = 0;
     private ObservableList<Data> data;
 
     @FXML
     private PieChart pieChart;
     @FXML
-    private Label eventTitle;
+    private Label totalSum;
 
 
 
@@ -61,8 +68,10 @@ public class StatisticsCtrl {
         for (Map.Entry<String, Double> entry : totalExpensesMap.entrySet()) {
             String expenseType = entry.getKey();
             double expenseAmount = entry.getValue();
+            totalSumOfExpenses += expenseAmount;
             data.addAll(new PieChart.Data(expenseType, expenseAmount));
         }
+
     }
 
     /**
@@ -88,24 +97,42 @@ public class StatisticsCtrl {
         return totalPrices;
     }
 
-    /**
-     * set the event title label
-     * @param event
-     */
-    public void updateEventTitle(Event event) {
-        if (event != null || event.getTitle().length() != 0)
-            eventTitle.setText(event.getTitle());
-    }
-
 
     /**
      * set the event title and code
      * @param event
      */
     public void setData(Event event) {
-        updateEventTitle(event);
+        final Label caption = new Label("");
+        caption.setTextFill(Color.DARKORANGE);
+        caption.setStyle("-fx-font: 24 arial;");
+
+        for (final PieChart.Data data : pieChart.getData()) {
+            data.getNode().addEventHandler(MouseEvent.MOUSE_DRAGGED,
+                    new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent e) {
+                            caption.setTranslateX(e.getSceneX());
+                            caption.setTranslateY(e.getSceneY());
+                            caption.setText(String.valueOf(data.getPieValue()) + "%");
+                        }
+                    });
+        }
+
         setPieChart(event);
         pieChart.setData(data);
+        pieChart.setLabelLineLength(10);
+        pieChart.setLegendSide(Side.RIGHT);
+        totalSum.setText("Total sum of expenses : " + totalSumOfExpenses);
+
+        pieChart.getData().forEach(data ->
+        {
+            String percentage = String.format("%.2f%%",(data.getPieValue()/totalSumOfExpenses*100));
+            Tooltip tooltip = new Tooltip(percentage);
+            Tooltip.install(data.getNode(),tooltip);
+        });
+
+
     }
 
 

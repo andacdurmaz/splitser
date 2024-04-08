@@ -3,6 +3,7 @@ package client.scenes;
 import com.google.inject.Inject;
 import client.utils.ServerUtils;
 import commons.Event;
+import commons.ExpenseTag;
 import jakarta.ws.rs.WebApplicationException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -84,6 +85,8 @@ public class AddEventCtrl {
         event.setEventCode(eventCode);
         if (description.getText() != null)
             event.setDescription(description.getText());
+        List<ExpenseTag> tags = mainCtrl.getDefaultExpenseTag();
+        event.setExpenseTags(tags);
         return event;
     }
 

@@ -41,7 +41,7 @@ public class ExpenseTagService {
      * @return ExpenseTag
      */
     public ExpenseTag getExpenseTagById(long id) {
-        return expenseTagRepository.getById(id);
+        return expenseTagRepository.getExpenseTagById(id);
     }
 
     /**

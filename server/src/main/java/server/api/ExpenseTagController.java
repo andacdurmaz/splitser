@@ -58,15 +58,13 @@ public class ExpenseTagController {
 
     /**
      * gets an expense tag by its id
+     *
      * @param id
      * @return response entity
      */
-    @GetMapping("/{id}")
-    public ResponseEntity<ExpenseTag> getById(@PathVariable("id") long id){
-        if (id < 0 || !expenseTagService.existsById(id)) {
-            return ResponseEntity.badRequest().build();
-        }
-        return ResponseEntity.ok(expenseTagService.getExpenseTagById(id));
+    @GetMapping(value = "/{id}")
+    public ExpenseTag getExpenseTagById(@PathVariable long id) {
+        return expenseTagService.getExpenseTagById(id);
     }
 
 

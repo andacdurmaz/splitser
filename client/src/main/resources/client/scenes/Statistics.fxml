@@ -7,10 +7,15 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.StatisticsCtrl">
    <children>
-      <PieChart fx:id="pieChart" layoutX="96.0" layoutY="109.0" prefHeight="237.0" prefWidth="312.0" />
-      <Label fx:id="eventTitle" layoutX="185.0" layoutY="54.0" prefHeight="48.0" prefWidth="229.0" text="Event" textAlignment="CENTER">
+      <PieChart fx:id="pieChart" layoutX="81.0" layoutY="46.0" legendSide="RIGHT" prefHeight="300.0" prefWidth="445.0" />
+      <Label fx:id="eventTitle" contentDisplay="CENTER" layoutX="229.0" layoutY="35.0" prefHeight="48.0" prefWidth="229.0" text="Statistics" textAlignment="CENTER">
          <font>
             <Font size="28.0" />
+         </font>
+      </Label>
+      <Label fx:id="totalSum" contentDisplay="CENTER" layoutX="146.0" layoutY="322.0" prefHeight="48.0" prefWidth="338.0" text="Total sum of expenses:" textAlignment="CENTER">
+         <font>
+            <Font size="20.0" />
          </font>
       </Label>
    </children>
