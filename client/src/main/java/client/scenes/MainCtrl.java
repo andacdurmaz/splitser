@@ -17,17 +17,12 @@ package client.scenes;
 
 import client.Main;
 import client.utils.ServerUtils;
-import commons.exceptions.BICFormatException;
-import commons.exceptions.EmailFormatException;
-import commons.exceptions.IBANFormatException;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
