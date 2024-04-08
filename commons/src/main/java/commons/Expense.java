@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
@@ -16,6 +17,9 @@ public class Expense {
     private String name;
     private double amount;
     private LocalDate date;
+    @OneToMany(targetEntity = Debt.class)
+    private List<Debt> debts = new ArrayList<>();
+
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "payer", referencedColumnName = "id")
     private User payer;
@@ -258,5 +262,21 @@ public class Expense {
      */
     public LocalDate getDate() {
         return expenseDate;
+    }
+
+    /**
+     * Getter method for debts
+     * @return debts list
+     */
+    public Collection<? extends Debt> getDebts() {
+        return debts;
+    }
+
+    /**
+     * Setter method for debts
+     * @param debts debts list set
+     */
+    public void setDebts(List<Debt> debts) {
+        this.debts = debts;
     }
 }

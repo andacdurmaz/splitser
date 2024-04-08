@@ -80,31 +80,9 @@ public class ExpenseService {
         return repo.save(oldExpense);
     }
 
-    /**
-     * The total amount of money spent on all expenses
-     *
-     * @return total sum in type double
-     */
-    public double totalSumOfAllExpenses() {
-        List<Expense> allExpenses = repo.findAll();
-        double sum = 0;
-        for (Expense e : allExpenses) {
-            sum += e.getAmount();
-        }
-        return sum;
-    }
 
-    /**
-     * This method returns the amount of money each person in this event would
-     * have spent if all expenses were divided equally
-     *
-     * @return the amount per person if all expenses were split equally
-     */
-    public double sharePerPerson() {
-        double total = totalSumOfAllExpenses();
-        int people = getParticipantsForAllExpenses();
-        return total / people;
-    }
+
+
 
     /**
      * This method is a sub-method of sharePerPerson method.

@@ -165,6 +165,17 @@ public class EventController {
     }
 
     /**
+     * Gets the share per person for this event,
+     * divides the total sum of expenses by the number of participants
+     * @param id id of event
+     * @return double share per person
+     */
+    @GetMapping("/sharePerPerson")
+    public Double getSharePerPerson(@PathVariable("id") long id) {
+        return eventService.sharePerPerson(id);
+    }
+    /**
+     *
      * @param eventId id of updated event
      * @param e new version of updated event
      * @return a notification to clients so that they refresh
