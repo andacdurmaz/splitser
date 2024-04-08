@@ -210,8 +210,5 @@ public class AdminOverviewCtrl implements Initializable {
             else
                 return 0;
         }};
-    @FXML
-    private void back() {
-        mainCtrl.showStartPage();
-    }
+   
 }
