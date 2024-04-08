@@ -62,6 +62,8 @@ public class AdminOverviewCtrl implements Initializable {
     private ChoiceBox<String> sortMenu;
     @FXML
     private Button adminAddEventButton;
+    @FXML
+    private Button back;
 
     /**
      * Constructor for AdminOverview
@@ -208,4 +210,8 @@ public class AdminOverviewCtrl implements Initializable {
             else
                 return 0;
         }};
+    @FXML
+    private void back() {
+        mainCtrl.showStartPage();
+    }
 }

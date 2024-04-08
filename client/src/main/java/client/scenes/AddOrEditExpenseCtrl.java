@@ -7,6 +7,7 @@ import commons.ExpenseTag;
 import commons.User;
 import jakarta.ws.rs.WebApplicationException;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -70,10 +71,30 @@ public class AddOrEditExpenseCtrl implements Initializable {
     }
 
     /**
+     * removes a participant from the vbox options
+     * @param payer the removed participant
+     */
+    private void excludePayerFromVBox(User payer) {
+        for (Node n : someParticipantsSelector.getChildren()) {
+            if (n instanceof CheckBox) {
+                CheckBox checkBox = (CheckBox) n;
+                String text = checkBox.getText();
+                int index = text.indexOf("(id: ");
+                long id = Long.parseLong(text.substring(index + 5, text.length() - 1));
+                if (id == payer.getUserID()) {
+                    someParticipantsSelector.getChildren().remove(checkBox);
+                    break;
+                }
+            }
+        }
+
+    }
+    /**
      * during each page load, makes sure
      * the participant combobox display only usernames
      */
     public void initialize() {
+        updatePayingParticipants();
         if (!expenseTag.getItems().isEmpty()) {
             expenseTag.setCellFactory(param -> new TextFieldListCell<>(new StringConverter<>() {
                 @Override
@@ -104,6 +125,7 @@ public class AddOrEditExpenseCtrl implements Initializable {
             public String toString(ExpenseTag tag) {
                 return tag.getName();
             }
+
             @Override
             public ExpenseTag fromString(String string) {
                 return null;
@@ -111,6 +133,25 @@ public class AddOrEditExpenseCtrl implements Initializable {
         });
     }
 
+    /**
+     * checks if a participant is in the vbox
+     * @param payer the checked user
+     * @return true if the user is present
+     */
+    private boolean isPayerInVBox(User payer) {
+        for (Node n : someParticipantsSelector.getChildren()) {
+            if (n instanceof CheckBox) {
+                CheckBox checkBox = (CheckBox) n;
+                String text = checkBox.getText();
+                int index = text.indexOf("(id: ");
+                long id = Long.parseLong(text.substring(index + 5, text.length() - 1));
+                if (id == payer.getUserID()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
     /**
      * Clears fields
      */
@@ -127,6 +168,7 @@ public class AddOrEditExpenseCtrl implements Initializable {
         someParticipantsSelector.getChildren().clear();
 
     }
+
     /**
      * Checkbox method for allParticipants
      * if-clause is there to check only when the checkbox is
@@ -200,6 +242,9 @@ public class AddOrEditExpenseCtrl implements Initializable {
 
     }
 
+    /**
+     * edits the existing expense
+     */
     private void selectedExpense() {
         try {
             List<Expense> expenses = new ArrayList<>(event.getExpenses());
@@ -250,7 +295,9 @@ public class AddOrEditExpenseCtrl implements Initializable {
      */
     private List<User> selectedParticipants() {
         if (allParticipants.isSelected()) {
-            return event.getParticipants();
+            List<User> selected = new ArrayList<>(event.getParticipants());
+            selected.remove(payer.getValue());
+            return selected;
         }
         else {
             List <User> selected = new ArrayList<>();
@@ -258,7 +305,7 @@ public class AddOrEditExpenseCtrl implements Initializable {
                 if(((CheckBox) n).isSelected()) {
                     String text = ((CheckBox) n).getText();
                     int index = text.indexOf("(id: ");
-                    long id = Long.parseLong(text.substring(index +5, text.length() -1));
+                    long id = Long.parseLong(text.substring(index + 5, text.length() - 1));
                     selected.add(server.getUserById(id));
                 }
             }
@@ -271,13 +318,27 @@ public class AddOrEditExpenseCtrl implements Initializable {
     /**
      * @param e key event
      */
+    @FXML
     public void keyPressed(KeyEvent e) {
         switch (e.getCode()) {
             case ENTER:
-                ok();
+                if (payer.isFocused()) {
+                    payer.show();
+                    break;
+                } else if (expenseTag.isFocused()) {
+                    expenseTag.show();
+                    break;
+                } else if (currency.isFocused()) {
+                    currency.show();
+                    break;
+                } else {
+                    ok();
+
+                }
                 break;
             case ESCAPE:
                 cancel();
+                break;
             default:
                 break;
         }
@@ -298,7 +359,6 @@ public class AddOrEditExpenseCtrl implements Initializable {
 
     /**
      * Setup method
-     *
      * @param event   event where the expense exists
      * @param expense expense to add or edit
      */
@@ -314,31 +374,26 @@ public class AddOrEditExpenseCtrl implements Initializable {
         if (expense != null) {
             List<Long> ids = expense.getPayingParticipants()
                     .stream().map(q -> q.getUserID()).toList();
-            for(Node n : someParticipantsSelector.getChildren()) {
+            for (Node n : someParticipantsSelector.getChildren()) {
                 String text = ((CheckBox) n).getText();
                 int index = text.indexOf("(id: ");
-                long id = Long.parseLong(text.substring(index +5, text.length() -1));
+                long id = Long.parseLong(text.substring(index + 5, text.length() - 1));
                 if (ids.contains(id)) {
                     ((CheckBox) n).setSelected(true);
                 }
             }
         }
-
         payer.setItems(FXCollections.observableList(event.getParticipants()));
         payer.setValue(event.getParticipants().get(0));
         expenseTag.setValue(event.getExpenseTags().get(0));
-        if(expense == null) {
+        if (expense == null) {
             okButton.setText(mainCtrl.getBundle().getString("add"));
-        }
-        else {
+        } else {
             okButton.setText("Edit");
         }
     }
 
-    /**
-     * Setup for editing an existing expense
-     * @param expense expense to edit
-     */
+
 
     /**
      * fills the field with the edited expense's info
@@ -355,19 +410,40 @@ public class AddOrEditExpenseCtrl implements Initializable {
             whatFor.setText(expense.getName());
             when.setValue(expense.getDate());
             expenseTag.getSelectionModel().select(expense.getExpenseTag());
-            if (expense.getPayingParticipants().size() == event.getParticipants().size()) {
+            if (expense.getPayingParticipants().size() == event.getParticipants().size() - 1) {
                 allParticipants.setSelected(true);
                 someParticipants.setSelected(false);
-            }
-            else {
+            } else {
                 someParticipants.setSelected(true);
                 someParticipantsPay();
 
-
-
             }
-
         }
+    }
+
+    /**
+     * every time new payer is selected, the list is changed
+     * @param actionEvent changing of the payer
+     */
+    public void handlePayerSelection(ActionEvent actionEvent) {
+        updatePayingParticipants();
+    }
+
+    /**
+     * removes the payer from the checkboxes whenever the payer in the combobox changes
+     */
+    private void updatePayingParticipants() {
+        payer.getSelectionModel().selectedItemProperty()
+                .addListener((observable, oldValue, newValue) -> {
+                    if (oldValue != null && !isPayerInVBox(oldValue)) {
+                        someParticipantsSelector.getChildren().add
+                            (new CheckBox(oldValue.getUsername() +
+                                "(id: " + oldValue.getUserID() + ")"));
+                    }
+                    if (newValue != null && (oldValue == null || !newValue.equals(oldValue))) {
+                        excludePayerFromVBox(newValue);
+                    }
+                });
     }
 }
 

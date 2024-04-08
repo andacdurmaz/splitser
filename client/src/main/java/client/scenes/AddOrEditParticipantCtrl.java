@@ -2,9 +2,8 @@ package client.scenes;
 
 import client.utils.ServerUtils;
 import commons.*;
-import commons.exceptions.BICFormatException;
-import commons.exceptions.EmailFormatException;
-import commons.exceptions.IBANFormatException;
+import fr.marcwrobel.jbanking.bic.Bic;
+import fr.marcwrobel.jbanking.iban.Iban;
 import jakarta.ws.rs.WebApplicationException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,6 +16,7 @@ import javafx.stage.Modality;
 
 import javax.inject.Inject;
 import javafx.scene.input.KeyEvent;
+import org.apache.commons.validator.routines.EmailValidator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +43,8 @@ public class AddOrEditParticipantCtrl {
     private AnchorPane wrongEmail;
     @FXML
     private Button ok;
+    @FXML
+    private Button errorButton;
 
     /**
      * Constructor
@@ -85,7 +87,7 @@ public class AddOrEditParticipantCtrl {
     /**
      * Confirm add/edit
      */
-    public void ok() throws EmailFormatException, IBANFormatException, BICFormatException {
+    public void ok()  {
         if (user == null) {
             noSelectedParticipant();
         }
@@ -108,6 +110,7 @@ public class AddOrEditParticipantCtrl {
             email.setText(user.getEmail());
             iban.setText(user.getIban());
             bic.setText(user.getBic());
+            wrongEmail.getChildren().get(1).setVisible(false);
         }
 
     }
@@ -116,26 +119,15 @@ public class AddOrEditParticipantCtrl {
      */
     private void selectedParticipant() {
         List<User> participants = new ArrayList<>(event.getParticipants());
+        User old = user;
         participants.remove(user);
         try {
-            user.setUsername(name.getText());
-            user.setEmail(email.getText());
-            if(!iban.getText().isEmpty()){
-                user.setIban(iban.getText());
-            } if (!bic.getText().isEmpty()) {
-                user.setBic(bic.getText());
-            }
+            if (formatCheck(participants, old)) return;
         } catch (WebApplicationException e) {
             var alert = new Alert(Alert.AlertType.ERROR);
             alert.initModality(Modality.APPLICATION_MODAL);
             alert.setContentText(e.getMessage());
             alert.showAndWait();
-            return;
-        } catch (EmailFormatException | BICFormatException e) {
-            errorMessage();
-            return;
-        } catch (IBANFormatException e) {
-            errorMessage();
             return;
         }
         server.updateUser(user);
@@ -146,10 +138,57 @@ public class AddOrEditParticipantCtrl {
     }
 
     /**
+     * shows a pop-up if the e-mail, bic, or iban has incorrect format
+     * @param participants the list of the participants of the event
+     * @param old the edited participant
+     * @return true if there is a mistake
+     */
+    private boolean formatCheck(List<User> participants, User old) {
+        user.setUsername(name.getText());
+        if (email.getText() == null || !EmailValidator.getInstance().isValid(email.getText())) {
+            ((Label) wrongEmail.getChildren().get(0))
+                    .setText("  Invalid E-mail.\nPlease try again.");
+            errorMessage();
+            participants.add(old);
+            user = old;
+            return true;
+        } else
+            user.setEmail(email.getText());
+        if(iban.getText() != null && !iban.getText().isEmpty()){
+            if (!Iban.isValid(iban.getText())) {
+                ((Label) wrongEmail.getChildren().get(0))
+                        .setText("  Invalid IBAN.\nPlease try again.");
+                errorMessage();
+                participants.add(old);
+                user = old;
+                return true;
+            } else
+                user.setIban(iban.getText());
+        }
+        else {
+            user.setIban(null);
+        }
+        if (bic.getText() != null && !bic.getText().isEmpty()) {
+            if (!Bic.isValid(bic.getText())) {
+                ((Label) wrongEmail.getChildren().get(0))
+                        .setText("  Invalid BIC.\nPlease try again.");
+                errorMessage();
+                participants.add(old);
+                user = old;
+                return true;
+            } else
+                user.setBic(bic.getText());
+        }
+        else {
+            user.setBic(null);
+        }
+        return false;
+    }
+
+    /**
      * creates a new user and adds it to the database
      */
-    private void noSelectedParticipant() throws EmailFormatException,
-            IBANFormatException, BICFormatException {
+    private void noSelectedParticipant(){
         user = getUser();
         if (user == null)
             return;
@@ -162,18 +201,6 @@ public class AddOrEditParticipantCtrl {
             alert.setContentText(e.getMessage());
             alert.showAndWait();
             return;
-        }catch (EmailFormatException e) {
-            ((Label) wrongEmail.getChildren().get(0))
-                    .setText("   Invalid e-mail.\nPlease try again.");
-            errorMessage();
-        } catch (IBANFormatException e) {
-            ((Label) wrongEmail.getChildren().get(0))
-                    .setText("   Invalid IBAN.\nPlease try again.");
-            errorMessage();
-        } catch (BICFormatException e) {
-            ((Label) wrongEmail.getChildren().get(0))
-                    .setText("   Invalid BIC.\nPlease try again.");
-            errorMessage();
         }
 
         List<User> participants = new ArrayList<>(event.getParticipants());
@@ -189,17 +216,38 @@ public class AddOrEditParticipantCtrl {
      *
      * @return expense
      */
-    private User getUser() throws EmailFormatException,
-            IBANFormatException, BICFormatException {
+    private User getUser() {
         User u = new User();
         try {
             u.setUsername(name.getText());
-            u.setEmail(email.getText());
-            if(!iban.getText().isEmpty()){
-                u.setIban(iban.getText());
-            } if (!bic.getText().isEmpty()) {
-                u.setBic(bic.getText());
+            if (email.getText() == null || email.getText().length() == 0
+                    || !EmailValidator.getInstance().isValid(email.getText())) {
+                ((Label) wrongEmail.getChildren().get(0))
+                        .setText("  Invalid E-mail.\nPlease try again.");
+                errorMessage();
+                return null;
+            } else {
+                u.setEmail(email.getText());
+
             }
+            if(iban.getText() != null && !iban.getText().isEmpty()){
+                if (!Iban.isValid(iban.getText())) {
+                    ((Label) wrongEmail.getChildren().get(0))
+                            .setText("  Invalid IBAN.\nPlease try again.");
+                    errorMessage();
+                    return null;
+                } else
+                    u.setIban(iban.getText());
+            } if (bic.getText() != null && !bic.getText().isEmpty()) {
+                if (!Bic.isValid(bic.getText())) {
+                    ((Label) wrongEmail.getChildren().get(0))
+                            .setText("  Invalid BIC.\nPlease try again.");
+                    errorMessage();
+                    return null;
+                } else
+                    u.setBic(bic.getText());
+            }
+
             return u;
         }
         catch (WebApplicationException e) {
@@ -208,29 +256,17 @@ public class AddOrEditParticipantCtrl {
             alert.setContentText(e.getMessage());
             alert.showAndWait();
             return null;
-        }catch (EmailFormatException e) {
-            ((Label) wrongEmail.getChildren().get(0))
-                    .setText("   Invalid e-mail.\nPlease try again.");
-            errorMessage();
-        } catch (IBANFormatException e) {
-            ((Label) wrongEmail.getChildren().get(0))
-                    .setText("  Invalid IBAN.\nPlease try again.");
-            errorMessage();
-        } catch (BICFormatException e) {
-            ((Label) wrongEmail.getChildren().get(0))
-                    .setText("  Invalid BIC.\nPlease try again.");
-            errorMessage();
         }
-        return null;
     }
 
     /**
      * displays error message if the e-mail, IBAN, or BIC is in wrong format
      */
     private void errorMessage() {
-
         wrongEmail.toFront();
+        wrongEmail.getChildren().get(1).setVisible(true);
         wrongEmail.setVisible(true);
+        errorButton.isFocused();
     }
 
     /**
@@ -238,6 +274,7 @@ public class AddOrEditParticipantCtrl {
      */
     private void clearFields() {
         wrongEmail.setVisible(false);
+        wrongEmail.getChildren().get(1).setVisible(false);
         name.setText("");
         email.setText("");
         iban.setText("");
@@ -247,8 +284,7 @@ public class AddOrEditParticipantCtrl {
     /**
      * @param e key event
      */
-    public void keyPressed(KeyEvent e) throws EmailFormatException,
-            IBANFormatException, BICFormatException {
+    public void keyPressed(KeyEvent e)  {
         switch (e.getCode()) {
             case ENTER:
                 ok();

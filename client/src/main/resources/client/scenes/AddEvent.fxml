@@ -12,7 +12,7 @@
       <TextField fx:id="description" alignment="TOP_LEFT" layoutX="184.0" layoutY="170.0" prefHeight="95.0" prefWidth="345.0" />
       <Button layoutX="398.0" layoutY="309.0" mnemonicParsing="false" onAction="#cancel" prefHeight="36.0" prefWidth="71.0" text="%cancel" />
       <Button layoutX="494.0" layoutY="309.0" mnemonicParsing="false" onAction="#ok" prefHeight="36.0" prefWidth="71.0" text="%ok" />
-      <Label layoutX="110.0" layoutY="115.0" text="%event_name">
+      <Label layoutX="61.0" layoutY="115.0" text="%event_name">
          <font>
             <Font size="18.0" />
          </font></Label>
@@ -21,7 +21,7 @@
             <Font name="System Bold" size="30.0" />
          </font>
       </Label>
-      <Label layoutX="61.0" layoutY="170.0" text="%event_description">
+      <Label layoutX="29.0" layoutY="170.0" prefHeight="27.0" prefWidth="154.0" text="%event_description">
          <font>
             <Font size="18.0" />
          </font></Label>

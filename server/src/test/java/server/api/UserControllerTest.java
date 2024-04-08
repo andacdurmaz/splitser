@@ -66,6 +66,16 @@ public class UserControllerTest {
     }
 
     @Test
+    public void updateTest() {
+        User added1 = new User();
+        sut.add(added1);
+        assertNull(added1.getUsername());
+        added1.setUsername("changed");
+        long id1 = added1.getUserID();
+        assertEquals(ResponseEntity.ok(added1), sut.updateUser(id1, added1));
+    }
+
+    @Test
     public void getServerTest() throws NoUserFoundException {
         User added = new User();
         added.setServerURL("andac123");

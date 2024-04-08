@@ -41,12 +41,20 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.util.Pair;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
 
 public class MainCtrl {
+    private static final String CONFIG_PATH = "src/main/resources/CONFIG.json";
 
     private Stage primaryStage;
     private Stage popupStage;
@@ -74,6 +82,10 @@ public class MainCtrl {
     private InvitationCtrl invitationCtrl;
 
     private Scene invitationOverview;
+
+    private StatisticsCtrl statisticsCtrl;
+
+    private Scene statistics;
     private AdminOverviewCtrl adminOverviewCtrl;
     private Scene adminOverview;
     private AdminEventInfoCtrl adminEventInfoCtrl;
@@ -104,11 +116,7 @@ public class MainCtrl {
      * Method which checks the language in config file
      */
     public void getConfigLocale() {
-        try {
-            setLocale(getLanguage());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        setLocale(getLanguage());
     }
 
     /**
@@ -119,11 +127,7 @@ public class MainCtrl {
     public void setLocale(String language) {
         this.locale = new Locale(language);
         this.bundle = ResourceBundle.getBundle("locales.resource", locale);
-        try {
-            writeLanguageToConfigFile(language);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        writeLanguageToConfigFile(language);
     }
 
     /**
@@ -236,15 +240,7 @@ public class MainCtrl {
         addOrEditParticipantCtrl.editFields(user);
         primaryStage.setScene(addOrEditParticipantsScene);
         addOrEditParticipantsScene.setOnKeyPressed(e -> {
-            try {
-                addOrEditParticipantCtrl.keyPressed(e);
-            } catch (EmailFormatException ex) {
-                throw new RuntimeException(ex);
-            } catch (IBANFormatException ex) {
-                throw new RuntimeException(ex);
-            } catch (BICFormatException ex) {
-                throw new RuntimeException(ex);
-            }
+            addOrEditParticipantCtrl.keyPressed(e);
         });
     }
 
@@ -262,6 +258,20 @@ public class MainCtrl {
         invitationCtrl.setEvent(event);
         invitationCtrl.setData(event);
         primaryStage.setScene(invitationOverviewScene);
+    }
+
+    /**
+     * shows statistics
+     * @param event
+     */
+    public void showStatistics(Event event){
+        var statistics = Main.FXML.load(StatisticsCtrl.class, bundle, "client", "scenes",
+                "Statistics.fxml");
+        StatisticsCtrl statisticsCtrl = statistics.getKey();
+        Scene statisticsOverview = new Scene(statistics.getValue());
+        statisticsCtrl.setEvent(event);
+        statisticsCtrl.setData(event);
+        primaryStage.setScene(statisticsOverview);
     }
 
     /**
@@ -331,9 +341,8 @@ public class MainCtrl {
      *
      * @param path path to the file
      * @return list of events
-     * @throws FileNotFoundException if the file is not found
      */
-    public List<Long> getJoinedEventsIDProvidingPath(String path) throws IOException {
+    public List<Long> getJoinedEventsIDProvidingPath(String path) {
         List<Long> list = new ArrayList<>();
         ServerUtils serverUtils = new ServerUtils();
 
@@ -354,21 +363,78 @@ public class MainCtrl {
      * gets the events that the user has joined from the CONFIG file
      *
      * @return list of events
-     * @throws IOException if the file is not found
      */
-    public List<Event> getJoinedEvents() throws IOException {
-        return getJoinedEventsProvidingPath("src/main/resources/CONFIG.json");
+    public List<Event> getJoinedEvents() {
+        return getJoinedEventsProvidingPath(CONFIG_PATH);
     }
 
+    /**
+     * checks if the event is in the config file
+     *
+     * @param event event to be checked
+     * @return true if the event is in the config file
+     */
+    public boolean isEventInConfig(Event event) {
+        List<Long> eventIds = getJoinedEventsIDProvidingPath(CONFIG_PATH);
+        return eventIds.contains(event.getId());
+    }
+
+
+    /**
+     * removes the event from the config file
+     * @param event event to be removed
+     * @return true if the event is removed
+     */
+    public boolean deleteEventFromConfig(Event event){
+        return deleteEventFromConfigProvidingPath(CONFIG_PATH, event);
+    }
+
+    /**
+     * removes the event from the config file by path
+     * @param path path to the file
+     * @param event event to be removed
+     * @return true if the event is removed
+     */
+    public boolean deleteEventFromConfigProvidingPath(String path, Event event) {
+        List<Long> eventIds = getJoinedEventsIDProvidingPath(path);
+        if (eventIds.contains(event.getId())) {
+            JSONObject jsonObject = new JSONObject(readConfigFile(path));
+            JSONObject userObject = jsonObject.getJSONObject("User");
+            JSONArray eventsArray = userObject.getJSONArray("Events");
+
+            // Find the index of the event object to remove
+            int index = -1;
+            for (int i = 0; i < eventsArray.length(); i++) {
+                JSONObject eventJSON = eventsArray.getJSONObject(i);
+                if (eventJSON.getLong("id") == event.getId()) {
+                    index = i;
+                    break;
+                }
+            }
+
+            // If the event object is found, remove it from the eventsArray
+            if (index != -1) {
+                eventsArray.remove(index);
+                userObject.put("Events", eventsArray);
+                Path filePath = Path.of(path);
+                try {
+                    Files.writeString(filePath, jsonObject.toString());
+                    return true;
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+        return false;
+    }
 
     /**
      * interacts with the server to get the events that the user has joined
      *
      * @param path path to the file
      * @return list of events
-     * @throws IOException if the file is not found
      */
-    public List<Event> getJoinedEventsProvidingPath(String path) throws IOException {
+    public List<Event> getJoinedEventsProvidingPath(String path)  {
         List<Long> eventIds = getJoinedEventsIDProvidingPath(path);
         List<Event> events = new ArrayList<>();
         ServerUtils serverUtils = new ServerUtils();
@@ -382,19 +448,17 @@ public class MainCtrl {
     /**
      * gets the language from the CONFIG file
      * @return the language
-     * @throws IOException if the file is not found
      */
-    public String getLanguage() throws IOException {
-        return getLanguageProvidingPath("src/main/resources/CONFIG.json");
+    public String getLanguage() {
+        return getLanguageProvidingPath(CONFIG_PATH);
     }
 
     /**
      * gets the language from the CONFIG file by path
      * @param path path to the file
      * @return  the language
-     * @throws IOException if the file is not found
      */
-    public String getLanguageProvidingPath(String path) throws IOException {
+    public String getLanguageProvidingPath(String path) {
         String jsonString = readConfigFile(path);
         JSONObject jsonObject = new JSONObject(jsonString);
         JSONObject userObject = jsonObject.getJSONObject("User");
@@ -404,19 +468,17 @@ public class MainCtrl {
     /**
      * gets the currency from the CONFIG file
      * @return the currency
-     * @throws IOException if the file is not found
      */
-    public String getCurrency() throws IOException {
-        return getCurrencyProvidingPath("src/main/resources/CONFIG.json");
+    public String getCurrency()  {
+        return getCurrencyProvidingPath(CONFIG_PATH);
     }
 
     /**
      * gets the currency from the CONFIG file by path
      * @param path path to the file
      * @return  the currency
-     * @throws IOException if the file is not found
      */
-    public String getCurrencyProvidingPath(String path) throws IOException {
+    public String getCurrencyProvidingPath(String path) {
         String jsonString = readConfigFile(path);
         JSONObject jsonObject = new JSONObject(jsonString);
         JSONObject userObject = jsonObject.getJSONObject("User");
@@ -428,30 +490,31 @@ public class MainCtrl {
      *
      * @param filePath path to the file
      * @return the string representation of the file
-     * @throws IOException if the file is not found
      */
-    public String readConfigFile(String filePath) throws IOException {
+    public String readConfigFile(String filePath) {
         Path path = Path.of(filePath);
-        String string = Files.readString(path);
-        return string;
+        try {
+            String string = Files.readString(path);
+            return string;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
      * writes to the config file
-     * @param content content to be written (IN JSON FORMAT)
-     * @throws IOException if the file is not found
+     * @param event event to be written (IN JSON FORMAT)
      */
-    public void writeEventToConfigFile(String content) throws IOException {
-        writeEventToConfigFileByPath("client/src/main/resources/CONFIG.json", content);
+    public void writeEventToConfigFile(Event event)  {
+        writeEventToConfigFileByPath(CONFIG_PATH, event);
     }
 
     /**
      * writes to the config file by path
      * @param filePath path to the file
-     * @param content content to be written (IN JSON FORMAT)
-     * @throws IOException if the file is not found
+     * @param event event to be written (IN JSON FORMAT)
      */
-    public void writeEventToConfigFileByPath(String filePath, String content) throws IOException {
+    public void writeEventToConfigFileByPath(String filePath, Event event) {
         // Read the JSON file
         JSONObject jsonObject = new JSONObject(readConfigFile(filePath));
         // Get the User object
@@ -468,7 +531,7 @@ public class MainCtrl {
         }
 
         // Add the new event to the array
-        JSONObject newEvent = new JSONObject(content);
+        JSONObject newEvent = new JSONObject(event);
 
         // Add all events back to the array
         eventsArray.put(newEvent);
@@ -477,40 +540,45 @@ public class MainCtrl {
 
         // write to file
         Path path = Path.of(filePath);
-        Files.writeString(path, jsonObject.toString());
+        try {
+            Files.writeString(path, jsonObject.toString());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
      * writes the language to the config file
      * @param language language to be written
-     * @throws IOException if the file is not found
      */
-    public void writeLanguageToConfigFile(String language) throws IOException {
-        writeLanguageToConfigFileByPath("src/main/resources/CONFIG.json", language);
+    public void writeLanguageToConfigFile(String language) {
+        writeLanguageToConfigFileByPath(CONFIG_PATH, language);
     }
 
     /**
      * writes the language to the config file by path
      * @param filePath path to the file
      * @param language language to be written
-     * @throws IOException if the file is not found
      */
-    public void writeLanguageToConfigFileByPath(String filePath, String language)
-            throws IOException {
+    public void writeLanguageToConfigFileByPath(String filePath, String language) {
         JSONObject jsonObject = new JSONObject(readConfigFile(filePath));
         JSONObject userObject = jsonObject.getJSONObject("User");
         userObject.put("Language", language);
 
         Path path = Path.of(filePath);
-        Files.writeString(path, jsonObject.toString());
+        try {
+            Files.writeString(path, jsonObject.toString());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
      * writes the currency to the config file
      * @param currency currency to be written
      */
-    public void writeCurrencyToConfigFile(String currency) throws IOException {
-        writeCurrencyToConfigFileByPath("client/src/main/resources/CONFIG.json", currency);
+    public void writeCurrencyToConfigFile(String currency)  {
+        writeCurrencyToConfigFileByPath(CONFIG_PATH, currency);
     }
 
     /**
@@ -518,14 +586,17 @@ public class MainCtrl {
      * @param filePath path to the file
      * @param currency currency to be written
      */
-    public void writeCurrencyToConfigFileByPath(String filePath, String currency)
-            throws IOException {
+    public void writeCurrencyToConfigFileByPath(String filePath, String currency) {
         JSONObject jsonObject = new JSONObject(readConfigFile(filePath));
         JSONObject userObject = jsonObject.getJSONObject("User");
         userObject.put("Currency", currency);
 
         Path path = Path.of(filePath);
-        Files.writeString(path, jsonObject.toString());
+        try {
+            Files.writeString(path, jsonObject.toString());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
     /**
      * shows the languageSwitch pages
@@ -545,4 +616,22 @@ public class MainCtrl {
         popup.setScene(languageSwitchScene);
         popup.show();
     }
+
+    /**
+     * shows the expense info page
+     * @param event the event of the expense
+     * @param selectedExpense the expense of the page
+     */
+    public void showExpenseInfo(Event event, Expense selectedExpense) {
+        var expenseInfo = Main.FXML.load(ExpenseInfoCtrl.class, bundle, "client",
+                "scenes", "ExpenseInfo.fxml");
+        ExpenseInfoCtrl expenseInfoCtrl = expenseInfo.getKey();
+        Scene expenseInfoScene = new Scene(expenseInfo.getValue());
+        primaryStage.setTitle("Expense Info");
+        expenseInfoCtrl.setEvent(event);
+        expenseInfoCtrl.setExpense(selectedExpense);
+        expenseInfoCtrl.setData();
+        primaryStage.setScene(expenseInfoScene);
+    }
+
 }

@@ -211,21 +211,5 @@ public class UserTest {
                 "AABNNL2AXXX");
         assertFalse(user.equals(null));
     }
-    @Test
-    public void setIBANFormatTest(){
-        User user = new User();
-        assertThrows(IBANFormatException.class, () -> {        user.setIban("123");} );
-    }
 
-    @Test
-    public void setBICFormatTest() {
-        User user = new User();
-        assertThrows(BICFormatException.class, () -> {        user.setBic("123");} );
-    }
-
-    @Test
-    public void setEmailFormatTest(){
-        User user = new User();
-        assertThrows(EmailFormatException.class, () -> {        user.setEmail("123");} );
-    }
 }
