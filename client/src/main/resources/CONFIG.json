@@ -1,1 +1,1 @@
-{"User":{"Language":"nl","Events":[],"Currency":"USD","name":"John Doe"}}
+{"User":{"Language":"en","Events":[{"eventCode":44319265,"expenseTags":[],"sumOfExpenses":0,"amountOfParticipants":0,"description":"","id":27252,"title":"event","expenses":[],"participants":[]}],"Currency":"USD","name":"John Doe"}}
