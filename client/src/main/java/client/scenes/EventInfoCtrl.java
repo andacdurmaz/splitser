@@ -259,7 +259,7 @@ public class EventInfoCtrl {
       *  show statistics
      */
     public void showStatistics() {
-        mainCtrl.showStatistics(event);
+        service.getMainCtrl().showStatistics(event);
     }
 
     /**
