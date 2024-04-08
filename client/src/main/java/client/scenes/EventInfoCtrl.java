@@ -202,10 +202,10 @@ public class EventInfoCtrl {
      * @param actionEvent when the button is clicked
      */
     public void addExpense(ActionEvent actionEvent){
-        if(this.event.getParticipants().size() < 2 || this.event.getExpenseTags().isEmpty()) {
+        if(this.event.getParticipants().size() < 2) {
             ((Label) noParticipantPane.getChildren().get(0))
-                    .setText("        Make sure you have two participants " +
-                    "and an \n                                   expense tag");
+                    .setText("        Make sure you have at least two participants." +
+                    "\n                     (one payer and one payee)");
             noParticipantPane.setVisible(true);
             noParticipantErrButton.requestFocus();
         } else {
