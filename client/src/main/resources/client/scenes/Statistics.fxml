@@ -1,17 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.StatisticsCtrl">
    <children>
-      <PieChart fx:id="pieChart" layoutX="96.0" layoutY="109.0" prefHeight="237.0" prefWidth="312.0" />
-      <Label fx:id="eventTitle" layoutX="185.0" layoutY="54.0" prefHeight="48.0" prefWidth="229.0" text="Event" textAlignment="CENTER">
+      <PieChart fx:id="pieChart" layoutX="57.0" layoutY="76.0" prefHeight="270.0" prefWidth="522.0" />
+      <Label fx:id="eventTitle" contentDisplay="CENTER" layoutX="235.0" layoutY="44.0" prefHeight="48.0" prefWidth="229.0" text="Event" textAlignment="CENTER">
          <font>
             <Font size="28.0" />
          </font>
       </Label>
+      <Label fx:id="totalSum" layoutX="127.0" layoutY="322.0" prefHeight="48.0" prefWidth="327.0" text="Total sum of expenses: " textAlignment="CENTER">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Label>
+      <Button layoutX="483.0" layoutY="334.0" mnemonicParsing="false" onAction="#cancel" onMouseClicked="#cancel" prefHeight="36.0" prefWidth="62.0" text="%back" />
    </children>
 </AnchorPane>
