@@ -538,4 +538,87 @@ public class MainCtrlTest {
         }
     }
 
+    @Test
+    public void testWriteServerAddressToConfig(){
+        String tempFilePath = "CONFIGTest.json";
+        String jsonString = "{" +
+                "  \"User\":{" +
+                "    \"name\":\"John Doe\"," +
+                "    \"Language\":\"en\"," +
+                "    \"Currency\":\"USD\"," +
+                "    \"Events\":[" +
+                "      {" +
+                "        \"id\":0," +
+                "        \"title\": \"title\"," +
+                "        \"amountOfParticipants\":3," +
+                "        \"expenses\":[]," +
+                "        \"description\":\"description\"," +
+                "        \"sumOfExpenses\":0.0" +
+                "      }" +
+                "    ]" +
+                "  }" +
+                "}";
+
+        // Write sample JSON to the temporary file
+        Path path = Paths.get(tempFilePath);
+        try {
+            Files.writeString(path, jsonString);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        mainCtrl.writeServerAddressToConfigFileByPath(tempFilePath, "localhost:8080");
+
+        String newContent = mainCtrl.readConfigFile(tempFilePath);
+        String expected = "{\"User\":{\"Language\":\"en\",\"Events\":[{\"amountOfParticipants\":3,\"sumOfExpenses\":0,\"description\":\"description\",\"id\":0,\"title\":\"title\",\"expenses\":[]}],\"Currency\":\"USD\",\"name\":\"John Doe\",\"ServerAddress\":\"localhost:8080\"}}";
+        assertEquals(expected, newContent);
+
+        // Clean up: delete the temporary file
+        try {
+            Files.deleteIfExists(path);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testGetServerAddressFromConfig(){
+        String tempFilePath = "CONFIGTest.json";
+        String jsonString = "{" +
+                "  \"User\":{" +
+                "    \"name\":\"John Doe\"," +
+                "    \"Language\":\"en\"," +
+                "    \"Currency\":\"USD\"," +
+                "    \"Events\":[" +
+                "      {" +
+                "        \"id\":0," +
+                "        \"title\": \"title\"," +
+                "        \"amountOfParticipants\":3," +
+                "        \"expenses\":[]," +
+                "        \"description\":\"description\"," +
+                "        \"sumOfExpenses\":0.0" +
+                "      }" +
+                "    ]," +
+                "  \"ServerAddress\":\"localhost:8080\"" +
+                "  }" +
+                "}";
+
+        // Write sample JSON to the temporary file
+        Path path = Paths.get(tempFilePath);
+        try {
+            Files.writeString(path, jsonString);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String result = mainCtrl.getServerAddressProvidingPath(tempFilePath);
+        assertEquals("localhost:8080", result);
+
+        // Clean up: delete the temporary file
+        try {
+            Files.deleteIfExists(path);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

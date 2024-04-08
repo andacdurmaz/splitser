@@ -69,7 +69,7 @@ public class ServerUtils extends Util {
      * Sets session
      */
     public void setSession() {
-        session = connect("ws://localhost:8080/websocket");
+        session = connect("ws://"+ address + "/websocket");
     }
 
     /**

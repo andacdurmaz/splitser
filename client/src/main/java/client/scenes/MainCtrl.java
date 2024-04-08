@@ -464,6 +464,26 @@ public class MainCtrl {
     }
 
     /**
+     * gets the server address from the CONFIG file
+     * @return the server address
+     */
+    public String getServerAddress() {
+        return getServerAddressProvidingPath(CONFIG_PATH);
+    }
+
+    /**
+     * gets the server address from the CONFIG file by path
+     * @param path path to the file
+     * @return the server address
+     */
+    public String getServerAddressProvidingPath(String path) {
+        String jsonString = readConfigFile(path);
+        JSONObject jsonObject = new JSONObject(jsonString);
+        JSONObject userObject = jsonObject.getJSONObject("User");
+        return userObject.getString("ServerAddress");
+    }
+
+    /**
      * reads the config file
      *
      * @param filePath path to the file
@@ -576,6 +596,32 @@ public class MainCtrl {
             throw new RuntimeException(e);
         }
     }
+
+    /**
+     * writes the server address (without http://) to the config file
+     * @param serverAddress server address to be written
+     */
+    public void writeServerAddressToConfigFile(String serverAddress) {
+        writeServerAddressToConfigFileByPath(CONFIG_PATH, serverAddress);
+    }
+
+    /**
+     * writes the server address (without http://) to the config file by path
+     * @param filePath path to the file
+     * @param serverAddress server address to be written
+     */
+    public void writeServerAddressToConfigFileByPath(String filePath, String serverAddress) {
+        JSONObject jsonObject = new JSONObject(readConfigFile(filePath));
+        JSONObject userObject = jsonObject.getJSONObject("User");
+        userObject.put("ServerAddress", serverAddress);
+        Path path = Path.of(filePath);
+        try {
+            Files.writeString(path, jsonObject.toString());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     /**
      * shows the languageSwitch pages
      *
