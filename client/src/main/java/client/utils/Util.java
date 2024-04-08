@@ -89,7 +89,7 @@ public class Util {
             if(newAddress.equals("localhost:8080")){
                 targetAddress = InetAddress.getLocalHost();
             }else{
-                targetAddress = InetAddress.getByName("http://" + address + "/");
+                targetAddress = InetAddress.getByName("http://" + newAddress + "/");
             }
 
             return targetAddress.isReachable(1500);

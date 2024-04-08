@@ -47,11 +47,25 @@
          </font>
       </Text>
       <Button layoutX="223.0" layoutY="260.0" mnemonicParsing="false" onAction="#login" style=" -fx-background-color: fd7f20" text="%log-in" textFill="WHITE" />
+      <Text layoutX="62.0" layoutY="321.0" strokeType="OUTSIDE" strokeWidth="0.0" text="%server-address-without-http" />
+      <TextField fx:id="serverAddress" layoutX="62.0" layoutY="329.0" minHeight="-Infinity" prefHeight="20.0" prefWidth="132.0" promptText="%enter-address">
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </TextField>
+      <Button fx:id="serverAddressButton" layoutX="236.0" layoutY="327.0" minHeight="-Infinity" mnemonicParsing="false" onAction="#processServer" prefHeight="22.0" prefWidth="32.0" style=" -fx-background-color: fd7f20" text="→" textFill="WHITE" />
       <Text layoutX="375.0" layoutY="153.0" strokeType="OUTSIDE" strokeWidth="0.0" text="%recent-events" textAlignment="CENTER" wrappingWidth="132.0">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Text>
+      <ListView fx:id="joinedEvents" layoutX="386.0" layoutY="168.0" prefHeight="124.0" prefWidth="174.0" />
+      <Button fx:id="deleteEvent" layoutX="368.0" layoutY="313.0" mnemonicParsing="false" onAction="#deleteEvent" style="-fx-background-color: D11A2A;" text="%delete" textFill="WHITE" />
+      <Label fx:id="badFormat" layoutX="206.0" layoutY="222.0" prefHeight="16.0" prefWidth="150.0" text="%event-code-must-be-a-number">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Label>
 
       <Button layoutX="532.0" layoutY="20.0" mnemonicParsing="false" onAction="#languageSwitch" text="Button">
          <contentDisplay>
@@ -63,12 +77,5 @@
             </ImageView>
          </graphic>
       </Button>
-      <ListView fx:id = "joinedEvents" layoutX="386.0" layoutY="168.0" prefHeight="124.0" prefWidth="174.0" />
-      <Button fx:id="deleteEvent" layoutX="368.0" layoutY="313.0" mnemonicParsing="false" style="-fx-background-color: D11A2A;" text="%delete" textFill="WHITE" onAction="#deleteEvent"/>
-      <Label fx:id="badFormat" layoutX="206.0" layoutY="222.0" prefHeight="16.0" prefWidth="150.0" text="%event-code-must-be-a-number">
-         <font>
-            <Font size="11.0" />
-         </font>
-      </Label>
    </children>
 </AnchorPane>

@@ -150,6 +150,7 @@ public class MainCtrl {
         primaryStage.setTitle("Home");
         startPageCtrl.removeErrorMessage();
         primaryStage.setScene(startPageScene);
+        startPageScene.setOnKeyPressed(startPageCtrl::keyPressed);
         startPageCtrl.refresh();
     }
 

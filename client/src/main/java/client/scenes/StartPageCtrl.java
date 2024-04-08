@@ -26,6 +26,7 @@ import java.util.ResourceBundle;
 import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
 import javafx.util.StringConverter;
@@ -48,6 +49,10 @@ public class StartPageCtrl implements Initializable {
     private ListView<Event> joinedEvents;
     @FXML
     private Button deleteEvent;
+    @FXML
+    private TextField serverAddress;
+    @FXML
+    private Button serverAddressButton;
 
 
     /**
@@ -261,6 +266,59 @@ public class StartPageCtrl implements Initializable {
      */
     public void languageSwitch(){
         mainCtrl.showLanguageSwitch('s');
+    }
+
+    /**
+     * Method to process the server address
+     * @param actionEvent the clicking of the button
+     */
+    public void processServer(ActionEvent actionEvent){
+        String address = serverAddress.getText();
+        if(server.setServerAddress(address)){
+            serverAddressButton.setText("\u2713");
+            serverAddressButton.setStyle("-fx-background-color:  green");
+            PauseTransition pt = new PauseTransition(Duration.seconds(3.0));
+            pt.setOnFinished(e -> {
+                serverAddressButton.setText("\u2192");
+                serverAddressButton.setStyle("-fx-background-color:  fd7f20");
+
+            });
+            pt.play();
+        }
+        else{
+            serverAddressButton.setText("\u274C");
+            serverAddressButton.setStyle("-fx-background-color:  D11A2A");
+            PauseTransition pt = new PauseTransition(Duration.seconds(3.0));
+            pt.setOnFinished(e -> {
+                serverAddressButton.setText("\u2192");
+                serverAddressButton.setStyle("-fx-background-color:  fd7f20");
+            });
+            pt.play();
+        }
+    }
+
+    /**
+     * This method is for usability. Checks the pressed key
+     *
+     * @param e
+     */
+    public void keyPressed(KeyEvent e) {
+        switch (e.getCode()) {
+            case ENTER:
+                if(serverAddress.isFocused()){
+                    processServer(null);
+                }
+                if(eventid.isFocused()){
+                    joinEvent(null);
+                }
+                if(deleteEvent.isFocused()){
+                    deleteEvent();
+                }
+            case ESCAPE:
+                break;
+            default:
+                break;
+        }
     }
 
 }
