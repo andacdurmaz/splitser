@@ -162,6 +162,7 @@ public class MainCtrl {
                 "scenes", "AddEvent.fxml");
         AddEventCtrl addEventCtrl = addEvent.getKey();
         Scene addEventCtrlScene = new Scene(addEvent.getValue());
+        addEventCtrl.goBack(null);
         primaryStage.setTitle("Events: Adding Event");
         primaryStage.setScene(addEventCtrlScene);
         addEventCtrlScene.setOnKeyPressed(e -> addEventCtrl.keyPressed(e));
