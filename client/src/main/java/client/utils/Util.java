@@ -1,5 +1,6 @@
 package client.utils;
 
+import client.scenes.MainCtrl;
 import jakarta.annotation.Resource;
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
@@ -12,28 +13,31 @@ public class Util {
     /**
      * @return the current server address
      */
-    public static String getAddress() {
-        return address;
+    public String getAddress() {
+        return this.address;
     }
 
     /**
      * @param address  setter for the server address parameter
      */
-    public static void setAddress(String address) {
-        Util.address = address;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    protected static String serverAddress = "http://localhost:8080/";
+    protected String serverAddress;
 
-    protected static String address = "localhost:8080/";
+    protected String address;
     @Resource
     protected Client clientBuilder;
+    private MainCtrl mainCtrl;
 
     /**
      * Constructor for Util and all of ServerUtils
      */
     public Util() {
         this.clientBuilder = ClientBuilder.newClient(new ClientConfig());
+        this.mainCtrl = new MainCtrl();
+        setServerAddress(mainCtrl.getServerAddress());
     }
 
     /**
@@ -72,8 +76,8 @@ public class Util {
             return false;
         }
 
-        Util.address = newAddress;
-        Util.serverAddress = "http://" + address + "/";
+        this.address = newAddress;
+        this.serverAddress = "http://" + address + "/";
         return true;
     }
 
@@ -102,8 +106,8 @@ public class Util {
      * Gets the address of the server
      * @return Returns the server address
      */
-    public static String getServerAddress() {
-        return Util.serverAddress;
+    public String getServerAddress() {
+        return this.serverAddress;
     }
 
 }

@@ -47,20 +47,28 @@ import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 import org.springframework.web.socket.messaging.WebSocketStompClient;
 
 public class ServerUtils extends Util {
+    private Util util;
+
+    /**
+     * Constructor for ServerUtils
+     */
+    public ServerUtils(){
+        this.util = new Util();
+    }
 
 
     /**
      * @return the current server address
      */
-    public static String getServer() {
-        return serverAddress;
+    public String getServer() {
+        return this.util.getServerAddress();
     }
 
     /**
      * @param server setter for the server address parameter
      */
-    public static void setServer(String server) {
-        ServerUtils.serverAddress = server;
+    public void setServer(String server) {
+        this.util.setServerAddress(server);
     }
 
     private static StompSession session;
@@ -69,7 +77,7 @@ public class ServerUtils extends Util {
      * Sets session
      */
     public void setSession() {
-        session = connect("ws://"+ address + "/websocket");
+        session = connect("ws://"+ util.getAddress() + "/websocket");
     }
 
     /**
