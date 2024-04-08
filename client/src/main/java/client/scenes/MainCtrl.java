@@ -17,16 +17,6 @@ package client.scenes;
 
 import client.Main;
 import client.utils.ServerUtils;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
-
 import commons.Event;
 import commons.Expense;
 import commons.User;
@@ -34,7 +24,14 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.util.Pair;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -68,6 +65,10 @@ public class MainCtrl {
     private InvitationCtrl invitationCtrl;
 
     private Scene invitationOverview;
+
+    private StatisticsCtrl statisticsCtrl;
+
+    private Scene statistics;
     private AdminOverviewCtrl adminOverviewCtrl;
     private Scene adminOverview;
     private AdminEventInfoCtrl adminEventInfoCtrl;
@@ -238,6 +239,20 @@ public class MainCtrl {
         invitationCtrl.setEvent(event);
         invitationCtrl.setData(event);
         primaryStage.setScene(invitationOverviewScene);
+    }
+
+    /**
+     * shows statistics
+     * @param event
+     */
+    public void showStatistics(Event event){
+        var statistics = Main.FXML.load(StatisticsCtrl.class, bundle, "client", "scenes",
+                "Statistics.fxml");
+        StatisticsCtrl statisticsCtrl = statistics.getKey();
+        Scene statisticsOverview = new Scene(statistics.getValue());
+        statisticsCtrl.setEvent(event);
+        statisticsCtrl.setData(event);
+        primaryStage.setScene(statisticsOverview);
     }
 
     /**
@@ -578,4 +593,22 @@ public class MainCtrl {
         popup.setScene(languageSwitchScene);
         popup.show();
     }
+
+    /**
+     * shows the expense info page
+     * @param event the event of the expense
+     * @param selectedExpense the expense of the page
+     */
+    public void showExpenseInfo(Event event, Expense selectedExpense) {
+        var expenseInfo = Main.FXML.load(ExpenseInfoCtrl.class, bundle, "client",
+                "scenes", "ExpenseInfo.fxml");
+        ExpenseInfoCtrl expenseInfoCtrl = expenseInfo.getKey();
+        Scene expenseInfoScene = new Scene(expenseInfo.getValue());
+        primaryStage.setTitle("Expense Info");
+        expenseInfoCtrl.setEvent(event);
+        expenseInfoCtrl.setExpense(selectedExpense);
+        expenseInfoCtrl.setData();
+        primaryStage.setScene(expenseInfoScene);
+    }
+
 }

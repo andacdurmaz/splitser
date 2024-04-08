@@ -43,6 +43,8 @@ public class AddOrEditParticipantCtrl {
     private AnchorPane wrongEmail;
     @FXML
     private Button ok;
+    @FXML
+    private Button errorButton;
 
     /**
      * Constructor
@@ -264,6 +266,7 @@ public class AddOrEditParticipantCtrl {
         wrongEmail.toFront();
         wrongEmail.getChildren().get(1).setVisible(true);
         wrongEmail.setVisible(true);
+        errorButton.isFocused();
     }
 
     /**

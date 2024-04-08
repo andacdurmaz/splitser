@@ -1,9 +1,10 @@
 package client.scenes;
 
-import client.utils.ServerUtils;
+import client.services.EventInfoService;
 import commons.Event;
 import commons.Expense;
 import commons.User;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -18,6 +19,7 @@ import java.util.List;
 
 
 public class EventInfoCtrl {
+    private MainCtrl mainCtrl;
     private Event event;
     private Expense selectedExpense;
 
@@ -50,6 +52,7 @@ public class EventInfoCtrl {
     private Button paidByButton;
     @FXML
     private Button includingButton;
+    private final EventInfoService service;
     @FXML
     private Button noParticipantErrButton;
     @FXML
@@ -59,60 +62,61 @@ public class EventInfoCtrl {
     @FXML
     private Button invitation;
     @FXML
+    private Button statistics;
+    @FXML
     private Button expenseTag;
-    private final ServerUtils server;
-    private final MainCtrl mainCtrl;
 
     /**
      * Constructor
      *
-     * @param server
-     * @param mainCtrl
+     * @param service DI service
      */
     @Inject
-    public EventInfoCtrl(ServerUtils server, MainCtrl mainCtrl) {
-        this.server = server;
-        this.mainCtrl = mainCtrl;
+    public EventInfoCtrl(EventInfoService service) {
+        this.service = service;
+        this.mainCtrl = new MainCtrl();
     }
 
     /**
      * makes the combobox's display names of the users
      */
+    private StringConverter<Expense> sc = new StringConverter<Expense>() {
+        @Override
+        public String toString(Expense expense) {
+            return "(" + expense.getDate() + ") " + expense.getPayer().getUsername() +
+                    " paid " + expense.getAmount() + " for " + expense.getName();
+        }
+
+        @Override
+        public Expense fromString(String string) {
+            return null;
+        }
+    };
+
+    private StringConverter<User> su =new StringConverter<User>() {
+        @Override
+        public String toString(User user) {
+            return user.getUsername(); // Display the username
+        }
+
+        @Override
+        public User fromString(String string) {
+            return null;
+        }
+    };
+
+    /**
+     * intitialization
+     * done on a singleton process
+     */
     public void initialize() {
         noParticipantPane.setVisible(false);
         disableEditingDesc();
         disableEditingTitle();
-        expenseList.setCellFactory(param -> new TextFieldListCell<>(new StringConverter<Expense>() {
-            @Override
-            public String toString(Expense expense) {
-                return "(" + expense.getDate() + ") " + expense.getPayer().getUsername() +
-                        " paid " + expense.getAmount() + " for " + expense.getName();
-            }
-            @Override
-            public Expense fromString(String string) {
-                return null;
-            }
-        }));
-        participantCombobox.setConverter(new StringConverter<User>() {
-            @Override
-            public String toString(User user) {
-                return user.getUsername(); // Display the username
-            }
-            @Override
-            public User fromString(String string) {
-                return null;
-            }
-        });
-        expenseComboBox.setConverter(new StringConverter<User>() {
-            @Override
-            public String toString(User user) {
-                return user.getUsername(); // Display the username
-            }
-            @Override
-            public User fromString(String string) {
-                return null;
-            }
-        });
+        expenseList.setCellFactory(param -> new TextFieldListCell<>(sc));
+        participantCombobox.setConverter(su);
+
+        expenseComboBox.setConverter(su);
         ImageView imageView = new ImageView(getClass()
                 .getResource("/client/images/EditPencilIcon.png")
                 .toExternalForm());
@@ -125,6 +129,16 @@ public class EventInfoCtrl {
         imageView2.setFitWidth(17);
         imageView2.setFitHeight(17);
         editDescription.setGraphic(imageView2);
+        service.setSession();
+        service.getServer().regDeleteExpenses( deleteOp-> {
+            Platform.runLater(() -> refresh());
+        });
+        service.getServer().regAddExpenses( addOp ->  {
+            Platform.runLater(() -> refresh());
+        });
+        service.getServer().registerForSocketMessages("/updates/events", Event.class, e -> {
+            Platform.runLater(() -> refresh());
+        });
     }
 
     /**
@@ -165,7 +179,7 @@ public class EventInfoCtrl {
      * @param actionEvent when the button is clicked
      */
     public void back(ActionEvent actionEvent) {
-        mainCtrl.showStartPage();
+        service.getMainCtrl().showStartPage();
     }
 
     /**
@@ -176,9 +190,9 @@ public class EventInfoCtrl {
             return;
         }
         if (selectedExpense == null) {
-            mainCtrl.showAddOrEditExpense(this.event, new Expense());
+            service.getMainCtrl().showAddOrEditExpense(this.event, new Expense());
         }
-        mainCtrl.showAddOrEditExpense(this.event, selectedExpense);
+        service.getMainCtrl().showAddOrEditExpense(this.event, selectedExpense);
     }
 
 
@@ -188,12 +202,12 @@ public class EventInfoCtrl {
      * @param actionEvent when the button is clicked
      */
     public void addExpense(ActionEvent actionEvent){
-        if(this.event.getParticipants().isEmpty() || this.event.getExpenseTags().isEmpty()) {
+        if(this.event.getParticipants().size() < 2 || this.event.getExpenseTags().isEmpty()) {
             noParticipantPane.setVisible(true);
             noParticipantErrButton.requestFocus();
         } else {
             selectedExpense = null;
-            mainCtrl.showAddOrEditExpense(event, selectedExpense);
+            service.getMainCtrl().showAddOrEditExpense(event, selectedExpense);
         }
     }
 
@@ -211,7 +225,7 @@ public class EventInfoCtrl {
      * @param actionEvent when the button is clicked
      */
     public void editExpense(ActionEvent actionEvent){
-        mainCtrl.showAddOrEditExpense(event, selectedExpense);
+        service.getMainCtrl().showAddOrEditExpense(event, selectedExpense);
     }
     /**
      * adds a new expense to database and event
@@ -219,7 +233,7 @@ public class EventInfoCtrl {
      */
     public void addParticipant(ActionEvent actionEvent){
         selectedParticipant = null;
-        mainCtrl.showAddOrEditParticipants(selectedParticipant, event);
+        service.getMainCtrl().showAddOrEditParticipants(selectedParticipant, event);
     }
 
     /**
@@ -227,22 +241,32 @@ public class EventInfoCtrl {
      * @param actionEvent when the button is clicked
      */
     public void editParticipant(ActionEvent actionEvent){
-        mainCtrl.showAddOrEditParticipants(selectedParticipant, event);
+        if (selectedParticipant == null) {
+            //mainCtrl.showAddOrEditParticipants(new User(), event);
+        }
+        service.getMainCtrl().showAddOrEditParticipants(selectedParticipant, event);
     }
 
     /**
      *  sends invitations
      */
     public void sendInvitations() {
-        mainCtrl.showSendInvitations(event);
+        service.getMainCtrl().showSendInvitations(event);
     }
 
+
+    /**
+      *  show statistics
+     */
+    public void showStatistics() {
+        service.getMainCtrl().showStatistics(event);
+    }
 
     /**
      * adds expnse tag
      */
     public void addExpenseTag() {
-        mainCtrl.showExpenseTags(event);
+        service.getMainCtrl().showExpenseTags(event);
     }
 
     /**
@@ -253,7 +277,14 @@ public class EventInfoCtrl {
     public void keyPressed(KeyEvent e) {
         switch (e.getCode()) {
             case ENTER:
-
+                if(participantCombobox.isFocused()) {
+                    participantCombobox.show();
+                    break;
+                }
+                if(expenseComboBox.isFocused()) {
+                    expenseComboBox.show();
+                    break;
+                }
                 break;
             case ESCAPE:
 
@@ -315,7 +346,7 @@ public class EventInfoCtrl {
         List<User> oldParticipants = event.getParticipants();
         oldParticipants = oldParticipants.stream().filter(q -> !q.equals(temp)).toList();
         event.setParticipants(oldParticipants);
-        server.updateEvent(event);
+        service.updateEvent(event);
         setData(event);
     }
 
@@ -348,7 +379,7 @@ public class EventInfoCtrl {
             disableEditingTitle();
             titleLabel.setText(newTitle);
             event.setTitle(newTitle);
-            server.updateEvent(event);
+            service.updateEvent(event);
         }
         else {
             enableEditingTitle();
@@ -384,7 +415,7 @@ public class EventInfoCtrl {
             descriptionLabel.setText(newDesc);
             disableEditingDesc();
             event.setDescription(newDesc);
-            server.updateEvent(event);
+            service.updateEvent(event);
         }
         else {
             enableEditingDesc();
@@ -425,5 +456,17 @@ public class EventInfoCtrl {
      */
     public void selectExpenseList(MouseEvent mouseEvent) {
         selectedExpense = expenseList.getSelectionModel().getSelectedItem();
+        if (mouseEvent.getClickCount() > 1) {
+            service.getMainCtrl().showExpenseInfo(event, selectedExpense);
+        }
+    }
+
+    /**
+     * refreshes the page
+     */
+    public void refresh() {
+        Event e = service.getEventById(event.getId());
+        setEvent(e);
+        setData(e);
     }
 }

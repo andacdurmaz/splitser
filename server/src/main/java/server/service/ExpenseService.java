@@ -1,6 +1,7 @@
 package server.service;
 
 import commons.Expense;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import server.database.ExpenseRepository;
 
@@ -101,4 +102,26 @@ public class ExpenseService {
         return people;
     }
 
+
+
+    /**
+     * Method to delete a expense id
+     * @param expense id of the expense to be deleted
+     * @return the response entity
+     */
+    public ResponseEntity<Expense> deleteExpense(long expense) {
+        if (!existsById(expense)) {
+            return ResponseEntity.badRequest().build();
+        }
+        repo.deleteById(expense);
+        return ResponseEntity.ok().build();
+    }
+
+    /**
+     * getter method for the expense repo
+     * @return the repository
+     */
+    public ExpenseRepository getRepo() {
+        return repo;
+    }
 }

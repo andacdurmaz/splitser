@@ -24,14 +24,14 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Text>
-      <Button layoutX="177.0" layoutY="134.0" mnemonicParsing="false" onAction="#createEvent" style=" -fx-background-color: fd7f20" text="%create" textFill="WHITE" />
+      <Button layoutX="223.0" layoutY="134.0" mnemonicParsing="false" onAction="#createEvent" style=" -fx-background-color: fd7f20" text="%create" textFill="WHITE" />
       <Text layoutX="62.0" layoutY="197.0" strokeType="OUTSIDE" strokeWidth="0.0" text="%join-event">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Text>
-      <Button layoutX="154.0" layoutY="179.0" minHeight="-Infinity" mnemonicParsing="false" onAction="#joinEvent" prefHeight="22.0" prefWidth="32.0" style=" -fx-background-color: fd7f20" text="→" textFill="WHITE" />
-      <Label fx:id="noCode" layoutX="207.0" layoutY="182.0" prefHeight="16.0" prefWidth="132.0" text="%wrong-code">
+      <Button layoutX="236.0" layoutY="178.0" minHeight="-Infinity" mnemonicParsing="false" onAction="#joinEvent" prefHeight="22.0" prefWidth="32.0" style=" -fx-background-color: fd7f20" text="→" textFill="WHITE" />
+      <Label fx:id="noCode" layoutX="223.0" layoutY="222.0" prefHeight="16.0" prefWidth="132.0" text="%wrong-code">
          <font>
             <Font size="11.0" />
          </font>
@@ -46,8 +46,8 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Text>
-      <Button layoutX="178.0" layoutY="260.0" mnemonicParsing="false" onAction="#login" style=" -fx-background-color: fd7f20" text="%log-in" textFill="WHITE" />
-      <Text layoutX="368.0" layoutY="153.0" strokeType="OUTSIDE" strokeWidth="0.0" text="%recent-events" textAlignment="CENTER" wrappingWidth="132.0">
+      <Button layoutX="223.0" layoutY="260.0" mnemonicParsing="false" onAction="#login" style=" -fx-background-color: fd7f20" text="%log-in" textFill="WHITE" />
+      <Text layoutX="375.0" layoutY="153.0" strokeType="OUTSIDE" strokeWidth="0.0" text="%recent-events" textAlignment="CENTER" wrappingWidth="132.0">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
@@ -63,10 +63,9 @@
             </ImageView>
          </graphic>
       </Button>
-
-      <ListView fx:id="joinedEvents" layoutX="368.0" layoutY="173.0" prefHeight="124.0" prefWidth="174.0" />
+      <ListView fx:id = "joinedEvents" layoutX="386.0" layoutY="168.0" prefHeight="124.0" prefWidth="174.0" />
       <Button fx:id="deleteEvent" layoutX="368.0" layoutY="313.0" mnemonicParsing="false" style="-fx-background-color: D11A2A;" text="%delete" textFill="WHITE" onAction="#deleteEvent"/>
-      <Label fx:id="badFormat" layoutX="207.0" layoutY="182.0" prefHeight="16.0" prefWidth="150.0" text="Event code must be a number">
+      <Label fx:id="badFormat" layoutX="206.0" layoutY="222.0" prefHeight="16.0" prefWidth="150.0" text="%event-code-must-be-a-number">
          <font>
             <Font size="11.0" />
          </font>
