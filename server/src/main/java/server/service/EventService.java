@@ -173,4 +173,29 @@ public class EventService {
         eventRepository.deleteById(event);
         return ResponseEntity.ok().build();
     }
+
+    /**
+     * Calculates the share per person for the event
+     * @param id event id
+     * @return double share per person
+     */
+    public double sharePerPerson(long id) {
+        double total = totalSumOfAllExpenses(id);
+        int people = eventRepository.getEventById(id).getParticipants().size();
+        return total / people;
+    }
+
+    /**
+     * calculates the total sum of all expenses for the event
+     * @param id event id
+     * @return double total sum
+     */
+    public double totalSumOfAllExpenses(long id) {
+        List<Expense> allExpenses = eventRepository.getEventById(id).getExpenses();
+        double sum = 0;
+        for (Expense e : allExpenses) {
+            sum += e.getAmount();
+        }
+        return sum;
+    }
 }
