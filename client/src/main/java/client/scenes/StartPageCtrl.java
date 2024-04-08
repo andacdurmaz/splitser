@@ -281,6 +281,7 @@ public class StartPageCtrl implements Initializable {
             pt.setOnFinished(e -> {
                 serverAddressButton.setText("\u2192");
                 serverAddressButton.setStyle("-fx-background-color:  fd7f20");
+                mainCtrl.writeServerAddressToConfigFile(address);
 
             });
             pt.play();
