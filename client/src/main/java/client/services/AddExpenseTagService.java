@@ -4,10 +4,12 @@ import client.scenes.MainCtrl;
 import client.utils.ServerUtils;
 import commons.Event;
 import commons.ExpenseTag;
+import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 import java.util.List;
 
+@Service
 public class AddExpenseTagService {
 
 

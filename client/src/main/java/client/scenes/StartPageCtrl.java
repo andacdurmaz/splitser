@@ -1,7 +1,6 @@
 package client.scenes;
 
 import client.services.StartPageService;
-import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Event;
 import javafx.animation.PauseTransition;
@@ -30,6 +29,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
 import javafx.util.StringConverter;
+import org.springframework.stereotype.Controller;
 
 
 public class StartPageCtrl implements Initializable {

@@ -23,7 +23,10 @@ import javafx.scene.input.KeyEvent;
 import javafx.util.StringConverter;
 
 import java.net.URL;
+import java.time.Instant;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -245,7 +248,7 @@ public class AddOrEditExpenseCtrl implements Initializable {
             expense.setName(whatFor.getText());
             expense.setPayer(payer.getValue());
             expense.setPayingParticipants(selectedParticipants());
-            expense.setExpenseDate(when.getValue());
+            expense.setExpenseDate(Date.from(when.getValue().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
             service.updateExpense(expense);
             expenses.add(expense);
             event.setExpenses(expenses);
@@ -269,7 +272,7 @@ public class AddOrEditExpenseCtrl implements Initializable {
         p.setName(whatFor.getText());
         p.setAmount(Double.parseDouble(howMuch.getText()));
         p.setExpenseTag(expenseTag.getValue());
-        p.setExpenseDate(when.getValue());
+        p.setExpenseDate(Date.from(when.getValue().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
         List<User> payingParticipants = new ArrayList<>();
         payingParticipants.addAll(selectedParticipants());
         p.setPayingParticipants(payingParticipants);
@@ -398,7 +401,7 @@ public class AddOrEditExpenseCtrl implements Initializable {
             currency.setValue(null);
             payer.setValue(expense.getPayer());
             whatFor.setText(expense.getName());
-            when.setValue(expense.getDate());
+            when.setValue(Instant.ofEpochMilli(expense.getDate().getTime()).atZone(ZoneId.systemDefault()).toLocalDate());
             expenseTag.getSelectionModel().select(expense.getExpenseTag());
             if (expense.getPayingParticipants().size() == event.getParticipants().size() - 1) {
                 allParticipants.setSelected(true);

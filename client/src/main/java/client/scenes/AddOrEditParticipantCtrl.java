@@ -18,9 +18,11 @@ import javafx.stage.Modality;
 import javax.inject.Inject;
 import javafx.scene.input.KeyEvent;
 import org.apache.commons.validator.routines.EmailValidator;
+import org.springframework.stereotype.Controller;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class AddOrEditParticipantCtrl {
     private final AddOrEditParticipantService service;

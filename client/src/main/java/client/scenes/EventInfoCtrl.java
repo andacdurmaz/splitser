@@ -19,7 +19,6 @@ import org.springframework.stereotype.Controller;
 import javax.inject.Inject;
 import java.util.List;
 
-@Controller
 public class EventInfoCtrl {
     private Event event;
     private Expense selectedExpense;

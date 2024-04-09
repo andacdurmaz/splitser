@@ -1,5 +1,6 @@
 package client.scenes;
 
+import client.services.StatisticsService;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Event;
@@ -10,14 +11,14 @@ import javafx.fxml.FXML;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.PieChart.Data;
 import javafx.scene.control.Label;
+import org.springframework.stereotype.Controller;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class StatisticsCtrl {
-    private final ServerUtils server;
-    private final MainCtrl mainCtrl;
+    private final StatisticsService service;
     private Event event;
     private ObservableList<Data> data;
 
@@ -31,14 +32,12 @@ public class StatisticsCtrl {
     /**
      * Adding javadoc for checkstyle
      *
-     * @param server   server
-     * @param mainCtrl mainCtrl
+     * @param service service
      * @param event  event
      */
     @Inject
-    public StatisticsCtrl(ServerUtils server, MainCtrl mainCtrl,Event event) {
-        this.server = server;
-        this.mainCtrl = mainCtrl;
+    public StatisticsCtrl(StatisticsService service,Event event) {
+        this.service = service;
         this.event = event;
     }
 
@@ -114,7 +113,7 @@ public class StatisticsCtrl {
      */
     public void cancel() {
 //        clearFields();
-        mainCtrl.showEventInfo(event);
+        service.showEventInfo(event);
     }
 
 

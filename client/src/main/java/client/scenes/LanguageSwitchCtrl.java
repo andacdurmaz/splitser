@@ -26,6 +26,7 @@ import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
+import org.springframework.stereotype.Controller;
 
 import java.io.File;
 import java.io.FileOutputStream;
