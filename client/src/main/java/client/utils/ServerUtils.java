@@ -29,6 +29,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
+import client.scenes.MainCtrl;
 import commons.*;
 import jakarta.ws.rs.core.Response;
 import org.glassfish.jersey.client.ClientConfig;
@@ -48,12 +49,14 @@ import org.springframework.web.socket.messaging.WebSocketStompClient;
 
 public class ServerUtils extends Util {
     private Util util;
+    private MainCtrl mainCtrl;
 
     /**
      * Constructor for ServerUtils
      */
     public ServerUtils(){
         this.util = new Util();
+        this.mainCtrl = new MainCtrl();
     }
 
 
@@ -159,12 +162,18 @@ public class ServerUtils extends Util {
      * @return the event from the id
      */
     public Event getEventById(long id) {
-        return ClientBuilder.newClient(new ClientConfig())
-                .target(serverAddress)
-                .path("api/events/" + id)
-                .request(APPLICATION_JSON).accept(APPLICATION_JSON)
-                .get(new GenericType<Event>() {
-                });
+            Event e =  ClientBuilder.newClient(new ClientConfig())
+                    .target(serverAddress)
+                    .path("api/events/" + id)
+                    .request(APPLICATION_JSON).accept(APPLICATION_JSON)
+                    .get(new GenericType<Event>() {
+                    });
+            if(e.getTitle().equals("MISSING")) {
+                mainCtrl.deleteEventFromConfigByID(id);
+                return null;
+            }
+            return e;
+
     }
     /**
      * Adds event

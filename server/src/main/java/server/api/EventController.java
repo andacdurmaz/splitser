@@ -51,7 +51,9 @@ public class EventController {
      */
     @GetMapping(value = "/{id}")
     public Event getEventById(@PathVariable long id) {
-        return eventService.getEventById(id);
+        if(eventService.existsById(id))
+            return eventService.getEventById(id);
+        return new Event("MISSING");
     }
 
     /**

@@ -1,1 +1,1 @@
-{"User":{"Language":"en","Events":[{"eventCode":64631081,"expenseTags":[],"amountOfParticipants":0,"sumOfExpenses":0,"description":"","id":11452,"title":"asidfjl","participants":[],"expenses":[]}],"Currency":"USD","name":"John Doe","ServerAddress":"localhost:8080"}}
+{"User":{"Language":"en","Events":[],"Currency":"USD","name":"John Doe","ServerAddress":"localhost:8080"}}
