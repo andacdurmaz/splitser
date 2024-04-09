@@ -210,15 +210,14 @@ public class ServerUtils extends Util {
      * @param expense to add
      * @return add expense
      */
-    public Expense addExpense(Expense expense) {
+    public void addExpense(Expense expense) {
         Response response = ClientBuilder.newClient(new ClientConfig())
                 .target(serverAddress).path("api/expenses/add")
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .post(Entity.entity(expense, APPLICATION_JSON));
-        Expense newExpense = response.readEntity(new GenericType<>() {
-        });
-        return newExpense;
+        //Expense newExpense =(Expense) response.getEntity();
+        //return newExpense;
     }
 
     /**

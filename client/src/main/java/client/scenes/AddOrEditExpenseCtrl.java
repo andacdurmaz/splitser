@@ -1,5 +1,6 @@
 package client.scenes;
 
+import client.services.AddOrEditExpenseService;
 import client.utils.ServerUtils;
 import commons.Event;
 import commons.Expense;
@@ -27,8 +28,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class AddOrEditExpenseCtrl implements Initializable {
-    private final ServerUtils server;
-    private final MainCtrl mainCtrl;
+    private final AddOrEditExpenseService service;
     private Event event;
     private Expense expense;
 
@@ -59,14 +59,12 @@ public class AddOrEditExpenseCtrl implements Initializable {
     /**
      * Constructor
      *
-     * @param server   serverUtils
-     * @param mainCtrl mainCtrl
+     * @param service service
      * @param event    event of expense
      */
     @Inject
-    public AddOrEditExpenseCtrl(ServerUtils server, MainCtrl mainCtrl, Event event) {
-        this.server = server;
-        this.mainCtrl = mainCtrl;
+    public AddOrEditExpenseCtrl(AddOrEditExpenseService service, Event event) {
+        this.service = service;
         this.event = event;
     }
 
@@ -209,7 +207,7 @@ public class AddOrEditExpenseCtrl implements Initializable {
      */
     public void cancel() {
         clearFields();
-        mainCtrl.showEventInfo(event);
+        service.showEventInfo(event);
     }
 
     /**
@@ -219,8 +217,7 @@ public class AddOrEditExpenseCtrl implements Initializable {
         if (expense == null) {
             expense = getExpense();
             try {
-                Expense temp = server.addExpense(getExpense());
-                expense.setId(temp.getId());
+                service.addExpense(getExpense());
             } catch (WebApplicationException e) {
                 var alert = new Alert(Alert.AlertType.ERROR);
                 alert.initModality(Modality.APPLICATION_MODAL);
@@ -228,14 +225,8 @@ public class AddOrEditExpenseCtrl implements Initializable {
                 alert.showAndWait();
                 return;
             }
-            List<Expense> expenses = new ArrayList<>(event.getExpenses());
-            if (!expenses.contains(expense)) {
-                expenses.add(expense);
-            }
-            event.setExpenses(expenses);
-            server.updateEvent(event);
             clearFields();
-            mainCtrl.showEventInfo(event);
+            service.updateAndShow(event);
         } else {
             selectedExpense();
         }
@@ -255,11 +246,10 @@ public class AddOrEditExpenseCtrl implements Initializable {
             expense.setPayer(payer.getValue());
             expense.setPayingParticipants(selectedParticipants());
             expense.setExpenseDate(when.getValue());
-            server.updateExpense(expense);
+            service.updateExpense(expense);
             expenses.add(expense);
             event.setExpenses(expenses);
-            server.updateEvent(event);
-            mainCtrl.showEventInfo(event);
+            service.updateAndShow(event);
         } catch (WebApplicationException e) {
             var alert = new Alert(Alert.AlertType.ERROR);
             alert.initModality(Modality.APPLICATION_MODAL);
@@ -306,7 +296,7 @@ public class AddOrEditExpenseCtrl implements Initializable {
                     String text = ((CheckBox) n).getText();
                     int index = text.indexOf("(id: ");
                     long id = Long.parseLong(text.substring(index + 5, text.length() - 1));
-                    selected.add(server.getUserById(id));
+                    selected.add(service.getUserById(id));
                 }
             }
             return selected;
@@ -387,7 +377,7 @@ public class AddOrEditExpenseCtrl implements Initializable {
         payer.setValue(event.getParticipants().get(0));
         expenseTag.setValue(event.getExpenseTags().get(0));
         if (expense == null) {
-            okButton.setText(mainCtrl.getBundle().getString("add"));
+            okButton.setText(service.getString("add"));
         } else {
             okButton.setText("Edit");
         }

@@ -14,12 +14,13 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.StringConverter;
+import org.springframework.stereotype.Controller;
+
 import javax.inject.Inject;
 import java.util.List;
 
-
+@Controller
 public class EventInfoCtrl {
-    private MainCtrl mainCtrl;
     private Event event;
     private Expense selectedExpense;
 
@@ -74,7 +75,6 @@ public class EventInfoCtrl {
     @Inject
     public EventInfoCtrl(EventInfoService service) {
         this.service = service;
-        this.mainCtrl = new MainCtrl();
     }
 
     /**

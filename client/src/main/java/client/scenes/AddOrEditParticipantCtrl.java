@@ -1,5 +1,6 @@
 package client.scenes;
 
+import client.services.AddOrEditParticipantService;
 import client.utils.ServerUtils;
 import commons.*;
 import fr.marcwrobel.jbanking.bic.Bic;
@@ -22,8 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AddOrEditParticipantCtrl {
-    private final ServerUtils server;
-    private final MainCtrl mainCtrl;
+    private final AddOrEditParticipantService service;
 
     private Event event;
     private User user;
@@ -48,15 +48,12 @@ public class AddOrEditParticipantCtrl {
 
     /**
      * Constructor
-     * @param server   serverUtils
-     *
-     * @param mainCtrl mainCtrl
-     * @param event
+     * @param service service
+     * @param event event
      */
     @Inject
-    public AddOrEditParticipantCtrl(ServerUtils server, MainCtrl mainCtrl, Event event) {
-        this.server = server;
-        this.mainCtrl = mainCtrl;
+    public AddOrEditParticipantCtrl(AddOrEditParticipantService service, Event event) {
+        this.service = service;
         this.event = event;
     }
 
@@ -81,7 +78,7 @@ public class AddOrEditParticipantCtrl {
      */
     public void cancel() {
         clearFields();
-        mainCtrl.showEventInfo(event);
+        service.showEventInfo(event);
     }
 
     /**
@@ -130,11 +127,10 @@ public class AddOrEditParticipantCtrl {
             alert.showAndWait();
             return;
         }
-        server.updateUser(user);
+        service.updateUser(user);
         participants.add(user);
         event.setParticipants(participants);
-        server.updateEvent(event);
-        mainCtrl.showEventInfo(event);
+        service.updateAndShow(event);
     }
 
     /**
@@ -193,7 +189,7 @@ public class AddOrEditParticipantCtrl {
         if (user == null)
             return;
         try {
-            User temp = server.addUser(getUser());
+            User temp = service.addUser(getUser());
             user.setUserID(temp.getUserID());
         } catch (WebApplicationException e) {
             var alert = new Alert(Alert.AlertType.ERROR);
@@ -207,8 +203,7 @@ public class AddOrEditParticipantCtrl {
         if (!participants.contains(user))
             participants.add(user);
         event.setParticipants(participants);
-        server.updateEvent(event);
-        mainCtrl.showEventInfo(event);
+        service.updateAndShow(event);
     }
 
     /**
@@ -298,7 +293,7 @@ public class AddOrEditParticipantCtrl {
 
     /**
      * closes the pop-up
-     * @param actionEvent
+     * @param actionEvent actionevent
      */
     public void goBack(ActionEvent actionEvent) {
         wrongEmail.setVisible(false);

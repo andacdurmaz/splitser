@@ -15,6 +15,7 @@
  */
 package client.scenes;
 
+import client.services.LanguageSwitchService;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import javafx.event.ActionEvent;
@@ -34,8 +35,7 @@ import java.util.*;
 
 public class LanguageSwitchCtrl implements Initializable {
 
-    private final ServerUtils server;
-    private final MainCtrl mainCtrl;
+    private final LanguageSwitchService service;
     private char returningPage;
     @FXML
     private ImageView englishImage;
@@ -56,13 +56,11 @@ public class LanguageSwitchCtrl implements Initializable {
 
     /**
      * Constructor for AdminOverview
-     * @param server
-     * @param mainCtrl
+     * @param service service
      */
     @Inject
-    public LanguageSwitchCtrl(ServerUtils server, MainCtrl mainCtrl) {
-        this.server = server;
-        this.mainCtrl = mainCtrl;
+    public LanguageSwitchCtrl(LanguageSwitchService service) {
+        this.service = service;
     }
     /**
      * Initialize method
@@ -116,14 +114,14 @@ public class LanguageSwitchCtrl implements Initializable {
         if (returningPage=='o')
             System.out.println("overview");
         else
-            mainCtrl.showStartPage();
+            service.showStartPage();
     }
 
     /**
      * Method to set the language to english
      */
     public void setEnglish(){
-        mainCtrl.setLocale("en");
+        service.setLocale("en");
         backButton();
     }
 
@@ -131,7 +129,7 @@ public class LanguageSwitchCtrl implements Initializable {
      * Method to set language to dutch
      */
     public void setDutch(){
-        mainCtrl.setLocale("nl");
+        service.setLocale("nl");
         backButton();
     }
 
@@ -139,35 +137,35 @@ public class LanguageSwitchCtrl implements Initializable {
      * Method to set language to turkish
      */
     public void setTurkish(){
-        mainCtrl.setLocale("tr");
+        service.setLocale("tr");
         backButton();
     }
     /**
      * Method to set language to french
      */
     public void setFrench(){
-        mainCtrl.setLocale("fr");
+        service.setLocale("fr");
         backButton();
     }
     /**
      * Method to set language to spanish
      */
     public void setSpanish(){
-        mainCtrl.setLocale("es");
+        service.setLocale("es");
         backButton();
     }
     /**
      * Method to set language to chinese
      */
     public void setChinese(){
-        mainCtrl.setLocale("zh");
+        service.setLocale("zh");
         backButton();
     }
     /**
      * Method to set language to german
      */
     public void setGerman(){
-        mainCtrl.setLocale("de");
+        service.setLocale("de");
         backButton();
     }
 
@@ -198,7 +196,7 @@ public class LanguageSwitchCtrl implements Initializable {
             properties.store(new FileOutputStream(file), "THEMPLATE FILE OF SPLITTY");
 
             System.out.println("File created successfully at: " + file.getAbsolutePath());
-            downloadTemplate.setText(mainCtrl.getBundle().getString("download_successful"));
+            downloadTemplate.setText(service.getString("download_successful"));
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }

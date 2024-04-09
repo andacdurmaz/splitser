@@ -1,5 +1,6 @@
 package client.scenes;
 
+import client.services.AdminEventInfoService;
 import client.utils.ServerUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Inject;
@@ -17,8 +18,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class AdminEventInfoCtrl {
-    private final ServerUtils server;
-    private final MainCtrl mainCtrl;
+    private final AdminEventInfoService service;
 
     private Event currentEvent;
     @FXML
@@ -34,13 +34,11 @@ public class AdminEventInfoCtrl {
 
     /**
      * Constructor for AdminEventInfo
-     * @param server
-     * @param mainCtrl
+     * @param service service
      */
     @Inject
-    public AdminEventInfoCtrl(ServerUtils server, MainCtrl mainCtrl) {
-        this.server = server;
-        this.mainCtrl = mainCtrl;
+    public AdminEventInfoCtrl(AdminEventInfoService service) {
+        this.service = service;
     }
     /**
      * Initialize method
@@ -86,14 +84,14 @@ public class AdminEventInfoCtrl {
      * Delete event method
      */
     public void deleteEvent() {
-        server.deleteEvent(currentEvent);
-        mainCtrl.showAdminOverview();
+        service.deleteEvent(currentEvent);
+        service.showAdminOverview();
     }
 
     /**
      * Method to return to AdminOverview
      */
     public void backToAdminOverview(){
-        mainCtrl.showAdminOverview();
+        service.showAdminOverview();
     }
 }

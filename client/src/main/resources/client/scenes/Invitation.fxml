@@ -30,6 +30,6 @@
       </Label>
         <TextField alignment="TOP_LEFT" layoutX="62.0" layoutY="166.0" prefHeight="162.0" prefWidth="363.0" promptText="%enter-email-of-recipient" />
         <Button layoutX="386.0" layoutY="346.0" mnemonicParsing="false" onAction="#cancel" onMouseClicked="#cancel" prefHeight="36.0" prefWidth="62.0" text="%cancel" />
-        <Button layoutX="470.0" layoutY="346.0" mnemonicParsing="false" onAction="#ok" prefHeight="36.0" prefWidth="99.0" text="%send-invite" />
+        <Button layoutX="470.0" layoutY="346.0" mnemonicParsing="false"  prefHeight="36.0" prefWidth="99.0" text="%send-invite" />
     </children>
 </AnchorPane>

@@ -15,6 +15,7 @@
  */
 package client.scenes;
 
+import client.services.AdminOverviewService;
 import client.utils.ServerUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Inject;
@@ -42,8 +43,7 @@ import java.util.*;
 
 public class AdminOverviewCtrl implements Initializable {
 
-    private final ServerUtils server;
-    private final MainCtrl mainCtrl;
+    private final AdminOverviewService service;
     private ObservableList<Event> data;
 
     @FXML
@@ -63,13 +63,11 @@ public class AdminOverviewCtrl implements Initializable {
 
     /**
      * Constructor for AdminOverview
-     * @param server
-     * @param mainCtrl
+     * @param service service
      */
     @Inject
-    public AdminOverviewCtrl(ServerUtils server, MainCtrl mainCtrl) {
-        this.server = server;
-        this.mainCtrl = mainCtrl;
+    public AdminOverviewCtrl(AdminOverviewService service) {
+        this.service = service;
     }
     /**
      * Initialize method
@@ -116,7 +114,7 @@ public class AdminOverviewCtrl implements Initializable {
             ObjectMapper objectMapper = new ObjectMapper();
 
             Event newEvent = objectMapper.readValue(selectedJson, Event.class);
-            server.addEvent(newEvent);
+            service.addEvent(newEvent);
             refresh();
         }catch (IOException ex) {
             System.out.println("There was a problem with adding a event (Admin)");
@@ -127,7 +125,7 @@ public class AdminOverviewCtrl implements Initializable {
      * Refreshes the page
      */
     public void refresh() {
-        var events = server.getEvents();
+        var events = service.getEvents();
         data = FXCollections.observableList(events);
         table.setItems(data);
     }
@@ -164,7 +162,7 @@ public class AdminOverviewCtrl implements Initializable {
                 return;
             }
             if (selectedEvent != null) {
-                mainCtrl.showAdminEventInfo(selectedEvent);
+                service.showAdminEventInfo(selectedEvent);
             }
         }
     };
@@ -193,6 +191,6 @@ public class AdminOverviewCtrl implements Initializable {
         }};
     @FXML
     private void back() {
-        mainCtrl.showStartPage();
+        service.showStartPage();
     }
 }
