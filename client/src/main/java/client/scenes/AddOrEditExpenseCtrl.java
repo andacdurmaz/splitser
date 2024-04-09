@@ -271,6 +271,8 @@ public class AddOrEditExpenseCtrl implements Initializable {
             expense.setPayer(payer.getValue());
             expense.setPayingParticipants(selectedParticipants());
             expense.setExpenseDate(when.getValue());
+            System.out.println(when.getValue().getClass());
+            System.out.println(when.getValue());
             server.updateExpense(expense);
             expenses.add(expense);
             event.setExpenses(expenses);
@@ -308,6 +310,8 @@ public class AddOrEditExpenseCtrl implements Initializable {
         }
         p.setExpenseTag(expenseTag.getValue());
         p.setExpenseDate(when.getValue());
+        System.out.println(when.getValue());
+        System.out.println(when.getValue().getClass());
         List<User> payingParticipants = new ArrayList<>();
         payingParticipants.addAll(selectedParticipants());
         if (payingParticipants.size() == 0) {
