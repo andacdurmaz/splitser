@@ -3,8 +3,8 @@
 | Date: | 02-04-2024            |
 | Time: | 14:45                |
 | Location: | Drebbelweg Cubicle 2 |
-| Chair | Ivan Nikolov |
-| Minute Taker | Andaç Durmaz  |
+| Chair | Storm van Wassenaar |
+| Minute Taker | Mete Aksoy  |
 | Attendees: | all team members     |
 # Agenda: 
 ##### Opening by chair (1 min) 14:46
