@@ -101,7 +101,7 @@ public class MainCtrl {
         this.primaryStage = primaryStage;
 
         getConfigLocale();
-        showStartPage();
+        showIntroPage();
         primaryStage.show();
 
     }
@@ -151,6 +151,19 @@ public class MainCtrl {
      */
     public ResourceBundle getBundle() {
         return bundle;
+    }
+
+    /**
+     * shows intro page
+     */
+    public void showIntroPage() {
+        var introPage = Main.FXML.load(IntroPageCtrl.class, bundle, "client",
+                "scenes", "IntroPage.fxml");
+        IntroPageCtrl introPageCtrl = introPage.getKey();
+        Scene introPageScene = new Scene(introPage.getValue());
+        primaryStage.setTitle("Intro");
+        primaryStage.setScene(introPageScene);
+        introPageScene.setOnKeyPressed(introPageCtrl::keyPressed);
     }
 
     /**
@@ -473,10 +486,19 @@ public class MainCtrl {
     }
 
 
+    /**
+     * removes all events from the config file
+     * @return true if the events are removed
+     */
     public boolean deleteAllEventsFromConfig(){
         return deleteAllEventsFromConfigProvidingPath(CONFIG_PATH);
     }
 
+    /**
+     * removes all events from the config file by path
+     * @param path path to the file
+     * @return true if the events are removed
+     */
     public boolean deleteAllEventsFromConfigProvidingPath(String path){
         JSONObject jsonObject = new JSONObject(readConfigFile(path));
         JSONObject userObject = jsonObject.getJSONObject("User");

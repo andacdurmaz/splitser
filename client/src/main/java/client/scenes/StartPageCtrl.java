@@ -317,6 +317,7 @@ public class StartPageCtrl implements Initializable {
                     deleteEvent();
                 }
             case ESCAPE:
+                mainCtrl.showIntroPage();
                 break;
             default:
                 break;
