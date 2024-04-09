@@ -471,6 +471,25 @@ public class MainCtrl {
         }
         return false;
     }
+
+
+    public boolean deleteAllEventsFromConfig(){
+        return deleteAllEventsFromConfigProvidingPath(CONFIG_PATH);
+    }
+
+    public boolean deleteAllEventsFromConfigProvidingPath(String path){
+        JSONObject jsonObject = new JSONObject(readConfigFile(path));
+        JSONObject userObject = jsonObject.getJSONObject("User");
+        userObject.put("Events", new JSONArray());
+        Path filePath = Path.of(path);
+        try {
+            Files.writeString(filePath, jsonObject.toString());
+            return true;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     /**
      * interacts with the server to get the events that the user has joined
      *

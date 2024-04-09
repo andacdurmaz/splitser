@@ -285,6 +285,7 @@ public class StartPageCtrl implements Initializable {
 
             });
             pt.play();
+            mainCtrl.deleteAllEventsFromConfig();
         }
         else{
             serverAddressButton.setText("\u274C");

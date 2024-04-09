@@ -722,4 +722,56 @@ public class MainCtrlTest {
             e.printStackTrace();
         }
     }
+
+    @Test
+    public void testDeleteAllEventsFromConfig() throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        String tempFilePath = "CONFIGTest.json";
+        String jsonString = "{" +
+                "  \"User\":{" +
+                "    \"name\":\"John Doe\"," +
+                "    \"Language\":\"en\"," +
+                "    \"Currency\":\"USD\"," +
+                "    \"Events\":[" +
+                "      {" +
+                "        \"id\":1," +
+                "        \"title\": \"title\"," +
+                "        \"amountOfParticipants\":3," +
+                "        \"expenses\":[]," +
+                "        \"description\":\"description\"," +
+                "        \"sumOfExpenses\":0.0" +
+                "      }," +
+                "      {" +
+                "        \"id\":2," +
+                "        \"title\": \"title 2\"," +
+                "        \"amountOfParticipants\":4," +
+                "        \"expenses\":[]," +
+                "        \"description\":\"description 2\"," +
+                "        \"sumOfExpenses\":21.89" +
+                "      }" +
+                "    ]" +
+                "  }" +
+                "}";
+
+        // Write sample JSON to the temporary file
+        Path path = Paths.get(tempFilePath);
+        try {
+            Files.writeString(path, jsonString);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        mainCtrl.deleteAllEventsFromConfigProvidingPath(tempFilePath);
+
+        String newContent = mainCtrl.readConfigFile(tempFilePath);
+        String expected = "{\"User\":{\"Language\":\"en\",\"Events\":[],\"Currency\":\"USD\",\"name\":\"John Doe\"}}";
+        assertEquals(objectMapper.readTree(expected), objectMapper.readTree(newContent));
+
+        // Clean up: delete the temporary file
+        try {
+            Files.deleteIfExists(path);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
