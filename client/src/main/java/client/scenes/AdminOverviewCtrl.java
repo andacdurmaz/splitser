@@ -45,6 +45,10 @@ public class AdminOverviewCtrl implements Initializable {
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
     private ObservableList<Event> data;
+    private String optionTitle;
+    private String optionDate;
+    private String optionActivity;
+
 
     @FXML
     private TableView<Event> table;
@@ -83,14 +87,17 @@ public class AdminOverviewCtrl implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        optionTitle = mainCtrl.getBundle().getString("title");
+        optionDate = mainCtrl.getBundle().getString("creation-date");
+        optionActivity = mainCtrl.getBundle().getString("last-activity");
+
         colEventId.setCellValueFactory(q ->
                 new SimpleStringProperty(String.valueOf(q.getValue().getId())));
         colEventName.setCellValueFactory(q ->
                 new SimpleStringProperty(q.getValue().getTitle()));
         colEventDescription.setCellValueFactory(q ->
                 new SimpleStringProperty(q.getValue().getDescription()));
-        sortMenu.getItems().addAll("Option 1", "Option 2", "Option 3");
-        sortMenu.setValue("Option 1");
+        sortMenu.getItems().addAll(optionTitle, optionDate, optionActivity);
         sortMenu.setOnAction(sortEvent);
         table.setOnMouseClicked(getEvent);
     }
@@ -130,26 +137,29 @@ public class AdminOverviewCtrl implements Initializable {
         var events = server.getEvents();
         data = FXCollections.observableList(events);
         table.setItems(data);
+        sortEvent.handle(new ActionEvent());
+    }
+
+    /**
+     * Method to go back to startpage
+     */
+    public void back() {
+        mainCtrl.showStartPage();
     }
 
     private EventHandler<ActionEvent> sortEvent = new EventHandler<ActionEvent>() {
         public void handle(ActionEvent e) {
             String option = sortMenu.getValue();
             List<Event> events = table.getItems();
-            switch(option){
-                case("Option 1"):
-                    System.out.println("option 1 selected");
-                    Collections.sort(events, eventTitleComparator);
-                    break;
-                case("Option 2"):
-                    System.out.println("option 2 selected");
-                    Collections.sort(events, eventCreationDateComparator);
-                    break;
-                case("Option 3"):
-                    System.out.println("option 3 selected");
-                    Collections.sort(events, eventLastActivityComparator);
-                    break;
-
+            if (optionTitle.equals(option)){
+                System.out.println(optionTitle);
+                Collections.sort(events, eventTitleComparator);
+            } else if (optionDate.equals(option)) {
+                System.out.println(optionDate);
+                Collections.sort(events, eventCreationDateComparator);
+            } else if (optionActivity.equals(option)) {
+                System.out.println(optionActivity);
+                Collections.sort(events, eventLastActivityComparator);
             }
             table.setItems(FXCollections.observableList(events));
         }
@@ -186,13 +196,19 @@ public class AdminOverviewCtrl implements Initializable {
 
     private static Comparator<Event> eventLastActivityComparator = new Comparator<Event>() {
         public int compare(Event s1, Event s2) {
-            Long lastExpenseId1 = s1.getExpenses().getLast().getId();
-            Long lastExpenseId2 = s2.getExpenses().getLast().getId();
+            Long lastExpenseId1;
+            Long lastExpenseId2;
+            if(s1.getExpenses().isEmpty() && !s2.getExpenses().isEmpty())
+                return -1;
+            else if(!s1.getExpenses().isEmpty() && s2.getExpenses().isEmpty())
+                return -1;
+            else if(!s1.getExpenses().isEmpty() && !s2.getExpenses().isEmpty()){
+                lastExpenseId1 = s1.getExpenses().getLast().getId();
+                lastExpenseId2 = s2.getExpenses().getLast().getId();
 
-            return lastExpenseId1.compareTo(lastExpenseId2);
+                return lastExpenseId1.compareTo(lastExpenseId2);}
+            else
+                return 0;
         }};
-    @FXML
-    private void back() {
-        mainCtrl.showStartPage();
-    }
+   
 }

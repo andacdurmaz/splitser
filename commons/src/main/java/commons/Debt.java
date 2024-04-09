@@ -19,6 +19,9 @@ public class Debt {
     @ManyToOne
     @JoinColumn(name = "payee_id")
     private User payee;
+    @ManyToOne
+    @JoinColumn(name = "expense_id")
+    private Expense expense;
     private Double amount;
 
 
@@ -33,6 +36,21 @@ public class Debt {
         this.payer = owner;
         this.payee = demander;
         this.amount = amount;
+    }
+
+    /**
+     * Constructor with expense
+     *
+     * @param owner
+     * @param demander
+     * @param amount
+     * @param e
+     */
+    public Debt(User owner, User demander, Double amount, Expense e) {
+        this.payer = owner;
+        this.payee = demander;
+        this.amount = amount;
+        this.expense = e;
     }
 
     /**
@@ -94,6 +112,22 @@ public class Debt {
      */
     public void setAmount(Double amount) {
         this.amount = amount;
+    }
+
+    /**
+     * Getter method
+     * @return expense
+     */
+    public Expense getExpense() {
+        return expense;
+    }
+
+    /**
+     * Setter method
+     * @param e expense
+     */
+    public void setExpense(Expense e) {
+        this.expense = e;
     }
 
     /**
