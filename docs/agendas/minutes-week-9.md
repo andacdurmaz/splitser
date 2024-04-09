@@ -31,37 +31,30 @@
 #### Main Topics
 
 - What do we still need to implement? (10 min)
-    - What is left? Are we missing any basic features? What do we have to fix? Which extensions will we do?
-	-- Adding settle debts
-    -- Admin sorts
-    -- Delete event json when event not found from config
-    -- Invitation fix
+    What is left? Are we missing any basic features? What do we have to fix? Which extensions will we do?
+    - Change one of the rest controllers to be just a controller
+	- Adding settle debts
+    - Admin sorts
+    - Delete event json when event not found from config
+    - Invitation fix
+    - Check invalid number for amount 
   
 - Testing (5 min) 15:13
     - How do we want to test?
 
 
 Tudor:
-    - long polling
-    - updating for events
-    - if done, testing
+    -
 Ivan:
-    - invitations
-    - statistics
+    - 
 Jort
-    - join event
-    - server address to config
-    - if done, help
+    - 
 Storm
-    - finish language switch
-    - test
+    - 
 Mete:
-    - add tests
-    - pop-ups
+    - 
 Andac:
-    - edit expense
-    - pop-ups
-    - debts
+    - 
 	
 -Ask TA for what can we improve at the current state of the application (5 min) 15:24
 
