@@ -1,6 +1,6 @@
 | Key | Value                |
 | --- |----------------------|
-| Date: | 02-04-2024            |
+| Date: | 09-04-2024            |
 | Time: | 14:45                |
 | Location: | Drebbelweg Cubicle 2 |
 | Chair | Storm van Wassenaar |
@@ -36,6 +36,7 @@
 	- Adding settle debts
     - Admin sorts
     - Delete event json when event not found from config
+    - Fix expense tags
     - Invitation fix
     - Check invalid number for amount 
   
@@ -44,21 +45,26 @@
 
 
 Tudor:
-    -
+    - Refactor services
+    - Tests
+    - Controller
 Ivan:
-    - 
+    - Popups
+    - Fix expense tags
 Jort
-    - 
+    - Config file
+    - Shortcuts
 Storm
-    - 
+    - Add confirmations
+    - Sorting for admin
 Mete:
-    - 
+    - Help with debts
+    - Check for impossible checks like having the cost be a negative number
 Andac:
-    - 
+    - Debt page
+    - Settle debts
 	
--Ask TA for what can we improve at the current state of the application (5 min) 15:24
 
-- Summarize action points: Who , what , when? (2 min) 15:26
 
 
 #### Feedback round: What went well and what can be improved next time? (2 min)
