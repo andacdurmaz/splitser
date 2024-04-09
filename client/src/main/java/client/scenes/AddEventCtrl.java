@@ -1,8 +1,9 @@
 package client.scenes;
 
-import com.google.inject.Inject;
 import client.utils.ServerUtils;
+import com.google.inject.Inject;
 import commons.Event;
+import commons.ExpenseTag;
 import jakarta.ws.rs.WebApplicationException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,6 +14,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -103,6 +105,16 @@ public class AddEventCtrl {
         event.setEventCode(eventCode);
         if (description.getText() != null)
             event.setDescription(description.getText());
+        ExpenseTag tag1 = new ExpenseTag("Food","#008000");
+        ExpenseTag tag2 = new ExpenseTag("Entrance Fees","#0000FF");
+        ExpenseTag tag3 = new ExpenseTag("Travel","#FF0000");
+        ExpenseTag tag4 = new ExpenseTag("Others","#d3d3d3");
+        List<ExpenseTag> expenseTags = new ArrayList<>();
+        expenseTags.add(tag1);
+        expenseTags.add(tag2);
+        expenseTags.add(tag3);
+        expenseTags.add(tag4);
+        event.setExpenseTags(expenseTags);
         return event;
     }
 
