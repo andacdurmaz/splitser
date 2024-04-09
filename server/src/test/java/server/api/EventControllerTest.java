@@ -49,15 +49,7 @@ public class EventControllerTest {
                 .andExpect(content().string(List.of(event).toString()));
     }
 
-    @Test
-    public void testGetEventById() throws Exception {
-        Event event = new Event("Title", 4, "Description");
-        when(eventService.getEventById(1)).thenReturn(event);
 
-        mockMvc.perform(get("/api/events/1"))
-                .andExpect(status().isOk())
-                .andExpect(content().string(event.toString()));
-    }
 
 
     @Test

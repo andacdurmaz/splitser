@@ -162,17 +162,17 @@ public class ServerUtils extends Util {
      * @return the event from the id
      */
     public Event getEventById(long id) {
-            Event e =  ClientBuilder.newClient(new ClientConfig())
-                    .target(serverAddress)
-                    .path("api/events/" + id)
-                    .request(APPLICATION_JSON).accept(APPLICATION_JSON)
-                    .get(new GenericType<Event>() {
-                    });
-            if(e.getTitle().equals("MISSING")) {
-                mainCtrl.deleteEventFromConfigByID(id);
-                return null;
-            }
-            return e;
+        Event e =  ClientBuilder.newClient(new ClientConfig())
+                .target(serverAddress)
+                .path("api/events/" + id)
+                .request(APPLICATION_JSON).accept(APPLICATION_JSON)
+                .get(new GenericType<Event>() {
+                });
+        if(e.getTitle().equals("MISSING")) {
+            mainCtrl.deleteEventFromConfigByID(id);
+            return null;
+        }
+        return e;
 
     }
     /**
