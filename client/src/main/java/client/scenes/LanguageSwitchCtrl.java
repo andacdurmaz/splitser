@@ -16,7 +16,6 @@
 package client.scenes;
 
 import client.services.LanguageSwitchService;
-import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -26,7 +25,6 @@ import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
-import org.springframework.stereotype.Controller;
 
 import java.io.File;
 import java.io.FileOutputStream;

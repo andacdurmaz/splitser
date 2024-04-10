@@ -42,7 +42,7 @@ public class StartPageService {
      *
      */
     public void login(){
-    mainCtrl.login();
+        mainCtrl.login();
     }
 
     /**

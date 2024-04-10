@@ -1,7 +1,6 @@
 package client.scenes;
 
 import client.services.AdminEventInfoService;
-import client.utils.ServerUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Inject;
 import commons.Event;
@@ -13,7 +12,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
-import org.springframework.stereotype.Controller;
 
 import java.io.File;
 import java.io.IOException;

@@ -19,6 +19,7 @@ import client.utils.ServerUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import commons.Event;
+import commons.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -36,9 +37,10 @@ import static org.mockito.Mockito.*;
 
 public class MainCtrlTest {
 
+
+    String tempFilePath = "Test.json";
     @InjectMocks
     private MainCtrl mainCtrl;
-
     @Mock
     ServerUtils serverUtils;
 
@@ -48,6 +50,7 @@ public class MainCtrlTest {
     @BeforeEach
     public void setup() {
         mainCtrl = new MainCtrl();
+        serverUtils = Mockito.mock(ServerUtils.class);
     }
 
     /**
@@ -62,7 +65,6 @@ public class MainCtrlTest {
     @Test
     public void testReadConfigFile() throws IOException {
         // Create a temporary file with sample JSON data
-        String tempFilePath = "CONFIGTest.json";
         String configJson = "{\n" +
                 "  \"User\" : {\n" +
                 "    \"name\": \"John Doe\",\n" +
@@ -112,7 +114,7 @@ public class MainCtrlTest {
     @Test
     public void testGetJoinedEventsID() throws IOException {
 
-        String tempFilePath = "CONFIGTest.json";
+
         String jsonString = "{\n" +
                 "  \"User\" : {\n" +
                 "    \"name\": \"John Doe\",\n" +
@@ -153,13 +155,13 @@ public class MainCtrlTest {
         mainCtrl = Mockito.spy(new MainCtrl());
 
         // Mock the behavior of the readConfigFile method
-        when(mainCtrl.readConfigFile("CONFIGTest.json")).thenReturn(jsonString);
+        when(mainCtrl.readConfigFile("Test.json")).thenReturn(jsonString);
 
         // Mock the behavior of the getEventById method
         when(serverUtilsMock.getEventById(0)).thenReturn(new Event("title", 3, "description")); // Assuming this is the event with id 0
         when(serverUtilsMock.getEventById(1)).thenReturn(new Event("title 2", 4, "description 2")); // Assuming this is the event with id 1
 
-        List<Long> result = mainCtrl.getJoinedEventsIDProvidingPath("CONFIGTest.json");
+        List<Long> result = mainCtrl.getJoinedEventsIDProvidingPath("Test.json");
 
         // Verify the result
         assertEquals(2, result.size()); // Assuming there are two events in the JSON
@@ -173,7 +175,7 @@ public class MainCtrlTest {
 
     @Test
     public void testGetLanguage() throws IOException {
-        String tempFilePath = "CONFIGTest.json";
+
         String jsonString = "{\n" +
                 "  \"User\" : {\n" +
                 "    \"name\": \"John Doe\",\n" +
@@ -221,7 +223,7 @@ public class MainCtrlTest {
 
     @Test
     public void testGetCurrency() throws IOException {
-        String tempFilePath = "CONFIGTest.json";
+
         String jsonString = "{\n" +
                 "  \"User\" : {\n" +
                 "    \"name\": \"John Doe\",\n" +
@@ -271,7 +273,7 @@ public class MainCtrlTest {
     @Test
     public void testWriteEventToFile() throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
-        String tempFilePath = "CONFIGTest.json";
+
         String jsonString = "{" +
                 "  \"User\":{" +
                 "    \"name\":\"John Doe\"," +
@@ -313,7 +315,7 @@ public class MainCtrlTest {
     @Test
     public void testWriteLanguageToConfigFile() throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
-        String tempFilePath = "CONFIGTest.json";
+
         String jsonString = "{" +
                 "  \"User\":{" +
                 "    \"name\":\"John Doe\"," +
@@ -352,7 +354,7 @@ public class MainCtrlTest {
 
     @Test
     public void testWriteCurrencyToConfigFile() throws IOException {
-        String tempFilePath = "CONFIGTest.json";
+
         String jsonString = "{" +
                 "  \"User\":{" +
                 "    \"name\":\"John Doe\"," +
@@ -396,7 +398,7 @@ public class MainCtrlTest {
     @Test
     public void testRemoveEventFromConfig() throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
-        String tempFilePath = "CONFIGTest.json";
+
         String jsonString = "{" +
                 "  \"User\":{" +
                 "    \"name\":\"John Doe\"," +
@@ -448,7 +450,7 @@ public class MainCtrlTest {
     @Test
     public void testRemoveEventFromConfigWrongEvent(){
         ObjectMapper objectMapper = new ObjectMapper();
-        String tempFilePath = "CONFIGTest.json";
+
         String jsonString = "{" +
                 "  \"User\":{" +
                 "    \"name\":\"John Doe\"," +
@@ -497,7 +499,7 @@ public class MainCtrlTest {
     @Test
     public void testRemoveEventFromConfigException(){
         ObjectMapper objectMapper = new ObjectMapper();
-        String tempFilePath = "CONFIGTest.json";
+
         String jsonString = "{" +
                 "  \"User\":{" +
                 "    \"name\":\"John Doe\"," +

@@ -3,8 +3,6 @@ package client.services;
 import client.scenes.MainCtrl;
 import client.utils.ServerUtils;
 import commons.Event;
-import commons.Expense;
-import commons.User;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;

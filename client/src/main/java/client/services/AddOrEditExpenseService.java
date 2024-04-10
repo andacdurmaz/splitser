@@ -4,7 +4,6 @@ import client.scenes.MainCtrl;
 import client.utils.ServerUtils;
 import commons.Event;
 import commons.Expense;
-import commons.ExpenseTag;
 import commons.User;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +16,10 @@ public class AddOrEditExpenseService {
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
 
+    /**
+     * @param server server
+     * @param mainCtrl mainctrl
+     */
     @Inject
     public AddOrEditExpenseService(ServerUtils server, MainCtrl mainCtrl) {
         this.server = server;

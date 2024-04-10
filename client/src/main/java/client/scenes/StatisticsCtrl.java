@@ -1,7 +1,6 @@
 package client.scenes;
 
 import client.services.StatisticsService;
-import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Event;
 import commons.Expense;
@@ -11,7 +10,6 @@ import javafx.fxml.FXML;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.PieChart.Data;
 import javafx.scene.control.Label;
-import org.springframework.stereotype.Controller;
 
 import java.util.HashMap;
 import java.util.List;

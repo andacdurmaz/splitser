@@ -1,7 +1,6 @@
 package client.scenes;
 
 import client.services.AddExpenseTagService;
-import client.utils.ServerUtils;
 import commons.*;
 import jakarta.ws.rs.WebApplicationException;
 import javafx.fxml.FXML;

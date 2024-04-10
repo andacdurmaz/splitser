@@ -1,7 +1,6 @@
 package client.scenes;
 
 import client.services.AddOrEditExpenseService;
-import client.utils.ServerUtils;
 import commons.Event;
 import commons.Expense;
 import commons.ExpenseTag;
@@ -248,7 +247,9 @@ public class AddOrEditExpenseCtrl implements Initializable {
             expense.setName(whatFor.getText());
             expense.setPayer(payer.getValue());
             expense.setPayingParticipants(selectedParticipants());
-            expense.setExpenseDate(Date.from(when.getValue().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
+            expense.setExpenseDate(Date.from(
+                    when.getValue().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()
+            ));
             service.updateExpense(expense);
             expenses.add(expense);
             event.setExpenses(expenses);
@@ -272,7 +273,9 @@ public class AddOrEditExpenseCtrl implements Initializable {
         p.setName(whatFor.getText());
         p.setAmount(Double.parseDouble(howMuch.getText()));
         p.setExpenseTag(expenseTag.getValue());
-        p.setExpenseDate(Date.from(when.getValue().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
+        p.setExpenseDate(Date.from(
+                when.getValue().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()
+        ));
         List<User> payingParticipants = new ArrayList<>();
         payingParticipants.addAll(selectedParticipants());
         p.setPayingParticipants(payingParticipants);
@@ -401,7 +404,9 @@ public class AddOrEditExpenseCtrl implements Initializable {
             currency.setValue(null);
             payer.setValue(expense.getPayer());
             whatFor.setText(expense.getName());
-            when.setValue(Instant.ofEpochMilli(expense.getDate().getTime()).atZone(ZoneId.systemDefault()).toLocalDate());
+            when.setValue(Instant.ofEpochMilli(
+                    expense.getDate().getTime())
+                    .atZone(ZoneId.systemDefault()).toLocalDate());
             expenseTag.getSelectionModel().select(expense.getExpenseTag());
             if (expense.getPayingParticipants().size() == event.getParticipants().size() - 1) {
                 allParticipants.setSelected(true);

@@ -1,7 +1,6 @@
 package client.scenes;
 
 import client.services.AddOrEditParticipantService;
-import client.utils.ServerUtils;
 import commons.*;
 import fr.marcwrobel.jbanking.bic.Bic;
 import fr.marcwrobel.jbanking.iban.Iban;
@@ -18,7 +17,6 @@ import javafx.stage.Modality;
 import javax.inject.Inject;
 import javafx.scene.input.KeyEvent;
 import org.apache.commons.validator.routines.EmailValidator;
-import org.springframework.stereotype.Controller;
 
 import java.util.ArrayList;
 import java.util.List;

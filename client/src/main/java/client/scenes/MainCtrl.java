@@ -16,6 +16,7 @@
 package client.scenes;
 
 import client.Main;
+import client.services.ConfigFileService;
 import client.utils.ServerUtils;
 import commons.Event;
 import commons.Expense;
@@ -24,13 +25,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.util.Pair;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -97,7 +92,10 @@ public class MainCtrl {
      * Method which checks the language in config file
      */
     public void getConfigLocale() {
-        setLocale(getLanguage());
+
+        ConfigFileService service =new ConfigFileService(new ServerUtils());
+        String l = service.getLanguage();
+        setLocale(l);
     }
 
     /**
@@ -108,7 +106,8 @@ public class MainCtrl {
     public void setLocale(String language) {
         this.locale = new Locale(language);
         this.bundle = ResourceBundle.getBundle("locales.resource", locale);
-        writeLanguageToConfigFile(language);
+        ConfigFileService service =new ConfigFileService(new ServerUtils());
+        service.writeLanguageToConfigFile(language);
     }
 
     /**
@@ -314,268 +313,7 @@ public class MainCtrl {
         primaryStage.setScene(loginScreenScene);
     }
 
-    /**
-     * gets the events that the user has joined from the CONFIG file
-     *
-     * @param path path to the file
-     * @return list of events
-     */
-    public List<Long> getJoinedEventsIDProvidingPath(String path) {
-        List<Long> list = new ArrayList<>();
-        ServerUtils serverUtils = new ServerUtils();
 
-        String jsonString = readConfigFile(path);
-        JSONObject jsonObject = new JSONObject(jsonString);
-        JSONObject userObject = jsonObject.getJSONObject("User");
-        JSONArray eventsArray = userObject.getJSONArray("Events");
-
-        for (int i = 0; i < eventsArray.length(); i++) {
-            JSONObject eventObject = eventsArray.getJSONObject(i);
-            long eventId = eventObject.getLong("id");
-            list.add(eventId);
-        }
-        return list;
-    }
-
-    /**
-     * gets the events that the user has joined from the CONFIG file
-     *
-     * @return list of events
-     */
-    public List<Event> getJoinedEvents() {
-        return getJoinedEventsProvidingPath(CONFIG_PATH);
-    }
-
-    /**
-     * checks if the event is in the config file
-     *
-     * @param event event to be checked
-     * @return true if the event is in the config file
-     */
-    public boolean isEventInConfig(Event event) {
-        List<Long> eventIds = getJoinedEventsIDProvidingPath(CONFIG_PATH);
-        return eventIds.contains(event.getId());
-    }
-
-
-    /**
-     * removes the event from the config file
-     * @param event event to be removed
-     * @return true if the event is removed
-     */
-    public boolean deleteEventFromConfig(Event event){
-        return deleteEventFromConfigProvidingPath(CONFIG_PATH, event);
-    }
-
-    /**
-     * removes the event from the config file by path
-     * @param path path to the file
-     * @param event event to be removed
-     * @return true if the event is removed
-     */
-    public boolean deleteEventFromConfigProvidingPath(String path, Event event) {
-        List<Long> eventIds = getJoinedEventsIDProvidingPath(path);
-        if (eventIds.contains(event.getId())) {
-            JSONObject jsonObject = new JSONObject(readConfigFile(path));
-            JSONObject userObject = jsonObject.getJSONObject("User");
-            JSONArray eventsArray = userObject.getJSONArray("Events");
-
-            // Find the index of the event object to remove
-            int index = -1;
-            for (int i = 0; i < eventsArray.length(); i++) {
-                JSONObject eventJSON = eventsArray.getJSONObject(i);
-                if (eventJSON.getLong("id") == event.getId()) {
-                    index = i;
-                    break;
-                }
-            }
-
-            // If the event object is found, remove it from the eventsArray
-            if (index != -1) {
-                eventsArray.remove(index);
-                userObject.put("Events", eventsArray);
-                Path filePath = Path.of(path);
-                try {
-                    Files.writeString(filePath, jsonObject.toString());
-                    return true;
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        }
-        return false;
-    }
-
-    /**
-     * interacts with the server to get the events that the user has joined
-     *
-     * @param path path to the file
-     * @return list of events
-     */
-    public List<Event> getJoinedEventsProvidingPath(String path)  {
-        List<Long> eventIds = getJoinedEventsIDProvidingPath(path);
-        List<Event> events = new ArrayList<>();
-        ServerUtils serverUtils = new ServerUtils();
-
-        for (int i = 0; i < eventIds.size(); i++) {
-            events.add(serverUtils.getEventById(eventIds.get(i)));
-        }
-        return events;
-    }
-
-    /**
-     * gets the language from the CONFIG file
-     * @return the language
-     */
-    public String getLanguage() {
-        return getLanguageProvidingPath(CONFIG_PATH);
-    }
-
-    /**
-     * gets the language from the CONFIG file by path
-     * @param path path to the file
-     * @return  the language
-     */
-    public String getLanguageProvidingPath(String path) {
-        String jsonString = readConfigFile(path);
-        JSONObject jsonObject = new JSONObject(jsonString);
-        JSONObject userObject = jsonObject.getJSONObject("User");
-        return userObject.getString("Language");
-    }
-
-    /**
-     * gets the currency from the CONFIG file
-     * @return the currency
-     */
-    public String getCurrency()  {
-        return getCurrencyProvidingPath(CONFIG_PATH);
-    }
-
-    /**
-     * gets the currency from the CONFIG file by path
-     * @param path path to the file
-     * @return  the currency
-     */
-    public String getCurrencyProvidingPath(String path) {
-        String jsonString = readConfigFile(path);
-        JSONObject jsonObject = new JSONObject(jsonString);
-        JSONObject userObject = jsonObject.getJSONObject("User");
-        return userObject.getString("Currency");
-    }
-
-    /**
-     * reads the config file
-     *
-     * @param filePath path to the file
-     * @return the string representation of the file
-     */
-    public String readConfigFile(String filePath) {
-        Path path = Path.of(filePath);
-        try {
-            String string = Files.readString(path);
-            return string;
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    /**
-     * writes to the config file
-     * @param event event to be written (IN JSON FORMAT)
-     */
-    public void writeEventToConfigFile(Event event)  {
-        writeEventToConfigFileByPath(CONFIG_PATH, event);
-    }
-
-    /**
-     * writes to the config file by path
-     * @param filePath path to the file
-     * @param event event to be written (IN JSON FORMAT)
-     */
-    public void writeEventToConfigFileByPath(String filePath, Event event) {
-        // Read the JSON file
-        JSONObject jsonObject = new JSONObject(readConfigFile(filePath));
-        // Get the User object
-        JSONObject userObject = jsonObject.getJSONObject("User");
-        // Get the Events array
-        JSONArray eventsArray = new JSONArray();
-
-        // Get the existing events
-        JSONArray existingEvents = userObject.getJSONArray("Events");
-
-        // Add the existing events to the new array
-        for (int i = 0; i < existingEvents.length(); i++) {
-            eventsArray.put(existingEvents.getJSONObject(i));
-        }
-
-        // Add the new event to the array
-        JSONObject newEvent = new JSONObject(event);
-
-        // Add all events back to the array
-        eventsArray.put(newEvent);
-        // Add the array back to the user object
-        userObject.put("Events", eventsArray);
-
-        // write to file
-        Path path = Path.of(filePath);
-        try {
-            Files.writeString(path, jsonObject.toString());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    /**
-     * writes the language to the config file
-     * @param language language to be written
-     */
-    public void writeLanguageToConfigFile(String language) {
-        writeLanguageToConfigFileByPath(CONFIG_PATH, language);
-    }
-
-    /**
-     * writes the language to the config file by path
-     * @param filePath path to the file
-     * @param language language to be written
-     */
-    public void writeLanguageToConfigFileByPath(String filePath, String language) {
-        JSONObject jsonObject = new JSONObject(readConfigFile(filePath));
-        JSONObject userObject = jsonObject.getJSONObject("User");
-        userObject.put("Language", language);
-
-        Path path = Path.of(filePath);
-        try {
-            Files.writeString(path, jsonObject.toString());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    /**
-     * writes the currency to the config file
-     * @param currency currency to be written
-     */
-    public void writeCurrencyToConfigFile(String currency)  {
-        writeCurrencyToConfigFileByPath(CONFIG_PATH, currency);
-    }
-
-    /**
-     * writes the currency to the config file by path
-     * @param filePath path to the file
-     * @param currency currency to be written
-     */
-    public void writeCurrencyToConfigFileByPath(String filePath, String currency) {
-        JSONObject jsonObject = new JSONObject(readConfigFile(filePath));
-        JSONObject userObject = jsonObject.getJSONObject("User");
-        userObject.put("Currency", currency);
-
-        Path path = Path.of(filePath);
-        try {
-            Files.writeString(path, jsonObject.toString());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
     /**
      * shows the languageSwitch pages
      *
@@ -610,5 +348,192 @@ public class MainCtrl {
         expenseInfoCtrl.setData();
         primaryStage.setScene(expenseInfoScene);
     }
+
+
+    /**
+     * gets the events that the user has joined from the CONFIG file
+     *
+     * @param path path to the file
+     * @return list of events
+     */
+    public List<Long> getJoinedEventsIDProvidingPath(String path) {
+
+        ConfigFileService service = new ConfigFileService(new ServerUtils());
+        return service.getJoinedEventsIDProvidingPath(path);
+    }
+
+    /**
+     * gets the events that the user has joined from the CONFIG file
+     *
+     * @return list of events
+     */
+    public List<Event> getJoinedEvents() {
+        ConfigFileService service =new ConfigFileService(new ServerUtils());
+        return service.getJoinedEvents();
+    }
+
+    /**
+     * checks if the event is in the config file
+     *
+     * @param event event to be checked
+     * @return true if the event is in the config file
+     */
+    public boolean isEventInConfig(Event event) {
+
+        ConfigFileService service =new ConfigFileService(new ServerUtils());
+        List<Event> eventIds = service.getJoinedEvents();
+        return eventIds.contains(event);
+    }
+
+
+    /**
+     * removes the event from the config file
+     * @param event event to be removed
+     * @return true if the event is removed
+     */
+    public boolean deleteEventFromConfig(Event event){
+
+        ConfigFileService service =new ConfigFileService(new ServerUtils());
+        return service.deleteEventFromConfig(event);
+    }
+
+    /**
+     * removes the event from the config file by path
+     * @param path path to the file
+     * @param event event to be removed
+     * @return true if the event is removed
+     */
+    public boolean deleteEventFromConfigProvidingPath(String path, Event event) {
+
+        ConfigFileService service =new ConfigFileService(new ServerUtils());
+        return service.deleteEventFromConfigProvidingPath(path, event);
+    }
+
+    /**
+     * interacts with the server to get the events that the user has joined
+     *
+     * @param path path to the file
+     * @return list of events
+     */
+    public List<Event> getJoinedEventsProvidingPath(String path)  {
+
+        ConfigFileService service =new ConfigFileService(new ServerUtils());
+        return service.getJoinedEventsProvidingPath(path);
+    }
+
+    /**
+     * gets the language from the CONFIG file
+     * @return the language
+     */
+    public String getLanguage() {
+
+        ConfigFileService service =new ConfigFileService(new ServerUtils());
+        return service.getLanguage();
+    }
+
+    /**
+     * gets the language from the CONFIG file by path
+     * @param path path to the file
+     * @return  the language
+     */
+    public String getLanguageProvidingPath(String path) {
+
+        ConfigFileService service =new ConfigFileService(new ServerUtils());
+        return service.getLanguageProvidingPath(path);
+    }
+
+    /**
+     * gets the currency from the CONFIG file
+     * @return the currency
+     */
+    public String getCurrency()  {
+
+        ConfigFileService service =new ConfigFileService(new ServerUtils());
+        return service.getCurrency();
+    }
+
+    /**
+     * gets the currency from the CONFIG file by path
+     * @param path path to the file
+     * @return  the currency
+     */
+    public String getCurrencyProvidingPath(String path) {
+        ConfigFileService service =new ConfigFileService(new ServerUtils());
+        return service.getCurrencyProvidingPath(path);
+    }
+
+    /**
+     * reads the config file
+     *
+     * @param filePath path to the file
+     * @return the string representation of the file
+     */
+    public String readConfigFile(String filePath) {
+
+        ConfigFileService service =new ConfigFileService(new ServerUtils());
+        return service.readConfigFile(filePath);
+    }
+
+    /**
+     * writes to the config file
+     * @param event event to be written (IN JSON FORMAT)
+     */
+    public void writeEventToConfigFile(Event event)  {
+
+        ConfigFileService service =new ConfigFileService(new ServerUtils());
+        service.writeEventToConfigFile(event);
+    }
+
+    /**
+     * writes to the config file by path
+     * @param filePath path to the file
+     * @param event event to be written (IN JSON FORMAT)
+     */
+    public void writeEventToConfigFileByPath(String filePath, Event event) {
+        ConfigFileService service =new ConfigFileService(new ServerUtils());
+        service.writeEventToConfigFileByPath(filePath, event);
+    }
+
+    /**
+     * writes the language to the config file
+     * @param language language to be written
+     */
+    public void writeLanguageToConfigFile(String language) {
+        ConfigFileService service =new ConfigFileService(new ServerUtils());
+        service.writeLanguageToConfigFile(language);
+    }
+
+    /**
+     * writes the language to the config file by path
+     * @param filePath path to the file
+     * @param language language to be written
+     */
+    public void writeLanguageToConfigFileByPath(String filePath, String language) {
+
+        ConfigFileService service =new ConfigFileService(new ServerUtils());
+        service.writeLanguageToConfigFileByPath(filePath, language);
+    }
+
+    /**
+     * writes the currency to the config file
+     * @param currency currency to be written
+     */
+    public void writeCurrencyToConfigFile(String currency)  {
+        ConfigFileService service =new ConfigFileService(new ServerUtils());
+        service.writeCurrencyToConfigFile(currency);
+    }
+
+    /**
+     * writes the currency to the config file by path
+     * @param filePath path to the file
+     * @param currency currency to be written
+     */
+    public void writeCurrencyToConfigFileByPath(String filePath, String currency) {
+
+        ConfigFileService service =new ConfigFileService(new ServerUtils());
+        service.writeCurrencyToConfigFileByPath(filePath,currency);
+    }
+
+
 
 }

@@ -11,7 +11,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.StringConverter;
-import org.springframework.stereotype.Controller;
 
 import javax.inject.Inject;
 

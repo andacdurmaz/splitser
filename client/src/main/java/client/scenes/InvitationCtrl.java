@@ -2,7 +2,6 @@
 package client.scenes;
 import client.services.InvitationService;
 import com.google.inject.Inject;
-import client.utils.ServerUtils;
 import commons.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

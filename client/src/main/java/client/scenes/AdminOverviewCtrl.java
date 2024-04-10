@@ -16,7 +16,6 @@
 package client.scenes;
 
 import client.services.AdminOverviewService;
-import client.utils.ServerUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Inject;
 import commons.Event;
@@ -34,7 +33,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import org.springframework.stereotype.Controller;
 
 import java.io.File;
 import java.io.IOException;
@@ -42,7 +40,6 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.util.*;
 
-@Controller
 public class AdminOverviewCtrl implements Initializable {
 
     private final AdminOverviewService service;

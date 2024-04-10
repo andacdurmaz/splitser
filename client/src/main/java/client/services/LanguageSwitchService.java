@@ -31,7 +31,7 @@ public class LanguageSwitchService {
 
 
     /**
-     *
+     * @param s locale
      */
     public void setLocale(String s){
         mainCtrl.setLocale(s);

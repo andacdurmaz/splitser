@@ -3,7 +3,6 @@ package client.services;
 import client.scenes.MainCtrl;
 import client.utils.ServerUtils;
 import commons.Event;
-import commons.Expense;
 import commons.User;
 import org.springframework.stereotype.Service;
 
@@ -58,36 +57,6 @@ public class AddOrEditParticipantService {
         mainCtrl.showEventInfo(e);
     }
 
-    /**
-     * @param e Expense
-     */
-    public void addExpense(Expense e){
-        server.addExpense(e);
-    }
-
-    /**
-     * @param e Expense
-     */
-    public void updateExpense(Expense e){
-        server.updateExpense(e);
-    }
-
-    /**
-     * @param id id of user
-     * @return selected user
-     */
-    public User getUserById(Long id){
-        User u = server.getUserById(id);
-        return u;
-    }
-
-    /**
-     * @param s String
-     * @return string
-     */
-    public String getString(String s){
-        return mainCtrl.getBundle().getString(s);
-    }
 
     /**
      * @param u user
@@ -101,7 +70,7 @@ public class AddOrEditParticipantService {
      * @return user
      */
     public User addUser(User u){
-       User user = server.addUser(u);
-       return user;
+        User user = server.addUser(u);
+        return user;
     }
 }

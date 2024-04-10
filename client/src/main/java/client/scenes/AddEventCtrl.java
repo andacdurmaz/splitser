@@ -2,7 +2,6 @@ package client.scenes;
 
 import client.services.AddEventService;
 import com.google.inject.Inject;
-import client.utils.ServerUtils;
 import commons.Event;
 import jakarta.ws.rs.WebApplicationException;
 import javafx.fxml.FXML;

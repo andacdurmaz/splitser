@@ -29,7 +29,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
 import javafx.util.StringConverter;
-import org.springframework.stereotype.Controller;
 
 
 public class StartPageCtrl implements Initializable {
