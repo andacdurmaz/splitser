@@ -1,10 +1,7 @@
 package server.service;
 
 import commons.Debt;
-import commons.Expense;
 import commons.User;
-import commons.exceptions.NoDebtFoundException;
-import commons.exceptions.NoSuchExpenseException;
 import commons.exceptions.NoUserFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;

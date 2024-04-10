@@ -1,16 +1,12 @@
 package server.api;
 
 import commons.Debt;
-import commons.Expense;
-import commons.User;
 import commons.exceptions.NoDebtFoundException;
-import commons.exceptions.NoSuchExpenseException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.service.DebtService;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/debts")
@@ -67,18 +63,10 @@ public class DebtController {
      * @return the response entity
      */
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Debt> deleteDebt(@PathVariable("id") long id) throws NoDebtFoundException {
+    public ResponseEntity<Debt> deleteDebt(@PathVariable("id") long id)
+            throws NoDebtFoundException {
         return service.deleteDebt(id);
     }
-    /**
-     * Gets the final, calculated debts by all participants
-     *
-     * @return map with keys user and double values
-     */
-    @GetMapping("/finalDebts")
-    public ResponseEntity<Map<User, Double>> getFinalDebts() {
-        Map<User, Double> debts = service.finalDebts();
-        return ResponseEntity.ok(debts);
-    }
+
 
 }

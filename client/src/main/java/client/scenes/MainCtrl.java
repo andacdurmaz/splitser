@@ -49,7 +49,7 @@ import java.util.ResourceBundle;
 
 
 public class MainCtrl {
-    private static final String CONFIG_PATH = "C:/Users/andac/oopp-team-06/client/src/main/resources/CONFIG.json";
+    private static final String CONFIG_PATH = "client/src/main/resources/CONFIG.json";
 
     private Stage primaryStage;
     private Stage popupStage;
@@ -630,15 +630,34 @@ public class MainCtrl {
         primaryStage.setScene(expenseInfoScene);
     }
 
-
+    /**
+     * shows the page with the debts of an event
+     * @param event of the page
+     */
     public void showSettleDebts(Event event) {
         var settleDebts = Main.FXML.load(SettleDebtsCtrl.class, bundle, "client",
-        "scenes", "SettleDebts.fxml");
+            "scenes", "SettleDebts.fxml");
         SettleDebtsCtrl settleDebtsCtrl = settleDebts.getKey();
         Scene settleDebtsScene = new Scene(settleDebts.getValue());
         settleDebtsCtrl.setEvent(event);
         settleDebtsCtrl.setData();
         primaryStage.setTitle("Settle Debts");
         primaryStage.setScene(settleDebtsScene);
+    }
+
+    /**
+     * shows the UserDebts page
+     * @param list of the payments
+     * @param event of the debts
+     * @param user that will make the payment
+     */
+    public void showUserDebts(List<String> list, Event event, User user) {
+        var userDebts = Main.FXML.load(UserDebtCtrl.class, bundle, "client",
+                "scenes", "UserDebt.fxml");
+        UserDebtCtrl userDebtCtrl = userDebts.getKey();
+        Scene userDebtScene = new Scene(userDebts.getValue());
+        userDebtCtrl.setData(list, event, user);
+        primaryStage.setTitle("User Debts");
+        primaryStage.setScene(userDebtScene);
     }
 }

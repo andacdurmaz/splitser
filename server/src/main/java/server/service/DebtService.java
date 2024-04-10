@@ -2,17 +2,13 @@ package server.service;
 
 import commons.Debt;
 import commons.Event;
-import commons.Expense;
 import commons.User;
 import commons.exceptions.NoDebtFoundException;
-import commons.exceptions.NoSuchExpenseException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import server.database.DebtRepository;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -84,6 +80,7 @@ public class DebtService {
      * @param payer  the id of the payer
      * @param payee  the id of the payee
      * @param amount the amount of the debt
+     * @return the new debt
      */
     public Debt addDebt(User payer, User payee, Double amount) {
         List<Debt> list = repo.findAll();
@@ -93,17 +90,13 @@ public class DebtService {
         return debt;
     }
 
-    /**
-     * removes a debt from the database
-     *
-     * @param payer the id of the payer
-     * @param payee the id of the payee
-     * @throws NoDebtFoundException thrown if no such debt exists
-     */
-    public void deleteDebtByPayerAndPayee(User payer, User payee) throws NoDebtFoundException {
-        repo.deleteByPayerAndPayee(payer, payee);
-    }
 
+    /**
+     * deletes a debt from the database
+     * @param id of the deleted debt
+     * @return the deleted debt
+     * @throws NoDebtFoundException if no debt with such id is found
+     */
     public ResponseEntity<Debt> deleteDebt(long id) throws NoDebtFoundException {
         if (!existsById(id)) {
             return ResponseEntity.badRequest().build();
@@ -123,29 +116,20 @@ public class DebtService {
     }
 
     /**
-     * Calculates the money each person owns
-     *
-     * @return hashMap with money owned to the group per participant
+     * arranges the debts when a new debt is added
+     * @param debt the added debt
+     * @return the new debt
+     * @throws NoDebtFoundException if no such debt is found
      */
-    public Map<User, Double> finalDebts() {
-        List<Debt> allDebts = repo.findAll();
-        Map<User, Double> res = new HashMap<>();
-        for (Debt debt : allDebts) {
-            User payer = debt.getPayer();
-            User payee = debt.getPayee();
-            Double amount = debt.getAmount();
-            res.put(payer, res.getOrDefault(payer, 0.0) - amount);
-            res.put(payee, res.getOrDefault(payee, 0.0) + amount);
-        }
-        return res;
-    }
-
     public ResponseEntity<Debt> settleDebt(Debt debt) throws NoDebtFoundException {
         Event e = debt.getEvent();
-        List<Debt> eventDebts = findAll().stream().filter(q -> q.getEvent().equals(e)).toList();
+        List<Debt> eventDebts = findAll()
+                .stream().filter(q -> q.getEvent().equals(e)).toList();
         Optional<Debt> existingDebt = eventDebts.stream()
-                .filter(q -> q.getPayer().equals(debt.getPayer()) || q.getPayee().equals(debt.getPayer()))
-                .findFirst();
+                .filter(q ->( (q.getPayer().equals(debt.getPayer())
+                        && q.getPayee().equals(debt.getPayee())) ||
+                        (q.getPayee().equals(debt.getPayer())
+                                && q.getPayer().equals(debt.getPayee())) )).findFirst();
         if (existingDebt.isPresent()) {
             Debt oldDebt = existingDebt.get();
             if (debt.getPayer().equals(oldDebt.getPayer())) {

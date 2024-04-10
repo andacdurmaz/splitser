@@ -441,15 +441,12 @@ public class AddOrEditExpenseCtrl implements Initializable {
         if (expense != null) {
             payer.setValue(expense.getPayer());
             expenseTag.getSelectionModel().select(expense.getExpenseTag());
+            okButton.setText("Edit");
         }
         else {
             payer.setValue(event.getParticipants().get(0));
             expenseTag.setValue(event.getExpenseTags().get(0));
-        }
-        if (expense == null) {
             okButton.setText(mainCtrl.getBundle().getString("add"));
-        } else {
-            okButton.setText("Edit");
         }
     }
 

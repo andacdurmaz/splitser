@@ -481,6 +481,11 @@ public class ServerUtils extends Util {
         DELEXPENSE.shutdownNow();
     }
 
+    /**
+     * adds a debt to the database
+     * @param debt the added debt
+     * @return the added debt
+     */
     public Debt addDebt(Debt debt) {
         Response response = ClientBuilder.newClient(new ClientConfig()) //
                 .target(serverAddress).path("api/debts/add") //
@@ -492,6 +497,10 @@ public class ServerUtils extends Util {
         return debt1;
     }
 
+    /**
+     * gets all the debts from the database
+     * @return the list of the debts
+     */
     public List<Debt> getDebts() {
         return ClientBuilder.newClient(new ClientConfig())
                 .target(serverAddress).path("api/debts")
@@ -500,12 +509,4 @@ public class ServerUtils extends Util {
                 });
     }
 
-
-    public void deleteDebt(Debt debt) {
-        ClientBuilder.newClient(new ClientConfig()) //
-                .target(serverAddress).path("api/debts/delete/" + debt.getId()) //
-                .request(APPLICATION_JSON) //
-                .accept(APPLICATION_JSON) //
-                .delete();
-    }
 }

@@ -480,6 +480,10 @@ public class EventInfoCtrl {
         setData(e);
     }
 
+    /**
+     * opens the settle debts page
+     * @param actionEvent when the button is clicked
+     */
     public void settleDebts(ActionEvent actionEvent) {
         service.getMainCtrl().showSettleDebts(event);
     }
