@@ -49,7 +49,7 @@ import java.util.ResourceBundle;
 
 
 public class MainCtrl {
-    private static final String CONFIG_PATH = "src/main/resources/CONFIG.json";
+    private static final String CONFIG_PATH = "C:/Users/andac/oopp-team-06/client/src/main/resources/CONFIG.json";
 
     private Stage primaryStage;
     private Stage popupStage;
@@ -630,4 +630,15 @@ public class MainCtrl {
         primaryStage.setScene(expenseInfoScene);
     }
 
+
+    public void showSettleDebts(Event event) {
+        var settleDebts = Main.FXML.load(SettleDebtsCtrl.class, bundle, "client",
+        "scenes", "SettleDebts.fxml");
+        SettleDebtsCtrl settleDebtsCtrl = settleDebts.getKey();
+        Scene settleDebtsScene = new Scene(settleDebts.getValue());
+        settleDebtsCtrl.setEvent(event);
+        settleDebtsCtrl.setData();
+        primaryStage.setTitle("Settle Debts");
+        primaryStage.setScene(settleDebtsScene);
+    }
 }

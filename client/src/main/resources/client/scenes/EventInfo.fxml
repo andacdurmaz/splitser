@@ -84,6 +84,7 @@
             <Button fx:id="noParticipantErrButton" layoutX="264.0" layoutY="277.0" mnemonicParsing="false" onAction="#noParticipantErr" prefHeight="26.0" prefWidth="150.0" text="%ok" />
          </children>
       </AnchorPane>
+      <Button layoutX="361.0" layoutY="364.0" mnemonicParsing="false" onAction="#settleDebts" text="debts" />
 
 
    </children>

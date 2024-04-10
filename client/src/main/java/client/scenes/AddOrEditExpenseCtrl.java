@@ -1,10 +1,7 @@
 package client.scenes;
 
 import client.utils.ServerUtils;
-import commons.Event;
-import commons.Expense;
-import commons.ExpenseTag;
-import commons.User;
+import commons.*;
 import jakarta.ws.rs.WebApplicationException;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -240,6 +237,15 @@ public class AddOrEditExpenseCtrl implements Initializable {
             }
             event.setExpenses(expenses);
             server.updateEvent(event);
+            for (User u : expense.getPayingParticipants()) {
+                double debtAmount = expense.getAmount()/expense.getPayingParticipants().size();
+                Debt debt = new Debt(u, expense.getPayer(), debtAmount, event);
+                server.addDebt(debt);
+                List<Debt> debts = new ArrayList<>(u.getDebts());
+                debts.add(debt);
+                u.setDebts(debts);
+                server.updateUser(u);
+            }
             clearFields();
             mainCtrl.showEventInfo(event);
         } else {
@@ -275,6 +281,15 @@ public class AddOrEditExpenseCtrl implements Initializable {
             expenses.add(expense);
             event.setExpenses(expenses);
             server.updateEvent(event);
+            for (User u : expense.getPayingParticipants()) {
+                double debtAmount = expense.getAmount()/expense.getPayingParticipants().size();
+                Debt debt = new Debt(u, expense.getPayer(), debtAmount, event);
+                server.addDebt(debt);
+                List<Debt> debts = new ArrayList<>(u.getDebts());
+                debts.add(debt);
+                u.setDebts(debts);
+                server.updateUser(u);
+            }
             mainCtrl.showEventInfo(event);
         } catch (WebApplicationException e) {
             var alert = new Alert(Alert.AlertType.ERROR);
@@ -408,8 +423,9 @@ public class AddOrEditExpenseCtrl implements Initializable {
             someParticipantsSelector.getChildren()
                     .add(new CheckBox(u.getUsername() + "(id: " + u.getUserID() + ")"));
         }
-        excludePayerFromVBox(expense.getPayer());
         if (expense != null) {
+            excludePayerFromVBox(expense.getPayer());
+
             List<Long> ids = expense.getPayingParticipants()
                     .stream().map(q -> q.getUserID()).toList();
             for (Node n : someParticipantsSelector.getChildren()) {
@@ -422,8 +438,14 @@ public class AddOrEditExpenseCtrl implements Initializable {
             }
         }
         payer.setItems(FXCollections.observableList(event.getParticipants()));
-        payer.setValue(event.getParticipants().get(0));
-        expenseTag.setValue(event.getExpenseTags().get(0));
+        if (expense != null) {
+            payer.setValue(expense.getPayer());
+            expenseTag.getSelectionModel().select(expense.getExpenseTag());
+        }
+        else {
+            payer.setValue(event.getParticipants().get(0));
+            expenseTag.setValue(event.getExpenseTags().get(0));
+        }
         if (expense == null) {
             okButton.setText(mainCtrl.getBundle().getString("add"));
         } else {
@@ -444,10 +466,8 @@ public class AddOrEditExpenseCtrl implements Initializable {
             expenseTag.setValue(expense.getExpenseTag());
             howMuch.setText(String.valueOf(expense.getAmount()));
             currency.setValue(null);
-            payer.setValue(expense.getPayer());
             whatFor.setText(expense.getName());
             when.setValue(expense.getDate());
-            expenseTag.getSelectionModel().select(expense.getExpenseTag());
             if (expense.getPayingParticipants().size() == event.getParticipants().size() - 1) {
                 allParticipants.setSelected(true);
                 someParticipants.setSelected(false);

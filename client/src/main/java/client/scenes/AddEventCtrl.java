@@ -105,16 +105,16 @@ public class AddEventCtrl {
         event.setEventCode(eventCode);
         if (description.getText() != null)
             event.setDescription(description.getText());
-        ExpenseTag tag1 = new ExpenseTag("Food","#008000");
-        ExpenseTag tag2 = new ExpenseTag("Entrance Fees","#0000FF");
-        ExpenseTag tag3 = new ExpenseTag("Travel","#FF0000");
-        ExpenseTag tag4 = new ExpenseTag("Others","#d3d3d3");
-        List<ExpenseTag> expenseTags = new ArrayList<>();
-        expenseTags.add(tag1);
-        expenseTags.add(tag2);
-        expenseTags.add(tag3);
-        expenseTags.add(tag4);
-        event.setExpenseTags(expenseTags);
+//        ExpenseTag tag1 = new ExpenseTag("Food","#008000");
+//        ExpenseTag tag2 = new ExpenseTag("Entrance Fees","#0000FF");
+//        ExpenseTag tag3 = new ExpenseTag("Travel","#FF0000");
+//        ExpenseTag tag4 = new ExpenseTag("Others","#d3d3d3");
+//        List<ExpenseTag> expenseTags = new ArrayList<>();
+//        expenseTags.add(tag1);
+//        expenseTags.add(tag2);
+//        expenseTags.add(tag3);
+//        expenseTags.add(tag4);
+//        event.setExpenseTags(expenseTags);
         return event;
     }
 

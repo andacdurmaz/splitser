@@ -1,14 +1,19 @@
 package server.service;
 
 import commons.Debt;
+import commons.Event;
+import commons.Expense;
 import commons.User;
 import commons.exceptions.NoDebtFoundException;
+import commons.exceptions.NoSuchExpenseException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import server.database.DebtRepository;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class DebtService {
@@ -80,10 +85,12 @@ public class DebtService {
      * @param payee  the id of the payee
      * @param amount the amount of the debt
      */
-    public void addDebt(User payer, User payee, Double amount) {
+    public Debt addDebt(User payer, User payee, Double amount) {
         List<Debt> list = repo.findAll();
-        list.add(new Debt(payer, payee, amount));
+        Debt debt = new Debt(payer, payee, amount);
+        list.add(debt);
         repo.saveAll(list);
+        return debt;
     }
 
     /**
@@ -93,8 +100,16 @@ public class DebtService {
      * @param payee the id of the payee
      * @throws NoDebtFoundException thrown if no such debt exists
      */
-    public void deleteDebt(User payer, User payee) throws NoDebtFoundException {
+    public void deleteDebtByPayerAndPayee(User payer, User payee) throws NoDebtFoundException {
         repo.deleteByPayerAndPayee(payer, payee);
+    }
+
+    public ResponseEntity<Debt> deleteDebt(long id) throws NoDebtFoundException {
+        if (!existsById(id)) {
+            return ResponseEntity.badRequest().build();
+        }
+        repo.deleteById(id);
+        return ResponseEntity.ok().build();
     }
 
     /**
@@ -123,6 +138,49 @@ public class DebtService {
             res.put(payee, res.getOrDefault(payee, 0.0) + amount);
         }
         return res;
+    }
+
+    public ResponseEntity<Debt> settleDebt(Debt debt) throws NoDebtFoundException {
+        Event e = debt.getEvent();
+        List<Debt> eventDebts = findAll().stream().filter(q -> q.getEvent().equals(e)).toList();
+        Optional<Debt> existingDebt = eventDebts.stream()
+                .filter(q -> q.getPayer().equals(debt.getPayer()) || q.getPayee().equals(debt.getPayer()))
+                .findFirst();
+        if (existingDebt.isPresent()) {
+            Debt oldDebt = existingDebt.get();
+            if (debt.getPayer().equals(oldDebt.getPayer())) {
+                oldDebt.setAmount(oldDebt.getAmount() + debt.getAmount());
+                Debt saved = oldDebt;
+                save(saved);
+                return ResponseEntity.ok(oldDebt);
+            }
+            else {
+                double oldAmount = oldDebt.getAmount();
+                double amount = debt.getAmount();
+                if (oldAmount < amount) {
+                    deleteDebt(oldDebt.getId());
+                    Debt saved = new Debt(oldDebt.getPayee(), oldDebt.getPayer(),
+                            amount - oldAmount, debt.getEvent());
+                    saved.setId(oldDebt.getId());
+                    save(saved);
+                    return ResponseEntity.ok(saved);
+
+                }
+                else if (oldAmount > amount) {
+                    oldDebt.setAmount(oldAmount - amount);
+                    Debt saved = oldDebt;
+                    save(saved);
+                    return ResponseEntity.ok(oldDebt);
+                }
+                else {
+                    deleteDebt(oldDebt.getId());
+                    return ResponseEntity.ok(null);
+                }
+            }
+        }
+        Debt saved = debt;
+        save(saved);
+        return ResponseEntity.ok(saved);
     }
 
 }

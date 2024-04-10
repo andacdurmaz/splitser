@@ -479,4 +479,8 @@ public class EventInfoCtrl {
         setEvent(e);
         setData(e);
     }
+
+    public void settleDebts(ActionEvent actionEvent) {
+        service.getMainCtrl().showSettleDebts(event);
+    }
 }

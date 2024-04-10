@@ -312,6 +312,10 @@ public class ServerUtils extends Util {
                 .get(new GenericType<User>() {
                 });
     }
+
+
+
+
     /**
      * updates given event
      *
@@ -477,4 +481,31 @@ public class ServerUtils extends Util {
         DELEXPENSE.shutdownNow();
     }
 
+    public Debt addDebt(Debt debt) {
+        Response response = ClientBuilder.newClient(new ClientConfig()) //
+                .target(serverAddress).path("api/debts/add") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .post(Entity.entity(debt, APPLICATION_JSON));
+        Debt debt1 = response.readEntity(new GenericType<>() {
+        });
+        return debt1;
+    }
+
+    public List<Debt> getDebts() {
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(serverAddress).path("api/debts")
+                .request(APPLICATION_JSON).accept(APPLICATION_JSON)
+                .get(new GenericType<List<Debt>>() {
+                });
+    }
+
+
+    public void deleteDebt(Debt debt) {
+        ClientBuilder.newClient(new ClientConfig()) //
+                .target(serverAddress).path("api/debts/delete/" + debt.getId()) //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .delete();
+    }
 }
