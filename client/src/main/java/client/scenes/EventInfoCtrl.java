@@ -204,9 +204,8 @@ public class EventInfoCtrl {
 
     /**
      * adds a new expense to database and event
-     * @param actionEvent when the button is clicked
      */
-    public void addExpense(ActionEvent actionEvent){
+    public void addExpense(){
         if(this.event.getParticipants().size() < 2) {
             ((Label) noParticipantPane.getChildren().get(0))
                     .setText("        Make sure you have at least two participants." +
@@ -237,9 +236,8 @@ public class EventInfoCtrl {
     }
     /**
      * adds a new expense to database and event
-     * @param actionEvent when the button is clicked
      */
-    public void addParticipant(ActionEvent actionEvent){
+    public void addParticipant(){
         selectedParticipant = null;
         service.getMainCtrl().showAddOrEditParticipants(selectedParticipant, event);
     }
@@ -284,7 +282,8 @@ public class EventInfoCtrl {
      */
     public void keyPressed(KeyEvent e) {
         KeyCombination addExpenseTagShortcut = new KeyCodeCombination(KeyCode.T,KeyCombination.CONTROL_DOWN);
-
+        KeyCombination addParticipantTagShortcut = new KeyCodeCombination(KeyCode.P,KeyCombination.CONTROL_DOWN);
+        KeyCombination addExpenseShortCut = new KeyCodeCombination(KeyCode.E,KeyCombination.CONTROL_DOWN);
 
         switch (e.getCode()) {
             case ENTER:
@@ -307,6 +306,14 @@ public class EventInfoCtrl {
         if (addExpenseTagShortcut.match(e)) {
             System.out.println("Combination Pressed: " + addExpenseTagShortcut);
             addExpenseTag();
+        }
+        if (addParticipantTagShortcut.match(e)) {
+            System.out.println("Combination Pressed: " + addParticipantTagShortcut);
+            addParticipant();
+        }
+        if (addExpenseTagShortcut.match(e)) {
+            System.out.println("Combination Pressed: " + addExpenseTagShortcut);
+            addExpense();
         }
     }
 
