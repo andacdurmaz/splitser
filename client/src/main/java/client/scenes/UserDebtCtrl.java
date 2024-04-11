@@ -147,7 +147,7 @@ public class UserDebtCtrl {
             if (!expenses.contains(expense)) {
                 expenses.add(expense);
             }
-            Debt debt = new Debt( server.getUserById(payeeId),server.getUserById(payerId), amount, event);
+            Debt debt = new Debt(user, server.getUserById(payerId), amount, event);
             server.addDebt(debt);
             event.setExpenses(expenses);
             server.updateEvent(event);
