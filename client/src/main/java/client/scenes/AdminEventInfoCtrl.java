@@ -16,7 +16,6 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Optional;
 
 public class AdminEventInfoCtrl {
@@ -69,7 +68,8 @@ public class AdminEventInfoCtrl {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle(mainCtrl.getBundle().getString("download"));
                 alert.setHeaderText(mainCtrl.getBundle().getString("download_successful"));
-                alert.setContentText(mainCtrl.getBundle().getString("download_successful_at") + file.getAbsolutePath());
+                alert.setContentText(mainCtrl.getBundle()
+                        .getString("download_successful_at") + file.getAbsolutePath());
 
                 alert.showAndWait();
 
@@ -114,7 +114,8 @@ public class AdminEventInfoCtrl {
             server.deleteEvent(currentEvent);
             Alert message = new Alert(Alert.AlertType.INFORMATION);
             message.setTitle(mainCtrl.getBundle().getString("event-deleted-successfully"));
-            message.setHeaderText("'"+ eventTitle +"' " +mainCtrl.getBundle().getString("event-deleted-successfully"));
+            message.setHeaderText("'"+ eventTitle +"' " +mainCtrl.getBundle()
+                    .getString("event-deleted-successfully"));
             message.show();
             mainCtrl.showAdminOverview();
         }
