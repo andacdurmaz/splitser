@@ -53,4 +53,13 @@ public class AdminOverviewService {
     public void showStartPage(){
         mainCtrl.showStartPage();
     }
+
+
+    /**
+     * @param s String
+     * @return string
+     */
+    public String getString(String s){
+        return mainCtrl.getBundle().getString(s);
+    }
 }

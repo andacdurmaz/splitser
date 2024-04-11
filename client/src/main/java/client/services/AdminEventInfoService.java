@@ -61,4 +61,13 @@ public class AdminEventInfoService {
         server.deleteEvent(e);
     }
 
+
+    /**
+     * @param s String
+     * @return string
+     */
+    public String getString(String s){
+        return mainCtrl.getBundle().getString(s);
+    }
+
 }

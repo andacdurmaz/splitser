@@ -64,9 +64,9 @@ public class AdminEventInfoCtrl {
                 mapper.writeValue(file, currentEvent);
 
                 System.out.println("File created successfully at: " + file.getAbsolutePath());
-                adminDownloadButton.setText(mainCtrl.getBundle().getString("download_successful"));
+                adminDownloadButton.setText(service.getString("download_successful"));
             } catch (IOException ex) {
-                adminDownloadButton.setText(mainCtrl.getBundle().getString("download-failed"));
+                adminDownloadButton.setText(service.getString("download-failed"));
             }
         }
     };
@@ -87,12 +87,12 @@ public class AdminEventInfoCtrl {
      */
     public void deleteEvent() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle(mainCtrl.getBundle().getString("are-you-sure"));
-        alert.setHeaderText(mainCtrl.getBundle().getString("you-are-about-to-delete-a-event"));
-        alert.setContentText(mainCtrl.getBundle().getString("are-you-sure"));
+        alert.setTitle(service.getString("are-you-sure"));
+        alert.setHeaderText(service.getString("you-are-about-to-delete-a-event"));
+        alert.setContentText(service.getString("are-you-sure"));
 
-        ButtonType buttonTypeOK = new ButtonType(mainCtrl.getBundle().getString("yes"));
-        ButtonType buttonTypeCancel = new ButtonType(mainCtrl.getBundle().getString("no"));
+        ButtonType buttonTypeOK = new ButtonType(service.getString("yes"));
+        ButtonType buttonTypeCancel = new ButtonType(service.getString("no"));
         alert.getButtonTypes().setAll(buttonTypeOK, buttonTypeCancel);
 
         Optional<ButtonType> result = alert.showAndWait();

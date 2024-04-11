@@ -84,9 +84,9 @@ public class AdminOverviewCtrl implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        optionTitle = mainCtrl.getBundle().getString("title");
-        optionDate = mainCtrl.getBundle().getString("creation-date");
-        optionActivity = mainCtrl.getBundle().getString("last-activity");
+        optionTitle = service.getString("title");
+        optionDate = service.getString("creation-date");
+        optionActivity = service.getString("last-activity");
 
         colEventId.setCellValueFactory(q ->
                 new SimpleStringProperty(String.valueOf(q.getValue().getId())));

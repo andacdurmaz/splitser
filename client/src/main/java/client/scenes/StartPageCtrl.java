@@ -93,7 +93,9 @@ public class StartPageCtrl implements Initializable {
         joinedEvents.setCellFactory(param -> new TextFieldListCell<>(new StringConverter<Event>() {
             @Override
             public String toString(Event object) {
-                return object.getTitle();
+                if(object != null)
+                    return object.getTitle();
+                return "null";
             }
 
             @Override

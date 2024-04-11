@@ -3,7 +3,6 @@ package client.scenes;
 import client.services.AddEventService;
 import com.google.inject.Inject;
 import commons.Event;
-import commons.ExpenseTag;
 import jakarta.ws.rs.WebApplicationException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,9 +12,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
-import org.springframework.stereotype.Controller;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
