@@ -270,14 +270,14 @@ public class AdminOverviewCtrl implements Initializable {
             Long lastExpenseId1;
             Long lastExpenseId2;
             if(s1.getExpenses().isEmpty() && !s2.getExpenses().isEmpty())
-                return -1;
+                return 1;
             else if(!s1.getExpenses().isEmpty() && s2.getExpenses().isEmpty())
                 return -1;
             else if(!s1.getExpenses().isEmpty() && !s2.getExpenses().isEmpty()){
                 lastExpenseId1 = s1.getExpenses().getLast().getId();
                 lastExpenseId2 = s2.getExpenses().getLast().getId();
 
-                return lastExpenseId1.compareTo(lastExpenseId2);}
+                return lastExpenseId2.compareTo(lastExpenseId1);}
             else
                 return 0;
         }};
