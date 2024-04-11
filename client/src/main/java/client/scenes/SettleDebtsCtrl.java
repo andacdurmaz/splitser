@@ -204,7 +204,9 @@ public class SettleDebtsCtrl {
         participants.setConverter(new StringConverter<>() {
             @Override
             public String toString(User user) {
-                return user.getUsername();
+                if (user != null)
+                    return user.getUsername();
+                return null;
             }
             @Override
             public User fromString(String string) {

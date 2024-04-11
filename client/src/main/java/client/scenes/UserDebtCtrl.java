@@ -1,6 +1,7 @@
 package client.scenes;
 
 import client.utils.ServerUtils;
+import commons.Debt;
 import commons.Event;
 import commons.Expense;
 import commons.User;
@@ -9,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TitledPane;
 import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -39,7 +41,7 @@ public class UserDebtCtrl {
     @FXML
     private Button details;
     @FXML
-    private AnchorPane showedDetails;
+    private TitledPane showedDetails;
     /**
      * constructor for the page
      * @param server for accessing the database
@@ -80,7 +82,7 @@ public class UserDebtCtrl {
         this.user = user;
         this.event = event;
         details.setText("Show Details");
-        showedDetails.getChildren().get(0).setVisible(false);
+        //showedDetails.getChildren().get(0).setVisible(false);
         payButton.setDisable(false);
         goBack.setDisable(false);
         error.setVisible(false);
@@ -145,6 +147,8 @@ public class UserDebtCtrl {
             if (!expenses.contains(expense)) {
                 expenses.add(expense);
             }
+            Debt debt = new Debt( server.getUserById(payeeId),server.getUserById(payerId), amount, event);
+            server.addDebt(debt);
             event.setExpenses(expenses);
             server.updateEvent(event);
             payments.getItems().remove(selectedDebt);
@@ -212,18 +216,17 @@ public class UserDebtCtrl {
                 int payeeId = Integer.parseInt(scanner.next());
                 double amount = Double.parseDouble(scanner.next());
                 User payee = server.getUserById(payeeId);
-                showedDetails.getChildren().get(0).setVisible(true);
-                ((Label)showedDetails.getChildren().get(0))
-                        .setText(payee.getUsername() + "\nIBAN: " + payee.getIban()
-                    + "\nBIC: " + payee.getBic());
+                Label contentLabel = new Label(payee.getUsername() + "\nIBAN: " + payee.getIban()
+                        + "\nBIC: " + payee.getBic());
+                showedDetails.setContent(contentLabel);
+                showedDetails.setExpanded(true);
                 details.setText("Hide Details");
-            }
-            else
+            } else {
                 errorMessage();
-        }
-        else {
+            }
+        } else {
             details.setText("Show Details");
-            showedDetails.getChildren().get(0).setVisible(false);
+            showedDetails.setExpanded(false);
         }
     }
 }

@@ -6,6 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
+<?import javafx.scene.control.TitledPane?>
 <AnchorPane prefHeight="385.0" prefWidth="561.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.UserDebtCtrl">
    <children>
       <Label layoutX="129.0" layoutY="24.0" text="PAYMENT INSTRUCTIONS">
@@ -29,11 +30,9 @@
          </children>
       </AnchorPane>
       <Button fx:id="details" layoutX="193.0" layoutY="313.0" mnemonicParsing="false" onAction="#showHideDetails" text="Show Details" />
-      <AnchorPane fx:id="showedDetails" layoutX="360.0" layoutY="100.0" prefHeight="122.0" prefWidth="157.0" style="-fx-border-color: gray;">
-         <children>
-            <Label layoutX="7.0" layoutY="5.0" />
-         </children>
-      </AnchorPane>
+      <TitledPane fx:id="showedDetails" layoutX="360.0" layoutY="100.0" prefHeight="122.0" prefWidth="157.0" style="-fx-border-color: gray;">
+
+      </TitledPane>
       <Label layoutX="133.0" layoutY="77.0" text="Debts">
          <font>
             <Font size="14.0" />
