@@ -3,7 +3,6 @@ package client.scenes;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Event;
-import commons.ExpenseTag;
 import jakarta.ws.rs.WebApplicationException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,7 +13,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -70,12 +68,17 @@ public class AddEventCtrl {
         try {
             Event tmp = server.addEvent(newEvent);
             newEvent.setId(tmp.getId());
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("New Event Created Successfully!");
+            alert.setHeaderText(null);
+            alert.setContentText("Successfully created new Event: " + newEvent.getTitle());
+            alert.showAndWait();
             mainCtrl.writeEventToConfigFile(newEvent);
         } catch (WebApplicationException e) {
-            var alert = new Alert(Alert.AlertType.ERROR);
-            alert.initModality(Modality.APPLICATION_MODAL);
-            alert.setContentText(e.getMessage());
-            alert.showAndWait();
+            var alertError = new Alert(Alert.AlertType.ERROR);
+            alertError.initModality(Modality.APPLICATION_MODAL);
+            alertError.setContentText(e.getMessage());
+            alertError.showAndWait();
             return;
         }
         clearFields();
@@ -105,16 +108,6 @@ public class AddEventCtrl {
         event.setEventCode(eventCode);
         if (description.getText() != null)
             event.setDescription(description.getText());
-        ExpenseTag tag1 = new ExpenseTag("Food","#008000");
-        ExpenseTag tag2 = new ExpenseTag("Entrance Fees","#0000FF");
-        ExpenseTag tag3 = new ExpenseTag("Travel","#FF0000");
-        ExpenseTag tag4 = new ExpenseTag("Others","#d3d3d3");
-        List<ExpenseTag> expenseTags = new ArrayList<>();
-        expenseTags.add(tag1);
-        expenseTags.add(tag2);
-        expenseTags.add(tag3);
-        expenseTags.add(tag4);
-        event.setExpenseTags(expenseTags);
         return event;
     }
 
@@ -122,13 +115,18 @@ public class AddEventCtrl {
      * sends a popup for the title requirement
      */
     private void errorMessage() {
-        error.toFront();
-        error.setVisible(true);
-        error.getChildren().get(0).setVisible(true);
-        error.getChildren().get(1).setVisible(true);
-        ok.setDisable(true);
-        cancel.setDisable(true);
+        var alertError = new Alert(Alert.AlertType.ERROR);
+        alertError.setTitle("Missing Event Title!");
+        alertError.setHeaderText(null);
+        alertError.setContentText("A title is required for the event!");
+        alertError.showAndWait();
 
+//        error.toFront();
+//        error.setVisible(true);
+//        error.getChildren().get(0).setVisible(true);
+//        error.getChildren().get(1).setVisible(true);
+//        ok.setDisable(true);
+//        cancel.setDisable(true);
     }
 
     /**

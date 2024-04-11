@@ -19,7 +19,7 @@
       </Label>
 
       <Label fx:id="participantsLabel" disable="true" layoutX="24.0" layoutY="148.0" prefHeight="18.0" prefWidth="160.0" text="%participants-list" />
-      <Button id="addParticipant" layoutX="148.0" layoutY="122.0" mnemonicParsing="false" onAction="#addParticipant" text="%add" />
+      <Button fx:id="addParticipant" layoutX="148.0" layoutY="122.0" mnemonicParsing="false" onAction="#addParticipant" text="%add" />
       <ComboBox fx:id="participantCombobox" layoutX="198.0" layoutY="122.0" onAction="#selectParticipant" prefWidth="150.0" promptText="%participants" />
       <Button id="editParticipant" layoutX="231.0" layoutY="153.0" mnemonicParsing="false" onAction="#editParticipant" text="%edit" />
       <Button id="deleteParticipant" layoutX="273.0" layoutY="153.0" mnemonicParsing="false" onAction="#deleteParticipant" text="%delete" />

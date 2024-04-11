@@ -10,10 +10,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.StringConverter;
+
 import javax.inject.Inject;
 import java.util.List;
 
@@ -65,6 +65,8 @@ public class EventInfoCtrl {
     private Button statistics;
     @FXML
     private Button expenseTag;
+    @FXML
+    private Button addParticipant;
 
     /**
      * Constructor
@@ -139,6 +141,9 @@ public class EventInfoCtrl {
         service.getServer().registerForSocketMessages("/updates/events", Event.class, e -> {
             Platform.runLater(() -> refresh());
         });
+
+
+
     }
 
     /**
@@ -278,13 +283,16 @@ public class EventInfoCtrl {
      * @param e
      */
     public void keyPressed(KeyEvent e) {
+        KeyCombination addExpenseTagShortcut = new KeyCodeCombination(KeyCode.T,KeyCombination.CONTROL_DOWN);
+
+
         switch (e.getCode()) {
             case ENTER:
-                if(participantCombobox.isFocused()) {
+                if (participantCombobox.isFocused()) {
                     participantCombobox.show();
                     break;
                 }
-                if(expenseComboBox.isFocused()) {
+                if (expenseComboBox.isFocused()) {
                     expenseComboBox.show();
                     break;
                 }
@@ -292,8 +300,13 @@ public class EventInfoCtrl {
             case ESCAPE:
 
                 break;
+
             default:
                 break;
+        }
+        if (addExpenseTagShortcut.match(e)) {
+            System.out.println("Combination Pressed: " + addExpenseTagShortcut);
+            addExpenseTag();
         }
     }
 
@@ -479,4 +492,5 @@ public class EventInfoCtrl {
         setEvent(e);
         setData(e);
     }
+
 }
