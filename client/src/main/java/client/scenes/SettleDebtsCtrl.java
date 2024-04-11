@@ -12,7 +12,6 @@ import javafx.scene.control.Label;
 import javafx.util.StringConverter;
 
 import javax.inject.Inject;
-import java.awt.*;
 import java.util.*;
 import java.util.List;
 
@@ -230,5 +229,13 @@ public class SettleDebtsCtrl {
         debtsListView.setCellFactory(listView -> new DebtListCell());
         settleDebtButton.setOnAction(event -> handleSettleDebt());
         backButton.setOnAction(event -> handleBack());
+    }
+
+    /**
+     * removes a participant from the combobox
+     * @param user the removed participant
+     */
+    public void removeOpenDebt(User user) {
+        participants.getItems().remove(user);
     }
 }

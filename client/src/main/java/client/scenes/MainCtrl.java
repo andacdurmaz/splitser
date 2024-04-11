@@ -49,7 +49,7 @@ import java.util.ResourceBundle;
 
 
 public class MainCtrl {
-    private static final String CONFIG_PATH = "client/src/main/resources/CONFIG.json";
+    private static final String CONFIG_PATH = "src/main/resources/CONFIG.json";
 
     private Stage primaryStage;
     private Stage popupStage;
@@ -659,5 +659,22 @@ public class MainCtrl {
         userDebtCtrl.setData(list, event, user);
         primaryStage.setTitle("User Debts");
         primaryStage.setScene(userDebtScene);
+    }
+
+    /**
+     * opens the settle debts page but removing a participant from the open debtors list
+     * @param event of the settle debts page
+     * @param user the removes user
+     */
+    public void removeOpenDebt(Event event, User user) {
+        var settleDebts = Main.FXML.load(SettleDebtsCtrl.class, bundle, "client",
+                "scenes", "SettleDebts.fxml");
+        SettleDebtsCtrl settleDebtsCtrl = settleDebts.getKey();
+        Scene settleDebtsScene = new Scene(settleDebts.getValue());
+        settleDebtsCtrl.setEvent(event);
+        settleDebtsCtrl.setData();
+        settleDebtsCtrl.removeOpenDebt(user);
+        primaryStage.setTitle("Settle Debts");
+        primaryStage.setScene(settleDebtsScene);
     }
 }

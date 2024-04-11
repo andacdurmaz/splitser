@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -486,5 +487,15 @@ public class EventInfoCtrl {
      */
     public void settleDebts(ActionEvent actionEvent) {
         service.getMainCtrl().showSettleDebts(event);
+    }
+
+    /**
+     * expense info is shown when the enter button is pressed
+     * @param keyEvent when the button is pressed
+     */
+    public void enterExpense(KeyEvent keyEvent) {
+        if (keyEvent.getCode() == KeyCode.ENTER && selectedExpense !=null) {
+            service.getMainCtrl().showExpenseInfo(event, selectedExpense);
+        }
     }
 }
