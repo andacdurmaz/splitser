@@ -7,7 +7,9 @@ import commons.Event;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.DirectoryChooser;
@@ -15,6 +17,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Optional;
 
 public class AdminEventInfoCtrl {
     private final AdminEventInfoService service;
@@ -61,9 +64,9 @@ public class AdminEventInfoCtrl {
                 mapper.writeValue(file, currentEvent);
 
                 System.out.println("File created successfully at: " + file.getAbsolutePath());
-                adminDownloadButton.setText("Downloaded");
+                adminDownloadButton.setText(mainCtrl.getBundle().getString("download_successful"));
             } catch (IOException ex) {
-                adminDownloadButton.setText("Download failed");
+                adminDownloadButton.setText(mainCtrl.getBundle().getString("download-failed"));
             }
         }
     };
@@ -83,8 +86,20 @@ public class AdminEventInfoCtrl {
      * Delete event method
      */
     public void deleteEvent() {
-        service.deleteEvent(currentEvent);
-        service.showAdminOverview();
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle(mainCtrl.getBundle().getString("are-you-sure"));
+        alert.setHeaderText(mainCtrl.getBundle().getString("you-are-about-to-delete-a-event"));
+        alert.setContentText(mainCtrl.getBundle().getString("are-you-sure"));
+
+        ButtonType buttonTypeOK = new ButtonType(mainCtrl.getBundle().getString("yes"));
+        ButtonType buttonTypeCancel = new ButtonType(mainCtrl.getBundle().getString("no"));
+        alert.getButtonTypes().setAll(buttonTypeOK, buttonTypeCancel);
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == buttonTypeOK){
+            service.deleteEvent(currentEvent);
+            service.showAdminOverview();
+        }
     }
 
     /**

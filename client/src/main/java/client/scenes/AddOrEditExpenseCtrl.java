@@ -13,6 +13,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldListCell;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 
@@ -40,7 +41,8 @@ public class AddOrEditExpenseCtrl implements Initializable {
     private TextField howMuch;
     @FXML
     private ComboBox currency;
-
+    @FXML
+    private AnchorPane error;
     @FXML
     private Button okButton;
     @FXML
@@ -218,9 +220,15 @@ public class AddOrEditExpenseCtrl implements Initializable {
     public void ok() {
         if (expense == null) {
             expense = getExpense();
+            if (expense == null) {
+                return;
+            }
             try {
-                service.addExpense(getExpense());
-            } catch (WebApplicationException e) {
+                Expense temp = getExpense();
+                service.addExpense(temp);
+                expense.setId(temp.getId());
+            }
+            catch (WebApplicationException e) {
                 var alert = new Alert(Alert.AlertType.ERROR);
                 alert.initModality(Modality.APPLICATION_MODAL);
                 alert.setContentText(e.getMessage());
@@ -233,6 +241,16 @@ public class AddOrEditExpenseCtrl implements Initializable {
             selectedExpense();
         }
 
+    }
+
+    /**
+     * warns the user if a mandatory field is not filled
+     */
+    private void errorMessage() {
+        error.toFront();
+        error.getChildren().get(1).setVisible(true);
+        error.getChildren().get(0).setVisible(true);
+        error.setVisible(true);
     }
 
     /**
@@ -270,14 +288,32 @@ public class AddOrEditExpenseCtrl implements Initializable {
     private Expense getExpense() {
         var p = new Expense(event);
         p.setPayer(payer.getValue());
+        if (whatFor.getText().isEmpty()) {
+            ((Label) error.getChildren().get(0)).setText(" The expense should have a title.");
+            errorMessage();
+            return null;
+        }
         p.setName(whatFor.getText());
-        p.setAmount(Double.parseDouble(howMuch.getText()));
+        try {
+            p.setAmount(Double.parseDouble(howMuch.getText()));
+        }
+        catch (NumberFormatException n){
+            ((Label) error.getChildren().get(0)).setText("  The amount should be a number.");
+            errorMessage();
+            return null;
+        }
         p.setExpenseTag(expenseTag.getValue());
         p.setExpenseDate(Date.from(
                 when.getValue().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()
         ));
         List<User> payingParticipants = new ArrayList<>();
         payingParticipants.addAll(selectedParticipants());
+        if (payingParticipants.size() == 0) {
+            ((Label) error.getChildren().get(0))
+                    .setText("The expense should have at least\n     one paying participant.");
+            errorMessage();
+            return null;
+        }
         p.setPayingParticipants(payingParticipants);
         return p;
     }
@@ -359,6 +395,9 @@ public class AddOrEditExpenseCtrl implements Initializable {
      * @param expense expense to add or edit
      */
     public void setup(Event event, Expense expense) {
+        error.setVisible(false);
+        error.getChildren().get(0).setVisible(false);
+        error.getChildren().get(1).setVisible(false);
         this.event = event;
         this.expense = expense;
         setFields();
@@ -367,6 +406,7 @@ public class AddOrEditExpenseCtrl implements Initializable {
             someParticipantsSelector.getChildren()
                     .add(new CheckBox(u.getUsername() + "(id: " + u.getUserID() + ")"));
         }
+        excludePayerFromVBox(expense.getPayer());
         if (expense != null) {
             List<Long> ids = expense.getPayingParticipants()
                     .stream().map(q -> q.getUserID()).toList();
@@ -411,6 +451,7 @@ public class AddOrEditExpenseCtrl implements Initializable {
             if (expense.getPayingParticipants().size() == event.getParticipants().size() - 1) {
                 allParticipants.setSelected(true);
                 someParticipants.setSelected(false);
+                allParticipantsPay();
             } else {
                 someParticipants.setSelected(true);
                 someParticipantsPay();
@@ -442,6 +483,14 @@ public class AddOrEditExpenseCtrl implements Initializable {
                         excludePayerFromVBox(newValue);
                     }
                 });
+    }
+
+    /**
+     * closes the error message
+     * @param actionEvent when the button is clicked
+     */
+    public void goBack(ActionEvent actionEvent) {
+        error.setVisible(false);
     }
 }
 

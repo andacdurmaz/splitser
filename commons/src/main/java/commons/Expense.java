@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
@@ -15,6 +16,9 @@ public class Expense {
     private long id;
     private String name;
     private double amount;
+    @OneToMany(targetEntity = Debt.class)
+    private List<Debt> debts = new ArrayList<>();
+
     private Date date;
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "payer", referencedColumnName = "id")
@@ -258,5 +262,21 @@ public class Expense {
      */
     public Date getDate() {
         return expenseDate;
+    }
+
+    /**
+     * Getter method for debts
+     * @return debts list
+     */
+    public Collection<? extends Debt> getDebts() {
+        return debts;
+    }
+
+    /**
+     * Setter method for debts
+     * @param debts debts list set
+     */
+    public void setDebts(List<Debt> debts) {
+        this.debts = debts;
     }
 }

@@ -18,6 +18,18 @@ package client.scenes;
 import client.Main;
 import client.services.ConfigFileService;
 import client.utils.ServerUtils;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
+
 import commons.Event;
 import commons.Expense;
 import commons.User;
@@ -71,6 +83,8 @@ public class MainCtrl {
     private Scene adminEventInfo;
     private ResourceBundle bundle;
     private Locale locale = new Locale("en");
+    private KeyCombination ctrlT = new KeyCodeCombination(KeyCode.T, KeyCombination.CONTROL_DOWN);
+    private  KeyCombination esc = new KeyCodeCombination(KeyCode.ESCAPE);
 
 
     /**
@@ -161,6 +175,7 @@ public class MainCtrl {
                 "scenes", "AddEvent.fxml");
         AddEventCtrl addEventCtrl = addEvent.getKey();
         Scene addEventCtrlScene = new Scene(addEvent.getValue());
+        addEventCtrl.goBack(null);
         primaryStage.setTitle("Events: Adding Event");
         primaryStage.setScene(addEventCtrlScene);
         addEventCtrlScene.setOnKeyPressed(e -> addEventCtrl.keyPressed(e));
@@ -279,6 +294,8 @@ public class MainCtrl {
         primaryStage.setTitle("Admin: Overview");
         primaryStage.setScene(adminOverviewScene);
         adminOverviewCtrl.refresh();
+        adminOverviewScene.getAccelerators().put(ctrlT, adminOverviewCtrl::adminAddEvent);
+        adminOverviewScene.getAccelerators().put(esc, adminOverviewCtrl::back);
     }
 
     /**
@@ -290,10 +307,11 @@ public class MainCtrl {
         var adminEventInfo = Main.FXML.load(AdminEventInfoCtrl.class, bundle, "client",
                 "scenes", "AdminEventInfo.fxml");
         AdminEventInfoCtrl adminEventInfoCtrl = adminEventInfo.getKey();
-        Scene adminOverviewScene = new Scene(adminEventInfo.getValue());
+        Scene adminEventInfoScene = new Scene(adminEventInfo.getValue());
         primaryStage.setTitle("Admin: Event info");
-        primaryStage.setScene(adminOverviewScene);
+        primaryStage.setScene(adminEventInfoScene);
         adminEventInfoCtrl.setEvent(event);
+        adminEventInfoScene.getAccelerators().put(esc, adminEventInfoCtrl::backToAdminOverview);
     }
 
     /**
@@ -312,43 +330,6 @@ public class MainCtrl {
         primaryStage.setTitle("Login");
         primaryStage.setScene(loginScreenScene);
     }
-
-
-    /**
-     * shows the languageSwitch pages
-     *
-     * @param c a char from previous page
-     */
-    public void showLanguageSwitch(char c) {
-        var languageSwitch = Main.FXML.load(LanguageSwitchCtrl.class, bundle, "client",
-                "scenes", "LanguageSwitch.fxml");
-        LanguageSwitchCtrl languageSwitchCtrl = languageSwitch.getKey();
-        Scene languageSwitchScene = new Scene(languageSwitch.getValue());
-
-        languageSwitchCtrl.setReturn(c);
-        Stage popup = new Stage();
-        popup.setTitle("Language switch");
-        popup.setScene(languageSwitchScene);
-        popup.show();
-    }
-
-    /**
-     * shows the expense info page
-     * @param event the event of the expense
-     * @param selectedExpense the expense of the page
-     */
-    public void showExpenseInfo(Event event, Expense selectedExpense) {
-        var expenseInfo = Main.FXML.load(ExpenseInfoCtrl.class, bundle, "client",
-                "scenes", "ExpenseInfo.fxml");
-        ExpenseInfoCtrl expenseInfoCtrl = expenseInfo.getKey();
-        Scene expenseInfoScene = new Scene(expenseInfo.getValue());
-        primaryStage.setTitle("Expense Info");
-        expenseInfoCtrl.setEvent(event);
-        expenseInfoCtrl.setExpense(selectedExpense);
-        expenseInfoCtrl.setData();
-        primaryStage.setScene(expenseInfoScene);
-    }
-
 
     /**
      * gets the events that the user has joined from the CONFIG file
@@ -533,7 +514,41 @@ public class MainCtrl {
         ConfigFileService service =new ConfigFileService(new ServerUtils());
         service.writeCurrencyToConfigFileByPath(filePath,currency);
     }
+    /**
+     * shows the languageSwitch pages
+     *
+     * @param c a char from previous page
+     */
+    public void showLanguageSwitch(char c) {
+        var languageSwitch = Main.FXML.load(LanguageSwitchCtrl.class, bundle, "client",
+                "scenes", "LanguageSwitch.fxml");
+        LanguageSwitchCtrl languageSwitchCtrl = languageSwitch.getKey();
+        Scene languageSwitchScene = new Scene(languageSwitch.getValue());
+        languageSwitchScene.getAccelerators().put(esc, languageSwitchCtrl::backButton);
 
+        languageSwitchCtrl.setReturn(c);
+        Stage popup = new Stage();
+        popup.setTitle("Language switch");
+        popup.setScene(languageSwitchScene);
+        popup.show();
+    }
+
+    /**
+     * shows the expense info page
+     * @param event the event of the expense
+     * @param selectedExpense the expense of the page
+     */
+    public void showExpenseInfo(Event event, Expense selectedExpense) {
+        var expenseInfo = Main.FXML.load(ExpenseInfoCtrl.class, bundle, "client",
+                "scenes", "ExpenseInfo.fxml");
+        ExpenseInfoCtrl expenseInfoCtrl = expenseInfo.getKey();
+        Scene expenseInfoScene = new Scene(expenseInfo.getValue());
+        primaryStage.setTitle("Expense Info");
+        expenseInfoCtrl.setEvent(event);
+        expenseInfoCtrl.setExpense(selectedExpense);
+        expenseInfoCtrl.setData();
+        primaryStage.setScene(expenseInfoScene);
+    }
 
 
 }

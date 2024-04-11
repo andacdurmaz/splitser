@@ -7,9 +7,11 @@ import commons.Expense;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.geometry.Side;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.PieChart.Data;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 
 import java.util.HashMap;
 import java.util.List;
@@ -19,12 +21,14 @@ public class StatisticsCtrl {
     private final StatisticsService service;
     private Event event;
     private ObservableList<Data> data;
+    private double totalSumOfExpenses;
 
     @FXML
     private PieChart pieChart;
     @FXML
     private Label eventTitle;
-
+    @FXML
+    private Label totalSum;
 
 
     /**
@@ -58,6 +62,7 @@ public class StatisticsCtrl {
         for (Map.Entry<String, Double> entry : totalExpensesMap.entrySet()) {
             String expenseType = entry.getKey();
             double expenseAmount = entry.getValue();
+            totalSumOfExpenses += expenseAmount;
             data.addAll(new PieChart.Data(expenseType, expenseAmount));
         }
     }
@@ -100,9 +105,21 @@ public class StatisticsCtrl {
      * @param event
      */
     public void setData(Event event) {
-        updateEventTitle(event);
+        eventTitle.setText(event.getTitle());
         setPieChart(event);
         pieChart.setData(data);
+        pieChart.setLabelLineLength(10);
+        pieChart.setLegendSide(Side.RIGHT);
+        totalSum.setText("Total sum of expenses : " + totalSumOfExpenses);
+
+        pieChart.getData().forEach(data ->
+        {
+            String percentage = data.getPieValue()+ "€/" +
+                    String.format("%.2f%%",(data.getPieValue()/totalSumOfExpenses*100));
+            Tooltip tooltip = new Tooltip(percentage);
+            Tooltip.install(data.getNode(),tooltip);
+        });
+
     }
 
 

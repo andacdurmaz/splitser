@@ -199,7 +199,10 @@ public class EventInfoCtrl {
      * @param actionEvent when the button is clicked
      */
     public void addExpense(ActionEvent actionEvent){
-        if(this.event.getParticipants().size() < 2 || this.event.getExpenseTags().isEmpty()) {
+        if(this.event.getParticipants().size() < 2) {
+            ((Label) noParticipantPane.getChildren().get(0))
+                    .setText("        Make sure you have at least two participants." +
+                    "\n                     (one payer and one payee)");
             noParticipantPane.setVisible(true);
             noParticipantErrButton.requestFocus();
         } else {
@@ -372,6 +375,13 @@ public class EventInfoCtrl {
      */
     public void editTitle(ActionEvent actionEvent) {
         if (eventTitle.isEditable()) {
+            if (eventTitle.getText().isEmpty()){
+                ((Label) noParticipantPane.getChildren().get(0))
+                        .setText("                    A title is required for an event.");
+                noParticipantPane.setVisible(true);
+                disableEditingTitle();
+                return;
+            }
             String newTitle = eventTitle.getText();
             disableEditingTitle();
             titleLabel.setText(newTitle);
