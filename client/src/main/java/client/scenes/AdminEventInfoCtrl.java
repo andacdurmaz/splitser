@@ -66,10 +66,20 @@ public class AdminEventInfoCtrl {
                 currentEvent.setId(0);
                 mapper.writeValue(file, currentEvent);
 
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle(mainCtrl.getBundle().getString("download"));
+                alert.setHeaderText(mainCtrl.getBundle().getString("download_successful"));
+                alert.setContentText(mainCtrl.getBundle().getString("download_successful_at") + file.getAbsolutePath());
+
+                alert.showAndWait();
+
                 System.out.println("File created successfully at: " + file.getAbsolutePath());
-                adminDownloadButton.setText(mainCtrl.getBundle().getString("download_successful"));
-            } catch (IOException ex) {
-                adminDownloadButton.setText(mainCtrl.getBundle().getString("download-failed"));
+            } catch (Exception ex) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle(mainCtrl.getBundle().getString("download"));
+                alert.setContentText(mainCtrl.getBundle().getString("download_failed"));
+
+                alert.showAndWait();
             }
         }
     };
@@ -100,7 +110,12 @@ public class AdminEventInfoCtrl {
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == buttonTypeOK){
+            String eventTitle = currentEvent.getTitle();
             server.deleteEvent(currentEvent);
+            Alert message = new Alert(Alert.AlertType.INFORMATION);
+            message.setTitle(mainCtrl.getBundle().getString("event-deleted-successfully"));
+            message.setHeaderText("'"+ eventTitle +"' " +mainCtrl.getBundle().getString("event-deleted-successfully"));
+            message.show();
             mainCtrl.showAdminOverview();
         }
     }
