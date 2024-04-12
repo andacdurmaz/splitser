@@ -194,7 +194,7 @@ public class ServerUtils extends Util {
 
     /**
      * Delete event
-     *
+
      * @param expense to delete
      */
     public void deleteExpense(Expense expense) {
@@ -208,8 +208,9 @@ public class ServerUtils extends Util {
     /**
      * Adds expense
      * @param expense to add
+     * @return the added expense
      */
-    public void addExpense(Expense expense) {
+    public Expense addExpense(Expense expense) {
         Response response = ClientBuilder.newClient(new ClientConfig())
                 .target(serverAddress).path("api/expenses/add")
                 .request(APPLICATION_JSON)
