@@ -2,8 +2,8 @@ package commons;
 
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -16,10 +16,10 @@ public class Expense {
     private long id;
     private String name;
     private double amount;
-    private LocalDate date;
     @OneToMany(targetEntity = Debt.class)
     private List<Debt> debts = new ArrayList<>();
 
+    private Date date;
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "payer", referencedColumnName = "id")
     private User payer;
@@ -34,7 +34,7 @@ public class Expense {
     @ManyToOne()
     private ExpenseTag expenseTag;
 
-    private LocalDate expenseDate;
+    private Date expenseDate;
     /**
      * Constructor for mapping
      */
@@ -52,7 +52,7 @@ public class Expense {
      * @param date               expense date
      */
     public Expense(String name, double amount, User payer,
-                   List<User> payingParticipants, LocalDate date) {
+                   List<User> payingParticipants, Date date) {
         this.name = name;
         this.amount = amount;
         this.payer = payer;
@@ -176,7 +176,7 @@ public class Expense {
      * setter method for the date the expense was made
      * @param expenseDate the new date
      */
-    public void setExpenseDate(LocalDate expenseDate) {
+    public void setExpenseDate(Date expenseDate) {
         this.expenseDate = expenseDate;
     }
 
@@ -260,7 +260,7 @@ public class Expense {
      *
      * @return date of expense
      */
-    public LocalDate getDate() {
+    public Date getDate() {
         return expenseDate;
     }
 
