@@ -65,10 +65,24 @@ public class AddOrEditExpenseService {
     }
 
     /**
+     * @param d Debt
+     */
+    public void addDebt(Debt d){
+        server.addDebt(d);
+    }
+
+    /**
      * @param e Expense
      */
     public void updateExpense(Expense e){
         server.updateExpense(e);
+    }
+
+    /**
+     * @param u User
+     */
+    public void updateUser(User u){
+        server.updateUser(e);
     }
 
     /**
