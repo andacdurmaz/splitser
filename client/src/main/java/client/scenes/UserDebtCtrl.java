@@ -216,16 +216,16 @@ public class UserDebtCtrl {
                 int payeeId = Integer.parseInt(scanner.next());
                 double amount = Double.parseDouble(scanner.next());
                 User payee = server.getUserById(payeeId);
-                Label contentLabel = new Label(payee.getUsername() + "\nIBAN: " + payee.getIban()
-                        + "\nBIC: " + payee.getBic());
+                Label contentLabel = new Label(payee.getUsername() + "\n%iban: " + payee.getIban()
+                        + "\n%bic: " + payee.getBic());
                 showedDetails.setContent(contentLabel);
                 showedDetails.setExpanded(true);
-                details.setText("Hide Details");
+                details.setText("%hide-details");
             } else {
                 errorMessage();
             }
         } else {
-            details.setText("Show Details");
+            details.setText("%show-details");
             showedDetails.setExpanded(false);
         }
     }
