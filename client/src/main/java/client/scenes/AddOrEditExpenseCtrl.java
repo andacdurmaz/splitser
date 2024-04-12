@@ -6,6 +6,7 @@ import commons.Event;
 import commons.Expense;
 import commons.ExpenseTag;
 import commons.User;
+import commons.Debt;
 import jakarta.ws.rs.WebApplicationException;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -453,7 +454,7 @@ public class AddOrEditExpenseCtrl implements Initializable {
         else {
             payer.setValue(event.getParticipants().get(0));
             expenseTag.setValue(event.getExpenseTags().get(0));
-            okButton.setText(mainCtrl.getBundle().getString("add"));
+            okButton.setText(service.getString("add"));
         }
         
     }
