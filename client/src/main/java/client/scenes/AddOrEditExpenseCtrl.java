@@ -235,8 +235,13 @@ public class AddOrEditExpenseCtrl implements Initializable {
                 alert.showAndWait();
                 return;
             }
-            clearFields();
+            List<Expense> expenses = new ArrayList<>(event.getExpenses());
+            if (!expenses.contains(expense)) {
+                expenses.add(expense);
+            }
+            event.setExpenses(expenses);
             service.updateAndShow(event);
+            clearFields();
         } else {
             selectedExpense();
         }
@@ -303,9 +308,12 @@ public class AddOrEditExpenseCtrl implements Initializable {
             return null;
         }
         p.setExpenseTag(expenseTag.getValue());
-        p.setExpenseDate(Date.from(
-                when.getValue().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()
-        ));
+        if (when.getValue() != null) {
+            p.setExpenseDate(Date.from(
+                    when.getValue().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()
+            ));
+        }
+
         List<User> payingParticipants = new ArrayList<>();
         payingParticipants.addAll(selectedParticipants());
         if (payingParticipants.size() == 0) {
@@ -406,8 +414,8 @@ public class AddOrEditExpenseCtrl implements Initializable {
             someParticipantsSelector.getChildren()
                     .add(new CheckBox(u.getUsername() + "(id: " + u.getUserID() + ")"));
         }
-        excludePayerFromVBox(expense.getPayer());
         if (expense != null) {
+            excludePayerFromVBox(expense.getPayer());
             List<Long> ids = expense.getPayingParticipants()
                     .stream().map(q -> q.getUserID()).toList();
             for (Node n : someParticipantsSelector.getChildren()) {

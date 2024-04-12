@@ -152,8 +152,7 @@ public class EventService {
     }
 
     /**
-     * Updates the name of the event with the given id to be the given name
-     *
+     * Updates the event with the given id
      * @param oldEvent Event's body
      * @return the updated event
      */
