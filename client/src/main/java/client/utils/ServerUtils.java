@@ -215,8 +215,9 @@ public class ServerUtils extends Util {
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .post(Entity.entity(expense, APPLICATION_JSON));
-        //Expense newExpense =(Expense) response.getEntity();
-        //return newExpense;
+        Expense expense1 = response.readEntity(new GenericType<>() {
+        });
+        return expense1;
     }
 
     /**
