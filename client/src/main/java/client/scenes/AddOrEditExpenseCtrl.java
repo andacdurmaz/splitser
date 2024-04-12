@@ -226,8 +226,7 @@ public class AddOrEditExpenseCtrl implements Initializable {
                 return;
             }
             try {
-                Expense temp = getExpense();
-                service.addExpense(temp);
+                Expense temp = service.addExpense(getExpense());
                 expense.setId(temp.getId());
             }
             catch (WebApplicationException e) {
@@ -281,9 +280,11 @@ public class AddOrEditExpenseCtrl implements Initializable {
             expense.setName(whatFor.getText());
             expense.setPayer(payer.getValue());
             expense.setPayingParticipants(selectedParticipants());
-            expense.setExpenseDate(Date.from(
-                    when.getValue().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()
-            ));
+            if (when.getValue() != null) {
+                expense.setExpenseDate(Date.from(
+                        when.getValue().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()
+                ));
+            }
             service.updateExpense(expense);
             expenses.add(expense);
             event.setExpenses(expenses);
@@ -328,9 +329,12 @@ public class AddOrEditExpenseCtrl implements Initializable {
             return null;
         }
         p.setExpenseTag(expenseTag.getValue());
-        p.setExpenseDate(Date.from(
-                when.getValue().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()
-        ));
+        if (when.getValue() != null) {
+            p.setExpenseDate(Date.from(
+                    when.getValue().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()
+            ));
+        }
+
         List<User> payingParticipants = new ArrayList<>();
         payingParticipants.addAll(selectedParticipants());
         if (payingParticipants.size() == 0) {
@@ -473,10 +477,14 @@ public class AddOrEditExpenseCtrl implements Initializable {
             howMuch.setText(String.valueOf(expense.getAmount()));
             currency.setValue(null);
             whatFor.setText(expense.getName());
-            when.setValue(Instant.ofEpochMilli(
-                    expense.getDate().getTime())
-                    .atZone(ZoneId.systemDefault()).toLocalDate());
-            expenseTag.getSelectionModel().select(expense.getExpenseTag());
+            if (expense.getDate() != null) {
+                when.setValue(Instant.ofEpochMilli(
+                                expense.getDate().getTime())
+                        .atZone(ZoneId.systemDefault()).toLocalDate());
+            }
+            else
+                when.setValue(null);
+
             if (expense.getPayingParticipants().size() == event.getParticipants().size() - 1) {
                 allParticipants.setSelected(true);
                 someParticipants.setSelected(false);
