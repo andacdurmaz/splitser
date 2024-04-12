@@ -60,6 +60,7 @@ public class AddOrEditExpenseService {
 
     /**
      * @param e Expense
+     * @return the added expense
      */
     public Expense addExpense(Expense e){
         return server.addExpense(e);
