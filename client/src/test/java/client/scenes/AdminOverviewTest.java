@@ -1,6 +1,7 @@
 package client.scenes;
 
 import client.Main;
+import client.services.AdminOverviewService;
 import client.utils.ServerUtils;
 import com.google.inject.Stage;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,7 +22,7 @@ public class AdminOverviewTest{
     @BeforeEach
     public void setup() {
         sut = new MainCtrl();
-        adminOverviewCtrl = new AdminOverviewCtrl(new ServerUtils(), sut);
+        adminOverviewCtrl = new AdminOverviewCtrl(new AdminOverviewService( new ServerUtils(), sut));
     }
 
 }

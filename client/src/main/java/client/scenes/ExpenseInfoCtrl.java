@@ -11,7 +11,9 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.StringConverter;
+
 import javax.inject.Inject;
+
 public class ExpenseInfoCtrl  {
 
     private final ServerUtils server;

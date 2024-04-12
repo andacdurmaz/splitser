@@ -1,9 +1,8 @@
 package client.scenes;
 
-import client.utils.ServerUtils;
+import client.services.AddEventService;
 import com.google.inject.Inject;
 import commons.Event;
-import commons.ExpenseTag;
 import jakarta.ws.rs.WebApplicationException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,15 +12,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class AddEventCtrl {
 
-    private final ServerUtils server;
-    private final MainCtrl mainCtrl;
+    private final AddEventService service;
 
     @FXML
     private TextField title;
@@ -41,13 +37,11 @@ public class AddEventCtrl {
     /**
      * Inject method
      *
-     * @param server   server
-     * @param mainCtrl mainCtrl
+     * @param service service
      */
     @Inject
-    public AddEventCtrl(ServerUtils server, MainCtrl mainCtrl) {
-        this.mainCtrl = mainCtrl;
-        this.server = server;
+    public AddEventCtrl(AddEventService service) {
+        this.service = service;
 
     }
 
@@ -56,7 +50,7 @@ public class AddEventCtrl {
      */
     public void cancel() {
         clearFields();
-        mainCtrl.showStartPage();
+        service.showStartPage();
     }
 
     /**
@@ -68,9 +62,9 @@ public class AddEventCtrl {
             return;
         }
         try {
-            Event tmp = server.addEvent(newEvent);
+            Event tmp = service.addEvent(newEvent);
             newEvent.setId(tmp.getId());
-            mainCtrl.writeEventToConfigFile(newEvent);
+            service.writeToConfig(newEvent);
         } catch (WebApplicationException e) {
             var alert = new Alert(Alert.AlertType.ERROR);
             alert.initModality(Modality.APPLICATION_MODAL);
@@ -79,7 +73,7 @@ public class AddEventCtrl {
             return;
         }
         clearFields();
-        mainCtrl.showEventInfo(newEvent);
+        service.showEventInfo(newEvent);
     }
 
     /**
@@ -88,11 +82,12 @@ public class AddEventCtrl {
      * @return specified event
      */
     private Event getEvent() {
-        List<Long> eventCodes = server.getEvents().stream().map(q -> q.getEventCode()).toList();
+        List<Long> eventCodes = service.getEvents().stream().map(q -> q.getEventCode()).toList();
         if (title.getText().isEmpty()) {
             errorMessage();
             return null;
         }
+
         Event event = new Event(title.getText());
         Random random = new Random();
         long eventCode;
@@ -105,16 +100,6 @@ public class AddEventCtrl {
         event.setEventCode(eventCode);
         if (description.getText() != null)
             event.setDescription(description.getText());
-        ExpenseTag tag1 = new ExpenseTag("Food","#008000");
-        ExpenseTag tag2 = new ExpenseTag("Entrance Fees","#0000FF");
-        ExpenseTag tag3 = new ExpenseTag("Travel","#FF0000");
-        ExpenseTag tag4 = new ExpenseTag("Others","#d3d3d3");
-        List<ExpenseTag> expenseTags = new ArrayList<>();
-        expenseTags.add(tag1);
-        expenseTags.add(tag2);
-        expenseTags.add(tag3);
-        expenseTags.add(tag4);
-        event.setExpenseTags(expenseTags);
         return event;
     }
 

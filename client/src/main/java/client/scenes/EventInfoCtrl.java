@@ -17,9 +17,7 @@ import javafx.util.StringConverter;
 import javax.inject.Inject;
 import java.util.List;
 
-
 public class EventInfoCtrl {
-    private MainCtrl mainCtrl;
     private Event event;
     private Expense selectedExpense;
 
@@ -74,7 +72,6 @@ public class EventInfoCtrl {
     @Inject
     public EventInfoCtrl(EventInfoService service) {
         this.service = service;
-        this.mainCtrl = new MainCtrl();
     }
 
     /**

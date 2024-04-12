@@ -1,6 +1,6 @@
 package client.scenes;
 
-import client.utils.ServerUtils;
+import client.services.AddOrEditExpenseService;
 import commons.Event;
 import commons.Expense;
 import commons.ExpenseTag;
@@ -23,13 +23,15 @@ import javafx.scene.input.KeyEvent;
 import javafx.util.StringConverter;
 
 import java.net.URL;
+import java.time.Instant;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
 public class AddOrEditExpenseCtrl implements Initializable {
-    private final ServerUtils server;
-    private final MainCtrl mainCtrl;
+    private final AddOrEditExpenseService service;
     private Event event;
     private Expense expense;
 
@@ -61,14 +63,12 @@ public class AddOrEditExpenseCtrl implements Initializable {
     /**
      * Constructor
      *
-     * @param server   serverUtils
-     * @param mainCtrl mainCtrl
+     * @param service service
      * @param event    event of expense
      */
     @Inject
-    public AddOrEditExpenseCtrl(ServerUtils server, MainCtrl mainCtrl, Event event) {
-        this.server = server;
-        this.mainCtrl = mainCtrl;
+    public AddOrEditExpenseCtrl(AddOrEditExpenseService service, Event event) {
+        this.service = service;
         this.event = event;
     }
 
@@ -211,7 +211,7 @@ public class AddOrEditExpenseCtrl implements Initializable {
      */
     public void cancel() {
         clearFields();
-        mainCtrl.showEventInfo(event);
+        service.showEventInfo(event);
     }
 
     /**
@@ -224,7 +224,8 @@ public class AddOrEditExpenseCtrl implements Initializable {
                 return;
             }
             try {
-                Expense temp = server.addExpense(getExpense());
+                Expense temp = getExpense();
+                service.addExpense(temp);
                 expense.setId(temp.getId());
             }
             catch (WebApplicationException e) {
@@ -234,14 +235,8 @@ public class AddOrEditExpenseCtrl implements Initializable {
                 alert.showAndWait();
                 return;
             }
-            List<Expense> expenses = new ArrayList<>(event.getExpenses());
-            if (!expenses.contains(expense)) {
-                expenses.add(expense);
-            }
-            event.setExpenses(expenses);
-            server.updateEvent(event);
             clearFields();
-            mainCtrl.showEventInfo(event);
+            service.updateAndShow(event);
         } else {
             selectedExpense();
         }
@@ -270,12 +265,13 @@ public class AddOrEditExpenseCtrl implements Initializable {
             expense.setName(whatFor.getText());
             expense.setPayer(payer.getValue());
             expense.setPayingParticipants(selectedParticipants());
-            expense.setExpenseDate(when.getValue());
-            server.updateExpense(expense);
+            expense.setExpenseDate(Date.from(
+                    when.getValue().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()
+            ));
+            service.updateExpense(expense);
             expenses.add(expense);
             event.setExpenses(expenses);
-            server.updateEvent(event);
-            mainCtrl.showEventInfo(event);
+            service.updateAndShow(event);
         } catch (WebApplicationException e) {
             var alert = new Alert(Alert.AlertType.ERROR);
             alert.initModality(Modality.APPLICATION_MODAL);
@@ -307,7 +303,9 @@ public class AddOrEditExpenseCtrl implements Initializable {
             return null;
         }
         p.setExpenseTag(expenseTag.getValue());
-        p.setExpenseDate(when.getValue());
+        p.setExpenseDate(Date.from(
+                when.getValue().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()
+        ));
         List<User> payingParticipants = new ArrayList<>();
         payingParticipants.addAll(selectedParticipants());
         if (payingParticipants.size() == 0) {
@@ -340,7 +338,7 @@ public class AddOrEditExpenseCtrl implements Initializable {
                     String text = ((CheckBox) n).getText();
                     int index = text.indexOf("(id: ");
                     long id = Long.parseLong(text.substring(index + 5, text.length() - 1));
-                    selected.add(server.getUserById(id));
+                    selected.add(service.getUserById(id));
                 }
             }
             return selected;
@@ -425,7 +423,7 @@ public class AddOrEditExpenseCtrl implements Initializable {
         payer.setValue(event.getParticipants().get(0));
         expenseTag.setValue(event.getExpenseTags().get(0));
         if (expense == null) {
-            okButton.setText(mainCtrl.getBundle().getString("add"));
+            okButton.setText(service.getString("add"));
         } else {
             okButton.setText("Edit");
         }
@@ -446,7 +444,9 @@ public class AddOrEditExpenseCtrl implements Initializable {
             currency.setValue(null);
             payer.setValue(expense.getPayer());
             whatFor.setText(expense.getName());
-            when.setValue(expense.getDate());
+            when.setValue(Instant.ofEpochMilli(
+                    expense.getDate().getTime())
+                    .atZone(ZoneId.systemDefault()).toLocalDate());
             expenseTag.getSelectionModel().select(expense.getExpenseTag());
             if (expense.getPayingParticipants().size() == event.getParticipants().size() - 1) {
                 allParticipants.setSelected(true);
