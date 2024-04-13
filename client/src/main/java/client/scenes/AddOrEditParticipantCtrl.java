@@ -196,6 +196,11 @@ public class AddOrEditParticipantCtrl {
         try {
             User temp = server.addUser(getUser());
             user.setUserID(temp.getUserID());
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("New User Added Successfully!");
+            alert.setHeaderText(null);
+            alert.setContentText("Successfully created new participant to the event: " + temp.getUsername());
+            alert.showAndWait();
         } catch (WebApplicationException e) {
             var alert = new Alert(Alert.AlertType.ERROR);
             alert.initModality(Modality.APPLICATION_MODAL);

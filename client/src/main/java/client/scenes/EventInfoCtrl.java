@@ -283,7 +283,7 @@ public class EventInfoCtrl {
     public void keyPressed(KeyEvent e) {
         KeyCombination addExpenseTagShortcut = new KeyCodeCombination(KeyCode.T,KeyCombination.CONTROL_DOWN);
         KeyCombination addParticipantTagShortcut = new KeyCodeCombination(KeyCode.P,KeyCombination.CONTROL_DOWN);
-        KeyCombination addExpenseShortCut = new KeyCodeCombination(KeyCode.E,KeyCombination.CONTROL_DOWN);
+        KeyCombination addExpenseShortcut = new KeyCodeCombination(KeyCode.E,KeyCombination.CONTROL_DOWN);
 
         switch (e.getCode()) {
             case ENTER:
@@ -297,9 +297,7 @@ public class EventInfoCtrl {
                 }
                 break;
             case ESCAPE:
-
                 break;
-
             default:
                 break;
         }
@@ -311,7 +309,7 @@ public class EventInfoCtrl {
             System.out.println("Combination Pressed: " + addParticipantTagShortcut);
             addParticipant();
         }
-        if (addExpenseTagShortcut.match(e)) {
+        if (addExpenseShortcut.match(e)) {
             System.out.println("Combination Pressed: " + addExpenseTagShortcut);
             addExpense();
         }

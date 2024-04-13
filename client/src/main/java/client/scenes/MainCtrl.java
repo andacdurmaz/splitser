@@ -17,23 +17,14 @@ package client.scenes;
 
 import client.Main;
 import client.utils.ServerUtils;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyCodeCombination;
-import javafx.scene.input.KeyCombination;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
-
 import commons.Event;
 import commons.Expense;
 import commons.User;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 import org.json.JSONArray;
@@ -164,6 +155,7 @@ public class MainCtrl {
         primaryStage.setTitle("Home");
         startPageCtrl.removeErrorMessage();
         primaryStage.setScene(startPageScene);
+        startPageScene.setOnKeyPressed(e -> startPageCtrl.keyPressed(e));
         startPageCtrl.refresh();
     }
 

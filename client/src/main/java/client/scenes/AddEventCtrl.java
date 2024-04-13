@@ -120,13 +120,6 @@ public class AddEventCtrl {
         alertError.setHeaderText(null);
         alertError.setContentText("A title is required for the event!");
         alertError.showAndWait();
-
-//        error.toFront();
-//        error.setVisible(true);
-//        error.getChildren().get(0).setVisible(true);
-//        error.getChildren().get(1).setVisible(true);
-//        ok.setDisable(true);
-//        cancel.setDisable(true);
     }
 
     /**
