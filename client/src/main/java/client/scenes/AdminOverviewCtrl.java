@@ -15,7 +15,7 @@
  */
 package client.scenes;
 
-import client.utils.ServerUtils;
+import client.services.AdminOverviewService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Inject;
 import commons.Event;
@@ -42,8 +42,7 @@ import java.util.*;
 
 public class AdminOverviewCtrl implements Initializable {
 
-    private final ServerUtils server;
-    private final MainCtrl mainCtrl;
+    private final AdminOverviewService service;
     private ObservableList<Event> data;
     private String optionTitle;
     private String optionDate;
@@ -67,13 +66,11 @@ public class AdminOverviewCtrl implements Initializable {
 
     /**
      * Constructor for AdminOverview
-     * @param server
-     * @param mainCtrl
+     * @param service service
      */
     @Inject
-    public AdminOverviewCtrl(ServerUtils server, MainCtrl mainCtrl) {
-        this.server = server;
-        this.mainCtrl = mainCtrl;
+    public AdminOverviewCtrl(AdminOverviewService service) {
+        this.service = service;
     }
     /**
      * Initialize method
@@ -87,9 +84,9 @@ public class AdminOverviewCtrl implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        optionTitle = mainCtrl.getBundle().getString("title");
-        optionDate = mainCtrl.getBundle().getString("creation-date");
-        optionActivity = mainCtrl.getBundle().getString("last-activity");
+        optionTitle = service.getString("title");
+        optionDate = service.getString("creation-date");
+        optionActivity = service.getString("last-activity");
 
         colEventId.setCellValueFactory(q ->
                 new SimpleStringProperty(String.valueOf(q.getValue().getId())));
@@ -123,7 +120,7 @@ public class AdminOverviewCtrl implements Initializable {
             ObjectMapper objectMapper = new ObjectMapper();
 
             Event newEvent = objectMapper.readValue(selectedJson, Event.class);
-            server.addEvent(newEvent);
+            service.addEvent(newEvent);
             refresh();
         }catch (IOException ex) {
             System.out.println("There was a problem with adding a event (Admin)");
@@ -134,7 +131,7 @@ public class AdminOverviewCtrl implements Initializable {
      * Refreshes the page
      */
     public void refresh() {
-        var events = server.getEvents();
+        var events = service.getEvents();
         data = FXCollections.observableList(events);
         table.setItems(data);
         sortEvent.handle(new ActionEvent());
@@ -144,7 +141,7 @@ public class AdminOverviewCtrl implements Initializable {
      * Method to go back to startpage
      */
     public void back() {
-        mainCtrl.showStartPage();
+        service.showStartPage();
     }
 
     private EventHandler<ActionEvent> sortEvent = new EventHandler<ActionEvent>() {
@@ -174,7 +171,7 @@ public class AdminOverviewCtrl implements Initializable {
                 return;
             }
             if (selectedEvent != null) {
-                mainCtrl.showAdminEventInfo(selectedEvent);
+                service.showAdminEventInfo(selectedEvent);
             }
         }
     };
@@ -210,5 +207,5 @@ public class AdminOverviewCtrl implements Initializable {
             else
                 return 0;
         }};
-   
+
 }

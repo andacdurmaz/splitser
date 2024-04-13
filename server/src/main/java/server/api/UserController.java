@@ -171,29 +171,14 @@ public class UserController {
      * @param id of the user
      * @return the wallet of the user with the given id
      */
-    @GetMapping("/{id}/debts")
-    public ResponseEntity<?> getDebtsById(@PathVariable("id") long id)
-            throws NoUserFoundException {
-        if (id < 0 || !service.existsById(id)) {
-            return ResponseEntity.badRequest().build();
-        }
-        return ResponseEntity.ok(service.getUserById(id).getDebts());
-    }
-
-    /**
-     * path to get a specific user's expenses given its id
-     *
-     * @param id of the user
-     * @return the expenses of the user with the given id
-     */
-    @GetMapping("/{id}/expenses")
-    public ResponseEntity<?> getExpensesById(@PathVariable("id") long id)
-            throws NoUserFoundException {
-        if (id < 0 || !service.existsById(id)) {
-            return ResponseEntity.badRequest().build();
-        }
-        return ResponseEntity.ok(service.getUserById(id).getExpenses());
-    }
+//    @GetMapping("/{id}/debts")
+//    public ResponseEntity<?> getDebtsById(@PathVariable("id") long id)
+//            throws NoUserFoundException {
+//        if (id < 0 || !service.existsById(id)) {
+//            return ResponseEntity.badRequest().build();
+//        }
+//        return ResponseEntity.ok(service.getUserById(id).getDebts());
+//    }
 
     /**
      * Add method

@@ -43,4 +43,19 @@ class LoginServiceTest {
         boolean b = service.connect("E");
         Assertions.assertEquals(b, false);
     }
+
+    @Test
+    void setSession() {
+        service.setSession();
+    }
+
+    @Test
+    void Menu() {
+        service.returnToMenu();
+    }
+
+    @Test
+    void login() {
+        service.login();
+    }
 }

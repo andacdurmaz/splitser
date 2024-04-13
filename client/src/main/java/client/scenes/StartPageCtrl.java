@@ -1,6 +1,6 @@
 package client.scenes;
 
-import client.utils.ServerUtils;
+import client.services.StartPageService;
 import com.google.inject.Inject;
 import commons.Event;
 import javafx.animation.PauseTransition;
@@ -29,8 +29,7 @@ import java.util.ResourceBundle;
 
 
 public class StartPageCtrl implements Initializable {
-    private final ServerUtils server;
-    private final MainCtrl mainCtrl;
+    private final StartPageService service;
     private ObservableList<Event> data;
 
     @FXML
@@ -50,21 +49,19 @@ public class StartPageCtrl implements Initializable {
     /**
      * constructor for the starting page
      *
-     * @param server
-     * @param mainCtrl
+     * @param service service
      */
     @Inject
-    public StartPageCtrl(ServerUtils server, MainCtrl mainCtrl) {
-        this.mainCtrl = mainCtrl;
-        this.server = server;
+    public StartPageCtrl(StartPageService service) {
+        this.service = service;
     }
 
     /**
      * gets all joined events of the user by its config file
      */
     public void getJoinedEvents() throws IOException {
-        List<Event> events = mainCtrl.getJoinedEvents();
-        data = FXCollections.observableList(mainCtrl.getJoinedEvents());
+        List<Event> events = service.getJoinedEvents();
+        data = FXCollections.observableList(service.getJoinedEvents());
         joinedEvents.setItems(data);
     }
 
@@ -80,7 +77,7 @@ public class StartPageCtrl implements Initializable {
                 return;
             }
             if(event != null){
-                mainCtrl.showEventInfo(event);
+                service.showEventInfo(event);
             }
         }
     };
@@ -93,7 +90,9 @@ public class StartPageCtrl implements Initializable {
         joinedEvents.setCellFactory(param -> new TextFieldListCell<>(new StringConverter<Event>() {
             @Override
             public String toString(Event object) {
-                return object.getTitle();
+                if(object != null)
+                    return object.getTitle();
+                return "null";
             }
 
             @Override
@@ -102,7 +101,7 @@ public class StartPageCtrl implements Initializable {
             }
         }));
 
-        List<Event> events = mainCtrl.getJoinedEvents();
+        List<Event> events = service.getJoinedEvents();
         joinedEvents.getItems().setAll(events);
 
         try {
@@ -119,7 +118,7 @@ public class StartPageCtrl implements Initializable {
      */
     public void imageset(){
         Image newImage;
-        switch(mainCtrl.getLocale().getLanguage()){
+        switch(service.getLang()){
             case("en"):
                 newImage = new Image(getClass()
                         .getResourceAsStream("/client/images/englishIcon.png"));
@@ -162,7 +161,7 @@ public class StartPageCtrl implements Initializable {
      * refreshes the data of the page
      */
     public void refresh()  {
-        var events = server.getEvents();
+        var events = service.getEvents();
         events = FXCollections.observableList(events);
         try {
             getJoinedEvents();
@@ -186,7 +185,7 @@ public class StartPageCtrl implements Initializable {
      * @param actionEvent the clicking of the button
      */
     public void login(ActionEvent actionEvent) {
-        mainCtrl.login();
+        service.login();
 
     }
 
@@ -194,8 +193,9 @@ public class StartPageCtrl implements Initializable {
      * when create  button is clicked on, the addEvent page opens
      *
      */
+
     public void createEvent() {
-        mainCtrl.showAdd();
+        service.showAdd();
     }
 
     /**
@@ -216,13 +216,13 @@ public class StartPageCtrl implements Initializable {
             pt.play();
             return;
         }
-        Optional<Event> event = server.getEvents().stream()
+        Optional<Event> event = service.getEvents().stream()
                 .filter(q -> q.getEventCode() == Long.parseLong(eventid.getText()))
                 .findFirst();
         if (event.isPresent()) {
-            mainCtrl.showEventInfo(event.get());
-            if(!mainCtrl.isEventInConfig(event.get())){
-                mainCtrl.writeEventToConfigFile(event.get());
+            service.showEventInfo(event.get());
+            if(!service.isEventInConfig(event.get())){
+                service.writeToConfig(event.get());
             }
         }
         else {
@@ -244,7 +244,7 @@ public class StartPageCtrl implements Initializable {
      */
     public void deleteEvent() {
         Event event = joinedEvents.getSelectionModel().getSelectedItem();
-        mainCtrl.deleteEventFromConfig(event);
+        service.deleteFromConfig(event);
         try {
             getJoinedEvents();
         } catch (IOException e) {
@@ -256,7 +256,7 @@ public class StartPageCtrl implements Initializable {
      * Method to show the languageSwitch
      */
     public void languageSwitch(){
-        mainCtrl.showLanguageSwitch('s');
+        service.showLanguageSwitch('s');
     }
 
     /**
