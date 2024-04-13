@@ -1,6 +1,6 @@
 package client.scenes;
 
-import client.utils.ServerUtils;
+import client.services.AddExpenseTagService;
 import commons.*;
 import jakarta.ws.rs.WebApplicationException;
 import javafx.fxml.FXML;
@@ -16,8 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AddExpenseTagCtrl {
-    private final ServerUtils server;
-    private final MainCtrl mainCtrl;
+    private final AddExpenseTagService service;
 
     private Event event;
 
@@ -31,15 +30,12 @@ public class AddExpenseTagCtrl {
 
     /**
      * Constructor
-     * @param server   serverUtils
-     *
-     * @param mainCtrl mainCtrl
-     * @param event
+     * @param service service
+     * @param event event
      */
     @Inject
-    public AddExpenseTagCtrl(ServerUtils server, MainCtrl mainCtrl, Event event) {
-        this.server = server;
-        this.mainCtrl = mainCtrl;
+    public AddExpenseTagCtrl(AddExpenseTagService service, Event event) {
+        this.service = service;
         this.event = event;
     }
 
@@ -58,7 +54,7 @@ public class AddExpenseTagCtrl {
      */
     public void cancel() {
         clearFields();
-        mainCtrl.showEventInfo(event);
+        service.showEventInfo(event);
     }
 
     /**
@@ -67,7 +63,7 @@ public class AddExpenseTagCtrl {
     public void ok() {
         ExpenseTag newExpenseTag = getExpenseTag();
         try {
-            ExpenseTag tmp = server.addExpenseTag(newExpenseTag);
+            ExpenseTag tmp = service.addExpenseTag(newExpenseTag);
             newExpenseTag.setId(tmp.getId());
         } catch (WebApplicationException e) {
             var alert = new Alert(Alert.AlertType.ERROR);
@@ -82,8 +78,7 @@ public class AddExpenseTagCtrl {
         if (!expenseTags.contains(newExpenseTag))
             expenseTags.add(newExpenseTag);
         event.setExpenseTags(expenseTags);
-        server.updateEvent(event);
-        mainCtrl.showEventInfo(event);
+        service.updateAndShow(event);
 
     }
 

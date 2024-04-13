@@ -1,6 +1,6 @@
 package client.scenes;
 
-import client.utils.ServerUtils;
+import client.services.AdminEventInfoService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Inject;
 import commons.Event;
@@ -19,8 +19,7 @@ import java.io.File;
 import java.util.Optional;
 
 public class AdminEventInfoCtrl {
-    private final ServerUtils server;
-    private final MainCtrl mainCtrl;
+    private final AdminEventInfoService service;
 
     private Event currentEvent;
     @FXML
@@ -36,13 +35,11 @@ public class AdminEventInfoCtrl {
 
     /**
      * Constructor for AdminEventInfo
-     * @param server
-     * @param mainCtrl
+     * @param service service
      */
     @Inject
-    public AdminEventInfoCtrl(ServerUtils server, MainCtrl mainCtrl) {
-        this.server = server;
-        this.mainCtrl = mainCtrl;
+    public AdminEventInfoCtrl(AdminEventInfoService service) {
+        this.service = service;
     }
     /**
      * Initialize method
@@ -100,24 +97,24 @@ public class AdminEventInfoCtrl {
      */
     public void deleteEvent() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle(mainCtrl.getBundle().getString("are-you-sure"));
-        alert.setHeaderText(mainCtrl.getBundle().getString("you-are-about-to-delete-a-event"));
-        alert.setContentText(mainCtrl.getBundle().getString("are-you-sure"));
+        alert.setTitle(service.getString("are-you-sure"));
+        alert.setHeaderText(service.getString("you-are-about-to-delete-a-event"));
+        alert.setContentText(service.getString("are-you-sure"));
 
-        ButtonType buttonTypeOK = new ButtonType(mainCtrl.getBundle().getString("yes"));
-        ButtonType buttonTypeCancel = new ButtonType(mainCtrl.getBundle().getString("no"));
+        ButtonType buttonTypeOK = new ButtonType(service.getString("yes"));
+        ButtonType buttonTypeCancel = new ButtonType(service.getString("no"));
         alert.getButtonTypes().setAll(buttonTypeOK, buttonTypeCancel);
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == buttonTypeOK){
             String eventTitle = currentEvent.getTitle();
-            server.deleteEvent(currentEvent);
+            service.deleteEvent(currentEvent);
             Alert message = new Alert(Alert.AlertType.INFORMATION);
             message.setTitle(mainCtrl.getBundle().getString("event-deleted-successfully"));
             message.setHeaderText("'"+ eventTitle +"' " +mainCtrl.getBundle()
                     .getString("event-deleted-successfully"));
             message.show();
-            mainCtrl.showAdminOverview();
+            service.showAdminOverview();
         }
     }
 
@@ -125,6 +122,6 @@ public class AdminEventInfoCtrl {
      * Method to return to AdminOverview
      */
     public void backToAdminOverview(){
-        mainCtrl.showAdminOverview();
+        service.showAdminOverview();
     }
 }
