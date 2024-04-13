@@ -99,6 +99,9 @@ public class MainCtrl {
 
     }
 
+    /**
+     * gets the language from the CONFIG file
+     */
     public void getLanguage2() {
         this.locale = new Locale(getLanguageProvidingPath2(CONFIG_PATH));
         this.bundle = ResourceBundle.getBundle("locales.resource", locale);
@@ -116,11 +119,19 @@ public class MainCtrl {
         return userObject.getString("Language");
     }
 
+    /**
+     * gets the server address from the CONFIG file
+     * @return the server address
+     */
     public String getServerAddress() {
         ConfigFileService service =new ConfigFileService(new ServerUtils());
         return service.getServerAddress();
     }
 
+    /**
+     * writes the server address to the CONFIG file
+     * @param serverAddress server address
+     */
     public void writeServerAddressToConfigFile(String serverAddress){
         ConfigFileService service =new ConfigFileService(new ServerUtils());
         service.writeServerAddressToConfigFile(serverAddress);
@@ -196,6 +207,7 @@ public class MainCtrl {
 
     /**
      * shows intro page
+     * @param introStage stage
      */
     public void showIntroPage(Stage introStage) {
         var introPage = Main.FXML.load(IntroPageCtrl.class, bundle, "client",
@@ -430,6 +442,10 @@ public class MainCtrl {
         return service.deleteEventFromConfigByID(id);
     }
 
+    /**
+     * removes all events from the config file
+     * @return true if the events are removed
+     */
     public boolean deleteAllEventsFromConfig() {
         ConfigFileService service =new ConfigFileService(new ServerUtils());
         return service.deleteAllEventsFromConfig();
