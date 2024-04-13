@@ -63,9 +63,9 @@ public class AdminEventInfoCtrl {
                 mapper.writeValue(file, currentEvent);
 
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle(mainCtrl.getBundle().getString("download"));
-                alert.setHeaderText(mainCtrl.getBundle().getString("download_successful"));
-                alert.setContentText(mainCtrl.getBundle()
+                alert.setTitle(service.getString("download"));
+                alert.setHeaderText(service.getString("download_successful"));
+                alert.setContentText(service
                         .getString("download_successful_at") + file.getAbsolutePath());
 
                 alert.showAndWait();
@@ -73,8 +73,8 @@ public class AdminEventInfoCtrl {
                 System.out.println("File created successfully at: " + file.getAbsolutePath());
             } catch (Exception ex) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle(mainCtrl.getBundle().getString("download"));
-                alert.setContentText(mainCtrl.getBundle().getString("download_failed"));
+                alert.setTitle(service.getString("download"));
+                alert.setContentText(service.getString("download_failed"));
 
                 alert.showAndWait();
             }
@@ -110,8 +110,8 @@ public class AdminEventInfoCtrl {
             String eventTitle = currentEvent.getTitle();
             service.deleteEvent(currentEvent);
             Alert message = new Alert(Alert.AlertType.INFORMATION);
-            message.setTitle(mainCtrl.getBundle().getString("event-deleted-successfully"));
-            message.setHeaderText("'"+ eventTitle +"' " +mainCtrl.getBundle()
+            message.setTitle(service.getString("event-deleted-successfully"));
+            message.setHeaderText("'"+ eventTitle +"' " +service
                     .getString("event-deleted-successfully"));
             message.show();
             service.showAdminOverview();

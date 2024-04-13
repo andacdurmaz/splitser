@@ -3,6 +3,8 @@ package client.services;
 import client.scenes.MainCtrl;
 import client.utils.ServerUtils;
 import commons.Event;
+import commons.Expense;
+import commons.User;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
@@ -61,5 +63,23 @@ public class AdminOverviewService {
      */
     public String getString(String s){
         return mainCtrl.getBundle().getString(s);
+    }
+
+    /**
+     *  Creates a user
+     * @param newPayer User
+     * @return User
+     */
+    public User addUser(User newPayer) {
+        return server.addUser(newPayer);
+    }
+
+    /**
+     * Creates an expense
+     * @param expense2 Expense
+     * @return Expense
+     */
+    public Expense addExpense(Expense expense2) {
+        return server.addExpense(expense2);
     }
 }

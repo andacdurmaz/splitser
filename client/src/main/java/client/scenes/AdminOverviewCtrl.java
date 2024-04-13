@@ -129,7 +129,8 @@ public class AdminOverviewCtrl implements Initializable {
             ArrayList<User> newParticipants = createNewParticipants(newEvent);
             newEvent.setParticipants(newParticipants);
 
-            List<Long> eventCodes = server.getEvents().stream().map(q -> q.getEventCode()).toList();
+            List<Long> eventCodes = service.getEvents()
+                    .stream().map(q -> q.getEventCode()).toList();
             Random random = new Random();
             long eventCode;
             do {
@@ -162,7 +163,7 @@ public class AdminOverviewCtrl implements Initializable {
             User newPayer = new User(expense.getPayer().getUsername(),
                     expense.getPayer().getEmail(), expense.getPayer().getIban(),
                     expense.getPayer().getBic());
-            User newPayingParticipant = server.addUser(newPayer);
+            User newPayingParticipant = service.addUser(newPayer);
 
             ArrayList<User> newPayingParticipants = new ArrayList<>();
 
@@ -170,13 +171,13 @@ public class AdminOverviewCtrl implements Initializable {
                 User newPayingParticipant2 = new User(payingParticipant.getUsername(),
                         payingParticipant.getEmail(),
                         payingParticipant.getIban(), payingParticipant.getBic());
-                User newPayingParticipant3 = server.addUser(newPayingParticipant2);
+                User newPayingParticipant3 = service.addUser(newPayingParticipant2);
                 newPayingParticipants.add(newPayingParticipant3);
             }
 
             Expense expense2 = new Expense(expense.getName(), expense.getAmount(),
                     newPayingParticipant, newPayingParticipants, expense.getDate());
-            Expense expense3 = server.addExpense(expense2);
+            Expense expense3 = service.addExpense(expense2);
             newExpenses.add(expense3);
         }
         return newExpenses;
@@ -192,7 +193,7 @@ public class AdminOverviewCtrl implements Initializable {
         for(User user : newEvent.getParticipants()){
             User newUser = new User(user.getUsername(),
                     user.getEmail(), user.getIban(), user.getBic());
-            User newUser2 = server.addUser(newUser);
+            User newUser2 = service.addUser(newUser);
             newParticipants.add(newUser2);
         }
         return newParticipants;
@@ -259,7 +260,7 @@ public class AdminOverviewCtrl implements Initializable {
             Long eventId1 = s1.getId();
             Long eventId2 = s2.getId();
 
-            return eventId1.compareTo(eventId2);
+            return eventId2.compareTo(eventId1);
         }};
 
     private static Comparator<Event> eventLastActivityComparator = new Comparator<Event>() {
