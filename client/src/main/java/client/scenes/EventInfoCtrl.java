@@ -201,8 +201,7 @@ public class EventInfoCtrl {
     public void addExpense(ActionEvent actionEvent){
         if(this.event.getParticipants().size() < 2) {
             ((Label) noParticipantPane.getChildren().get(0))
-                    .setText("        Make sure you have at least two participants." +
-                    "\n                     (one payer and one payee)");
+                    .setText(service.getString("make-sure-you-have-at-least-two-participants"));
             noParticipantPane.setVisible(true);
             noParticipantErrButton.requestFocus();
         } else {
@@ -312,7 +311,7 @@ public class EventInfoCtrl {
             participantsLabel.setText(label);
         }
         else {
-            participantsLabel.setText("No available participants.");
+            participantsLabel.setText(service.getString("no-available-participants"));
         }
         participantCombobox.getItems().setAll(event.getParticipants());
         expenseComboBox.getItems().setAll(event.getParticipants());
@@ -377,7 +376,7 @@ public class EventInfoCtrl {
         if (eventTitle.isEditable()) {
             if (eventTitle.getText().isEmpty()){
                 ((Label) noParticipantPane.getChildren().get(0))
-                        .setText("                    A title is required for an event.");
+                        .setText(service.getString("a-title-is-required-for-an-event"));
                 noParticipantPane.setVisible(true);
                 disableEditingTitle();
                 return;

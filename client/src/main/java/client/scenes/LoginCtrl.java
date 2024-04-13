@@ -31,6 +31,7 @@ public class LoginCtrl implements Initializable {
     private LoginService service;
 
 
+
     /**
      * @param service constructor
      */
@@ -66,7 +67,7 @@ public class LoginCtrl implements Initializable {
         if(service.connect(password))
             service.setSession();
         else
-            error.setText("Incorrect Password.");
+            error.setText(service.getString("incorrect-password"));
     }
 
     /**

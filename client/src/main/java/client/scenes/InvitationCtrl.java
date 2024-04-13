@@ -7,9 +7,11 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
 
+
 public class InvitationCtrl {
 
     private final InvitationService service;
+
     private Event event;
 
     @FXML
@@ -28,6 +30,7 @@ public class InvitationCtrl {
     public InvitationCtrl(InvitationService service, Event event) {
         this.service = service;
         this.event = event;
+
     }
 
 

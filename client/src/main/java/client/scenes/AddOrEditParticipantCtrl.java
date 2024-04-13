@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+
 public class AddOrEditParticipantCtrl {
     private final AddOrEditParticipantService service;
 
@@ -143,7 +144,7 @@ public class AddOrEditParticipantCtrl {
         user.setUsername(name.getText());
         if (email.getText() == null || !EmailValidator.getInstance().isValid(email.getText())) {
             ((Label) wrongEmail.getChildren().get(0))
-                    .setText("  Invalid E-mail.\nPlease try again.");
+                    .setText(service.getString("invalid-email-please-try-again"));
             errorMessage();
             participants.add(old);
             user = old;
@@ -153,7 +154,7 @@ public class AddOrEditParticipantCtrl {
         if(iban.getText() != null && !iban.getText().isEmpty()){
             if (!Iban.isValid(iban.getText())) {
                 ((Label) wrongEmail.getChildren().get(0))
-                        .setText("  Invalid IBAN.\nPlease try again.");
+                        .setText(service.getString("invalid-iban-please-try-again"));
                 errorMessage();
                 participants.add(old);
                 user = old;
@@ -167,7 +168,7 @@ public class AddOrEditParticipantCtrl {
         if (bic.getText() != null && !bic.getText().isEmpty()) {
             if (!Bic.isValid(bic.getText())) {
                 ((Label) wrongEmail.getChildren().get(0))
-                        .setText("  Invalid BIC.\nPlease try again.");
+                        .setText(service.getString("invalid-bic-please-try-again"));
                 errorMessage();
                 participants.add(old);
                 user = old;
@@ -218,7 +219,7 @@ public class AddOrEditParticipantCtrl {
             if (email.getText() == null || email.getText().length() == 0
                     || !EmailValidator.getInstance().isValid(email.getText())) {
                 ((Label) wrongEmail.getChildren().get(0))
-                        .setText("  Invalid E-mail.\nPlease try again.");
+                        .setText(service.getString("invalid-email-please-try-again"));
                 errorMessage();
                 return null;
             } else {
@@ -228,7 +229,7 @@ public class AddOrEditParticipantCtrl {
             if(iban.getText() != null && !iban.getText().isEmpty()){
                 if (!Iban.isValid(iban.getText())) {
                     ((Label) wrongEmail.getChildren().get(0))
-                            .setText("  Invalid IBAN.\nPlease try again.");
+                            .setText(service.getString("invalid-iban-please-try-again"));
                     errorMessage();
                     return null;
                 } else
@@ -236,7 +237,7 @@ public class AddOrEditParticipantCtrl {
             } if (bic.getText() != null && !bic.getText().isEmpty()) {
                 if (!Bic.isValid(bic.getText())) {
                     ((Label) wrongEmail.getChildren().get(0))
-                            .setText("  Invalid BIC.\nPlease try again.");
+                            .setText(service.getString("invalid-bic-please-try-again"));
                     errorMessage();
                     return null;
                 } else

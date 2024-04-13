@@ -1,6 +1,6 @@
 package client.scenes;
 
-import client.utils.ServerUtils;
+import client.services.ExpenseInfoService;
 import commons.Event;
 import commons.Expense;
 import commons.User;
@@ -14,12 +14,12 @@ import javafx.util.StringConverter;
 
 import javax.inject.Inject;
 
+
 public class ExpenseInfoCtrl  {
 
-    private final ServerUtils server;
-    private final MainCtrl mainCtrl;
     private Event event;
     private Expense expense;
+    private final ExpenseInfoService service;
 
     @FXML
     private Label title;
@@ -38,15 +38,15 @@ public class ExpenseInfoCtrl  {
 
     @FXML
     private AnchorPane warning;
+
     /**
-     * constructor for the page
-     * @param server for accessing the server
-     * @param mainCtrl for accessing the other pages
+     * Constructor
+     *
+     * @param service DI service
      */
     @Inject
-    public ExpenseInfoCtrl(ServerUtils server, MainCtrl mainCtrl) {
-        this.server = server;
-        this.mainCtrl = mainCtrl;
+    public ExpenseInfoCtrl(ExpenseInfoService service) {
+        this.service = service;
     }
 
     /**
@@ -62,7 +62,7 @@ public class ExpenseInfoCtrl  {
      * @param actionEvent when the button is clicked
      */
     public void back(ActionEvent actionEvent) {
-        mainCtrl.showEventInfo(event);
+        service.getMainCtrl().showEventInfo(event);
     }
 
     /**
@@ -90,7 +90,7 @@ public class ExpenseInfoCtrl  {
                     @Override
                     public String toString(User user) {
                         double total = expense.getAmount()/(expense.getPayingParticipants().size());
-                        return user.getUsername() + " owes " + total + " \u20AC";
+                        return user.getUsername() + service.getString("owes") + total + " \u20AC";
                     }
                     @Override
                     public User fromString(String string) {
@@ -114,10 +114,10 @@ public class ExpenseInfoCtrl  {
      */
     public void delete(ActionEvent actionEvent) {
         event.getExpenses().remove(expense);
-        server.updateEvent(event);
-        server.deleteExpense(expense);
+        service.getServer().updateEvent(event);
+        service.getServer().deleteExpense(expense);
         warning.setVisible(false);
-        mainCtrl.showEventInfo(event);
+        service.getMainCtrl().showEventInfo(event);
     }
 
     /**

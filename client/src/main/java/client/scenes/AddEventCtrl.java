@@ -42,7 +42,6 @@ public class AddEventCtrl {
     @Inject
     public AddEventCtrl(AddEventService service) {
         this.service = service;
-
     }
 
     /**

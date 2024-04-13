@@ -62,4 +62,12 @@ public class AdminOverviewService {
     public String getString(String s){
         return mainCtrl.getBundle().getString(s);
     }
+
+    /**
+     * gets the main controller
+     * @return main controller
+     */
+    public MainCtrl getMainCtrl() {
+        return mainCtrl;
+    }
 }

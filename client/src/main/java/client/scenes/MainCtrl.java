@@ -31,7 +31,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
-import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -153,7 +152,7 @@ public class MainCtrl {
                 "scenes", "StartPage.fxml");
         StartPageCtrl startPageCtrl = startPage.getKey();
         Scene startPageScene = new Scene(startPage.getValue());
-        primaryStage.setTitle("Home");
+        primaryStage.setTitle(getBundle().getString("home"));
         startPageCtrl.removeErrorMessage();
         primaryStage.setScene(startPageScene);
         startPageCtrl.refresh();
@@ -169,7 +168,7 @@ public class MainCtrl {
         AddEventCtrl addEventCtrl = addEvent.getKey();
         Scene addEventCtrlScene = new Scene(addEvent.getValue());
         addEventCtrl.goBack(null);
-        primaryStage.setTitle("Events: Adding Event");
+        primaryStage.setTitle(getBundle().getString("events-adding-event"));
         primaryStage.setScene(addEventCtrlScene);
         addEventCtrlScene.setOnKeyPressed(e -> addEventCtrl.keyPressed(e));
     }
@@ -184,7 +183,7 @@ public class MainCtrl {
                 "scenes", "EventInfo.fxml");
         EventInfoCtrl eventInfoCtrl = eventInfo.getKey();
         Scene eventInfoScene = new Scene(eventInfo.getValue());
-        primaryStage.setTitle("Event Info");
+        primaryStage.setTitle(getBundle().getString("event-info"));
         eventInfoCtrl.setEvent(event);
         eventInfoCtrl.setData(event);
         primaryStage.setScene(eventInfoScene);
@@ -203,7 +202,7 @@ public class MainCtrl {
                 "scenes", "AddOrEditExpense.fxml");
         AddOrEditExpenseCtrl addOrEditExpenseCtrl = addOrEditExpense.getKey();
         Scene addOrEditExpenseScene = new Scene(addOrEditExpense.getValue());
-        primaryStage.setTitle("Add/Edit expense");
+        primaryStage.setTitle(getBundle().getString("add/edit-expense"));
         addOrEditExpenseCtrl.initialize();
         addOrEditExpenseCtrl.setup(event, expense);
         primaryStage.setScene(addOrEditExpenseScene);
@@ -222,7 +221,7 @@ public class MainCtrl {
                 "scenes", "AddOrEditParticipant.fxml");
         AddOrEditParticipantCtrl addOrEditParticipantCtrl = addOrEditParticipants.getKey();
         Scene addOrEditParticipantsScene = new Scene(addOrEditParticipants.getValue());
-        primaryStage.setTitle("Add/Edit participant");
+        primaryStage.setTitle(getBundle().getString("add/edit-participant"));
         addOrEditParticipantCtrl.setUser(user);
         addOrEditParticipantCtrl.setEvent(event);
         addOrEditParticipantCtrl.editFields(user);
@@ -284,7 +283,7 @@ public class MainCtrl {
                 "scenes", "AdminOverview.fxml");
         AdminOverviewCtrl adminOverviewCtrl = adminOverview.getKey();
         Scene adminOverviewScene = new Scene(adminOverview.getValue());
-        primaryStage.setTitle("Admin: Overview");
+        primaryStage.setTitle(getBundle().getString("admin-overview"));
         primaryStage.setScene(adminOverviewScene);
         adminOverviewCtrl.refresh();
         adminOverviewScene.getAccelerators().put(ctrlT, adminOverviewCtrl::adminAddEvent);
@@ -301,7 +300,7 @@ public class MainCtrl {
                 "scenes", "AdminEventInfo.fxml");
         AdminEventInfoCtrl adminEventInfoCtrl = adminEventInfo.getKey();
         Scene adminEventInfoScene = new Scene(adminEventInfo.getValue());
-        primaryStage.setTitle("Admin: Event info");
+        primaryStage.setTitle(getBundle().getString("admin-event-info"));
         primaryStage.setScene(adminEventInfoScene);
         adminEventInfoCtrl.setEvent(event);
         adminEventInfoScene.getAccelerators().put(esc, adminEventInfoCtrl::backToAdminOverview);
@@ -521,7 +520,7 @@ public class MainCtrl {
 
         languageSwitchCtrl.setReturn(c);
         Stage popup = new Stage();
-        popup.setTitle("Language switch");
+        popup.setTitle(getBundle().getString("language-switch"));
         popup.setScene(languageSwitchScene);
         popup.show();
     }
@@ -536,7 +535,7 @@ public class MainCtrl {
                 "scenes", "ExpenseInfo.fxml");
         ExpenseInfoCtrl expenseInfoCtrl = expenseInfo.getKey();
         Scene expenseInfoScene = new Scene(expenseInfo.getValue());
-        primaryStage.setTitle("Expense Info");
+        primaryStage.setTitle(getBundle().getString("expense-info"));
         expenseInfoCtrl.setEvent(event);
         expenseInfoCtrl.setExpense(selectedExpense);
         expenseInfoCtrl.setData();

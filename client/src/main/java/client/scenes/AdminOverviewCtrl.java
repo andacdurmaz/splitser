@@ -123,7 +123,7 @@ public class AdminOverviewCtrl implements Initializable {
             service.addEvent(newEvent);
             refresh();
         }catch (IOException ex) {
-            System.out.println("There was a problem with adding a event (Admin)");
+            System.out.println(service.getString("there-was-a-problem-with-adding-an-event-admin"));
         }
 
     }

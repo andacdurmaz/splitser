@@ -70,4 +70,12 @@ public class AdminEventInfoService {
         return mainCtrl.getBundle().getString(s);
     }
 
+    /**
+     * gets the main controller
+     * @return main controller
+     */
+    public MainCtrl getMainCtrl() {
+        return mainCtrl;
+    }
+
 }

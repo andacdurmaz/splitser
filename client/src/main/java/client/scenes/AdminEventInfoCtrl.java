@@ -63,7 +63,8 @@ public class AdminEventInfoCtrl {
                 currentEvent.setId(0);
                 mapper.writeValue(file, currentEvent);
 
-                System.out.println("File created successfully at: " + file.getAbsolutePath());
+                System.out.println(service
+                        .getString("file-created-successfully-at") + file.getAbsolutePath());
                 adminDownloadButton.setText(service.getString("download_successful"));
             } catch (IOException ex) {
                 adminDownloadButton.setText(service.getString("download-failed"));

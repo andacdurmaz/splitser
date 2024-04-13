@@ -35,6 +35,7 @@ import java.util.*;
 public class LanguageSwitchCtrl implements Initializable {
 
     private final LanguageSwitchService service;
+
     private char returningPage;
     @FXML
     private ImageView englishImage;
@@ -111,7 +112,7 @@ public class LanguageSwitchCtrl implements Initializable {
         Stage stage = (Stage) englishImage.getScene().getWindow();
         stage.close();
         if (returningPage=='o')
-            System.out.println("overview");
+            System.out.println(service.getString("overview"));
         else
             service.showStartPage();
     }
@@ -169,7 +170,7 @@ public class LanguageSwitchCtrl implements Initializable {
     }
 
     /**
-     * Method to download the language themplate
+     * Method to download the language template
      * @param e the action event
      */
     public void downloadTemplate(ActionEvent e) {
@@ -177,7 +178,7 @@ public class LanguageSwitchCtrl implements Initializable {
         directoryChooser.setTitle("Select Directory");
         Stage stage = (Stage) downloadTemplate.getScene().getWindow();
         File selectedDirectory = directoryChooser.showDialog(stage);
-        File file = new File(selectedDirectory, "resource_THEMPLATE.properties");
+        File file = new File(selectedDirectory, "resource_TEMPLATE.properties");
 
         try {
 
@@ -192,7 +193,7 @@ public class LanguageSwitchCtrl implements Initializable {
             }
 
             System.out.println(bundleSet);
-            properties.store(new FileOutputStream(file), "THEMPLATE FILE OF SPLITTY");
+            properties.store(new FileOutputStream(file), "TEMPLATE FILE OF SPLITTY");
 
             System.out.println("File created successfully at: " + file.getAbsolutePath());
             downloadTemplate.setText(service.getString("download_successful"));

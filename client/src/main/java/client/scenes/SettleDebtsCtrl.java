@@ -1,6 +1,6 @@
 package client.scenes;
 
-import client.utils.ServerUtils;
+import client.services.SettleDebtsService;
 import commons.Debt;
 import commons.Event;
 import commons.Expense;
@@ -12,9 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SettleDebtsCtrl {
-    private final ServerUtils server;
-    private final MainCtrl mainCtrl;
     private Event event;
+    private final SettleDebtsService service;
 
     @FXML
     private ListView<Debt> debtsListView;
@@ -30,15 +29,13 @@ public class SettleDebtsCtrl {
     /**
      * Constructor
      *
-     * @param server   serverUtils
-     * @param mainCtrl mainCtrl
      * @param event    event of expense
+     * @param service service
      */
     @Inject
-    public SettleDebtsCtrl(ServerUtils server, MainCtrl mainCtrl, Event event) {
-        this.server = server;
-        this.mainCtrl = mainCtrl;
+    public SettleDebtsCtrl(Event event, SettleDebtsService service){
         this.event = event;
+        this.service = service;
         initialize();
     }
 
@@ -60,10 +57,10 @@ public class SettleDebtsCtrl {
     private void handleSettleDebt() {
         Debt selectedDebt = debtsListView.getSelectionModel().getSelectedItem();
         if (selectedDebt != null) {
-            selectedDebtLabel.setText("Settling debt: " + selectedDebt);
+            selectedDebtLabel.setText(service.getString("settling-debt") + selectedDebt);
             //extra methods to settle here
         } else {
-            selectedDebtLabel.setText("No debt selected.");
+            selectedDebtLabel.setText(service.getString("no-debt-selected"));
         }
     }
 
@@ -72,6 +69,6 @@ public class SettleDebtsCtrl {
      */
     @FXML
     private void handleBack() {
-        mainCtrl.showEventInfo(this.event);
+        service.getMainCtrl().showEventInfo(this.event);
     }
 }
