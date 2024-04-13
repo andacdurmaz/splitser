@@ -189,6 +189,7 @@ public class MainCtrl {
         eventInfoCtrl.setData(event);
         primaryStage.setScene(eventInfoScene);
         eventInfoScene.setOnKeyPressed(e -> eventInfoCtrl.keyPressed(e));
+        eventInfoScene.setOnKeyPressed(e -> eventInfoCtrl.keyCombinationPressed(e));
     }
 
 
