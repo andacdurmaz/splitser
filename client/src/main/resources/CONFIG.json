@@ -1,1 +1,1 @@
-{"User":{"Language":"en","Events":[],"Currency":"USD","name":"John Doe","ServerAddress":"localhost:8080"}}
+{"User":{"Language":"en","Events":[{"eventCode":6303282,"expenseTags":[],"amountOfParticipants":0,"sumOfExpenses":0,"description":"","id":15102,"title":"test","participants":[],"expenses":[]}],"Currency":"USD","name":"John Doe","ServerAddress":"localhost:8080"}}

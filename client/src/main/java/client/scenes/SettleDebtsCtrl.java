@@ -51,7 +51,6 @@ public class SettleDebtsCtrl {
     public SettleDebtsCtrl(Event event, SettleDebtsService service) {
         this.event = event;
         this.service = service;
-        initialize();
     }
 
 
@@ -134,12 +133,12 @@ public class SettleDebtsCtrl {
     private void settleDebtUser() {
         for (User u: event.getParticipants()) {
             double totalDebt = 0.0;
-            List<Debt> payerDebts =  server.getDebts().stream()
+            List<Debt> payerDebts = service.getServer().getDebts().stream()
                     .filter(q -> q.getPayer().equals(u)).toList();
             for (Debt d: payerDebts) {
                 totalDebt += d.getAmount();
             }
-            List<Debt> payeeDebts =  server.getDebts().stream()
+            List<Debt> payeeDebts =  service.getServer().getDebts().stream()
                     .filter(q -> q.getPayee().equals(u)).toList();
             for (Debt d: payeeDebts) {
                 totalDebt -= d.getAmount();
@@ -214,7 +213,7 @@ public class SettleDebtsCtrl {
             }
         });
 
-        for (Debt d: server.getDebts()) {
+        for (Debt d: service.getServer().getDebts()) {
             if (d.getEvent().equals(event)) {
                 this.debts.add(d);
             }
