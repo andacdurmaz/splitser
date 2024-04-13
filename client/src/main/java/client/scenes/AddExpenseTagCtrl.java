@@ -4,16 +4,16 @@ import client.services.AddExpenseTagService;
 import commons.*;
 import jakarta.ws.rs.WebApplicationException;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ColorPicker;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Modality;
 
 import javax.inject.Inject;
+
 import javafx.scene.input.KeyEvent;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class AddExpenseTagCtrl {
     private final AddExpenseTagService service;
@@ -30,8 +30,9 @@ public class AddExpenseTagCtrl {
 
     /**
      * Constructor
+     *
      * @param service service
-     * @param event event
+     * @param event   event
      */
     @Inject
     public AddExpenseTagCtrl(AddExpenseTagService service, Event event) {
@@ -40,9 +41,9 @@ public class AddExpenseTagCtrl {
     }
 
 
-
     /**
      * Set event
+     *
      * @param event to set
      */
     public void setEvent(Event event) {
@@ -61,25 +62,38 @@ public class AddExpenseTagCtrl {
      * Confirm add/edit
      */
     public void ok() {
-        ExpenseTag newExpenseTag = getExpenseTag();
-        try {
-            ExpenseTag tmp = service.addExpenseTag(newExpenseTag);
-            newExpenseTag.setId(tmp.getId());
-        } catch (WebApplicationException e) {
-            var alert = new Alert(Alert.AlertType.ERROR);
-            alert.initModality(Modality.APPLICATION_MODAL);
-            alert.setContentText(e.getMessage());
-            alert.showAndWait();
-            return;
+        Alert alertCon = new Alert(Alert.AlertType.CONFIRMATION);
+        alertCon.setTitle("Confirmation Dialog");
+        alertCon.setContentText("Are you sure you want to add this tag");
+        Optional<ButtonType> result = alertCon.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            ExpenseTag newExpenseTag = getExpenseTag();
+            try {
+                ExpenseTag tmp = service.addExpenseTag(newExpenseTag);
+                newExpenseTag.setId(tmp.getId());
+            } catch (WebApplicationException e) {
+                var alert = new Alert(Alert.AlertType.ERROR);
+                alert.initModality(Modality.APPLICATION_MODAL);
+                alert.setContentText(e.getMessage());
+                alert.showAndWait();
+                return;
+            }
+            clearFields();
+
+            List<ExpenseTag> expenseTags = new ArrayList<>(event.getExpenseTags());
+            if (!expenseTags.contains(newExpenseTag))
+                expenseTags.add(newExpenseTag);
+            event.setExpenseTags(expenseTags);
+
+            Alert confirmation = new Alert(Alert.AlertType.INFORMATION);
+            confirmation.setTitle("New Expense Tag Added Successfully!");
+            confirmation.setHeaderText(null);
+            confirmation.setContentText("Successfully added a new expense tag");
+            Optional<ButtonType> res = confirmation.showAndWait();
+            if (res.get() == ButtonType.OK) {
+                service.updateAndShow(event);
+            }
         }
-        clearFields();
-
-        List<ExpenseTag> expenseTags = new ArrayList<>(event.getExpenseTags());
-        if (!expenseTags.contains(newExpenseTag))
-            expenseTags.add(newExpenseTag);
-        event.setExpenseTags(expenseTags);
-        service.updateAndShow(event);
-
     }
 
     private ExpenseTag getExpenseTag() {
@@ -99,7 +113,7 @@ public class AddExpenseTagCtrl {
     public void keyPressed(KeyEvent e) {
         switch (e.getCode()) {
             case ENTER:
-                if(colour.isFocused()) {
+                if (colour.isFocused()) {
                     showColors();
                     break;
                 }
@@ -111,6 +125,7 @@ public class AddExpenseTagCtrl {
                 break;
         }
     }
+
     @FXML
     private void showColors() {
         colour.show();
