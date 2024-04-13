@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="379.0" prefWidth="600.0" style="background-color: white;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.IntroPageCtrl">
+    <children>
+        <Label layoutX="203.0" layoutY="39.0" text="Splitty" textFill="#fd7f20" underline="true">
+            <font>
+                <Font name="Showcard Gothic" size="48.0" />
+            </font>
+        </Label>
+        <Button fx:id="startButton" layoutX="103.0" layoutY="118.0" mnemonicParsing="false" onAction="#start" prefHeight="144.0" prefWidth="393.0" style="-fx-background-color: fd7f20;" text="Start" textFill="WHITE">
+            <font>
+                <Font size="65.0" />
+            </font>
+        </Button>
+        <Text layoutX="88.0" layoutY="307.0" strokeType="OUTSIDE" strokeWidth="0.0" text="%server-address-without-http" textAlignment="CENTER" wrappingWidth="423.92303466796875" />
+        <TextField fx:id="serverAddress" layoutX="193.0" layoutY="326.0" minHeight="-Infinity" prefHeight="20.0" prefWidth="159.0" promptText="%enter-address">
+            <opaqueInsets>
+                <Insets />
+            </opaqueInsets>
+        </TextField>
+        <Button fx:id="serverAddressButton" layoutX="381.0" layoutY="325.0" minHeight="-Infinity" mnemonicParsing="false" onAction="#processServer" prefHeight="22.0" prefWidth="32.0" style=" -fx-background-color: fd7f20" text="→" textFill="WHITE" />
+    </children>
+</AnchorPane>
