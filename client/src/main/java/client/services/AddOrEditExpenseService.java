@@ -5,6 +5,7 @@ import client.utils.ServerUtils;
 import commons.Event;
 import commons.Expense;
 import commons.User;
+import commons.Debt;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
@@ -59,9 +60,17 @@ public class AddOrEditExpenseService {
 
     /**
      * @param e Expense
+     * @return the added expense
      */
-    public void addExpense(Expense e){
-        server.addExpense(e);
+    public Expense addExpense(Expense e){
+        return server.addExpense(e);
+    }
+
+    /**
+     * @param d Debt
+     */
+    public void addDebt(Debt d){
+        server.addDebt(d);
     }
 
     /**
@@ -69,6 +78,13 @@ public class AddOrEditExpenseService {
      */
     public void updateExpense(Expense e){
         server.updateExpense(e);
+    }
+
+    /**
+     * @param u User
+     */
+    public void updateUser(User u){
+        server.updateUser(u);
     }
 
     /**

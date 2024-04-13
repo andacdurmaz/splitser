@@ -19,6 +19,8 @@ import client.services.AdminOverviewService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Inject;
 import commons.Event;
+import commons.Expense;
+import commons.User;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -112,7 +114,7 @@ public class AdminOverviewCtrl implements Initializable {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select your JSON file");
         fileChooser.getExtensionFilters().addAll(onlyJson,allFiles);
-        Stage stage = (Stage) adminAddEventButton.getScene().getWindow();
+        Stage stage = new Stage();
         File selectedFile = fileChooser.showOpenDialog(stage);
         try {
             String selectedJson = Files.readString(selectedFile.toPath());
@@ -120,13 +122,83 @@ public class AdminOverviewCtrl implements Initializable {
             ObjectMapper objectMapper = new ObjectMapper();
 
             Event newEvent = objectMapper.readValue(selectedJson, Event.class);
+
+            ArrayList<Expense> newExpenses = createNewExpenses(newEvent);
+            newEvent.setExpenses(newExpenses);
+
+            ArrayList<User> newParticipants = createNewParticipants(newEvent);
+            newEvent.setParticipants(newParticipants);
+
+            List<Long> eventCodes = service.getEvents()
+                    .stream().map(q -> q.getEventCode()).toList();
+            Random random = new Random();
+            long eventCode;
+            do {
+                eventCode = Math.abs(random.nextLong() % 100000000);
+            }
+            while (eventCodes.contains(eventCode));
+
+            newEvent.setEventCode(eventCode);
+
             service.addEvent(newEvent);
+            System.out.println(service.getString("event-added-successfully"));
+
             refresh();
         }catch (IOException ex) {
             System.out.println(service.getString("there-was-a-problem-with-adding-an-event-admin"));
+            ex.printStackTrace();
         }
 
     }
+
+    /**
+     * Method which creates new expenses from an existing event
+     * @param newEvent the original event
+     * @return returns the created expenses
+     */
+    public ArrayList<Expense> createNewExpenses(Event newEvent) {
+        ArrayList<Expense> newExpenses = new ArrayList<>();
+        for (Expense expense : newEvent.getExpenses()) {
+
+            User newPayer = new User(expense.getPayer().getUsername(),
+                    expense.getPayer().getEmail(), expense.getPayer().getIban(),
+                    expense.getPayer().getBic());
+            User newPayingParticipant = service.addUser(newPayer);
+
+            ArrayList<User> newPayingParticipants = new ArrayList<>();
+
+            for(User payingParticipant : expense.getPayingParticipants()){
+                User newPayingParticipant2 = new User(payingParticipant.getUsername(),
+                        payingParticipant.getEmail(),
+                        payingParticipant.getIban(), payingParticipant.getBic());
+                User newPayingParticipant3 = service.addUser(newPayingParticipant2);
+                newPayingParticipants.add(newPayingParticipant3);
+            }
+
+            Expense expense2 = new Expense(expense.getName(), expense.getAmount(),
+                    newPayingParticipant, newPayingParticipants, expense.getDate());
+            Expense expense3 = service.addExpense(expense2);
+            newExpenses.add(expense3);
+        }
+        return newExpenses;
+    }
+
+    /**
+     * Method which creates new participants from an existing event
+     * @param newEvent the original event
+     * @return returns the created participants
+     */
+    public ArrayList<User> createNewParticipants(Event newEvent) {
+        ArrayList<User> newParticipants = new ArrayList<>();
+        for(User user : newEvent.getParticipants()){
+            User newUser = new User(user.getUsername(),
+                    user.getEmail(), user.getIban(), user.getBic());
+            User newUser2 = service.addUser(newUser);
+            newParticipants.add(newUser2);
+        }
+        return newParticipants;
+    }
+
     /**
      * Refreshes the page
      */
@@ -188,7 +260,7 @@ public class AdminOverviewCtrl implements Initializable {
             Long eventId1 = s1.getId();
             Long eventId2 = s2.getId();
 
-            return eventId1.compareTo(eventId2);
+            return eventId2.compareTo(eventId1);
         }};
 
     private static Comparator<Event> eventLastActivityComparator = new Comparator<Event>() {
@@ -196,14 +268,14 @@ public class AdminOverviewCtrl implements Initializable {
             Long lastExpenseId1;
             Long lastExpenseId2;
             if(s1.getExpenses().isEmpty() && !s2.getExpenses().isEmpty())
-                return -1;
+                return 1;
             else if(!s1.getExpenses().isEmpty() && s2.getExpenses().isEmpty())
                 return -1;
             else if(!s1.getExpenses().isEmpty() && !s2.getExpenses().isEmpty()){
                 lastExpenseId1 = s1.getExpenses().getLast().getId();
                 lastExpenseId2 = s2.getExpenses().getLast().getId();
 
-                return lastExpenseId1.compareTo(lastExpenseId2);}
+                return lastExpenseId2.compareTo(lastExpenseId1);}
             else
                 return 0;
         }};

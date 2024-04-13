@@ -16,7 +16,6 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Optional;
 
 public class AdminEventInfoCtrl {
@@ -63,11 +62,21 @@ public class AdminEventInfoCtrl {
                 currentEvent.setId(0);
                 mapper.writeValue(file, currentEvent);
 
-                System.out.println(service
-                        .getString("file-created-successfully-at") + file.getAbsolutePath());
-                adminDownloadButton.setText(service.getString("download_successful"));
-            } catch (IOException ex) {
-                adminDownloadButton.setText(service.getString("download-failed"));
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle(service.getString("download"));
+                alert.setHeaderText(service.getString("download_successful"));
+                alert.setContentText(service
+                        .getString("download_successful_at") + file.getAbsolutePath());
+
+                alert.showAndWait();
+
+                System.out.println("File created successfully at: " + file.getAbsolutePath());
+            } catch (Exception ex) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle(service.getString("download"));
+                alert.setContentText(service.getString("download_failed"));
+
+                alert.showAndWait();
             }
         }
     };
@@ -98,7 +107,13 @@ public class AdminEventInfoCtrl {
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == buttonTypeOK){
+            String eventTitle = currentEvent.getTitle();
             service.deleteEvent(currentEvent);
+            Alert message = new Alert(Alert.AlertType.INFORMATION);
+            message.setTitle(service.getString("event-deleted-successfully"));
+            message.setHeaderText("'"+ eventTitle +"' " +service
+                    .getString("event-deleted-successfully"));
+            message.show();
             service.showAdminOverview();
         }
     }

@@ -1,7 +1,8 @@
 package client.scenes;
 
+import commons.Event;
+import commons.User;
 import client.services.AddOrEditParticipantService;
-import commons.*;
 import fr.marcwrobel.jbanking.bic.Bic;
 import fr.marcwrobel.jbanking.iban.Iban;
 import jakarta.ws.rs.WebApplicationException;
@@ -11,13 +12,12 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
-
-import javax.inject.Inject;
-import javafx.scene.input.KeyEvent;
 import org.apache.commons.validator.routines.EmailValidator;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -143,6 +143,7 @@ public class AddOrEditParticipantCtrl {
     private boolean formatCheck(List<User> participants, User old) {
         user.setUsername(name.getText());
         if (email.getText() == null || !EmailValidator.getInstance().isValid(email.getText())) {
+
             ((Label) wrongEmail.getChildren().get(0))
                     .setText(service.getString("invalid-email-please-try-again"));
             errorMessage();
@@ -192,6 +193,12 @@ public class AddOrEditParticipantCtrl {
         try {
             User temp = service.addUser(getUser());
             user.setUserID(temp.getUserID());
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("New User Added Successfully!");
+            alert.setHeaderText(null);
+            alert.setContentText("Successfully added new participant to the event: "
+                    + temp.getUsername());
+            alert.showAndWait();
         } catch (WebApplicationException e) {
             var alert = new Alert(Alert.AlertType.ERROR);
             alert.initModality(Modality.APPLICATION_MODAL);

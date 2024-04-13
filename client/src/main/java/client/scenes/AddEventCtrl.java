@@ -12,6 +12,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
+
 import java.util.List;
 import java.util.Random;
 
@@ -63,12 +64,17 @@ public class AddEventCtrl {
         try {
             Event tmp = service.addEvent(newEvent);
             newEvent.setId(tmp.getId());
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("New Event Created Successfully!");
+            alert.setHeaderText(null);
+            alert.setContentText("Successfully created new Event: " + newEvent.getTitle());
+            alert.showAndWait();
             service.writeToConfig(newEvent);
         } catch (WebApplicationException e) {
-            var alert = new Alert(Alert.AlertType.ERROR);
-            alert.initModality(Modality.APPLICATION_MODAL);
-            alert.setContentText(e.getMessage());
-            alert.showAndWait();
+            var alertError = new Alert(Alert.AlertType.ERROR);
+            alertError.initModality(Modality.APPLICATION_MODAL);
+            alertError.setContentText(e.getMessage());
+            alertError.showAndWait();
             return;
         }
         clearFields();
@@ -106,13 +112,11 @@ public class AddEventCtrl {
      * sends a popup for the title requirement
      */
     private void errorMessage() {
-        error.toFront();
-        error.setVisible(true);
-        error.getChildren().get(0).setVisible(true);
-        error.getChildren().get(1).setVisible(true);
-        ok.setDisable(true);
-        cancel.setDisable(true);
-
+        var alertError = new Alert(Alert.AlertType.ERROR);
+        alertError.setTitle("Missing Event Title!");
+        alertError.setHeaderText(null);
+        alertError.setContentText("A title is required for the event!");
+        alertError.showAndWait();
     }
 
     /**

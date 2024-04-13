@@ -1,5 +1,6 @@
 package commons;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.util.ArrayList;
@@ -20,16 +21,10 @@ public class User {
     private String bic;
     private Language language;
     private double wallet;
-
-    @OneToMany(targetEntity = Debt.class)
+    @JsonIgnore
+    @OneToMany(targetEntity = Debt.class, mappedBy = "payer")
     private List<Debt> debts = new ArrayList<>();
-    @ManyToMany(targetEntity = Expense.class)
-    @JoinTable(
-            name = "user_expense_mapping",
-            joinColumns = @JoinColumn(name = "expense", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "participant", referencedColumnName = "id")
-    )
-    private List<Expense> expenses = new ArrayList<>();
+
 
     /**
      * default constructor for a user object
@@ -39,32 +34,7 @@ public class User {
     }
 
 
-    /**
-     * getter methods for the expenses a user is a part of
-     *
-     * @return the list of expenses for a user
-     */
-    public List<Expense> getExpenses() {
-        return expenses;
-    }
 
-    /**
-     * setter method for the expense list of a user
-     *
-     * @param expenses the list of the updated expenses for a user
-     */
-    public void setExpenses(List<Expense> expenses) {
-        this.expenses = expenses;
-    }
-
-    /**
-     * adds new expense for a user
-     *
-     * @param expense the new expense
-     */
-    public void addExpense(Expense expense) {
-        expenses.add(expense);
-    }
 
     /**
      * Another constructor for user
@@ -75,7 +45,6 @@ public class User {
         this.username = username;
         this.email = email;
         this.language = Language.EN;
-        this.expenses = new ArrayList<>();
         this.wallet = 0;
         this.debts = new ArrayList<>();
     }
@@ -93,7 +62,6 @@ public class User {
         this.iban = iban;
         this.bic = bic;
         this.language = Language.EN;
-        this.expenses = new ArrayList<>();
         this.wallet = 0;
         this.debts = new ArrayList<>();
     }
