@@ -39,7 +39,7 @@
       <Button layoutX="361.0" layoutY="76.0" mnemonicParsing="false" onAction="#allExpenses" text="%all" />
       <Button fx:id="paidByButton" layoutX="403.0" layoutY="76.0" mnemonicParsing="false" onAction="#paidByParticipantList" text="%paid-by-participant" />
       <Button fx:id="includingButton" layoutX="526.0" layoutY="76.0" mnemonicParsing="false" onAction="#includingParticipantList" text="%including-participant" />
-      <ListView fx:id="expenseList" layoutX="361.0" layoutY="109.0" onMouseClicked="#selectExpenseList" prefHeight="246.0" prefWidth="290.0" />
+      <ListView fx:id="expenseList" onKeyPressed="#enterExpense" layoutX="361.0" layoutY="109.0" onMouseClicked="#selectExpenseList" prefHeight="246.0" prefWidth="290.0" />
       <Button layoutX="610.0" layoutY="364.0" mnemonicParsing="false" onAction="#back" text="%back" />
       <Label fx:id="titleLabel" layoutX="21.0" layoutY="26.0" prefHeight="51.0" prefWidth="282.0" text="%event_name">
 
@@ -84,6 +84,7 @@
             <Button fx:id="noParticipantErrButton" layoutX="264.0" layoutY="277.0" mnemonicParsing="false" onAction="#noParticipantErr" prefHeight="26.0" prefWidth="150.0" text="%ok" />
          </children>
       </AnchorPane>
+      <Button layoutX="361.0" layoutY="364.0" mnemonicParsing="false" onAction="#settleDebts" text="%debts" />
 
 
    </children>

@@ -1,14 +1,15 @@
 package server.service;
 
 import commons.Debt;
+import commons.Event;
 import commons.User;
 import commons.exceptions.NoDebtFoundException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import server.database.DebtRepository;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class DebtService {
@@ -79,22 +80,29 @@ public class DebtService {
      * @param payer  the id of the payer
      * @param payee  the id of the payee
      * @param amount the amount of the debt
+     * @return the new debt
      */
-    public void addDebt(User payer, User payee, Double amount) {
+    public Debt addDebt(User payer, User payee, Double amount) {
         List<Debt> list = repo.findAll();
-        list.add(new Debt(payer, payee, amount));
+        Debt debt = new Debt(payer, payee, amount);
+        list.add(debt);
         repo.saveAll(list);
+        return debt;
     }
 
+
     /**
-     * removes a debt from the database
-     *
-     * @param payer the id of the payer
-     * @param payee the id of the payee
-     * @throws NoDebtFoundException thrown if no such debt exists
+     * deletes a debt from the database
+     * @param id of the deleted debt
+     * @return the deleted debt
+     * @throws NoDebtFoundException if no debt with such id is found
      */
-    public void deleteDebt(User payer, User payee) throws NoDebtFoundException {
-        repo.deleteByPayerAndPayee(payer, payee);
+    public ResponseEntity<Debt> deleteDebt(long id) throws NoDebtFoundException {
+        if (!existsById(id)) {
+            return ResponseEntity.badRequest().build();
+        }
+        repo.deleteById(id);
+        return ResponseEntity.ok().build();
     }
 
     /**
@@ -108,21 +116,55 @@ public class DebtService {
     }
 
     /**
-     * Calculates the money each person owns
-     *
-     * @return hashMap with money owned to the group per participant
+     * arranges the debts when a new debt is added
+     * @param debt the added debt
+     * @return the new debt
+     * @throws NoDebtFoundException if no such debt is found
      */
-    public Map<User, Double> finalDebts() {
-        List<Debt> allDebts = repo.findAll();
-        Map<User, Double> res = new HashMap<>();
-        for (Debt debt : allDebts) {
-            User payer = debt.getPayer();
-            User payee = debt.getPayee();
-            Double amount = debt.getAmount();
-            res.put(payer, res.getOrDefault(payer, 0.0) - amount);
-            res.put(payee, res.getOrDefault(payee, 0.0) + amount);
+    public ResponseEntity<Debt> settleDebt(Debt debt) throws NoDebtFoundException {
+        Event e = debt.getEvent();
+        List<Debt> eventDebts = findAll()
+                .stream().filter(q -> q.getEvent().equals(e)).toList();
+        Optional<Debt> existingDebt = eventDebts.stream()
+                .filter(q ->( (q.getPayer().equals(debt.getPayer())
+                        && q.getPayee().equals(debt.getPayee())) ||
+                        (q.getPayee().equals(debt.getPayer())
+                                && q.getPayer().equals(debt.getPayee())) )).findFirst();
+        if (existingDebt.isPresent()) {
+            Debt oldDebt = existingDebt.get();
+            if (debt.getPayer().equals(oldDebt.getPayer())) {
+                oldDebt.setAmount(oldDebt.getAmount() + debt.getAmount());
+                Debt saved = oldDebt;
+                save(saved);
+                return ResponseEntity.ok(oldDebt);
+            }
+            else {
+                double oldAmount = oldDebt.getAmount();
+                double amount = debt.getAmount();
+                if (oldAmount < amount) {
+                    deleteDebt(oldDebt.getId());
+                    Debt saved = new Debt(oldDebt.getPayee(), oldDebt.getPayer(),
+                            amount - oldAmount, debt.getEvent());
+                    saved.setId(oldDebt.getId());
+                    save(saved);
+                    return ResponseEntity.ok(saved);
+
+                }
+                else if (oldAmount > amount) {
+                    oldDebt.setAmount(oldAmount - amount);
+                    Debt saved = oldDebt;
+                    save(saved);
+                    return ResponseEntity.ok(oldDebt);
+                }
+                else {
+                    deleteDebt(oldDebt.getId());
+                    return ResponseEntity.ok(null);
+                }
+            }
         }
-        return res;
+        Debt saved = debt;
+        save(saved);
+        return ResponseEntity.ok(saved);
     }
 
 }

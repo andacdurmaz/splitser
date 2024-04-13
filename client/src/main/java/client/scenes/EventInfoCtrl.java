@@ -11,6 +11,9 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.StringConverter;
 
@@ -18,9 +21,7 @@ import javax.inject.Inject;
 import java.util.List;
 import java.util.Optional;
 
-
 public class EventInfoCtrl {
-    private MainCtrl mainCtrl;
     private Event event;
     private Expense selectedExpense;
 
@@ -77,7 +78,6 @@ public class EventInfoCtrl {
     @Inject
     public EventInfoCtrl(EventInfoService service) {
         this.service = service;
-        this.mainCtrl = new MainCtrl();
     }
 
     /**
@@ -517,6 +517,25 @@ public class EventInfoCtrl {
         Event e = service.getEventById(event.getId());
         setEvent(e);
         setData(e);
+    }
+
+
+    /**
+     * opens the settle debts page
+     * @param actionEvent when the button is clicked
+     */
+    public void settleDebts(ActionEvent actionEvent) {
+        service.getMainCtrl().showSettleDebts(event);
+    }
+
+    /**
+     * expense info is shown when the enter button is pressed
+     * @param keyEvent when the button is pressed
+     */
+    public void enterExpense(KeyEvent keyEvent) {
+        if (keyEvent.getCode() == KeyCode.ENTER && selectedExpense !=null) {
+            service.getMainCtrl().showExpenseInfo(event, selectedExpense);
+        }
     }
 
 }
