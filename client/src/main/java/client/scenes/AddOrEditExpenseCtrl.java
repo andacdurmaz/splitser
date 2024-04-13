@@ -460,7 +460,7 @@ public class AddOrEditExpenseCtrl implements Initializable {
             expenseTag.setValue(event.getExpenseTags().get(0));
             okButton.setText(service.getString("add"));
         }
-        
+
     }
 
 
