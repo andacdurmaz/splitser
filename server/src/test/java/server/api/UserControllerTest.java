@@ -112,6 +112,19 @@ public class UserControllerTest {
         assertEquals(ResponseEntity.ok("RABONL2UXXX"), sut.getBICById(id));
     }
 
+    @Test
+    public void getExpenseTest() throws NoUserFoundException {
+        User added = new User();
+        List<Expense> expenses = new ArrayList<>();
+        List<User> participants = new ArrayList<>();
+        participants.add(added);
+        Expense expense = new Expense("expense", 25, added, participants);
+        expenses.add(expense);
+        added.setExpenses(expenses);
+        sut.add(added);
+        long id = added.getUserID();
+        assertEquals(ResponseEntity.ok(expenses), sut.getExpensesById(id));
+    }
 
     @Test void getWalletTest() throws NoUserFoundException {
         User added = new User();
@@ -120,7 +133,19 @@ public class UserControllerTest {
         long id = added.getUserID();
         assertEquals(ResponseEntity.ok(15.0), sut.getWalletById(id));
     }
+    @Test
+    public void getDebtsTest() throws NoUserFoundException {
+        User added = new User();
+        User payee = new User();
+        Debt debt = new Debt(added, payee, 5.0);
+        List<Debt> debts = new ArrayList<>();
+        debts.add(debt);
+        added.setDebts(debts);
+        sut.add(added);
+        long id = added.getUserID();
+        assertEquals(ResponseEntity.ok(debts), sut.getDebtsById(id));
 
+    }
 
     @Test
     public void getByIdFail() throws NoUserFoundException {

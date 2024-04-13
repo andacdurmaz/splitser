@@ -18,7 +18,7 @@ public class DebtListCell extends ListCell<Debt> {
             String payeeName = debt.getPayee().getUsername();
             String payerName = debt.getPayer().getUsername();
             Double amount = debt.getAmount();
-            setText(payerName + " owes " + payeeName + " " + amount + ".");
+            setText(payeeName + " owes " + payerName + " " + amount + ".");
         }
     }
 }

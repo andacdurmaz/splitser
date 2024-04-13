@@ -19,38 +19,38 @@ public class Debt {
     @ManyToOne
     @JoinColumn(name = "payee_id")
     private User payee;
-
     @ManyToOne
-    @JoinColumn(name = "event_id")
-    private Event event;
+    @JoinColumn(name = "expense_id")
+    private Expense expense;
     private Double amount;
 
 
     /**
      * constructor for a debt
      *
-     * @param payer the payer of the debt
-     * @param payee the payee of the debt
-     * @param amount the amount that will be paid
+     * @param owner    the id of the payer
+     * @param demander the id of the payee
+     * @param amount   the amount that will be paid
      */
-    public Debt(User payer, User payee, Double amount) {
-        this.payer = payer;
-        this.payee = payee;
+    public Debt(User owner, User demander, Double amount) {
+        this.payer = owner;
+        this.payee = demander;
         this.amount = amount;
     }
 
     /**
      * Constructor with expense
-     * @param payer of the debt
-     * @param payee of the debt
-     * @param amount that will be paid
-     * @param e the event of the debt
+     *
+     * @param owner
+     * @param demander
+     * @param amount
+     * @param e
      */
-    public Debt(User payer, User payee, Double amount, Event e) {
-        this.payer = payer;
-        this.payee = payee;
+    public Debt(User owner, User demander, Double amount, Expense e) {
+        this.payer = owner;
+        this.payee = demander;
         this.amount = amount;
-        this.event = e;
+        this.expense = e;
     }
 
     /**
@@ -118,16 +118,16 @@ public class Debt {
      * Getter method
      * @return expense
      */
-    public Event getEvent() {
-        return event;
+    public Expense getExpense() {
+        return expense;
     }
 
     /**
      * Setter method
      * @param e expense
      */
-    public void setEvent(Event e) {
-        this.event = e;
+    public void setExpense(Expense e) {
+        this.expense = e;
     }
 
     /**

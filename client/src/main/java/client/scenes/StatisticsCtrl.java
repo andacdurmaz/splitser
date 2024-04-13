@@ -1,6 +1,6 @@
 package client.scenes;
 
-import client.services.StatisticsService;
+import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Event;
 import commons.Expense;
@@ -18,7 +18,8 @@ import java.util.List;
 import java.util.Map;
 
 public class StatisticsCtrl {
-    private final StatisticsService service;
+    private final ServerUtils server;
+    private final MainCtrl mainCtrl;
     private Event event;
     private ObservableList<Data> data;
     private double totalSumOfExpenses;
@@ -34,12 +35,14 @@ public class StatisticsCtrl {
     /**
      * Adding javadoc for checkstyle
      *
-     * @param service service
+     * @param server   server
+     * @param mainCtrl mainCtrl
      * @param event  event
      */
     @Inject
-    public StatisticsCtrl(StatisticsService service,Event event) {
-        this.service = service;
+    public StatisticsCtrl(ServerUtils server, MainCtrl mainCtrl,Event event) {
+        this.server = server;
+        this.mainCtrl = mainCtrl;
         this.event = event;
     }
 
@@ -122,14 +125,15 @@ public class StatisticsCtrl {
 
     }
 
-
     /**
      *  return back to event info
      */
     public void cancel() {
-//        clearFields();
-        service.showEventInfo(event);
+        mainCtrl.showEventInfo(event);
     }
 
 
 }
+
+
+

@@ -119,6 +119,150 @@ public class UserServiceTest {
     }
 
     @Test
+    public void settleDebtTest() throws NoDebtFoundException, NoSuchExpenseException,
+            EmailFormatException, IBANFormatException, BICFormatException {
+        UserRepoTest repo = new UserRepoTest();
+        UserService service = new UserService(repo);
+        ExpenseRepositoryTest expenseRepository = new ExpenseRepositoryTest();
+        ExpenseService expenseService = new ExpenseService(expenseRepository);
+        service.setExpenseService(expenseService);
+        DebtRepoTest debtrepo = new DebtRepoTest();
+        DebtService debtService = new DebtService(debtrepo);
+        service.setDebtService(debtService);
+        User payer = new User("andac", "andac@gmail.com",
+                "GB94BARC10201530093459","RABONL2UXXX");
+        User payee = new User("mete", "mete@mail.com",
+                "GB94BARC10201530093459","RABONL2UXXX");
+        repo.save(payer);
+        repo.save(payee);
+        List<User> payers = new ArrayList<>();
+        payers.add(payer);
+        Expense expense = new Expense("test", 4.0, payee, payers);
+        payer.addExpense(expense);
+        service.settleDebt(payer, expense);
+        Debt debt = new Debt(payer, payee, 2.0);
+        assertTrue(payer.getDebts().contains(debt));
+    }
+
+
+    @Test
+    public void addDebtCase1() throws NoDebtFoundException, EmailFormatException,
+            IBANFormatException, BICFormatException {
+        UserRepoTest repo = new UserRepoTest();
+        UserService service = new UserService(repo);
+        ExpenseRepositoryTest expenseRepository = new ExpenseRepositoryTest();
+        ExpenseService expenseService = new ExpenseService(expenseRepository);
+        service.setExpenseService(expenseService);
+        DebtRepoTest debtrepo = new DebtRepoTest();
+        DebtService debtService = new DebtService(debtrepo);
+        service.setDebtService(debtService);
+        User payer = new User("andac", "andac@gmail.com",
+                "GB94BARC10201530093459","RABONL2UXXX");
+        User payee = new User("mete", "mete@mail.com",
+                "GB94BARC10201530093459","RABONL2UXXX");
+        repo.save(payer);
+        repo.save(payee);
+        service.addDebts(payer, payee, 5.0);
+        Debt debt = new Debt(payer, payee, 5.0);
+        assertTrue(payer.getDebts().contains(debt));
+        assertTrue((debtService.getRepo()).findAll().contains(debtService.getDebtByPayerAndPayee(payer, payee)) );
+    }
+    @Test
+    public void addDebtCase2() throws NoDebtFoundException, EmailFormatException,
+            IBANFormatException, BICFormatException {
+        UserRepoTest repo = new UserRepoTest();
+        UserService service = new UserService(repo);
+        ExpenseRepositoryTest expenseRepository = new ExpenseRepositoryTest();
+        ExpenseService expenseService = new ExpenseService(expenseRepository);
+        service.setExpenseService(expenseService);
+        DebtRepoTest debtrepo = new DebtRepoTest();
+        DebtService debtService = new DebtService(debtrepo);
+        service.setDebtService(debtService);
+        User payer = new User("andac", "andac@gmail.com",
+                "GB94BARC10201530093459","RABONL2UXXX");
+        User payee = new User("mete", "mete@mail.com",
+                "GB94BARC10201530093459","RABONL2UXXX");
+        repo.save(payer);
+        repo.save(payee);
+        service.addDebts(payer, payee, 5.0);
+        service.addDebts(payer, payee, 3.0);
+        Debt debt = new Debt(payer, payee, 8.0);
+        assertTrue(payer.getDebts().contains(debt));
+        assertTrue((debtService.getRepo()).findAll().contains(debtService.getDebtByPayerAndPayee(payer, payee)) );
+    }
+    @Test
+    public void addDebtCase3() throws NoDebtFoundException,
+            EmailFormatException, IBANFormatException, BICFormatException {
+        UserRepoTest repo = new UserRepoTest();
+        UserService service = new UserService(repo);
+        ExpenseRepositoryTest expenseRepository = new ExpenseRepositoryTest();
+        ExpenseService expenseService = new ExpenseService(expenseRepository);
+        service.setExpenseService(expenseService);
+        DebtRepoTest debtrepo = new DebtRepoTest();
+        DebtService debtService = new DebtService(debtrepo);
+        service.setDebtService(debtService);
+        User payer = new User("andac", "andac@gmail.com",
+                "GB94BARC10201530093459","RABONL2UXXX");
+        User payee = new User("mete", "mete@mail.com",
+                "GB94BARC10201530093459","RABONL2UXXX");
+        repo.save(payer);
+        repo.save(payee);
+        service.addDebts(payer, payee, 5.0);
+        service.addDebts(payee, payer, 7.0);
+        Debt debt = new Debt(payee, payer, 2.0);
+        assertTrue(payee.getDebts().contains(debt));
+        assertTrue((debtService.getRepo()).findAll().contains(debtService.getDebtByPayerAndPayee(payee, payer)) );
+    }
+
+    @Test
+    public void addDebtCase4() throws NoDebtFoundException, EmailFormatException,
+            IBANFormatException, BICFormatException {
+        UserRepoTest repo = new UserRepoTest();
+        UserService service = new UserService(repo);
+        ExpenseRepositoryTest expenseRepository = new ExpenseRepositoryTest();
+        ExpenseService expenseService = new ExpenseService(expenseRepository);
+        service.setExpenseService(expenseService);
+        DebtRepoTest debtrepo = new DebtRepoTest();
+        DebtService debtService = new DebtService(debtrepo);
+        service.setDebtService(debtService);
+        User payer = new User("andac", "andac@gmail.com",
+                "GB94BARC10201530093459","RABONL2UXXX");
+        User payee = new User("mete", "mete@mail.com",
+                "GB94BARC10201530093459","RABONL2UXXX");
+        repo.save(payer);
+        repo.save(payee);
+        service.addDebts(payer, payee, 5.0);
+        service.addDebts(payee, payer, 3.0);
+        Debt debt = new Debt(payer, payee, 2.0);
+        assertTrue(payer.getDebts().contains(debt));
+        assertTrue((debtService.getRepo()).findAll().contains(debtService.getDebtByPayerAndPayee(payer, payee)) );
+    }
+
+    @Test
+    public void addDebtCase5() throws NoDebtFoundException, EmailFormatException,
+            IBANFormatException, BICFormatException {
+        UserRepoTest repo = new UserRepoTest();
+        UserService service = new UserService(repo);
+        ExpenseRepositoryTest expenseRepository = new ExpenseRepositoryTest();
+        ExpenseService expenseService = new ExpenseService(expenseRepository);
+        service.setExpenseService(expenseService);
+        DebtRepoTest debtrepo = new DebtRepoTest();
+        DebtService debtService = new DebtService(debtrepo);
+        service.setDebtService(debtService);
+        User payer = new User("andac", "andac@gmail.com",
+                "GB94BARC10201530093459","RABONL2UXXX");
+        User payee = new User("mete", "mete@mail.com",
+                "GB94BARC10201530093459","RABONL2UXXX");
+        repo.save(payer);
+        repo.save(payee);
+        service.addDebts(payer, payee, 5.0);
+        service.addDebts(payee, payer, 5.0);
+        assertTrue(payer.getDebts().isEmpty());
+        assertTrue(payee.getDebts().isEmpty());
+        assertTrue((debtService.getRepo()).findAll().isEmpty());
+    }
+
+    @Test
     public void updateTest() throws EmailFormatException, IBANFormatException, BICFormatException {
         UserRepoTest repo = new UserRepoTest();
         UserService service = new UserService(repo);

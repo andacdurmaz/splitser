@@ -1,6 +1,6 @@
 package client.scenes;
 
-import client.services.AddEventService;
+import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Event;
 import jakarta.ws.rs.WebApplicationException;
@@ -18,7 +18,8 @@ import java.util.Random;
 
 public class AddEventCtrl {
 
-    private final AddEventService service;
+    private final ServerUtils server;
+    private final MainCtrl mainCtrl;
 
     @FXML
     private TextField title;
@@ -38,11 +39,13 @@ public class AddEventCtrl {
     /**
      * Inject method
      *
-     * @param service service
+     * @param server   server
+     * @param mainCtrl mainCtrl
      */
     @Inject
-    public AddEventCtrl(AddEventService service) {
-        this.service = service;
+    public AddEventCtrl(ServerUtils server, MainCtrl mainCtrl) {
+        this.mainCtrl = mainCtrl;
+        this.server = server;
 
     }
 
@@ -51,7 +54,7 @@ public class AddEventCtrl {
      */
     public void cancel() {
         clearFields();
-        service.showStartPage();
+        mainCtrl.showStartPage();
     }
 
     /**
@@ -63,14 +66,14 @@ public class AddEventCtrl {
             return;
         }
         try {
-            Event tmp = service.addEvent(newEvent);
+            Event tmp = server.addEvent(newEvent);
             newEvent.setId(tmp.getId());
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("New Event Created Successfully!");
             alert.setHeaderText(null);
             alert.setContentText("Successfully created new Event: " + newEvent.getTitle());
             alert.showAndWait();
-            service.writeToConfig(newEvent);
+            mainCtrl.writeEventToConfigFile(newEvent);
         } catch (WebApplicationException e) {
             var alertError = new Alert(Alert.AlertType.ERROR);
             alertError.initModality(Modality.APPLICATION_MODAL);
@@ -79,7 +82,7 @@ public class AddEventCtrl {
             return;
         }
         clearFields();
-        service.showEventInfo(newEvent);
+        mainCtrl.showEventInfo(newEvent);
     }
 
     /**
@@ -88,12 +91,11 @@ public class AddEventCtrl {
      * @return specified event
      */
     private Event getEvent() {
-        List<Long> eventCodes = service.getEvents().stream().map(q -> q.getEventCode()).toList();
+        List<Long> eventCodes = server.getEvents().stream().map(q -> q.getEventCode()).toList();
         if (title.getText().isEmpty()) {
             errorMessage();
             return null;
         }
-
         Event event = new Event(title.getText());
         Random random = new Random();
         long eventCode;

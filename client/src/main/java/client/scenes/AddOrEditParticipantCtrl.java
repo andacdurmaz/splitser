@@ -1,8 +1,8 @@
 package client.scenes;
 
+import client.utils.ServerUtils;
 import commons.Event;
 import commons.User;
-import client.services.AddOrEditParticipantService;
 import fr.marcwrobel.jbanking.bic.Bic;
 import fr.marcwrobel.jbanking.iban.Iban;
 import jakarta.ws.rs.WebApplicationException;
@@ -21,9 +21,9 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class AddOrEditParticipantCtrl {
-    private final AddOrEditParticipantService service;
+    private final ServerUtils server;
+    private final MainCtrl mainCtrl;
 
     private Event event;
     private User user;
@@ -48,12 +48,15 @@ public class AddOrEditParticipantCtrl {
 
     /**
      * Constructor
-     * @param service service
-     * @param event event
+     * @param server   serverUtils
+     *
+     * @param mainCtrl mainCtrl
+     * @param event
      */
     @Inject
-    public AddOrEditParticipantCtrl(AddOrEditParticipantService service, Event event) {
-        this.service = service;
+    public AddOrEditParticipantCtrl(ServerUtils server, MainCtrl mainCtrl, Event event) {
+        this.server = server;
+        this.mainCtrl = mainCtrl;
         this.event = event;
     }
 
@@ -78,7 +81,7 @@ public class AddOrEditParticipantCtrl {
      */
     public void cancel() {
         clearFields();
-        service.showEventInfo(event);
+        mainCtrl.showEventInfo(event);
     }
 
     /**
@@ -127,10 +130,11 @@ public class AddOrEditParticipantCtrl {
             alert.showAndWait();
             return;
         }
-        service.updateUser(user);
+        server.updateUser(user);
         participants.add(user);
         event.setParticipants(participants);
-        service.updateAndShow(event);
+        server.updateEvent(event);
+        mainCtrl.showEventInfo(event);
     }
 
     /**
@@ -190,7 +194,7 @@ public class AddOrEditParticipantCtrl {
         if (user == null)
             return;
         try {
-            User temp = service.addUser(getUser());
+            User temp = server.addUser(getUser());
             user.setUserID(temp.getUserID());
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("New User Added Successfully!");
@@ -210,7 +214,8 @@ public class AddOrEditParticipantCtrl {
         if (!participants.contains(user))
             participants.add(user);
         event.setParticipants(participants);
-        service.updateAndShow(event);
+        server.updateEvent(event);
+        mainCtrl.showEventInfo(event);
     }
 
     /**
@@ -300,7 +305,7 @@ public class AddOrEditParticipantCtrl {
 
     /**
      * closes the pop-up
-     * @param actionEvent actionevent
+     * @param actionEvent
      */
     public void goBack(ActionEvent actionEvent) {
         wrongEmail.setVisible(false);
