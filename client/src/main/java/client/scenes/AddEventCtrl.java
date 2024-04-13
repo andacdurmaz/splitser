@@ -3,7 +3,6 @@ package client.scenes;
 import client.services.AddEventService;
 import com.google.inject.Inject;
 import commons.Event;
-//import commons.ExpenseTag;
 import jakarta.ws.rs.WebApplicationException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -66,12 +65,17 @@ public class AddEventCtrl {
         try {
             Event tmp = service.addEvent(newEvent);
             newEvent.setId(tmp.getId());
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("New Event Created Successfully!");
+            alert.setHeaderText(null);
+            alert.setContentText("Successfully created new Event: " + newEvent.getTitle());
+            alert.showAndWait();
             service.writeToConfig(newEvent);
         } catch (WebApplicationException e) {
-            var alert = new Alert(Alert.AlertType.ERROR);
-            alert.initModality(Modality.APPLICATION_MODAL);
-            alert.setContentText(e.getMessage());
-            alert.showAndWait();
+            var alertError = new Alert(Alert.AlertType.ERROR);
+            alertError.initModality(Modality.APPLICATION_MODAL);
+            alertError.setContentText(e.getMessage());
+            alertError.showAndWait();
             return;
         }
         clearFields();
@@ -109,13 +113,11 @@ public class AddEventCtrl {
      * sends a popup for the title requirement
      */
     private void errorMessage() {
-        error.toFront();
-        error.setVisible(true);
-        error.getChildren().get(0).setVisible(true);
-        error.getChildren().get(1).setVisible(true);
-        ok.setDisable(true);
-        cancel.setDisable(true);
-
+        var alertError = new Alert(Alert.AlertType.ERROR);
+        alertError.setTitle("Missing Event Title!");
+        alertError.setHeaderText(null);
+        alertError.setContentText("A title is required for the event!");
+        alertError.showAndWait();
     }
 
     /**

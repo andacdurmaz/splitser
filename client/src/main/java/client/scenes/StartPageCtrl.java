@@ -14,21 +14,18 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-
+import javafx.scene.control.cell.TextFieldListCell;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.*;
+import javafx.util.Duration;
+import javafx.util.StringConverter;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
-
-
-import javafx.scene.control.cell.TextFieldListCell;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.util.Duration;
-import javafx.util.StringConverter;
 
 
 public class StartPageCtrl implements Initializable {
@@ -195,9 +192,9 @@ public class StartPageCtrl implements Initializable {
     /**
      * when create  button is clicked on, the addEvent page opens
      *
-     * @param mouseEvent the clicking of the button
      */
-    public void createEvent(ActionEvent mouseEvent) {
+
+    public void createEvent() {
         service.showAdd();
     }
 
@@ -260,6 +257,20 @@ public class StartPageCtrl implements Initializable {
      */
     public void languageSwitch(){
         service.showLanguageSwitch('s');
+    }
+
+    /**
+     * gets current key pressed
+     * @param e
+     */
+    public void keyPressed(KeyEvent e) {
+        KeyCombination addEventShortCut =
+                new KeyCodeCombination(KeyCode.E,KeyCombination.CONTROL_DOWN);
+
+        if (addEventShortCut.match(e)) {
+            System.out.println("Combination Pressed: " + addEventShortCut);
+            createEvent();
+        }
     }
 
 }
