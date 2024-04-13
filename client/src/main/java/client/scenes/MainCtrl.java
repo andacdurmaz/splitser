@@ -18,17 +18,14 @@ package client.scenes;
 import client.Main;
 import client.services.ConfigFileService;
 import client.utils.ServerUtils;
-
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyCodeCombination;
-import javafx.scene.input.KeyCombination;
-import java.util.List;
-
 import commons.Event;
 import commons.Expense;
 import commons.User;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
@@ -191,6 +188,7 @@ public class MainCtrl {
         eventInfoCtrl.setData(event);
         primaryStage.setScene(eventInfoScene);
         eventInfoScene.setOnKeyPressed(e -> eventInfoCtrl.keyPressed(e));
+        eventInfoScene.setOnKeyPressed(e -> eventInfoCtrl.keyCombinationPressed(e));
     }
 
 

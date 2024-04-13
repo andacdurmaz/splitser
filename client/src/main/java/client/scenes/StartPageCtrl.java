@@ -264,7 +264,8 @@ public class StartPageCtrl implements Initializable {
      * @param e
      */
     public void keyPressed(KeyEvent e) {
-        KeyCombination addEventShortCut = new KeyCodeCombination(KeyCode.E,KeyCombination.CONTROL_DOWN);
+        KeyCombination addEventShortCut =
+                new KeyCodeCombination(KeyCode.E,KeyCombination.CONTROL_DOWN);
 
         if (addEventShortCut.match(e)) {
             System.out.println("Combination Pressed: " + addEventShortCut);

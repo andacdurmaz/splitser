@@ -11,14 +11,12 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.StringConverter;
 
 import javax.inject.Inject;
 import java.util.List;
+import java.util.Optional;
 
 public class EventInfoCtrl {
     private Event event;
@@ -281,9 +279,6 @@ public class EventInfoCtrl {
      * @param e
      */
     public void keyPressed(KeyEvent e) {
-        KeyCombination addExpenseTagShortcut = new KeyCodeCombination(KeyCode.T,KeyCombination.CONTROL_DOWN);
-        KeyCombination addParticipantTagShortcut = new KeyCodeCombination(KeyCode.P,KeyCombination.CONTROL_DOWN);
-        KeyCombination addExpenseShortcut = new KeyCodeCombination(KeyCode.E,KeyCombination.CONTROL_DOWN);
 
         switch (e.getCode()) {
             case ENTER:
@@ -301,6 +296,21 @@ public class EventInfoCtrl {
             default:
                 break;
         }
+
+    }
+
+    /**
+     * listens for key combinations
+     * @param e
+     */
+    public void keyCombinationPressed(KeyEvent e) {
+        KeyCombination addExpenseTagShortcut =
+                new KeyCodeCombination(KeyCode.T,KeyCombination.CONTROL_DOWN);
+        KeyCombination addParticipantTagShortcut =
+                new KeyCodeCombination(KeyCode.P,KeyCombination.CONTROL_DOWN);
+        KeyCombination addExpenseShortcut =
+                new KeyCodeCombination(KeyCode.E,KeyCombination.CONTROL_DOWN);
+
         if (addExpenseTagShortcut.match(e)) {
             System.out.println("Combination Pressed: " + addExpenseTagShortcut);
             addExpenseTag();
@@ -361,14 +371,22 @@ public class EventInfoCtrl {
      * @param actionEvent when the button is clicked
      */
     public void deleteParticipant(ActionEvent actionEvent) {
-        User temp = selectedParticipant;
-        participantCombobox.getItems().remove(temp);
-        expenseComboBox.getItems().remove(temp);
-        List<User> oldParticipants = event.getParticipants();
-        oldParticipants = oldParticipants.stream().filter(q -> !q.equals(temp)).toList();
-        event.setParticipants(oldParticipants);
-        service.updateEvent(event);
-        setData(event);
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation Dialog");
+        alert.setContentText("Are you sure you want to delete this participant");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK){
+            User temp = selectedParticipant;
+            participantCombobox.getItems().remove(temp);
+            expenseComboBox.getItems().remove(temp);
+            List<User> oldParticipants = event.getParticipants();
+            oldParticipants = oldParticipants.stream().filter(q -> !q.equals(temp)).toList();
+            event.setParticipants(oldParticipants);
+            service.updateEvent(event);
+            setData(event);
+        }
+
     }
 
 
