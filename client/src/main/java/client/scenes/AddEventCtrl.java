@@ -43,6 +43,7 @@ public class AddEventCtrl {
      * Inject method
      *
      * @param service service
+     * @param expenseTagService service
      */
     @Inject
     public AddEventCtrl(AddEventService service,AddExpenseTagService expenseTagService) {
