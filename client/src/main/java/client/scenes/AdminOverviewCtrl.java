@@ -112,7 +112,7 @@ public class AdminOverviewCtrl implements Initializable {
                 new FileChooser.ExtensionFilter("All Files", "*.*");
 
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Select your JSON file");
+        fileChooser.setTitle(service.getString("select-your-json-file"));
         fileChooser.getExtensionFilters().addAll(onlyJson,allFiles);
         Stage stage = new Stage();
         File selectedFile = fileChooser.showOpenDialog(stage);

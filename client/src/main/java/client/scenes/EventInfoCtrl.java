@@ -84,7 +84,7 @@ public class EventInfoCtrl {
         @Override
         public String toString(Expense expense) {
             return "(" + expense.getDate() + ") " + expense.getPayer().getUsername() +
-                    " paid " + expense.getAmount() + " for " + expense.getName();
+                    " " + service.getString("paid") + " " + expense.getAmount() + " " + service.getString("for") + " " + expense.getName();
         }
 
         @Override
@@ -311,15 +311,15 @@ public class EventInfoCtrl {
                 new KeyCodeCombination(KeyCode.E,KeyCombination.CONTROL_DOWN);
 
         if (addExpenseTagShortcut.match(e)) {
-            System.out.println("Combination Pressed: " + addExpenseTagShortcut);
+            System.out.println(service.getString("combination-pressed") + ": " + addExpenseTagShortcut);
             addExpenseTag();
         }
         if (addParticipantTagShortcut.match(e)) {
-            System.out.println("Combination Pressed: " + addParticipantTagShortcut);
+            System.out.println(service.getString("combination-pressed") + ": " + addParticipantTagShortcut);
             addParticipant();
         }
         if (addExpenseShortcut.match(e)) {
-            System.out.println("Combination Pressed: " + addExpenseTagShortcut);
+            System.out.println(service.getString("combination-pressed") + ": " + addExpenseTagShortcut);
             addExpense();
         }
     }
@@ -371,8 +371,8 @@ public class EventInfoCtrl {
      */
     public void deleteParticipant(ActionEvent actionEvent) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Confirmation Dialog");
-        alert.setContentText("Are you sure you want to delete this participant");
+        alert.setTitle(service.getString("confirmation-dialog"));
+        alert.setContentText(service.getString("are-you-sure-you-want-to-delete-this-participant"));
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK){

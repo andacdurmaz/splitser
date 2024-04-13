@@ -70,7 +70,7 @@ public class AdminEventInfoCtrl {
 
                 alert.showAndWait();
 
-                System.out.println("File created successfully at: " + file.getAbsolutePath());
+                System.out.println(service.getString("file-created-successfully-at") + ": " + file.getAbsolutePath());
             } catch (Exception ex) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle(service.getString("download"));

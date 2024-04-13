@@ -174,7 +174,7 @@ public class SettleDebtsCtrl {
             debtsListView.getItems().setAll(showedDebts);
         }
         else {
-            selectedDebtLabel.setText("No participant selected.");
+            selectedDebtLabel.setText(service.getString("no-participant-selected"));
         }
     }
 
