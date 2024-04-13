@@ -149,11 +149,6 @@ public class DebtRepoTest implements DebtRepository {
         debts = debts.stream().filter(q -> !q.getPayer().equals(payer_id) || !q.getPayee().equals(payee_id)).toList();
     }
 
-    public Debt save(Debt entity) {
-        call("save");
-        debts.add(entity);
-        return entity;
-    }
 
     @Override
     public void flush() {
@@ -236,11 +231,22 @@ public class DebtRepoTest implements DebtRepository {
     }
 
     @Override
+    public <S extends Debt> S save(S entity) {
+        for (int i = 0; i < debts.size(); i++) {
+            if (debts.get(i).getId() == entity.getId()) {
+                debts.set(i, entity);
+                return entity;
+            }
+        }
+        List<Debt> oldDebts = new ArrayList<>(debts);
+        oldDebts.add(entity);
+        debts = oldDebts;
+        return entity;    }
+
+    @Override
     public <S extends Debt> List<S> saveAll(Iterable<S> entities) {
-// Clear the existing debts and add the new ones
         debts = new ArrayList<>();
         entities.forEach(debts::add);
-        // Return the saved entities (in this case, just echoing back the input entities)
         List<S> savedEntities = new ArrayList<>();
         entities.forEach(savedEntities::add);
         return savedEntities;

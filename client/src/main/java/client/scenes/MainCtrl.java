@@ -16,24 +16,22 @@
 package client.scenes;
 
 import client.Main;
+import client.services.ConfigFileService;
 import client.utils.ServerUtils;
+
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
+import java.util.List;
+
 import commons.Event;
 import commons.Expense;
 import commons.User;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyCodeCombination;
-import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 import javafx.util.Pair;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -102,7 +100,10 @@ public class MainCtrl {
      * Method which checks the language in config file
      */
     public void getConfigLocale() {
-        setLocale(getLanguage());
+
+        ConfigFileService service =new ConfigFileService(new ServerUtils());
+        String l = service.getLanguage();
+        setLocale(l);
     }
 
     /**
@@ -113,7 +114,8 @@ public class MainCtrl {
     public void setLocale(String language) {
         this.locale = new Locale(language);
         this.bundle = ResourceBundle.getBundle("locales.resource", locale);
-        writeLanguageToConfigFile(language);
+        ConfigFileService service =new ConfigFileService(new ServerUtils());
+        service.writeLanguageToConfigFile(language);
     }
 
     /**
@@ -332,20 +334,9 @@ public class MainCtrl {
      * @return list of events
      */
     public List<Long> getJoinedEventsIDProvidingPath(String path) {
-        List<Long> list = new ArrayList<>();
-        ServerUtils serverUtils = new ServerUtils();
 
-        String jsonString = readConfigFile(path);
-        JSONObject jsonObject = new JSONObject(jsonString);
-        JSONObject userObject = jsonObject.getJSONObject("User");
-        JSONArray eventsArray = userObject.getJSONArray("Events");
-
-        for (int i = 0; i < eventsArray.length(); i++) {
-            JSONObject eventObject = eventsArray.getJSONObject(i);
-            long eventId = eventObject.getLong("id");
-            list.add(eventId);
-        }
-        return list;
+        ConfigFileService service = new ConfigFileService(new ServerUtils());
+        return service.getJoinedEventsIDProvidingPath(path);
     }
 
     /**
@@ -354,7 +345,8 @@ public class MainCtrl {
      * @return list of events
      */
     public List<Event> getJoinedEvents() {
-        return getJoinedEventsProvidingPath(CONFIG_PATH);
+        ConfigFileService service =new ConfigFileService(new ServerUtils());
+        return service.getJoinedEvents();
     }
 
     /**
@@ -364,8 +356,10 @@ public class MainCtrl {
      * @return true if the event is in the config file
      */
     public boolean isEventInConfig(Event event) {
-        List<Long> eventIds = getJoinedEventsIDProvidingPath(CONFIG_PATH);
-        return eventIds.contains(event.getId());
+
+        ConfigFileService service =new ConfigFileService(new ServerUtils());
+        List<Event> eventIds = service.getJoinedEvents();
+        return eventIds.contains(event);
     }
 
 
@@ -375,7 +369,9 @@ public class MainCtrl {
      * @return true if the event is removed
      */
     public boolean deleteEventFromConfig(Event event){
-        return deleteEventFromConfigProvidingPath(CONFIG_PATH, event);
+
+        ConfigFileService service =new ConfigFileService(new ServerUtils());
+        return service.deleteEventFromConfig(event);
     }
 
     /**
@@ -385,36 +381,9 @@ public class MainCtrl {
      * @return true if the event is removed
      */
     public boolean deleteEventFromConfigProvidingPath(String path, Event event) {
-        List<Long> eventIds = getJoinedEventsIDProvidingPath(path);
-        if (eventIds.contains(event.getId())) {
-            JSONObject jsonObject = new JSONObject(readConfigFile(path));
-            JSONObject userObject = jsonObject.getJSONObject("User");
-            JSONArray eventsArray = userObject.getJSONArray("Events");
 
-            // Find the index of the event object to remove
-            int index = -1;
-            for (int i = 0; i < eventsArray.length(); i++) {
-                JSONObject eventJSON = eventsArray.getJSONObject(i);
-                if (eventJSON.getLong("id") == event.getId()) {
-                    index = i;
-                    break;
-                }
-            }
-
-            // If the event object is found, remove it from the eventsArray
-            if (index != -1) {
-                eventsArray.remove(index);
-                userObject.put("Events", eventsArray);
-                Path filePath = Path.of(path);
-                try {
-                    Files.writeString(filePath, jsonObject.toString());
-                    return true;
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        }
-        return false;
+        ConfigFileService service =new ConfigFileService(new ServerUtils());
+        return service.deleteEventFromConfigProvidingPath(path, event);
     }
 
     /**
@@ -424,14 +393,9 @@ public class MainCtrl {
      * @return list of events
      */
     public List<Event> getJoinedEventsProvidingPath(String path)  {
-        List<Long> eventIds = getJoinedEventsIDProvidingPath(path);
-        List<Event> events = new ArrayList<>();
-        ServerUtils serverUtils = new ServerUtils();
 
-        for (int i = 0; i < eventIds.size(); i++) {
-            events.add(serverUtils.getEventById(eventIds.get(i)));
-        }
-        return events;
+        ConfigFileService service =new ConfigFileService(new ServerUtils());
+        return service.getJoinedEventsProvidingPath(path);
     }
 
     /**
@@ -439,7 +403,9 @@ public class MainCtrl {
      * @return the language
      */
     public String getLanguage() {
-        return getLanguageProvidingPath(CONFIG_PATH);
+
+        ConfigFileService service =new ConfigFileService(new ServerUtils());
+        return service.getLanguage();
     }
 
     /**
@@ -448,10 +414,9 @@ public class MainCtrl {
      * @return  the language
      */
     public String getLanguageProvidingPath(String path) {
-        String jsonString = readConfigFile(path);
-        JSONObject jsonObject = new JSONObject(jsonString);
-        JSONObject userObject = jsonObject.getJSONObject("User");
-        return userObject.getString("Language");
+
+        ConfigFileService service =new ConfigFileService(new ServerUtils());
+        return service.getLanguageProvidingPath(path);
     }
 
     /**
@@ -459,7 +424,9 @@ public class MainCtrl {
      * @return the currency
      */
     public String getCurrency()  {
-        return getCurrencyProvidingPath(CONFIG_PATH);
+
+        ConfigFileService service =new ConfigFileService(new ServerUtils());
+        return service.getCurrency();
     }
 
     /**
@@ -468,10 +435,8 @@ public class MainCtrl {
      * @return  the currency
      */
     public String getCurrencyProvidingPath(String path) {
-        String jsonString = readConfigFile(path);
-        JSONObject jsonObject = new JSONObject(jsonString);
-        JSONObject userObject = jsonObject.getJSONObject("User");
-        return userObject.getString("Currency");
+        ConfigFileService service =new ConfigFileService(new ServerUtils());
+        return service.getCurrencyProvidingPath(path);
     }
 
     /**
@@ -481,13 +446,9 @@ public class MainCtrl {
      * @return the string representation of the file
      */
     public String readConfigFile(String filePath) {
-        Path path = Path.of(filePath);
-        try {
-            String string = Files.readString(path);
-            return string;
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+
+        ConfigFileService service =new ConfigFileService(new ServerUtils());
+        return service.readConfigFile(filePath);
     }
 
     /**
@@ -495,7 +456,9 @@ public class MainCtrl {
      * @param event event to be written (IN JSON FORMAT)
      */
     public void writeEventToConfigFile(Event event)  {
-        writeEventToConfigFileByPath(CONFIG_PATH, event);
+
+        ConfigFileService service =new ConfigFileService(new ServerUtils());
+        service.writeEventToConfigFile(event);
     }
 
     /**
@@ -504,36 +467,8 @@ public class MainCtrl {
      * @param event event to be written (IN JSON FORMAT)
      */
     public void writeEventToConfigFileByPath(String filePath, Event event) {
-        // Read the JSON file
-        JSONObject jsonObject = new JSONObject(readConfigFile(filePath));
-        // Get the User object
-        JSONObject userObject = jsonObject.getJSONObject("User");
-        // Get the Events array
-        JSONArray eventsArray = new JSONArray();
-
-        // Get the existing events
-        JSONArray existingEvents = userObject.getJSONArray("Events");
-
-        // Add the existing events to the new array
-        for (int i = 0; i < existingEvents.length(); i++) {
-            eventsArray.put(existingEvents.getJSONObject(i));
-        }
-
-        // Add the new event to the array
-        JSONObject newEvent = new JSONObject(event);
-
-        // Add all events back to the array
-        eventsArray.put(newEvent);
-        // Add the array back to the user object
-        userObject.put("Events", eventsArray);
-
-        // write to file
-        Path path = Path.of(filePath);
-        try {
-            Files.writeString(path, jsonObject.toString());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        ConfigFileService service =new ConfigFileService(new ServerUtils());
+        service.writeEventToConfigFileByPath(filePath, event);
     }
 
     /**
@@ -541,7 +476,8 @@ public class MainCtrl {
      * @param language language to be written
      */
     public void writeLanguageToConfigFile(String language) {
-        writeLanguageToConfigFileByPath(CONFIG_PATH, language);
+        ConfigFileService service =new ConfigFileService(new ServerUtils());
+        service.writeLanguageToConfigFile(language);
     }
 
     /**
@@ -550,16 +486,9 @@ public class MainCtrl {
      * @param language language to be written
      */
     public void writeLanguageToConfigFileByPath(String filePath, String language) {
-        JSONObject jsonObject = new JSONObject(readConfigFile(filePath));
-        JSONObject userObject = jsonObject.getJSONObject("User");
-        userObject.put("Language", language);
 
-        Path path = Path.of(filePath);
-        try {
-            Files.writeString(path, jsonObject.toString());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        ConfigFileService service =new ConfigFileService(new ServerUtils());
+        service.writeLanguageToConfigFileByPath(filePath, language);
     }
 
     /**
@@ -567,7 +496,8 @@ public class MainCtrl {
      * @param currency currency to be written
      */
     public void writeCurrencyToConfigFile(String currency)  {
-        writeCurrencyToConfigFileByPath(CONFIG_PATH, currency);
+        ConfigFileService service =new ConfigFileService(new ServerUtils());
+        service.writeCurrencyToConfigFile(currency);
     }
 
     /**
@@ -576,16 +506,9 @@ public class MainCtrl {
      * @param currency currency to be written
      */
     public void writeCurrencyToConfigFileByPath(String filePath, String currency) {
-        JSONObject jsonObject = new JSONObject(readConfigFile(filePath));
-        JSONObject userObject = jsonObject.getJSONObject("User");
-        userObject.put("Currency", currency);
 
-        Path path = Path.of(filePath);
-        try {
-            Files.writeString(path, jsonObject.toString());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        ConfigFileService service =new ConfigFileService(new ServerUtils());
+        service.writeCurrencyToConfigFileByPath(filePath,currency);
     }
     /**
      * shows the languageSwitch pages
@@ -623,4 +546,51 @@ public class MainCtrl {
         primaryStage.setScene(expenseInfoScene);
     }
 
+    /**
+     * shows the page with the debts of an event
+     * @param event of the page
+     */
+    public void showSettleDebts(Event event) {
+        var settleDebts = Main.FXML.load(SettleDebtsCtrl.class, bundle, "client",
+            "scenes", "SettleDebts.fxml");
+        SettleDebtsCtrl settleDebtsCtrl = settleDebts.getKey();
+        Scene settleDebtsScene = new Scene(settleDebts.getValue());
+        settleDebtsCtrl.setEvent(event);
+        settleDebtsCtrl.setData();
+        primaryStage.setTitle("Settle Debts");
+        primaryStage.setScene(settleDebtsScene);
+    }
+
+    /**
+     * shows the UserDebts page
+     * @param list of the payments
+     * @param event of the debts
+     * @param user that will make the payment
+     */
+    public void showUserDebts(List<String> list, Event event, User user) {
+        var userDebts = Main.FXML.load(UserDebtCtrl.class, bundle, "client",
+                "scenes", "UserDebt.fxml");
+        UserDebtCtrl userDebtCtrl = userDebts.getKey();
+        Scene userDebtScene = new Scene(userDebts.getValue());
+        userDebtCtrl.setData(list, event, user);
+        primaryStage.setTitle("User Debts");
+        primaryStage.setScene(userDebtScene);
+    }
+
+    /**
+     * opens the settle debts page but removing a participant from the open debtors list
+     * @param event of the settle debts page
+     * @param user the removes user
+     */
+    public void removeOpenDebt(Event event, User user) {
+        var settleDebts = Main.FXML.load(SettleDebtsCtrl.class, bundle, "client",
+                "scenes", "SettleDebts.fxml");
+        SettleDebtsCtrl settleDebtsCtrl = settleDebts.getKey();
+        Scene settleDebtsScene = new Scene(settleDebts.getValue());
+        settleDebtsCtrl.setEvent(event);
+        settleDebtsCtrl.setData();
+        settleDebtsCtrl.removeOpenDebt(user);
+        primaryStage.setTitle("Settle Debts");
+        primaryStage.setScene(settleDebtsScene);
+    }
 }

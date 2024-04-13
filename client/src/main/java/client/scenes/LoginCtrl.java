@@ -8,11 +8,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
+import org.springframework.stereotype.Controller;
 
 import javax.inject.Inject;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+@Controller
 public class LoginCtrl implements Initializable {
     @FXML
     private AnchorPane root;

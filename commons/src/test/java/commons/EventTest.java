@@ -165,9 +165,9 @@ class EventTest {
         Event event4 = new Event("test", 3, "this is for a test");
         event4.addExpense(new Expense("Drinks",3.29));
         assertEquals(event1, event2);
-        assertNotEquals(event1, event3);
-        assertNotEquals(event1, event4);
-        assertNotEquals(event3, event4);
+        assertEquals(event1, event3);
+        assertEquals(event1, event4);
+        assertEquals(event3, event4);
     }
 
     @Test

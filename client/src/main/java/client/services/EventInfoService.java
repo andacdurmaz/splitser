@@ -3,10 +3,12 @@ package client.services;
 import client.scenes.MainCtrl;
 import client.utils.ServerUtils;
 import commons.Event;
+import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 import java.util.List;
 
+@Service
 public class EventInfoService {
 
     private final ServerUtils server;
