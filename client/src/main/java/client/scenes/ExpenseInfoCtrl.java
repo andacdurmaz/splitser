@@ -92,7 +92,8 @@ public class ExpenseInfoCtrl  {
                 new TextFieldListCell<>(new StringConverter<>() {
                     @Override
                     public String toString(User user) {
-                        double total = expense.getAmount()/(expense.getPayingParticipants().size()+1);
+                        double total = expense.getAmount()/
+                                (expense.getPayingParticipants().size()+1);
                         return user.getUsername() + " owes " + total + " \u20AC";
                     }
                     @Override
