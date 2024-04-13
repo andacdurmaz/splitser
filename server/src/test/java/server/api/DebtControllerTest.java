@@ -1,9 +1,6 @@
 package server.api;
 
 import commons.Debt;
-import commons.Event;
-import commons.User;
-import commons.exceptions.NoDebtFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
@@ -31,27 +28,24 @@ public class DebtControllerTest {
     }
 
     @Test
-    public void getAllTest() throws NoDebtFoundException {
-        User user1 = new User("andac", "v");
-        User user2 = new User("mete", "m");
-        Event event1 = new Event();
-        Event event2 = new Event();
-        Debt added1 = new Debt(user1, user2, 5.0, event1);
-        Debt added2 = new Debt(user2, user1, 3.0, event2);
+    public void getAllTest() {
+        Debt added1 = new Debt();
+        Debt added2 = new Debt();
         sut.add(added1);
         sut.add(added2);
         assertEquals(((DebtRepoTest)sut.getService().getRepo()).getDebts(), sut.getAll());
     }
 
     @Test
-    public void addTest() throws NoDebtFoundException {
+    public void addTest() {
         Debt added = new Debt();
         sut.add(added);
         assertTrue(((DebtRepoTest) sut.getService().getRepo()).getDebts().contains(added));
+        assertEquals("save", ((DebtRepoTest) sut.getService().getRepo()).getCalledMethods().get(0));
     }
 
     @Test
-    public void addFailTest() throws NoDebtFoundException {
+    public void addFailTest() {
         assertEquals(ResponseEntity.badRequest().build(), sut.add(null));
     }
 

@@ -122,21 +122,52 @@ public class UserTest {
     }
 
 
-//    @Test
-//    public void debtTest() throws EmailFormatException,
-//            IBANFormatException, BICFormatException {
-//        User user = new User("andac", "andac@gmail.com",
-//                "GB94BARC10201530093459",
-//                "AABNNL2AXXX");
-//        User user2 = new User("ivan", "ivan@gmail.com",
-//                "GB94BARC10201530093459",
-//                "AABNNL2AXXX");
-//        Debt debt = new Debt(user, user2, 15.0);
-//        List<Debt> debts = new ArrayList<>();
-//        debts.add(debt);
-//        user.setDebts(debts);
-//        assertEquals(debts, user.getDebts());
-//    }
+    @Test
+    public void debtTest() throws EmailFormatException,
+            IBANFormatException, BICFormatException {
+        User user = new User("andac", "andac@gmail.com",
+                "GB94BARC10201530093459",
+                "AABNNL2AXXX");
+        User user2 = new User("ivan", "ivan@gmail.com",
+                "GB94BARC10201530093459",
+                "AABNNL2AXXX");
+        Debt debt = new Debt(user, user2, 15.0);
+        List<Debt> debts = new ArrayList<>();
+        debts.add(debt);
+        user.setDebts(debts);
+        assertEquals(debts, user.getDebts());
+    }
+
+
+    @Test
+    public void expenseTest() throws EmailFormatException,
+            IBANFormatException, BICFormatException {
+        User user = new User("andac", "andac@gmail.com",
+                "GB94BARC10201530093459",
+                "AABNNL2AXXX");
+        Expense expense = new Expense();
+        List<Expense> expensess = new ArrayList<>();
+        expensess.add(expense);
+        user.setExpenses(expensess);
+        assertEquals(expensess, user.getExpenses());
+    }
+
+    @Test
+    public void addExpenseTest() throws EmailFormatException,
+            IBANFormatException, BICFormatException {
+        User user = new User("andac", "andac@gmail.com",
+                "GB94BARC10201530093459",
+                "AABNNL2AXXX");
+        List<Expense> expenses = new ArrayList<>();
+        assertTrue(user.getExpenses().isEmpty());
+        Expense expense = new Expense();
+        user.addExpense(expense);
+        expenses.add(expense);
+        assertEquals(expenses, user.getExpenses());
+    }
+
+
+
 
     @Test
     public void toStringTest() throws IBANFormatException,

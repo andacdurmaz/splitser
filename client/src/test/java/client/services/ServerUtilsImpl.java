@@ -5,26 +5,15 @@ import org.springframework.messaging.simp.stomp.StompFrameHandler;
 import org.springframework.messaging.simp.stomp.StompHeaders;
 import org.springframework.messaging.simp.stomp.StompSession;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.function.Consumer;
 
 
 public class ServerUtilsImpl extends ServerUtils {
-    private List<String> calls;
-
-    /**
-     *
-     */
-    public ServerUtilsImpl() {
-        calls = new ArrayList<>();
-    }
-
     /**
      *
      */
     public void setSession(){
-        calls.add("setSession");
+
     }
 
     /**
@@ -32,7 +21,6 @@ public class ServerUtilsImpl extends ServerUtils {
      * @return
      */
     private StompSession connect(String targetUrl){
-        calls.add("connect");
         return new StompSession() {
             @Override
             public String getSessionId() {
@@ -73,10 +61,12 @@ public class ServerUtilsImpl extends ServerUtils {
 
             @Override
             public void disconnect() {
+
             }
 
             @Override
             public void disconnect(StompHeaders headers) {
+
             }
         };
     }
@@ -90,7 +80,7 @@ public class ServerUtilsImpl extends ServerUtils {
      */
     public <T> void registerForSocketMessages(String destination,
                                               Class<T> packetType, Consumer<T> packetConsumer){
-        calls.add("regSocket");
+
     }
 
     /**

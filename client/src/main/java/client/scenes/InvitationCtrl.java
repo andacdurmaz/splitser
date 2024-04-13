@@ -1,7 +1,7 @@
 
 package client.scenes;
-import client.services.InvitationService;
 import com.google.inject.Inject;
+import client.utils.ServerUtils;
 import commons.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -9,7 +9,8 @@ import javafx.scene.control.Label;
 
 public class InvitationCtrl {
 
-    private final InvitationService service;
+    private final ServerUtils server;
+    private final MainCtrl mainCtrl;
     private Event event;
 
     @FXML
@@ -21,12 +22,14 @@ public class InvitationCtrl {
     /**
      * Adding javadoc for checkstyle
      *
-     * @param service service
+     * @param server   server
+     * @param mainCtrl mainCtrl
      * @param event event
      */
     @Inject
-    public InvitationCtrl(InvitationService service, Event event) {
-        this.service = service;
+    public InvitationCtrl(ServerUtils server, MainCtrl mainCtrl, Event event) {
+        this.server = server;
+        this.mainCtrl = mainCtrl;
         this.event = event;
     }
 
@@ -76,7 +79,7 @@ public class InvitationCtrl {
      */
     public void cancel() {
 //        clearFields();
-        service.showEventInfo(event);
+        mainCtrl.showEventInfo(event);
     }
 
 

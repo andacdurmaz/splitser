@@ -194,7 +194,7 @@ public class ServerUtils extends Util {
 
     /**
      * Delete event
-
+     *
      * @param expense to delete
      */
     public void deleteExpense(Expense expense) {
@@ -208,7 +208,7 @@ public class ServerUtils extends Util {
     /**
      * Adds expense
      * @param expense to add
-     * @return the added expense
+     * @return add expense
      */
     public Expense addExpense(Expense expense) {
         Response response = ClientBuilder.newClient(new ClientConfig())
@@ -216,9 +216,9 @@ public class ServerUtils extends Util {
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .post(Entity.entity(expense, APPLICATION_JSON));
-        Expense expense1 = response.readEntity(new GenericType<>() {
+        Expense newExpense = response.readEntity(new GenericType<>() {
         });
-        return expense1;
+        return newExpense;
     }
 
     /**
@@ -312,10 +312,6 @@ public class ServerUtils extends Util {
                 .get(new GenericType<User>() {
                 });
     }
-
-
-
-
     /**
      * updates given event
      *
@@ -479,34 +475,6 @@ public class ServerUtils extends Util {
     public void stop(){
         ADDEXPENSE.shutdownNow();
         DELEXPENSE.shutdownNow();
-    }
-
-    /**
-     * adds a debt to the database
-     * @param debt the added debt
-     * @return the added debt
-     */
-    public Debt addDebt(Debt debt) {
-        Response response = ClientBuilder.newClient(new ClientConfig()) //
-                .target(serverAddress).path("api/debts/add") //
-                .request(APPLICATION_JSON) //
-                .accept(APPLICATION_JSON) //
-                .post(Entity.entity(debt, APPLICATION_JSON));
-        Debt debt1 = response.readEntity(new GenericType<>() {
-        });
-        return debt1;
-    }
-
-    /**
-     * gets all the debts from the database
-     * @return the list of the debts
-     */
-    public List<Debt> getDebts() {
-        return ClientBuilder.newClient(new ClientConfig())
-                .target(serverAddress).path("api/debts")
-                .request(APPLICATION_JSON).accept(APPLICATION_JSON)
-                .get(new GenericType<List<Debt>>() {
-                });
     }
 
 }
