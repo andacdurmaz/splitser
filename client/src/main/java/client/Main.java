@@ -51,13 +51,13 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws IOException {
 
         var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
-        var eventOverview = FXML.load(EventOverviewCtrl.class, "client",
-                "scenes", "EventOverview.fxml");
+//        var eventOverview = FXML.load(EventOverviewCtrl.class, "client",
+//                "scenes", "EventOverview.fxml");
 
 //        var addExpenseTags = FXML.load(AddExpenseTagCtrl.class, "client",
 //                "scenes", "AddExpenseTag.fxml");
         mainCtrl.initialize(primaryStage);
-        mainCtrl.overviewInitialize(eventOverview);
+//        mainCtrl.overviewInitialize(eventOverview);
 
 //        mainCtrl.invitationsInitialize(invitationsOverview);
 //        mainCtrl.expenseTagsInitialize(addExpenseTags);

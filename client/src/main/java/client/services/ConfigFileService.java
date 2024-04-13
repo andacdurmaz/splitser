@@ -286,4 +286,125 @@ public class ConfigFileService {
             throw new RuntimeException(e);
         }
     }
+
+
+    /**
+     * removes the event from the config file by id
+     * @param id event id to be removed
+     * @return true if the event is removed
+     */
+    public boolean deleteEventFromConfigByID(long id){
+        return deleteEventFromConfigByIDProvidingPath(CONFIG_PATH, id);
+    }
+
+    /**
+     * removes the event from the config file by id by path
+     * @param path path to the file
+     * @param id event id to be removed
+     * @return true if the event is removed
+     */
+    public boolean deleteEventFromConfigByIDProvidingPath(String path, long id) {
+        List<Long> eventIds = getJoinedEventsIDProvidingPath(path);
+        if (eventIds.contains(id)) {
+            JSONObject jsonObject = new JSONObject(readConfigFile(path));
+            JSONObject userObject = jsonObject.getJSONObject("User");
+            JSONArray eventsArray = userObject.getJSONArray("Events");
+
+            // Find the index of the event object to remove
+            int index = -1;
+            for (int i = 0; i < eventsArray.length(); i++) {
+                JSONObject eventJSON = eventsArray.getJSONObject(i);
+                if (eventJSON.getLong("id") == id) {
+                    index = i;
+                    break;
+                }
+            }
+
+            // If the event object is found, remove it from the eventsArray
+            if (index != -1) {
+                eventsArray.remove(index);
+                userObject.put("Events", eventsArray);
+                Path filePath = Path.of(path);
+                try {
+                    Files.writeString(filePath, jsonObject.toString());
+                    return true;
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+        return false;
+    }
+
+
+    /**
+     * removes all events from the config file
+     * @return true if the events are removed
+     */
+    public boolean deleteAllEventsFromConfig(){
+        return deleteAllEventsFromConfigProvidingPath(CONFIG_PATH);
+    }
+
+    /**
+     * removes all events from the config file by path
+     * @param path path to the file
+     * @return true if the events are removed
+     */
+    public boolean deleteAllEventsFromConfigProvidingPath(String path){
+        JSONObject jsonObject = new JSONObject(readConfigFile(path));
+        JSONObject userObject = jsonObject.getJSONObject("User");
+        userObject.put("Events", new JSONArray());
+        Path filePath = Path.of(path);
+        try {
+            Files.writeString(filePath, jsonObject.toString());
+            return true;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * gets the server address from the CONFIG file
+     * @return the server address
+     */
+    public String getServerAddress() {
+        return getServerAddressProvidingPath(CONFIG_PATH);
+    }
+
+    /**
+     * gets the server address from the CONFIG file by path
+     * @param path path to the file
+     * @return the server address
+     */
+    public String getServerAddressProvidingPath(String path) {
+        String jsonString = readConfigFile(path);
+        JSONObject jsonObject = new JSONObject(jsonString);
+        JSONObject userObject = jsonObject.getJSONObject("User");
+        return userObject.getString("ServerAddress");
+    }
+
+    /**
+     * writes the server address (without http://) to the config file
+     * @param serverAddress server address to be written
+     */
+    public void writeServerAddressToConfigFile(String serverAddress) {
+        writeServerAddressToConfigFileByPath(CONFIG_PATH, serverAddress);
+    }
+
+    /**
+     * writes the server address (without http://) to the config file by path
+     * @param filePath path to the file
+     * @param serverAddress server address to be written
+     */
+    public void writeServerAddressToConfigFileByPath(String filePath, String serverAddress) {
+        JSONObject jsonObject = new JSONObject(readConfigFile(filePath));
+        JSONObject userObject = jsonObject.getJSONObject("User");
+        userObject.put("ServerAddress", serverAddress);
+        Path path = Path.of(filePath);
+        try {
+            Files.writeString(path, jsonObject.toString());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
