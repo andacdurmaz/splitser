@@ -7,6 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -14,6 +15,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.util.Duration;
 
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 
@@ -56,16 +58,15 @@ public class IntroPageCtrl implements Initializable {
     /**
      * Method to handle the start button
      */
-    public void start(){
+    public void start() {
         ServerUtils server = new ServerUtils();
-        if(!server.setServerAddress(serverAddress.getText())){
+        if (!server.setServerAddress(serverAddress.getText())) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Server not found");
             alert.setHeaderText("The server you wanted is unavailable");
             alert.setContentText("Please check the server address and try again");
             alert.show();
-        }
-        else{
+        } else {
             Stage stage = (Stage) startButton.getScene().getWindow();
             // do what you have to do
             stage.close();
@@ -75,38 +76,45 @@ public class IntroPageCtrl implements Initializable {
 
     /**
      * Method to process the server address
+     *
      * @param actionEvent the clicking of the button
      */
-    public void processServer(ActionEvent actionEvent){
+    public void processServer(ActionEvent actionEvent) {
         ServerUtils server = new ServerUtils();
         String address = serverAddress.getText();
-        if(server.setServerAddress(address)){
-            serverAddressButton.setText("\u2713");
-            serverAddressButton.setStyle("-fx-background-color:  green");
-            PauseTransition pt = new PauseTransition(Duration.seconds(3.0));
-            pt.setOnFinished(e -> {
-                serverAddressButton.setText("\u2192");
-                serverAddressButton.setStyle("-fx-background-color:  fd7f20");
-                mainCtrl.writeServerAddressToConfigFile(address);
 
-            });
-            pt.play();
-            mainCtrl.deleteAllEventsFromConfig();
-        }
-        else{
-            serverAddressButton.setText("\u274C");
-            serverAddressButton.setStyle("-fx-background-color:  D11A2A");
-            PauseTransition pt = new PauseTransition(Duration.seconds(3.0));
-            pt.setOnFinished(e -> {
-                serverAddressButton.setText("\u2192");
-                serverAddressButton.setStyle("-fx-background-color:  fd7f20");
-            });
-            pt.play();
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Server not found");
-            alert.setHeaderText("The server you wanted is unavailable");
-            alert.setContentText("Please check the server address and try again");
-            alert.show();
+        Alert conf = new Alert(Alert.AlertType.CONFIRMATION);
+        conf.setTitle("Confirmation Dialog");
+        conf.setContentText("Are you sure you want to connect to the server : " + address + " ?");
+        Optional<ButtonType> result = conf.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            if (server.setServerAddress(address)) {
+                serverAddressButton.setText("\u2713");
+                serverAddressButton.setStyle("-fx-background-color:  green");
+                PauseTransition pt = new PauseTransition(Duration.seconds(3.0));
+                pt.setOnFinished(e -> {
+                    serverAddressButton.setText("\u2192");
+                    serverAddressButton.setStyle("-fx-background-color:  fd7f20");
+                    mainCtrl.writeServerAddressToConfigFile(address);
+
+                });
+                pt.play();
+                mainCtrl.deleteAllEventsFromConfig();
+            } else {
+                serverAddressButton.setText("\u274C");
+                serverAddressButton.setStyle("-fx-background-color:  D11A2A");
+                PauseTransition pt = new PauseTransition(Duration.seconds(3.0));
+                pt.setOnFinished(e -> {
+                    serverAddressButton.setText("\u2192");
+                    serverAddressButton.setStyle("-fx-background-color:  fd7f20");
+                });
+                pt.play();
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Server not found");
+                alert.setHeaderText("The server you wanted is unavailable");
+                alert.setContentText("Please check the server address and try again");
+                alert.show();
+            }
         }
     }
 
@@ -118,7 +126,7 @@ public class IntroPageCtrl implements Initializable {
     public void keyPressed(KeyEvent e) {
         switch (e.getCode()) {
             case ENTER:
-                if(serverAddress.isFocused()){
+                if (serverAddress.isFocused()) {
                     processServer(null);
                 }
             case ESCAPE:
