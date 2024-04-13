@@ -250,6 +250,11 @@ public class StartPageCtrl implements Initializable {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            Alert confirmation = new Alert(Alert.AlertType.INFORMATION);
+            confirmation.setTitle("Removed event");
+            confirmation.setHeaderText(null);
+            confirmation.setContentText("Successfully removed event");
+            confirmation.showAndWait();
         }
     }
 
