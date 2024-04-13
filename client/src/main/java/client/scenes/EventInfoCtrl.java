@@ -19,7 +19,6 @@ import javafx.util.StringConverter;
 
 import javax.inject.Inject;
 import java.util.List;
-import java.util.Optional;
 
 public class EventInfoCtrl {
     private Event event;
@@ -244,7 +243,6 @@ public class EventInfoCtrl {
     }
 
     /**
-    /**
      * edits a selected expense's information
      * @param actionEvent when the button is clicked
      */
@@ -283,7 +281,9 @@ public class EventInfoCtrl {
      * @param e
      */
     public void keyPressed(KeyEvent e) {
-
+        KeyCombination addExpenseTagShortcut = new KeyCodeCombination(KeyCode.T,KeyCombination.CONTROL_DOWN);
+        KeyCombination addParticipantTagShortcut = new KeyCodeCombination(KeyCode.P,KeyCombination.CONTROL_DOWN);
+        KeyCombination addExpenseShortcut = new KeyCodeCombination(KeyCode.E,KeyCombination.CONTROL_DOWN);
 
         switch (e.getCode()) {
             case ENTER:
@@ -301,21 +301,6 @@ public class EventInfoCtrl {
             default:
                 break;
         }
-
-    }
-
-    /**
-     * Listens for key combinations
-     * @param e
-     */
-    public void keyCombinationPressed(KeyEvent e) {
-        KeyCombination addExpenseTagShortcut =
-                new KeyCodeCombination(KeyCode.T,KeyCombination.CONTROL_DOWN);
-        KeyCombination addParticipantTagShortcut =
-                new KeyCodeCombination(KeyCode.P,KeyCombination.CONTROL_DOWN);
-        KeyCombination addExpenseShortcut =
-                new KeyCodeCombination(KeyCode.E,KeyCombination.CONTROL_DOWN);
-
         if (addExpenseTagShortcut.match(e)) {
             System.out.println("Combination Pressed: " + addExpenseTagShortcut);
             addExpenseTag();
@@ -328,8 +313,8 @@ public class EventInfoCtrl {
             System.out.println("Combination Pressed: " + addExpenseTagShortcut);
             addExpense();
         }
-
     }
+
     /**
      * refreshes the data as the page is opened again
      * @param event of the page
@@ -376,22 +361,16 @@ public class EventInfoCtrl {
      * @param actionEvent when the button is clicked
      */
     public void deleteParticipant(ActionEvent actionEvent) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Confirmation Dialog");
-        alert.setContentText("Are you sure you want to delete this participant");
-
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK){
-            User temp = selectedParticipant;
-            participantCombobox.getItems().remove(temp);
-            expenseComboBox.getItems().remove(temp);
-            List<User> oldParticipants = event.getParticipants();
-            oldParticipants = oldParticipants.stream().filter(q -> !q.equals(temp)).toList();
-            event.setParticipants(oldParticipants);
-            service.updateEvent(event);
-            setData(event);
-        }
+        User temp = selectedParticipant;
+        participantCombobox.getItems().remove(temp);
+        expenseComboBox.getItems().remove(temp);
+        List<User> oldParticipants = event.getParticipants();
+        oldParticipants = oldParticipants.stream().filter(q -> !q.equals(temp)).toList();
+        event.setParticipants(oldParticipants);
+        service.updateEvent(event);
+        setData(event);
     }
+
 
     /**
      * Method to enable editing of the event title
