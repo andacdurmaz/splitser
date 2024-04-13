@@ -1,6 +1,7 @@
 package client.scenes;
 
 import client.utils.ServerUtils;
+import commons.Debt;
 import commons.Event;
 import commons.Expense;
 import commons.User;
@@ -13,6 +14,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.util.StringConverter;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ExpenseInfoCtrl  {
 
@@ -113,6 +116,15 @@ public class ExpenseInfoCtrl  {
      * @param actionEvent when button is clicked, the expense is deleted
      */
     public void delete(ActionEvent actionEvent) {
+        for (User u : expense.getPayingParticipants()) {
+            double debtAmount = expense.getAmount()/expense.getPayingParticipants().size();
+            Debt debt = new Debt(expense.getPayer(), u, debtAmount, event);
+            server.addDebt(debt);
+            List<Debt> debts = new ArrayList<>(u.getDebts());
+            debts.add(debt);
+            u.setDebts(debts);
+            server.updateUser(u);
+        }
         event.getExpenses().remove(expense);
         server.updateEvent(event);
         server.deleteExpense(expense);

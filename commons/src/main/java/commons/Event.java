@@ -24,6 +24,8 @@ public class Event {
     private int amountOfParticipants;
     @OneToMany(targetEntity = Expense.class)
     private List<Expense> expenses = new ArrayList<>();
+    @OneToMany(targetEntity = Debt.class)
+    private List<Expense> debts = new ArrayList<>();
     private String description;
 
     @ManyToMany(targetEntity = User.class)
@@ -306,7 +308,6 @@ public class Event {
                 eventCode == event.eventCode &&
                 amountOfParticipants == event.amountOfParticipants &&
                 Objects.equals(title, event.title) &&
-                Objects.equals(expenses, event.expenses) &&
                 Objects.equals(description, event.description);
     }
 

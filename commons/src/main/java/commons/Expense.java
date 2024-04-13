@@ -34,7 +34,6 @@ public class Expense {
     @ManyToOne()
     private ExpenseTag expenseTag;
 
-    private Date expenseDate;
     /**
      * Constructor for mapping
      */
@@ -177,7 +176,7 @@ public class Expense {
      * @param expenseDate the new date
      */
     public void setExpenseDate(Date expenseDate) {
-        this.expenseDate = expenseDate;
+        this.date = expenseDate;
     }
 
     /**
@@ -261,7 +260,7 @@ public class Expense {
      * @return date of expense
      */
     public Date getDate() {
-        return expenseDate;
+        return date;
     }
 
     /**

@@ -543,5 +543,51 @@ public class MainCtrl {
         primaryStage.setScene(expenseInfoScene);
     }
 
+    /**
+     * shows the page with the debts of an event
+     * @param event of the page
+     */
+    public void showSettleDebts(Event event) {
+        var settleDebts = Main.FXML.load(SettleDebtsCtrl.class, bundle, "client",
+            "scenes", "SettleDebts.fxml");
+        SettleDebtsCtrl settleDebtsCtrl = settleDebts.getKey();
+        Scene settleDebtsScene = new Scene(settleDebts.getValue());
+        settleDebtsCtrl.setEvent(event);
+        settleDebtsCtrl.setData();
+        primaryStage.setTitle("Settle Debts");
+        primaryStage.setScene(settleDebtsScene);
+    }
 
+    /**
+     * shows the UserDebts page
+     * @param list of the payments
+     * @param event of the debts
+     * @param user that will make the payment
+     */
+    public void showUserDebts(List<String> list, Event event, User user) {
+        var userDebts = Main.FXML.load(UserDebtCtrl.class, bundle, "client",
+                "scenes", "UserDebt.fxml");
+        UserDebtCtrl userDebtCtrl = userDebts.getKey();
+        Scene userDebtScene = new Scene(userDebts.getValue());
+        userDebtCtrl.setData(list, event, user);
+        primaryStage.setTitle("User Debts");
+        primaryStage.setScene(userDebtScene);
+    }
+
+    /**
+     * opens the settle debts page but removing a participant from the open debtors list
+     * @param event of the settle debts page
+     * @param user the removes user
+     */
+    public void removeOpenDebt(Event event, User user) {
+        var settleDebts = Main.FXML.load(SettleDebtsCtrl.class, bundle, "client",
+                "scenes", "SettleDebts.fxml");
+        SettleDebtsCtrl settleDebtsCtrl = settleDebts.getKey();
+        Scene settleDebtsScene = new Scene(settleDebts.getValue());
+        settleDebtsCtrl.setEvent(event);
+        settleDebtsCtrl.setData();
+        settleDebtsCtrl.removeOpenDebt(user);
+        primaryStage.setTitle("Settle Debts");
+        primaryStage.setScene(settleDebtsScene);
+    }
 }
