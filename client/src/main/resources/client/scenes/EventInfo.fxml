@@ -17,12 +17,12 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-
-      <Label fx:id="participantsLabel" disable="true" layoutX="102.0" layoutY="191.0" prefHeight="51.0" prefWidth="363.0" text="%participants-list" />
-      <Button fx:id="addParticipant" layoutX="226.0" layoutY="166.0" mnemonicParsing="false" onAction="#addParticipant" style="-fx-background-color: green;" text="%add" />
+      <Button fx:id="addParticipant" layoutX="226.0" layoutY="166.0" mnemonicParsing="false" onAction="#addParticipant" style="-fx-background-color: green;" text="%add" textFill="WHITE" />
       <ComboBox fx:id="participantCombobox" layoutX="284.0" layoutY="166.0" onAction="#selectParticipant" prefWidth="150.0" promptText="%participants" />
       <Button id="editParticipant" layoutX="442.0" layoutY="166.0" mnemonicParsing="false" onAction="#editParticipant" text="%edit" />
-      <Button id="deleteParticipant" layoutX="496.0" layoutY="166.0" mnemonicParsing="false" onAction="#deleteParticipant" style="-fx-background-color: red;" text="%delete" />
+      <Button id="deleteParticipant" layoutX="496.0" layoutY="166.0" mnemonicParsing="false" onAction="#deleteParticipant" style="-fx-background-color: red;" text="%delete" textFill="WHITE" />
+
+      <Label fx:id="participantsLabel" disable="true" layoutX="102.0" layoutY="191.0" prefHeight="51.0" prefWidth="363.0" text="%participants-list" />
       <Label layoutX="99.0" layoutY="261.0" text="%expenses">
 
          <font>
@@ -31,15 +31,17 @@
       </Label>
 
       <ComboBox fx:id="expenseComboBox" layoutX="209.0" layoutY="262.0" onAction="#selectExpense" prefWidth="150.0" promptText="%participants" />
+      <Button layoutX="375.0" layoutY="262.0" mnemonicParsing="false" onAction="#settleDebts" prefHeight="25.0" prefWidth="100.0" text="%debts" />
+      <Button layoutX="102.0" layoutY="306.0" mnemonicParsing="false" onAction="#addExpense" prefHeight="55.0" prefWidth="150.0" text="%add-expense" />
       <Button layoutX="268.0" layoutY="306.0" mnemonicParsing="false" onAction="#editExpense" prefHeight="55.0" prefWidth="150.0" text="%edit-expense" />
-      <Button fx:id="invitation" layoutX="475.0" layoutY="60.0" mnemonicParsing="false" onAction="#sendInvitations" prefHeight="25.0" prefWidth="116.0" text="%invitations" />
-      <Button fx:id="statistics" layoutX="474.0" layoutY="27.0" mnemonicParsing="false" onAction="#showStatistics" prefHeight="25.0" prefWidth="116.0" text="%statistics" />
-      <Button fx:id="expenseTag" layoutX="475.0" layoutY="91.0" mnemonicParsing="false" onAction="#addExpenseTag" prefHeight="25.0" prefWidth="116.0" text="%add-expense-tag" />
       <Button layoutX="99.0" layoutY="378.0" mnemonicParsing="false" onAction="#allExpenses" prefHeight="25.0" prefWidth="128.0" text="%all" />
       <Button fx:id="paidByButton" layoutX="236.0" layoutY="378.0" mnemonicParsing="false" onAction="#paidByParticipantList" prefHeight="25.0" prefWidth="166.0" text="%paid-by-participant" />
       <Button fx:id="includingButton" layoutX="406.0" layoutY="378.0" mnemonicParsing="false" onAction="#includingParticipantList" prefHeight="25.0" prefWidth="180.0" text="%including-participant" />
       <ListView fx:id="expenseList" layoutX="99.0" layoutY="404.0" onKeyPressed="#enterExpense" onMouseClicked="#selectExpenseList" prefHeight="246.0" prefWidth="489.0" />
-      <Button layoutX="536.0" layoutY="656.0" mnemonicParsing="false" onAction="#back" text="%back" />
+      <Button fx:id="statistics" layoutX="474.0" layoutY="27.0" mnemonicParsing="false" onAction="#showStatistics" prefHeight="25.0" prefWidth="116.0" text="%statistics" />
+      <Button fx:id="invitation" layoutX="475.0" layoutY="60.0" mnemonicParsing="false" onAction="#sendInvitations" prefHeight="25.0" prefWidth="116.0" text="%invitations" />
+      <Button fx:id="expenseTag" layoutX="475.0" layoutY="91.0" mnemonicParsing="false" onAction="#addExpenseTag" prefHeight="25.0" prefWidth="116.0" text="%add-expense-tag" />
+      <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#back" text="%back" />
       <Label fx:id="titleLabel" layoutX="108.0" layoutY="26.0" prefHeight="51.0" prefWidth="282.0" text="%event_name" textFill="#fd7f20">
 
          <font>
@@ -83,13 +85,11 @@
             <Button fx:id="noParticipantErrButton" layoutX="264.0" layoutY="277.0" mnemonicParsing="false" onAction="#noParticipantErr" prefHeight="26.0" prefWidth="150.0" text="%ok" />
          </children>
       </AnchorPane>
-      <Button layoutX="375.0" layoutY="262.0" mnemonicParsing="false" onAction="#settleDebts" prefHeight="25.0" prefWidth="100.0" text="%debts" />
       <Label fx:id="eventCode" layoutX="99.0" layoutY="116.0" text="Event code" textFill="#fd7f20">
          <font>
             <Font name="Dubai Bold" size="18.0" />
          </font>
       </Label>
-      <Button layoutX="102.0" layoutY="306.0" mnemonicParsing="false" onAction="#addExpense" prefHeight="55.0" prefWidth="150.0" text="%add-expense" />
 
 
    </children>
