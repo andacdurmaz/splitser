@@ -5,7 +5,7 @@ This repository contains the template for the OOPP project. Please extend this R
 How to run the project
 1) ./gradlew build
 2) ./gradlew bootRun
-3) run client/main
+3) run client/main (or use ./gradlew run)
 
 Useful shortcuts in the project
 --In the start up page of the application
