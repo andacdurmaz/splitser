@@ -295,7 +295,7 @@ public class AddOrEditExpenseCtrl implements Initializable {
             expenses.add(expense);
             event.setExpenses(expenses);
             for (User u : oldExpense.getPayingParticipants()) {
-                double debtAmount = oldExpense.getAmount()/oldExpense.getPayingParticipants().size();
+                double debtAmount = oldExpense.getAmount()/(oldExpense.getPayingParticipants().size()+1);
                 Debt debt = new Debt(oldExpense.getPayer(), u, debtAmount, event);
                 service.addDebt(debt);
                 List<Debt> debts = new ArrayList<>(u.getDebts());
@@ -304,7 +304,7 @@ public class AddOrEditExpenseCtrl implements Initializable {
                 service.updateUser(u);
             }
             for (User u : expense.getPayingParticipants()) {
-                double debtAmount = expense.getAmount()/expense.getPayingParticipants().size();
+                double debtAmount = expense.getAmount()/(expense.getPayingParticipants().size()+1);
                 Debt debt = new Debt(u, expense.getPayer(), debtAmount, event);
                 service.addDebt(debt);
                 List<Debt> debts = new ArrayList<>(u.getDebts());
