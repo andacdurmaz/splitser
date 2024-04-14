@@ -93,6 +93,7 @@ public class AdminOverviewCtrl implements Initializable {
         colEventDescription.setCellValueFactory(q ->
                 new SimpleStringProperty(q.getValue().getDescription()));
         sortMenu.getItems().addAll(optionTitle, optionDate, optionActivity);
+        sortMenu.setPromptText(service.getString("sort-by"));
         sortMenu.setOnAction(sortEvent);
         table.setOnMouseClicked(getEvent);
     }
