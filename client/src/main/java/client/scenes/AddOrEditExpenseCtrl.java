@@ -275,6 +275,11 @@ public class AddOrEditExpenseCtrl implements Initializable {
     private void selectedExpense() {
         try {
             List<Expense> expenses = new ArrayList<>(event.getExpenses());
+            Expense oldExpense = new Expense();
+            oldExpense.setAmount(expense.getAmount());
+            oldExpense.setExpenseDate(expense.getDate());
+            oldExpense.setPayer(expense.getPayer());
+            oldExpense.setPayingParticipants(new ArrayList<>(expense.getPayingParticipants()));
             expenses.remove(expense);
             expense.setExpenseTag(expenseTag.getValue());
             expense.setAmount(Double.parseDouble(howMuch.getText()));
@@ -289,8 +294,17 @@ public class AddOrEditExpenseCtrl implements Initializable {
             service.updateExpense(expense);
             expenses.add(expense);
             event.setExpenses(expenses);
+            for (User u : oldExpense.getPayingParticipants()) {
+                double debtAmount = oldExpense.getAmount()/oldExpense.getPayingParticipants().size();
+                Debt debt = new Debt(oldExpense.getPayer(), u, debtAmount, event);
+                service.addDebt(debt);
+                List<Debt> debts = new ArrayList<>(u.getDebts());
+                debts.add(debt);
+                u.setDebts(debts);
+                service.updateUser(u);
+            }
             for (User u : expense.getPayingParticipants()) {
-                double debtAmount = expense.getAmount()/(expense.getPayingParticipants().size()+1);
+                double debtAmount = expense.getAmount()/expense.getPayingParticipants().size();
                 Debt debt = new Debt(u, expense.getPayer(), debtAmount, event);
                 service.addDebt(debt);
                 List<Debt> debts = new ArrayList<>(u.getDebts());
