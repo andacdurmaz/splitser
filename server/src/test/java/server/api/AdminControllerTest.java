@@ -108,7 +108,6 @@ public class AdminControllerTest {
 
         mockMvc.perform(get("/api/admin/test@email.nl"))
                 .andExpect(status().isOk());
-//                .andExpect(content().string(admin.toString()));
     }
 
     @Test
@@ -127,7 +126,6 @@ public class AdminControllerTest {
 
         mockMvc.perform(get("/api/admin/"))
                 .andExpect(status().isOk());
-//                .andExpect(content().string(List.of(admin).toString()));
     }
 
     public String toJson(Object admin) throws JsonProcessingException {

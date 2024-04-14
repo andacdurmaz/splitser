@@ -41,16 +41,7 @@ public class EventServiceTest {
         assertEquals(event, foundEvent);
     }
 
-//    @Test
-//    public void testGetEventByEventCode() {
-//        Event event = new Event("Title", 4, "Description");
-//        EventRepository eventRepository = mock(EventRepository.class);
-//        EventService eventService = new EventService(eventRepository);
-//
-//        when(eventRepository.getEventByEventCode(event.getEventCode())).thenReturn(event);
-//        Event foundEvent = eventService.getEventByEventCode(event.getEventCode());
-//        assertEquals(event, foundEvent);
-//    }
+
 
     @Test
     public void testGetEventTitleById() {

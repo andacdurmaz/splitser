@@ -51,7 +51,6 @@ class ServTest {
         Admin admin2 = new Admin("noEmail", "passwordB");
         Serv server1 = new Serv(admin1);
         Serv server2 = new Serv(admin2);
-        //Assertions.assertNotEquals(server1, server2);
         Assertions.assertEquals(server2, server2);
     }
 

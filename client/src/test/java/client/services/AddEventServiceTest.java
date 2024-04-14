@@ -19,7 +19,6 @@ class AddEventServiceTest {
     @Mock
     private ServerUtils server;
     private AddEventService service;
-    //private ServerUtilsImpl server;
 
     @BeforeEach
     void setUp() {
