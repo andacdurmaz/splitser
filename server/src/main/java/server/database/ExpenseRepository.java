@@ -20,9 +20,10 @@ import commons.Expense;
 import commons.User;
 
 import java.util.List;
-
+import org.springframework.stereotype.Repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+@Repository
 public interface ExpenseRepository extends JpaRepository<Expense, Long> {
 
     /**
