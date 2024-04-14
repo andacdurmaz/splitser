@@ -24,7 +24,7 @@ public class Event {
     private int amountOfParticipants;
     @OneToMany(targetEntity = Expense.class)
     private List<Expense> expenses = new ArrayList<>();
-    @OneToMany(targetEntity = Debt.class)
+    @OneToMany(targetEntity = Debt.class, cascade = CascadeType.ALL)
     private List<Expense> debts = new ArrayList<>();
     private String description;
 

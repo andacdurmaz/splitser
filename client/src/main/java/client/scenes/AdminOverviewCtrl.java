@@ -145,11 +145,8 @@ public class AdminOverviewCtrl implements Initializable {
 
             Event addedEvent = service.addEvent(newEvent);
             setDebts(addedEvent);
-            System.out.println(service.getString("event-added-successfully"));
-
             refresh();
         }catch (IOException ex) {
-            System.out.println(service.getString("there-was-a-problem-with-adding-an-event-admin"));
             ex.printStackTrace();
         }
     }

@@ -58,6 +58,10 @@ public class AdminEventInfoService {
      * @param e Event
      */
     public void deleteEvent(Event e){
+        server.getDebts().stream()
+                .filter(debt -> debt.getEvent().getId() == e.getId())
+                .forEach(server::deleteDebts);
+
         server.deleteEvent(e);
     }
 

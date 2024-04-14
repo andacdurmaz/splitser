@@ -206,6 +206,18 @@ public class ServerUtils extends Util {
     }
 
     /**
+     * Delete debt
+     * @param debt to delete
+     */
+    public void deleteDebts(Debt debt) {
+        ClientBuilder.newClient(new ClientConfig()) //
+                .target(serverAddress).path("api/debts/delete/" + debt.getId()) //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .delete();
+    }
+
+    /**
      * Adds expense
      * @param expense to add
      * @return the added expense

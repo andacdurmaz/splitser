@@ -109,6 +109,7 @@ public class AdminEventInfoCtrl {
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == buttonTypeOK){
+            System.out.println(currentEvent.getId());
             String eventTitle = currentEvent.getTitle();
             service.deleteEvent(currentEvent);
             Alert message = new Alert(Alert.AlertType.INFORMATION);
