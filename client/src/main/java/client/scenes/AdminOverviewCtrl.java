@@ -189,8 +189,18 @@ public class AdminOverviewCtrl implements Initializable {
             Expense expense2 = new Expense(expense.getName(), expense.getAmount(),
                     newPayingParticipant, newPayingParticipants, expense.getDate());
             expense2.setExpenseTag(oldTag);
+
             Expense expense3 = service.addExpense(expense2);
             newExpenses.add(expense3);
+            for (User u : expense2.getPayingParticipants()) {
+                double debtAmount = expense2.getAmount()/(expense2.getPayingParticipants().size()+1);
+                Debt debt = new Debt(u, expense2.getPayer(), debtAmount, newEvent);
+                service.addDebt(debt);
+                List<Debt> debts = new ArrayList<>(u.getDebts());
+                debts.add(debt);
+                u.setDebts(debts);
+                service.updateUser(u);
+            }
         }
         return newExpenses;
     }

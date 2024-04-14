@@ -15,7 +15,7 @@ import java.util.List;
 @Service
 public class ConfigFileService {
 
-    private static final String CONFIG_PATH = "src/main/resources/CONFIG.json";
+    private static final String CONFIG_PATH = "C:/Users/andac/oopp-team-06/client/src/main/resources/CONFIG.json";
 
     private ServerUtils server;
     /**
