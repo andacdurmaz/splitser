@@ -452,8 +452,10 @@ public class EventInfoCtrl {
             disableEditingTitle();
             titleLabel.setText(newTitle);
             event.setTitle(newTitle);
-            service.updateEvent(event);
-        } else {
+            //service.updateEvent(event);
+            service.send("/app/event", event);
+        }
+        else {
             enableEditingTitle();
         }
     }
@@ -488,8 +490,10 @@ public class EventInfoCtrl {
             descriptionLabel.setText(newDesc);
             disableEditingDesc();
             event.setDescription(newDesc);
-            service.updateEvent(event);
-        } else {
+            //service.updateEvent(event);
+            service.getServer().send("/app/event", event);
+        }
+        else {
             enableEditingDesc();
         }
     }

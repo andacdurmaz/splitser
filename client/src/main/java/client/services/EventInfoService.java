@@ -92,6 +92,14 @@ public class EventInfoService {
     }
 
     /**
+     * @param e event to update
+     * @param s address to send update
+     * sends event for client client comm
+     */
+    public void send(String s, Event e){
+        server.send(s, e);
+    }
+    /**
      * @param s String
      * @return string
      */

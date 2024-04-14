@@ -53,7 +53,9 @@ public class AddExpenseTagService {
      * @param e Event
      */
     public void updateAndShow(Event e){
-        server.updateEvent(e);
+        //server.updateEvent(e);
+
+        server.send("/app/event", e);
         mainCtrl.showEventInfo(e);
     }
 

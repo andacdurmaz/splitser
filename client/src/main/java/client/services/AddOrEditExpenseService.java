@@ -54,7 +54,8 @@ public class AddOrEditExpenseService {
      * @param e Event
      */
     public void updateAndShow(Event e){
-        server.updateEvent(e);
+        //server.updateEvent(e);
+        server.send("/app/event", e);
         mainCtrl.showEventInfo(e);
     }
 
@@ -63,7 +64,9 @@ public class AddOrEditExpenseService {
      * @return the added expense
      */
     public Expense addExpense(Expense e){
-        return server.addExpense(e);
+        Expense expense =  server.addExpense(e);
+        server.send("/app/event", e);
+        return expense;
     }
 
     /**
@@ -78,6 +81,7 @@ public class AddOrEditExpenseService {
      */
     public void updateExpense(Expense e){
         server.updateExpense(e);
+        server.send("/app/event", e);
     }
 
     /**
