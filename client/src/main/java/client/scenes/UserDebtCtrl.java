@@ -19,6 +19,7 @@ import javafx.util.StringConverter;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
@@ -139,13 +140,14 @@ public class UserDebtCtrl {
             expense.setName(user.getUsername() +
                     " settled debt with " + service.getServer().getUserById(payeeId).getUsername());
             expense.setAmount(amount);
+            expense.setExpenseDate(new Date());
             Expense temp = service.getServer().addExpense(expense);
             expense.setId(temp.getId());
             List<Expense> expenses = new ArrayList<>(event.getExpenses());
             if (!expenses.contains(expense)) {
                 expenses.add(expense);
             }
-            Debt debt = new Debt(user, service.getServer().getUserById(payerId), amount, event);
+            Debt debt = new Debt(service.getServer().getUserById(payeeId), user, amount, event);
             service.getServer().addDebt(debt);
             event.setExpenses(expenses);
             service.getServer().updateEvent(event);

@@ -1,8 +1,10 @@
 package client.scenes;
 
 import client.services.AddEventService;
+import client.services.AddExpenseTagService;
 import com.google.inject.Inject;
 import commons.Event;
+import commons.ExpenseTag;
 import jakarta.ws.rs.WebApplicationException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,6 +21,8 @@ import java.util.Random;
 public class AddEventCtrl {
 
     private final AddEventService service;
+
+    private final AddExpenseTagService expenseTagService;
 
     @FXML
     private TextField title;
@@ -39,10 +43,13 @@ public class AddEventCtrl {
      * Inject method
      *
      * @param service service
+     * @param expenseTagService service
      */
     @Inject
-    public AddEventCtrl(AddEventService service) {
+    public AddEventCtrl(AddEventService service,AddExpenseTagService expenseTagService) {
         this.service = service;
+        this.expenseTagService = expenseTagService;
+
     }
 
     /**
@@ -58,6 +65,24 @@ public class AddEventCtrl {
      */
     public void ok() {
         Event newEvent = getEvent();
+        List<ExpenseTag> expenseTags = newEvent.getExpenseTags();
+        ExpenseTag food = new ExpenseTag("Food","#008000");
+        ExpenseTag entranceFees = new ExpenseTag("Entrance fees","#0000FF");
+        ExpenseTag travel = new ExpenseTag("Travel","#FF0000");
+        ExpenseTag other = new ExpenseTag("Others","#808080");
+        ExpenseTag tmp1 = expenseTagService.addExpenseTag(food);
+        ExpenseTag tmp2 =expenseTagService.addExpenseTag(entranceFees);
+        ExpenseTag tmp3 =expenseTagService.addExpenseTag(travel);
+        ExpenseTag tmp4 =expenseTagService.addExpenseTag(other);
+        food.setId(tmp1.getId());
+        entranceFees.setId(tmp2.getId());
+        travel.setId(tmp3.getId());
+        other.setId(tmp4.getId());
+        expenseTags.add(food);
+        expenseTags.add(entranceFees);
+        expenseTags.add(travel);
+        expenseTags.add(other);
+        newEvent.setExpenseTags(expenseTags);
         if (newEvent == null){
             return;
         }

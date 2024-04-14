@@ -2,9 +2,7 @@ package client.services;
 
 import client.scenes.MainCtrl;
 import client.utils.ServerUtils;
-import commons.Event;
-import commons.Expense;
-import commons.User;
+import commons.*;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
@@ -37,6 +35,7 @@ public class AdminOverviewService {
      * @return event
      */
     public Event addEvent(Event e){
+        e.setId(0);
         Event newEvent = server.addEvent(e);
         return newEvent;
     }
@@ -71,6 +70,7 @@ public class AdminOverviewService {
      * @return User
      */
     public User addUser(User newPayer) {
+        newPayer.setUserID(0);
         return server.addUser(newPayer);
     }
 
@@ -80,7 +80,36 @@ public class AdminOverviewService {
      * @return Expense
      */
     public Expense addExpense(Expense expense2) {
+        expense2.setId(0);
         return server.addExpense(expense2);
+    }
+
+    /**
+     * Creates an expense tag
+     * @param newExpenseTag ExpenseTag
+     * @return ExpenseTag
+     */
+    public ExpenseTag addExpenseTag(ExpenseTag newExpenseTag) {
+        newExpenseTag.setId(0);
+        return server.addExpenseTag(newExpenseTag);
+    }
+
+    /**
+     * Creates a debt
+     * @param debt Debt
+     * @return Debt
+     */
+    public Debt addDebt(Debt debt) {
+        debt.setId(0);
+        return server.addDebt(debt);
+    }
+
+    /**
+     * Updates a user
+     * @param payingParticipant User
+     */
+    public void updateUser(User payingParticipant) {
+        server.updateUser(payingParticipant);
     }
 
     /**

@@ -29,10 +29,12 @@
       <Label fx:id="payer" layoutX="54.0" layoutY="148.0" text="payer" />
       <AnchorPane fx:id="warning" layoutX="178.0" layoutY="123.0" prefHeight="154.0" prefWidth="200.0">
          <children>
-            <Button layoutX="138.0"  onAction="#delete" layoutY="103.0" mnemonicParsing="false" style="-fx-background-color: #FFC0CB;" text="Delete" />
+            <Button layoutX="138.0" layoutY="103.0" mnemonicParsing="false" onAction="#delete" style="-fx-background-color: #FFC0CB;" text="Delete" />
             <Label layoutX="11.0" layoutY="68.0" text="The expense will be removed. Are you sure?" />
-            <Button layoutX="68.0" onAction="#goBack" layoutY="103.0" mnemonicParsing="false" text="Cancel" />
+            <Button layoutX="68.0" layoutY="103.0" mnemonicParsing="false" onAction="#goBack" text="Cancel" />
          </children>
       </AnchorPane>
+      <Label  layoutX="14.0" layoutY="172.0" text="ExpenseTag:" />
+      <Label fx:id="expenseTag" layoutX="84.0" layoutY="172.0" prefHeight="17.0" prefWidth="104.0" text="expenseTag" />
    </children>
 </AnchorPane>

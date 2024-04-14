@@ -58,6 +58,25 @@ public class Expense {
         this.payingParticipants = payingParticipants;
         this.date = date;
     }
+    /**
+     * Expense constructor
+     *
+     * @param name               expense name
+     * @param amount             expense amount
+     * @param payer              expense payer
+     * @param payingParticipants expense participants
+     * @param date               expense date
+     * @param expenseTag expense tag
+     */
+    public Expense(String name, double amount, User payer,
+                   List<User> payingParticipants, Date date, ExpenseTag expenseTag) {
+        this.name = name;
+        this.amount = amount;
+        this.payer = payer;
+        this.payingParticipants = payingParticipants;
+        this.date = date;
+        this.expenseTag = expenseTag;
+    }
 
     /**
      * Expense constructor

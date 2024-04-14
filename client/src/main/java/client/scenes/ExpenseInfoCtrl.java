@@ -8,10 +8,15 @@ import commons.Expense;
 import commons.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.paint.Color;
 import javafx.util.StringConverter;
 
 import javax.inject.Inject;
@@ -39,6 +44,9 @@ public class ExpenseInfoCtrl  {
 
     @FXML
     private Label payer;
+
+    @FXML
+    private Label expenseTag;
 
     @FXML
     private AnchorPane warning;
@@ -93,8 +101,9 @@ public class ExpenseInfoCtrl  {
                 new TextFieldListCell<>(new StringConverter<>() {
                     @Override
                     public String toString(User user) {
-                        double total = expense.getAmount()/(expense.getPayingParticipants().size());
-                        return user.getUsername() + service.getString("owes") + total + " \u20AC";
+                        double total = expense.getAmount()/
+                                (expense.getPayingParticipants().size()+1);
+                        return user.getUsername() + " " + service.getString("owes") + " " + total + " \u20AC";
                     }
                     @Override
                     public User fromString(String string) {
@@ -105,6 +114,10 @@ public class ExpenseInfoCtrl  {
             title.setText(expense.getName());
             amount.setText(expense.getAmount() + " \u20AC");
             payer.setText(expense.getPayer().getUsername());
+            Color color = Color.valueOf(expense.getExpenseTag().getColour());
+            expenseTag.setBackground(new Background(
+                    new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
+            expenseTag.setText(expense.getExpenseTag().getName());
             date.setText(String.valueOf(expense.getDate()));
             payingParticipantsList.getItems().setAll(expense.getPayingParticipants());
         }
@@ -118,7 +131,7 @@ public class ExpenseInfoCtrl  {
      */
     public void delete(ActionEvent actionEvent) {
         for (User u : expense.getPayingParticipants()) {
-            double debtAmount = expense.getAmount()/expense.getPayingParticipants().size();
+            double debtAmount = expense.getAmount()/(expense.getPayingParticipants().size() + 1);
             Debt debt = new Debt(expense.getPayer(), u, debtAmount, event);
             service.getServer().addDebt(debt);
             List<Debt> debts = new ArrayList<>(u.getDebts());

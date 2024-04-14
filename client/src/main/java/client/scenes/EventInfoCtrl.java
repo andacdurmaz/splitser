@@ -66,6 +66,8 @@ public class EventInfoCtrl {
     private Button expenseTag;
     @FXML
     private Button addParticipant;
+    @FXML
+    private Label eventCode;
 
     /**
      * Constructor
@@ -93,7 +95,7 @@ public class EventInfoCtrl {
         }
     };
 
-    private StringConverter<User> su =new StringConverter<User>() {
+    private StringConverter<User> su = new StringConverter<User>() {
         @Override
         public String toString(User user) {
             return user.getUsername(); // Display the username
@@ -130,17 +132,15 @@ public class EventInfoCtrl {
         imageView2.setFitHeight(17);
         editDescription.setGraphic(imageView2);
         service.setSession();
-        service.getServer().regDeleteExpenses( deleteOp-> {
+        service.getServer().regDeleteExpenses(deleteOp -> {
             Platform.runLater(() -> refresh());
         });
-        service.getServer().regAddExpenses( addOp ->  {
+        service.getServer().regAddExpenses(addOp -> {
             Platform.runLater(() -> refresh());
         });
         service.getServer().registerForSocketMessages("/updates/events", Event.class, e -> {
             Platform.runLater(() -> refresh());
         });
-
-
 
     }
 
@@ -153,11 +153,13 @@ public class EventInfoCtrl {
         if (event != null || !event.getTitle().isEmpty()) {
             titleLabel.setText(event.getTitle());
             eventTitle.setText(event.getTitle());
+            eventCode.setText(Long.toString(event.getEventCode()));
         }
     }
 
     /**
      * Update label text
+     *
      * @param event
      */
     public void updateDesc(Event event) {
@@ -179,6 +181,7 @@ public class EventInfoCtrl {
 
     /**
      * goes back to the main page
+     *
      * @param actionEvent when the button is clicked
      */
     public void back(ActionEvent actionEvent) {
@@ -199,16 +202,16 @@ public class EventInfoCtrl {
     }
 
 
-
     /**
      * adds a new expense to database and event
      */
-    public void addExpense(){
-        if(this.event.getParticipants().size() < 2) {
-            ((Label) noParticipantPane.getChildren().get(0))
-                    .setText(service.getString("make-sure-you-have-at-least-two-participants"));
-            noParticipantPane.setVisible(true);
-            noParticipantErrButton.requestFocus();
+    public void addExpense() {
+        if (this.event.getParticipants().size() < 2) {
+            Alert confirmation = new Alert(Alert.AlertType.INFORMATION);
+            confirmation.setTitle("Invalid");
+            confirmation.setHeaderText("Not Enough Participants");
+            confirmation.setContentText("You must have 2 participants to add an expense");
+            confirmation.showAndWait();
         } else {
             selectedExpense = null;
             service.getMainCtrl().showAddOrEditExpense(event, selectedExpense);
@@ -223,27 +226,37 @@ public class EventInfoCtrl {
     }
 
 
-
     /**
      * edits a selected participant's information
+     *
      * @param actionEvent when the button is clicked
      */
-    public void editExpense(ActionEvent actionEvent){
-        service.getMainCtrl().showAddOrEditExpense(event, selectedExpense);
+    public void editExpense(ActionEvent actionEvent) {
+        if (selectedExpense == null) {
+            Alert confirmation = new Alert(Alert.AlertType.INFORMATION);
+            confirmation.setTitle("Invalid");
+            confirmation.setHeaderText("No Selected Expense");
+            confirmation.setContentText("Please select an expense to edit");
+            confirmation.showAndWait();
+        } else {
+            service.getMainCtrl().showAddOrEditExpense(event, selectedExpense);
+        }
     }
+
     /**
      * adds a new expense to database and event
      */
-    public void addParticipant(){
+    public void addParticipant() {
         selectedParticipant = null;
         service.getMainCtrl().showAddOrEditParticipants(selectedParticipant, event);
     }
 
     /**
      * edits a selected expense's information
+     *
      * @param actionEvent when the button is clicked
      */
-    public void editParticipant(ActionEvent actionEvent){
+    public void editParticipant(ActionEvent actionEvent) {
         if (selectedParticipant == null) {
             //mainCtrl.showAddOrEditParticipants(new User(), event);
         }
@@ -251,7 +264,7 @@ public class EventInfoCtrl {
     }
 
     /**
-     *  sends invitations
+     * sends invitations
      */
     public void sendInvitations() {
         service.getMainCtrl().showSendInvitations(event);
@@ -259,7 +272,7 @@ public class EventInfoCtrl {
 
 
     /**
-      *  show statistics
+     * show statistics
      */
     public void showStatistics() {
         service.getMainCtrl().showStatistics(event);
@@ -300,15 +313,16 @@ public class EventInfoCtrl {
 
     /**
      * listens for key combinations
+     *
      * @param e
      */
     public void keyCombinationPressed(KeyEvent e) {
         KeyCombination addExpenseTagShortcut =
-                new KeyCodeCombination(KeyCode.T,KeyCombination.CONTROL_DOWN);
+                new KeyCodeCombination(KeyCode.T, KeyCombination.CONTROL_DOWN);
         KeyCombination addParticipantTagShortcut =
-                new KeyCodeCombination(KeyCode.P,KeyCombination.CONTROL_DOWN);
+                new KeyCodeCombination(KeyCode.P, KeyCombination.CONTROL_DOWN);
         KeyCombination addExpenseShortcut =
-                new KeyCodeCombination(KeyCode.E,KeyCombination.CONTROL_DOWN);
+                new KeyCodeCombination(KeyCode.E, KeyCombination.CONTROL_DOWN);
 
         if (addExpenseTagShortcut.match(e)) {
             System.out.println(service.getString("combination-pressed") + ": " + addExpenseTagShortcut);
@@ -326,6 +340,7 @@ public class EventInfoCtrl {
 
     /**
      * refreshes the data as the page is opened again
+     *
      * @param event of the page
      */
     public void setData(Event event) {
@@ -335,13 +350,12 @@ public class EventInfoCtrl {
         if (event.getParticipants() != null && !event.getParticipants().isEmpty()) {
             String label = "";
 
-            for (int i = 0; i <event.getParticipants().size() - 1; i++) {
+            for (int i = 0; i < event.getParticipants().size() - 1; i++) {
                 label += event.getParticipants().get(i).getUsername() + ", ";
             }
             label += event.getParticipants().get(event.getParticipants().size() - 1).getUsername();
             participantsLabel.setText(label);
-        }
-        else {
+        } else {
             participantsLabel.setText(service.getString("no-available-participants"));
         }
         participantCombobox.getItems().setAll(event.getParticipants());
@@ -351,6 +365,7 @@ public class EventInfoCtrl {
 
     /**
      * selects a specific participant from the combobox
+     *
      * @param actionEvent selecting of the participant
      */
     public void selectParticipant(ActionEvent actionEvent) {
@@ -359,6 +374,7 @@ public class EventInfoCtrl {
 
     /**
      * selects a specific participant from the combobox
+     *
      * @param actionEvent selecting of the participant
      */
     public void selectExpense(ActionEvent actionEvent) {
@@ -367,6 +383,7 @@ public class EventInfoCtrl {
 
     /**
      * deletes the selected participant from the event
+     *
      * @param actionEvent when the button is clicked
      */
     public void deleteParticipant(ActionEvent actionEvent) {
@@ -375,7 +392,7 @@ public class EventInfoCtrl {
         alert.setContentText(service.getString("are-you-sure-you-want-to-delete-this-participant"));
 
         Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK){
+        if (result.get() == ButtonType.OK) {
             User temp = selectedParticipant;
             participantCombobox.getItems().remove(temp);
             expenseComboBox.getItems().remove(temp);
@@ -409,11 +426,12 @@ public class EventInfoCtrl {
 
     /**
      * allows to edit the title of an event
+     *
      * @param actionEvent when the button is clicked
      */
     public void editTitle(ActionEvent actionEvent) {
         if (eventTitle.isEditable()) {
-            if (eventTitle.getText().isEmpty()){
+            if (eventTitle.getText().isEmpty()) {
                 ((Label) noParticipantPane.getChildren().get(0))
                         .setText(service.getString("a-title-is-required-for-an-event"));
                 noParticipantPane.setVisible(true);
@@ -425,8 +443,7 @@ public class EventInfoCtrl {
             titleLabel.setText(newTitle);
             event.setTitle(newTitle);
             service.updateEvent(event);
-        }
-        else {
+        } else {
             enableEditingTitle();
         }
     }
@@ -452,6 +469,7 @@ public class EventInfoCtrl {
 
     /**
      * allows to edit the description of an event
+     *
      * @param actionEvent when the button is clicked
      */
     public void editDescription(ActionEvent actionEvent) {
@@ -461,14 +479,14 @@ public class EventInfoCtrl {
             disableEditingDesc();
             event.setDescription(newDesc);
             service.updateEvent(event);
-        }
-        else {
+        } else {
             enableEditingDesc();
         }
     }
 
     /**
      * lists only expenses that includes the selected user as a paying participant
+     *
      * @param actionEvent when the button is clicked
      */
     public void includingParticipantList(ActionEvent actionEvent) {
@@ -477,8 +495,10 @@ public class EventInfoCtrl {
                 .toList();
         expenseList.getItems().setAll(newList);
     }
+
     /**
      * lists only expenses that includes the selected user is the payer of
+     *
      * @param actionEvent when the button is clicked
      */
     public void paidByParticipantList(ActionEvent actionEvent) {
@@ -489,6 +509,7 @@ public class EventInfoCtrl {
 
     /**
      * lists all the expenses of an event
+     *
      * @param actionEvent when the button is clicked
      */
     public void allExpenses(ActionEvent actionEvent) {
@@ -497,6 +518,7 @@ public class EventInfoCtrl {
 
     /**
      * selects an expense to be edited
+     *
      * @param mouseEvent when the expense is clicked on from the list
      */
     public void selectExpenseList(MouseEvent mouseEvent) {
@@ -518,6 +540,7 @@ public class EventInfoCtrl {
 
     /**
      * opens the settle debts page
+     *
      * @param actionEvent when the button is clicked
      */
     public void settleDebts(ActionEvent actionEvent) {
@@ -526,10 +549,11 @@ public class EventInfoCtrl {
 
     /**
      * expense info is shown when the enter button is pressed
+     *
      * @param keyEvent when the button is pressed
      */
     public void enterExpense(KeyEvent keyEvent) {
-        if (keyEvent.getCode() == KeyCode.ENTER && selectedExpense !=null) {
+        if (keyEvent.getCode() == KeyCode.ENTER && selectedExpense != null) {
             service.getMainCtrl().showExpenseInfo(event, selectedExpense);
         }
     }
