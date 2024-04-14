@@ -99,7 +99,7 @@ public class EventInfoService {
     public void send(String s, Event e){
         server.send(s, e);
     }
-    /*
+    /**
      * @param s String
      * @return string
      */
