@@ -1,11 +1,7 @@
 package client.scenes;
 
 import client.services.AddOrEditExpenseService;
-import commons.Event;
-import commons.Expense;
-import commons.ExpenseTag;
-import commons.User;
-import commons.Debt;
+import commons.*;
 import jakarta.ws.rs.WebApplicationException;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -14,19 +10,20 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldListCell;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
-
-import javax.inject.Inject;
-
-import javafx.scene.input.KeyEvent;
 import javafx.util.StringConverter;
 
+import javax.inject.Inject;
 import java.net.URL;
 import java.time.Instant;
 import java.time.ZoneId;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.ResourceBundle;
 
 public class AddOrEditExpenseCtrl implements Initializable {
     private final AddOrEditExpenseService service;
@@ -245,10 +242,7 @@ public class AddOrEditExpenseCtrl implements Initializable {
                         (expense.getPayingParticipants().size() + 1);
                 Debt debt = new Debt(u, expense.getPayer(), debtAmount, event);
                 service.addDebt(debt);
-                List<Debt> debts = new ArrayList<>(u.getDebts());
-                debts.add(debt);
-                u.setDebts(debts);
-                service.updateUser(u);
+
             }
             clearFields();
             service.updateAndShow(event);
@@ -298,20 +292,12 @@ public class AddOrEditExpenseCtrl implements Initializable {
                         (oldExpense.getPayingParticipants().size() + 1);
                 Debt debt = new Debt(oldExpense.getPayer(), u, debtAmount, event);
                 service.addDebt(debt);
-                List<Debt> debts = new ArrayList<>(u.getDebts());
-                debts.add(debt);
-                u.setDebts(debts);
-                service.updateUser(u);
             }
             for (User u : expense.getPayingParticipants()) {
                 double debtAmount = expense.getAmount() /
                         (expense.getPayingParticipants().size() + 1);
                 Debt debt = new Debt(u, expense.getPayer(), debtAmount, event);
                 service.addDebt(debt);
-                List<Debt> debts = new ArrayList<>(u.getDebts());
-                debts.add(debt);
-                u.setDebts(debts);
-                service.updateUser(u);
             }
             service.updateAndShow(event);
         } catch (WebApplicationException e) {

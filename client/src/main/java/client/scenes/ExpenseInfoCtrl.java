@@ -19,8 +19,6 @@ import javafx.scene.paint.Color;
 import javafx.util.StringConverter;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class ExpenseInfoCtrl  {
@@ -137,10 +135,6 @@ public class ExpenseInfoCtrl  {
             double debtAmount = expense.getAmount()/(expense.getPayingParticipants().size() + 1);
             Debt debt = new Debt(expense.getPayer(), u, debtAmount, event);
             service.getServer().addDebt(debt);
-            List<Debt> debts = new ArrayList<>(u.getDebts());
-            debts.add(debt);
-            u.setDebts(debts);
-            service.getServer().updateUser(u);
         }
         event.getExpenses().remove(expense);
         service.getServer().updateEvent(event);
