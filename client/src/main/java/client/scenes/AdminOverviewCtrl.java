@@ -141,7 +141,18 @@ public class AdminOverviewCtrl implements Initializable {
             newEvent.setEventCode(eventCode);
             newEvent.setExpenseTags(newExpenseTags);
 
-            service.addEvent(newEvent);
+            Event addedEvent = service.addEvent(newEvent);
+            for(Expense expense : addedEvent.getExpenses()) {
+                for(User u : expense.getPayingParticipants()) {
+                    double debtAmount = expense.getAmount() / expense.getPayingParticipants().size();
+                    Debt debt = new Debt(u, expense.getPayer(), debtAmount, addedEvent);
+                    service.addDebt(debt);
+                    List<Debt> debts = new ArrayList<>(u.getDebts());
+                    debts.add(debt);
+                    u.setDebts(debts);
+                    service.updateUser(u);
+                }
+            }
             System.out.println("Event added successfully");
             refresh();
         }catch (IOException ex) {
@@ -192,15 +203,6 @@ public class AdminOverviewCtrl implements Initializable {
 
             Expense expense3 = service.addExpense(expense2);
             newExpenses.add(expense3);
-            for (User u : expense2.getPayingParticipants()) {
-                double debtAmount = expense2.getAmount()/(expense2.getPayingParticipants().size()+1);
-                Debt debt = new Debt(u, expense2.getPayer(), debtAmount, newEvent);
-                service.addDebt(debt);
-                List<Debt> debts = new ArrayList<>(u.getDebts());
-                debts.add(debt);
-                u.setDebts(debts);
-                service.updateUser(u);
-            }
         }
         return newExpenses;
     }
@@ -242,7 +244,7 @@ public class AdminOverviewCtrl implements Initializable {
         for(User user : oldParticipants){
             User newUser = new User(user.getUsername(),
                     user.getEmail(), user.getIban(), user.getBic());
-            user.setDebts(createNewDebt(newUser,user));
+//            user.setDebts(createNewDebt(newUser,user));
             User newUser2 = service.addUser(newUser);
             participants.add(newUser2);
         }

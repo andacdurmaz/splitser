@@ -96,26 +96,27 @@ public class AdminEventInfoCtrl {
      * Delete event method
      */
     public void deleteEvent() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle(service.getString("are-you-sure"));
-        alert.setHeaderText(service.getString("you-are-about-to-delete-a-event"));
-        alert.setContentText(service.getString("are-you-sure"));
-
-        ButtonType buttonTypeOK = new ButtonType(service.getString("yes"));
-        ButtonType buttonTypeCancel = new ButtonType(service.getString("no"));
-        alert.getButtonTypes().setAll(buttonTypeOK, buttonTypeCancel);
-
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == buttonTypeOK){
-            String eventTitle = currentEvent.getTitle();
-            service.deleteEvent(currentEvent);
-            Alert message = new Alert(Alert.AlertType.INFORMATION);
-            message.setTitle(service.getString("event-deleted-successfully"));
-            message.setHeaderText("'"+ eventTitle +"' " +service
-                    .getString("event-deleted-successfully"));
-            message.show();
-            service.showAdminOverview();
-        }
+        service.showEventInfo(currentEvent);
+//        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+//        alert.setTitle(service.getString("are-you-sure"));
+//        alert.setHeaderText(service.getString("you-are-about-to-delete-a-event"));
+//        alert.setContentText(service.getString("are-you-sure"));
+//
+//        ButtonType buttonTypeOK = new ButtonType(service.getString("yes"));
+//        ButtonType buttonTypeCancel = new ButtonType(service.getString("no"));
+//        alert.getButtonTypes().setAll(buttonTypeOK, buttonTypeCancel);
+//
+//        Optional<ButtonType> result = alert.showAndWait();
+//        if (result.get() == buttonTypeOK){
+//            String eventTitle = currentEvent.getTitle();
+//            service.deleteEvent(currentEvent);
+//            Alert message = new Alert(Alert.AlertType.INFORMATION);
+//            message.setTitle(service.getString("event-deleted-successfully"));
+//            message.setHeaderText("'"+ eventTitle +"' " +service
+//                    .getString("event-deleted-successfully"));
+//            message.show();
+//            service.showAdminOverview();
+//        }
     }
 
     /**
