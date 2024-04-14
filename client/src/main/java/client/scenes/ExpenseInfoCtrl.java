@@ -100,7 +100,8 @@ public class ExpenseInfoCtrl  {
                 new TextFieldListCell<>(new StringConverter<>() {
                     @Override
                     public String toString(User user) {
-                        double total = expense.getAmount()/(expense.getPayingParticipants().size());
+                        double total = expense.getAmount()/
+                                (expense.getPayingParticipants().size()+1);
                         return user.getUsername() + " owes " + total + " \u20AC";
                     }
                     @Override
@@ -129,7 +130,7 @@ public class ExpenseInfoCtrl  {
      */
     public void delete(ActionEvent actionEvent) {
         for (User u : expense.getPayingParticipants()) {
-            double debtAmount = expense.getAmount()/expense.getPayingParticipants().size();
+            double debtAmount = expense.getAmount()/(expense.getPayingParticipants().size() + 1);
             Debt debt = new Debt(expense.getPayer(), u, debtAmount, event);
             server.addDebt(debt);
             List<Debt> debts = new ArrayList<>(u.getDebts());
