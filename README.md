@@ -7,6 +7,8 @@ How to run the project
 2) ./gradlew bootRun
 3) run client/main (or use ./gradlew run)
 
+The admin login can be seen in the output of the server when you run it.
+
 Useful shortcuts in the project
 --In the start up page of the application
 1) Ctrl + E for creating an event
