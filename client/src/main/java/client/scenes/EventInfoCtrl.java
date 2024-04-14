@@ -66,6 +66,8 @@ public class EventInfoCtrl {
     private Button expenseTag;
     @FXML
     private Button addParticipant;
+    @FXML
+    private Label eventCode;
 
     /**
      * Constructor
@@ -140,8 +142,6 @@ public class EventInfoCtrl {
             Platform.runLater(() -> refresh());
         });
 
-
-
     }
 
     /**
@@ -153,6 +153,7 @@ public class EventInfoCtrl {
         if (event != null || !event.getTitle().isEmpty()) {
             titleLabel.setText(event.getTitle());
             eventTitle.setText(event.getTitle());
+            eventCode.setText(Long.toString(event.getEventCode()));
         }
     }
 
