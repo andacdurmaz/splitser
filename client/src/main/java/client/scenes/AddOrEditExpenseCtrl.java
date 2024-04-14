@@ -324,13 +324,13 @@ public class AddOrEditExpenseCtrl implements Initializable {
             Double d = Double.parseDouble(howMuch.getText());
             if(d < 0)
             {
-                ((Label) error.getChildren().get(0)).setText("The amount cannot be negative.");
+                ((Label) error.getChildren().get(0)).setText(service.getString("expense-value-negative"));
                 errorMessage();
                 return null;
             }
             else if(d == 0)
             {
-                ((Label) error.getChildren().get(0)).setText("The amount cannot be equal to zero.");
+                ((Label) error.getChildren().get(0)).setText(service.getString("expense-value-zero") );
                 errorMessage();
                 return null;
             }
