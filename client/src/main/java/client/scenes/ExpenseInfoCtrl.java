@@ -113,10 +113,13 @@ public class ExpenseInfoCtrl  {
             title.setText(expense.getName());
             amount.setText(expense.getAmount() + " \u20AC");
             payer.setText(expense.getPayer().getUsername());
-            Color color = Color.valueOf(expense.getExpenseTag().getColour());
-            expenseTag.setBackground(new Background(
-                    new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
-            expenseTag.setText(expense.getExpenseTag().getName());
+            if(expense.getExpenseTag()!=null){
+                Color color = Color.valueOf(expense.getExpenseTag().getColour());
+                expenseTag.setBackground(new Background(
+                        new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
+                expenseTag.setText(expense.getExpenseTag().getName());
+            }
+            else expenseTag.setText("This is a debt");
             date.setText(String.valueOf(expense.getDate()));
             payingParticipantsList.getItems().setAll(expense.getPayingParticipants());
         }
