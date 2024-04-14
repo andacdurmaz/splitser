@@ -109,7 +109,7 @@ public class AdminOverviewCtrl implements Initializable {
         FileChooser.ExtensionFilter allFiles =
                 new FileChooser.ExtensionFilter("All Files", "*.*");
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Select your JSON file");
+        fileChooser.setTitle(service.getString("select-your-json-file"));
         fileChooser.getExtensionFilters().addAll(onlyJson,allFiles);
         Stage stage = new Stage();
         File selectedFile = fileChooser.showOpenDialog(stage);
@@ -145,10 +145,11 @@ public class AdminOverviewCtrl implements Initializable {
 
             Event addedEvent = service.addEvent(newEvent);
             setDebts(addedEvent);
-            System.out.println("Event added successfully");
+            System.out.println(service.getString("event-added-successfully"));
+
             refresh();
         }catch (IOException ex) {
-            System.out.println("There was a problem with adding a event (Admin)");
+            System.out.println(service.getString("there-was-a-problem-with-adding-an-event-admin"));
             ex.printStackTrace();
         }
     }

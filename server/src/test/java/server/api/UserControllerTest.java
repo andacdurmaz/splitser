@@ -141,12 +141,6 @@ public class UserControllerTest {
         assertEquals(ResponseEntity.badRequest().build(), sut.add(null));
     }
 
-//    @Test
-//    public void updateTest() {
-//        User user = new User();
-//        sut.add(user);
-//        sut.updateUser();
-//    }
 
 
 }

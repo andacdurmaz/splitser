@@ -111,4 +111,12 @@ public class AdminOverviewService {
     public void updateUser(User payingParticipant) {
         server.updateUser(payingParticipant);
     }
+
+    /**
+     * gets the main controller
+     * @return main controller
+     */
+    public MainCtrl getMainCtrl() {
+        return mainCtrl;
+    }
 }

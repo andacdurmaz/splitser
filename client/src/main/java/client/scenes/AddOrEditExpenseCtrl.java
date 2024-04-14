@@ -1,6 +1,5 @@
 package client.scenes;
 
-
 import client.services.AddOrEditExpenseService;
 import commons.Event;
 import commons.Expense;
@@ -27,10 +26,7 @@ import javafx.util.StringConverter;
 import java.net.URL;
 import java.time.Instant;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class AddOrEditExpenseCtrl implements Initializable {
     private final AddOrEditExpenseService service;
@@ -335,7 +331,11 @@ public class AddOrEditExpenseCtrl implements Initializable {
         var p = new Expense(event);
         p.setPayer(payer.getValue());
         if (whatFor.getText().isEmpty()) {
-            ((Label) error.getChildren().get(0)).setText(" The expense should have a title.");
+            ((Label) error
+                    .getChildren()
+                    .get(0))
+                    .setText(service
+                            .getString("the-expense-should-have-a-title"));
             errorMessage();
             return null;
         }
@@ -359,7 +359,11 @@ public class AddOrEditExpenseCtrl implements Initializable {
             p.setAmount(d);
         }
         catch (NumberFormatException n){
-            ((Label) error.getChildren().get(0)).setText("  The amount should be a number.");
+            ((Label) error
+                    .getChildren()
+                    .get(0))
+                    .setText(service
+                            .getString("the-amount-should-be-a-number"));
             errorMessage();
             return null;
         }
@@ -374,7 +378,8 @@ public class AddOrEditExpenseCtrl implements Initializable {
         payingParticipants.addAll(selectedParticipants());
         if (payingParticipants.size() == 0) {
             ((Label) error.getChildren().get(0))
-                    .setText("The expense should have at least\n     one paying participant.");
+                    .setText(service
+                            .getString("the-expense-should-have-at-least-one-paying-participant"));
             errorMessage();
             return null;
         }
@@ -488,7 +493,7 @@ public class AddOrEditExpenseCtrl implements Initializable {
         if (expense != null) {
             payer.setValue(expense.getPayer());
             expenseTag.getSelectionModel().select(expense.getExpenseTag());
-            okButton.setText("Edit");
+            okButton.setText(service.getString("edit"));
         } else {
             payer.setValue(event.getParticipants().get(0));
             expenseTag.setValue(event.getExpenseTags().get(0));

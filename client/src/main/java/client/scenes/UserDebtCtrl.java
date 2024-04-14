@@ -1,6 +1,6 @@
 package client.scenes;
 
-import client.utils.ServerUtils;
+import client.services.UserDebtService;
 import commons.Debt;
 import commons.Event;
 import commons.Expense;
@@ -23,8 +23,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class UserDebtCtrl {
-    private final ServerUtils server;
-    private final MainCtrl mainCtrl;
+    private UserDebtService service;
     private commons.Event event;
     private User user;
     private String selectedDebt;
@@ -45,13 +44,11 @@ public class UserDebtCtrl {
     private TitledPane showedDetails;
     /**
      * constructor for the page
-     * @param server for accessing the database
-     * @param mainCtrl for accessing other pages
+     * @param service service
      */
     @Inject
-    public UserDebtCtrl(ServerUtils server, MainCtrl mainCtrl) {
-        this.server = server;
-        this.mainCtrl = mainCtrl;
+    public UserDebtCtrl(UserDebtService service){
+        this.service = service;
     }
 
     /**
@@ -64,8 +61,11 @@ public class UserDebtCtrl {
             int payerId = Integer.parseInt(scanner.next());
             int payeeId = Integer.parseInt(scanner.next());
             double amount = Double.parseDouble(scanner.next());
-            return  "You owe " +
-                    server.getUserById(payeeId).getUsername() + " " + amount + " euros";
+            return  service.getString("you-owe") + " " +
+                    service.getServer()
+                            .getUserById(payeeId)
+                            .getUsername()
+                    + " " + amount + " \u20AC";
         }
 
         @Override
@@ -99,8 +99,12 @@ public class UserDebtCtrl {
             int payerId = Integer.parseInt(scanner.next());
             int payeeId = Integer.parseInt(scanner.next());
             double amount = Double.parseDouble(scanner.next());
-            String in = "You owe " +
-                    server.getUserById(payeeId).getUsername() + " " + amount + " euros";
+            String in = service.getString("you-owe")+ " " +
+                    service
+                            .getServer()
+                            .getUserById(payeeId)
+                            .getUsername()
+                    + " " + amount + " \u20AC";
             if (payerId == user.getUserID())
                 this.instructions.add(st);
         }
@@ -112,7 +116,7 @@ public class UserDebtCtrl {
      * @param actionEvent when the button is clicked
      */
     public void exit(ActionEvent actionEvent) {
-        mainCtrl.showSettleDebts(event);
+        service.getMainCtrl().showSettleDebts(event);
     }
 
     /**
@@ -137,22 +141,22 @@ public class UserDebtCtrl {
             Expense expense = new Expense(event);
             expense.setPayer(user);
             List<User> payingParticipants = new ArrayList<>();
-            payingParticipants.add(server.getUserById(payeeId));
+            payingParticipants.add(service.getServer().getUserById(payeeId));
             expense.setPayingParticipants(payingParticipants);
             expense.setName(user.getUsername() +
-                    " settled debt with " + server.getUserById(payeeId).getUsername());
+                    " settled debt with " + service.getServer().getUserById(payeeId).getUsername());
             expense.setAmount(amount);
             expense.setExpenseDate(new Date());
-            Expense temp = server.addExpense(expense);
+            Expense temp = service.getServer().addExpense(expense);
             expense.setId(temp.getId());
             List<Expense> expenses = new ArrayList<>(event.getExpenses());
             if (!expenses.contains(expense)) {
                 expenses.add(expense);
             }
-            Debt debt = new Debt(server.getUserById(payeeId), user, amount, event);
-            server.addDebt(debt);
+            Debt debt = new Debt(service.getServer().getUserById(payeeId), user, amount, event);
+            service.getServer().addDebt(debt);
             event.setExpenses(expenses);
-            server.updateEvent(event);
+            service.getServer().updateEvent(event);
             payments.getItems().remove(selectedDebt);
             if (payments.getItems().size() == 0) {
                 noDebtsLeft();
@@ -203,7 +207,7 @@ public class UserDebtCtrl {
      * @param actionEvent when the button is clicked
      */
     public void goToDebts(ActionEvent actionEvent) {
-        mainCtrl.removeOpenDebt(event, user);
+        service.getMainCtrl().removeOpenDebt(event, user);
     }
 
     /**
@@ -211,23 +215,24 @@ public class UserDebtCtrl {
      * @param actionEvent when the button is clicked
      */
     public void showHideDetails(ActionEvent actionEvent) {
-        if (details.getText().equals("Show Details")) {
+        if (details.getText().equals(service.getString("show-details"))) {
             if (selectedDebt != null) {
                 Scanner scanner = new Scanner(selectedDebt);
                 int payerId = Integer.parseInt(scanner.next());
                 int payeeId = Integer.parseInt(scanner.next());
                 double amount = Double.parseDouble(scanner.next());
-                User payee = server.getUserById(payeeId);
-                Label contentLabel = new Label(payee.getUsername() + "\n%iban: " + payee.getIban()
-                        + "\n%bic: " + payee.getBic());
+                User payee = service.getServer().getUserById(payeeId);
+                Label contentLabel = new Label(payee.getUsername()
+                        + "\n" + service.getString("iban")+ ":" + payee.getIban()
+                        + "\n" + service.getString("bic")+ ":" + payee.getBic());
                 showedDetails.setContent(contentLabel);
                 showedDetails.setExpanded(true);
-                details.setText("%hide-details");
+                details.setText(service.getString("hide-details"));
             } else {
                 errorMessage();
             }
         } else {
-            details.setText("%show-details");
+            details.setText(service.getString("show-details"));
             showedDetails.setExpanded(false);
         }
     }

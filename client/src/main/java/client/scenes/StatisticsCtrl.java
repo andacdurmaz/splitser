@@ -13,12 +13,11 @@ import javafx.scene.chart.PieChart.Data;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class StatisticsCtrl {
     private final StatisticsService service;
+
     private Event event;
     private ObservableList<Data> data;
     private double totalSumOfExpenses;
@@ -112,7 +111,7 @@ public class StatisticsCtrl {
         pieChart.setData(data);
         pieChart.setLabelLineLength(10);
         pieChart.setLegendSide(Side.RIGHT);
-        totalSum.setText("Total sum of expenses : " + totalSumOfExpenses);
+        totalSum.setText(service.getString("total-sum-of-expenses") + " : " + totalSumOfExpenses);
 
         pieChart.getData().forEach(data ->
         {

@@ -19,10 +19,10 @@
       </Label>
 
       <Label fx:id="participantsLabel" disable="true" layoutX="102.0" layoutY="191.0" prefHeight="51.0" prefWidth="363.0" text="%participants-list" />
-      <Button fx:id="addParticipant" layoutX="226.0" layoutY="166.0" mnemonicParsing="false" onAction="#addParticipant" text="%add" />
+      <Button fx:id="addParticipant" layoutX="226.0" layoutY="166.0" mnemonicParsing="false" onAction="#addParticipant" style="-fx-background-color: green;" text="%add" />
       <ComboBox fx:id="participantCombobox" layoutX="284.0" layoutY="166.0" onAction="#selectParticipant" prefWidth="150.0" promptText="%participants" />
       <Button id="editParticipant" layoutX="442.0" layoutY="166.0" mnemonicParsing="false" onAction="#editParticipant" text="%edit" />
-      <Button id="deleteParticipant" layoutX="496.0" layoutY="166.0" mnemonicParsing="false" onAction="#deleteParticipant" text="%delete" />
+      <Button id="deleteParticipant" layoutX="496.0" layoutY="166.0" mnemonicParsing="false" onAction="#deleteParticipant" style="-fx-background-color: red;" text="%delete" />
       <Label layoutX="99.0" layoutY="261.0" text="%expenses">
 
          <font>

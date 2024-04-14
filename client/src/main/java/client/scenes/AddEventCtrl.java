@@ -90,9 +90,10 @@ public class AddEventCtrl {
             Event tmp = service.addEvent(newEvent);
             newEvent.setId(tmp.getId());
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("New Event Created Successfully!");
+            alert.setTitle(service.getString("event-created-successfully"));
             alert.setHeaderText(null);
-            alert.setContentText("Successfully created new Event: " + newEvent.getTitle());
+            alert.setContentText(service.getString("event-created-successfully") + ": "
+                    + newEvent.getTitle());
             alert.showAndWait();
             service.writeToConfig(newEvent);
         } catch (WebApplicationException e) {
@@ -138,9 +139,9 @@ public class AddEventCtrl {
      */
     private void errorMessage() {
         var alertError = new Alert(Alert.AlertType.ERROR);
-        alertError.setTitle("Missing Event Title!");
+        alertError.setTitle(service.getString("missing-event-title"));
         alertError.setHeaderText(null);
-        alertError.setContentText("A title is required for the event!");
+        alertError.setContentText(service.getString("a-title-is-required-for-an-event"));
         alertError.showAndWait();
     }
 

@@ -1,6 +1,6 @@
 package client.scenes;
 
-import client.utils.ServerUtils;
+import client.services.ExpenseInfoService;
 import commons.Debt;
 import commons.Event;
 import commons.Expense;
@@ -22,12 +22,12 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class ExpenseInfoCtrl  {
 
-    private final ServerUtils server;
-    private final MainCtrl mainCtrl;
     private Event event;
     private Expense expense;
+    private final ExpenseInfoService service;
 
     @FXML
     private Label title;
@@ -49,15 +49,15 @@ public class ExpenseInfoCtrl  {
 
     @FXML
     private AnchorPane warning;
+
     /**
-     * constructor for the page
-     * @param server for accessing the server
-     * @param mainCtrl for accessing the other pages
+     * Constructor
+     *
+     * @param service DI service
      */
     @Inject
-    public ExpenseInfoCtrl(ServerUtils server, MainCtrl mainCtrl) {
-        this.server = server;
-        this.mainCtrl = mainCtrl;
+    public ExpenseInfoCtrl(ExpenseInfoService service) {
+        this.service = service;
     }
 
     /**
@@ -73,7 +73,7 @@ public class ExpenseInfoCtrl  {
      * @param actionEvent when the button is clicked
      */
     public void back(ActionEvent actionEvent) {
-        mainCtrl.showEventInfo(event);
+        service.getMainCtrl().showEventInfo(event);
     }
 
     /**
@@ -102,7 +102,8 @@ public class ExpenseInfoCtrl  {
                     public String toString(User user) {
                         double total = expense.getAmount()/
                                 (expense.getPayingParticipants().size()+1);
-                        return user.getUsername() + " owes " + total + " \u20AC";
+                        return user.getUsername() + " " + service
+                                .getString("owes") + " " + total + " \u20AC";
                     }
                     @Override
                     public User fromString(String string) {
@@ -135,17 +136,17 @@ public class ExpenseInfoCtrl  {
         for (User u : expense.getPayingParticipants()) {
             double debtAmount = expense.getAmount()/(expense.getPayingParticipants().size() + 1);
             Debt debt = new Debt(expense.getPayer(), u, debtAmount, event);
-            server.addDebt(debt);
+            service.getServer().addDebt(debt);
             List<Debt> debts = new ArrayList<>(u.getDebts());
             debts.add(debt);
             u.setDebts(debts);
-            server.updateUser(u);
+            service.getServer().updateUser(u);
         }
         event.getExpenses().remove(expense);
-        server.updateEvent(event);
-        server.deleteExpense(expense);
+        service.getServer().updateEvent(event);
+        service.getServer().deleteExpense(expense);
         warning.setVisible(false);
-        mainCtrl.showEventInfo(event);
+        service.getMainCtrl().showEventInfo(event);
     }
 
     /**

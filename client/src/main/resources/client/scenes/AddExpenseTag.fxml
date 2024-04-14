@@ -9,18 +9,18 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.AddExpenseTagCtrl">
    <children>
-      <Label layoutX="167.0" layoutY="61.0" prefHeight="43.0" prefWidth="266.0" text="Add/Edit Expense Tag" textFill="#fd7f20">
+      <Label layoutX="167.0" layoutY="61.0" prefHeight="43.0" prefWidth="266.0" text="%add/edit-expense-tag" textFill="#fd7f20">
          <font>
             <Font name="System Bold" size="25.0" />
          </font>
       </Label>
-      <Label layoutX="139.0" layoutY="162.0" prefHeight="28.0" prefWidth="51.0" text="Name">
+      <Label layoutX="97.0" layoutY="162.0" prefHeight="28.0" prefWidth="96.0" text="%name">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
-      <TextField fx:id="name" layoutX="204.0" layoutY="158.0" prefHeight="36.0" prefWidth="213.0" promptText="Enter your name" />
-      <Label layoutX="139.0" layoutY="234.0" text="Colour">
+      <TextField fx:id="name" layoutX="204.0" layoutY="158.0" prefHeight="36.0" prefWidth="213.0" promptText="%enter-your-name" />
+      <Label layoutX="97.0" layoutY="234.0" prefHeight="20.0" prefWidth="107.0" text="%colour">
          <font>
             <Font name="SansSerif Bold" size="16.0" />
          </font>

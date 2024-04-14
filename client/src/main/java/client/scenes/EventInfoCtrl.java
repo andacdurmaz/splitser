@@ -86,7 +86,10 @@ public class EventInfoCtrl {
         @Override
         public String toString(Expense expense) {
             return "(" + expense.getDate() + ") " + expense.getPayer().getUsername() +
-                    " paid " + expense.getAmount() + " for " + expense.getName();
+                    " " + service.getString("paid")
+                    + " " + expense.getAmount()
+                    + " " + service.getString("for")
+                    + " " + expense.getName();
         }
 
         @Override
@@ -208,9 +211,10 @@ public class EventInfoCtrl {
     public void addExpense() {
         if (this.event.getParticipants().size() < 2) {
             Alert confirmation = new Alert(Alert.AlertType.INFORMATION);
-            confirmation.setTitle("Invalid");
-            confirmation.setHeaderText("Not Enough Participants");
-            confirmation.setContentText("You must have 2 participants to add an expense");
+            confirmation.setTitle(service.getString("invalid"));
+            confirmation.setHeaderText(service.getString("not-enough-participants"));
+            confirmation.setContentText(service
+                    .getString("you-must-have-2-participants-to-add-an-expense"));
             confirmation.showAndWait();
         } else {
             selectedExpense = null;
@@ -234,9 +238,9 @@ public class EventInfoCtrl {
     public void editExpense(ActionEvent actionEvent) {
         if (selectedExpense == null) {
             Alert confirmation = new Alert(Alert.AlertType.INFORMATION);
-            confirmation.setTitle("Invalid");
-            confirmation.setHeaderText("No Selected Expense");
-            confirmation.setContentText("Please select an expense to edit");
+            confirmation.setTitle(service.getString("invalid"));
+            confirmation.setHeaderText(service.getString("no-selected-expense"));
+            confirmation.setContentText(service.getString("please-select-an-expense-to-edit"));
             confirmation.showAndWait();
         } else {
             service.getMainCtrl().showAddOrEditExpense(event, selectedExpense);
@@ -325,15 +329,21 @@ public class EventInfoCtrl {
                 new KeyCodeCombination(KeyCode.E, KeyCombination.CONTROL_DOWN);
 
         if (addExpenseTagShortcut.match(e)) {
-            System.out.println("Combination Pressed: " + addExpenseTagShortcut);
+            System.out.println(service
+                    .getString("combination-pressed") + ": "
+                    + addExpenseTagShortcut);
             addExpenseTag();
         }
         if (addParticipantTagShortcut.match(e)) {
-            System.out.println("Combination Pressed: " + addParticipantTagShortcut);
+            System.out.println(service
+                    .getString("combination-pressed") + ": "
+                    + addParticipantTagShortcut);
             addParticipant();
         }
         if (addExpenseShortcut.match(e)) {
-            System.out.println("Combination Pressed: " + addExpenseTagShortcut);
+            System.out.println(service
+                    .getString("combination-pressed") + ": "
+                    + addExpenseTagShortcut);
             addExpense();
         }
     }
@@ -356,7 +366,7 @@ public class EventInfoCtrl {
             label += event.getParticipants().get(event.getParticipants().size() - 1).getUsername();
             participantsLabel.setText(label);
         } else {
-            participantsLabel.setText("No available participants.");
+            participantsLabel.setText(service.getString("no-available-participants"));
         }
         participantCombobox.getItems().setAll(event.getParticipants());
         expenseComboBox.getItems().setAll(event.getParticipants());
@@ -388,8 +398,8 @@ public class EventInfoCtrl {
      */
     public void deleteParticipant(ActionEvent actionEvent) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Confirmation Dialog");
-        alert.setContentText("Are you sure you want to delete this participant");
+        alert.setTitle(service.getString("confirmation-dialog"));
+        alert.setContentText(service.getString("are-you-sure-you-want-to-delete-this-participant"));
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
@@ -433,7 +443,7 @@ public class EventInfoCtrl {
         if (eventTitle.isEditable()) {
             if (eventTitle.getText().isEmpty()) {
                 ((Label) noParticipantPane.getChildren().get(0))
-                        .setText("                    A title is required for an event.");
+                        .setText(service.getString("a-title-is-required-for-an-event"));
                 noParticipantPane.setVisible(true);
                 disableEditingTitle();
                 return;

@@ -27,4 +27,20 @@ public class StatisticsService {
         mainCtrl.showEventInfo(e);
     }
 
+    /**
+     * gets the main controller
+     * @return main controller
+     */
+    public MainCtrl getMainCtrl() {
+        return mainCtrl;
+    }
+
+    /**
+     * @param s String
+     * @return string
+     */
+    public String getString(String s){
+        return mainCtrl.getBundle().getString(s);
+    }
+
 }

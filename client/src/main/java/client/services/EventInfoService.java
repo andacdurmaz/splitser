@@ -90,4 +90,12 @@ public class EventInfoService {
     public void setSession(){
         server.setSession();
     }
+
+    /**
+     * @param s String
+     * @return string
+     */
+    public String getString(String s){
+        return mainCtrl.getBundle().getString(s);
+    }
 }

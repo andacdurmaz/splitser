@@ -63,8 +63,8 @@ public class AddExpenseTagCtrl {
      */
     public void ok() {
         Alert alertCon = new Alert(Alert.AlertType.CONFIRMATION);
-        alertCon.setTitle("Confirmation Dialog");
-        alertCon.setContentText("Are you sure you want to add this tag");
+        alertCon.setTitle(service.getString("confirmation-dialog"));
+        alertCon.setContentText(service.getString("are-you-sure-you-want-to-add-this-tag"));
         Optional<ButtonType> result = alertCon.showAndWait();
         if (result.get() == ButtonType.OK) {
             ExpenseTag newExpenseTag = getExpenseTag();
@@ -86,9 +86,9 @@ public class AddExpenseTagCtrl {
             event.setExpenseTags(expenseTags);
 
             Alert confirmation = new Alert(Alert.AlertType.INFORMATION);
-            confirmation.setTitle("New Expense Tag Added Successfully!");
+            confirmation.setTitle(service.getString("new-expense-tag-added-successfully"));
             confirmation.setHeaderText(null);
-            confirmation.setContentText("Successfully added a new expense tag");
+            confirmation.setContentText(service.getString("successfully-added-new-expense-tag"));
             Optional<ButtonType> res = confirmation.showAndWait();
             if (res.get() == ButtonType.OK) {
                 service.updateAndShow(event);

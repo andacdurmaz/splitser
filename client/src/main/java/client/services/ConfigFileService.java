@@ -128,7 +128,12 @@ public class ConfigFileService {
         List<Event> events = new ArrayList<>();
 
         for (Long l : eventIds) {
-            events.add(server.getEventById(l));
+            Event event = server.getEventById(l);
+            if(event.getTitle().equals("MISSING")){
+                deleteEventFromConfigByIDProvidingPath(path, l);
+            } else {
+                events.add(event);
+            }
         }
         return events;
     }

@@ -1,5 +1,6 @@
 package client.scenes;
 
+import client.services.IntroPageService;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import javafx.animation.PauseTransition;
@@ -20,7 +21,7 @@ import java.util.ResourceBundle;
 
 
 public class IntroPageCtrl implements Initializable {
-    private final MainCtrl mainCtrl;
+    private final IntroPageService service;
 
     @FXML
     private Button startButton;
@@ -31,13 +32,11 @@ public class IntroPageCtrl implements Initializable {
 
     /**
      * constructor for the starting page
-     *
-     * @param server
-     * @param mainCtrl
+     * @param service service
      */
     @Inject
-    public IntroPageCtrl(ServerUtils server, MainCtrl mainCtrl) {
-        this.mainCtrl = mainCtrl;
+    public IntroPageCtrl(IntroPageService service){
+        this.service = service;
     }
 
     /**
@@ -51,7 +50,7 @@ public class IntroPageCtrl implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        serverAddress.setText(mainCtrl.getServerAddress());
+        serverAddress.setText(service.getMainCtrl().getServerAddress());
     }
 
 
@@ -62,9 +61,12 @@ public class IntroPageCtrl implements Initializable {
         ServerUtils server = new ServerUtils();
         if (!server.setServerAddress(serverAddress.getText())) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Server not found");
-            alert.setHeaderText("The server you wanted is unavailable");
-            alert.setContentText("Please check the server address and try again");
+            alert.setTitle(service
+                    .getString("server-not-found"));
+            alert.setHeaderText(service
+                    .getString("the-server-you-wanted-is-unavailable"));
+            alert.setContentText(service
+                    .getString("please-check-the-server-address-and-try-again"));
             alert.show();
         } else {
             Stage stage = (Stage) startButton.getScene().getWindow();
@@ -84,8 +86,10 @@ public class IntroPageCtrl implements Initializable {
         String address = serverAddress.getText();
 
         Alert conf = new Alert(Alert.AlertType.CONFIRMATION);
-        conf.setTitle("Confirmation Dialog");
-        conf.setContentText("Are you sure you want to connect to the server : " + address + " ?");
+        conf.setTitle(service.getString("confirmation-dialog"));
+        conf.setContentText(service
+                .getString("are-you-sure-you-want-to-connect-to-the-server")
+                + " " + address + " ?");
         Optional<ButtonType> result = conf.showAndWait();
         if (result.get() == ButtonType.OK) {
             if (server.setServerAddress(address)) {
@@ -95,11 +99,11 @@ public class IntroPageCtrl implements Initializable {
                 pt.setOnFinished(e -> {
                     serverAddressButton.setText("\u2192");
                     serverAddressButton.setStyle("-fx-background-color:  fd7f20");
-                    mainCtrl.writeServerAddressToConfigFile(address);
+                    service.getMainCtrl().writeServerAddressToConfigFile(address);
 
                 });
                 pt.play();
-                mainCtrl.deleteAllEventsFromConfig();
+                service.getMainCtrl().deleteAllEventsFromConfig();
             } else {
                 serverAddressButton.setText("\u274C");
                 serverAddressButton.setStyle("-fx-background-color:  D11A2A");
@@ -110,9 +114,12 @@ public class IntroPageCtrl implements Initializable {
                 });
                 pt.play();
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Server not found");
-                alert.setHeaderText("The server you wanted is unavailable");
-                alert.setContentText("Please check the server address and try again");
+                alert.setTitle(service
+                        .getString("server-not-found"));
+                alert.setHeaderText(service
+                        .getString("the-server-you-wanted-is-unavailable"));
+                alert.setContentText(service
+                        .getString("please-check-the-server-address-and-try-again"));
                 alert.show();
             }
         }
