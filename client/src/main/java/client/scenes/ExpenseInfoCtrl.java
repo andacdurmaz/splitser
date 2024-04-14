@@ -1,7 +1,6 @@
 package client.scenes;
 
 import client.services.ExpenseInfoService;
-import client.utils.ServerUtils;
 import commons.Debt;
 import commons.Event;
 import commons.Expense;
@@ -103,7 +102,8 @@ public class ExpenseInfoCtrl  {
                     public String toString(User user) {
                         double total = expense.getAmount()/
                                 (expense.getPayingParticipants().size()+1);
-                        return user.getUsername() + " " + service.getString("owes") + " " + total + " \u20AC";
+                        return user.getUsername() + " " + service
+                                .getString("owes") + " " + total + " \u20AC";
                     }
                     @Override
                     public User fromString(String string) {

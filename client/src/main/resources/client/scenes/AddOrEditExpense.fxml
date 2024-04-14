@@ -53,8 +53,8 @@
       <VBox fx:id="someParticipantsSelector" layoutX="42.0" layoutY="260.0" prefHeight="67.0" prefWidth="307.0" />
       <Label layoutX="40.0" layoutY="342.0" text="%expense-type" />
       <ComboBox fx:id="expenseTag" layoutX="150.0" layoutY="338.0" prefWidth="150.0" />
-      <Button fx:id="cancelButton" layoutX="478.0" layoutY="351.0" mnemonicParsing="false" onAction="#cancel" onMouseClicked="#cancel" text="%cancel" />
-      <Button fx:id="okButton" layoutX="543.0" layoutY="351.0" mnemonicParsing="false" onAction="#ok" onMouseClicked="#ok" text="%ok" />
+      <Button fx:id="cancelButton" layoutX="478.0" layoutY="351.0" mnemonicParsing="false" onAction="#cancel" onMouseClicked="#cancel" style="-fx-background-color: red;" text="%cancel" />
+      <Button fx:id="okButton" layoutX="543.0" layoutY="351.0" mnemonicParsing="false" onAction="#ok" onMouseClicked="#ok" style="-fx-background-color: green;" text="%ok" />
       <Label layoutX="39.0" layoutY="84.0" text="*" />
       <Label layoutX="39.0" layoutY="124.0" text="*" />
       <Label layoutX="40.0" layoutY="162.0" text="*" />

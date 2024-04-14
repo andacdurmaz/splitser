@@ -86,7 +86,10 @@ public class EventInfoCtrl {
         @Override
         public String toString(Expense expense) {
             return "(" + expense.getDate() + ") " + expense.getPayer().getUsername() +
-                    " " + service.getString("paid") + " " + expense.getAmount() + " " + service.getString("for") + " " + expense.getName();
+                    " " + service.getString("paid")
+                    + " " + expense.getAmount()
+                    + " " + service.getString("for")
+                    + " " + expense.getName();
         }
 
         @Override
@@ -210,7 +213,8 @@ public class EventInfoCtrl {
             Alert confirmation = new Alert(Alert.AlertType.INFORMATION);
             confirmation.setTitle(service.getString("invalid"));
             confirmation.setHeaderText(service.getString("not-enough-participants"));
-            confirmation.setContentText(service.getString("you-must-have-2-participants-to-add-an-expense"));
+            confirmation.setContentText(service
+                    .getString("you-must-have-2-participants-to-add-an-expense"));
             confirmation.showAndWait();
         } else {
             selectedExpense = null;
@@ -325,15 +329,21 @@ public class EventInfoCtrl {
                 new KeyCodeCombination(KeyCode.E, KeyCombination.CONTROL_DOWN);
 
         if (addExpenseTagShortcut.match(e)) {
-            System.out.println(service.getString("combination-pressed") + ": " + addExpenseTagShortcut);
+            System.out.println(service
+                    .getString("combination-pressed") + ": "
+                    + addExpenseTagShortcut);
             addExpenseTag();
         }
         if (addParticipantTagShortcut.match(e)) {
-            System.out.println(service.getString("combination-pressed") + ": " + addParticipantTagShortcut);
+            System.out.println(service
+                    .getString("combination-pressed") + ": "
+                    + addParticipantTagShortcut);
             addParticipant();
         }
         if (addExpenseShortcut.match(e)) {
-            System.out.println(service.getString("combination-pressed") + ": " + addExpenseTagShortcut);
+            System.out.println(service
+                    .getString("combination-pressed") + ": "
+                    + addExpenseTagShortcut);
             addExpense();
         }
     }

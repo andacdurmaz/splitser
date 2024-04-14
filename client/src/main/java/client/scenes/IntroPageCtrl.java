@@ -61,9 +61,12 @@ public class IntroPageCtrl implements Initializable {
         ServerUtils server = new ServerUtils();
         if (!server.setServerAddress(serverAddress.getText())) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle(service.getString("server-not-found"));
-            alert.setHeaderText(service.getString("the-server-you-wanted-is-unavailable"));
-            alert.setContentText(service.getString("please-check-the-server-address-and-try-again"));
+            alert.setTitle(service
+                    .getString("server-not-found"));
+            alert.setHeaderText(service
+                    .getString("the-server-you-wanted-is-unavailable"));
+            alert.setContentText(service
+                    .getString("please-check-the-server-address-and-try-again"));
             alert.show();
         } else {
             Stage stage = (Stage) startButton.getScene().getWindow();
@@ -84,7 +87,9 @@ public class IntroPageCtrl implements Initializable {
 
         Alert conf = new Alert(Alert.AlertType.CONFIRMATION);
         conf.setTitle(service.getString("confirmation-dialog"));
-        conf.setContentText(service.getString("are-you-sure-you-want-to-connect-to-the-server")+ " " + address + " ?");
+        conf.setContentText(service
+                .getString("are-you-sure-you-want-to-connect-to-the-server")
+                + " " + address + " ?");
         Optional<ButtonType> result = conf.showAndWait();
         if (result.get() == ButtonType.OK) {
             if (server.setServerAddress(address)) {
@@ -109,9 +114,12 @@ public class IntroPageCtrl implements Initializable {
                 });
                 pt.play();
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle(service.getString("server-not-found"));
-                alert.setHeaderText(service.getString("the-server-you-wanted-is-unavailable"));
-                alert.setContentText(service.getString("please-check-the-server-address-and-try-again"));
+                alert.setTitle(service
+                        .getString("server-not-found"));
+                alert.setHeaderText(service
+                        .getString("the-server-you-wanted-is-unavailable"));
+                alert.setContentText(service
+                        .getString("please-check-the-server-address-and-try-again"));
                 alert.show();
             }
         }

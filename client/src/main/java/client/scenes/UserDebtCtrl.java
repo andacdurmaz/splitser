@@ -1,7 +1,6 @@
 package client.scenes;
 
 import client.services.UserDebtService;
-import client.utils.ServerUtils;
 import commons.Debt;
 import commons.Event;
 import commons.Expense;
@@ -63,7 +62,10 @@ public class UserDebtCtrl {
             int payeeId = Integer.parseInt(scanner.next());
             double amount = Double.parseDouble(scanner.next());
             return  service.getString("you-owe") + " " +
-                    service.getServer().getUserById(payeeId).getUsername() + " " + amount + " \u20AC";
+                    service.getServer()
+                            .getUserById(payeeId)
+                            .getUsername()
+                    + " " + amount + " \u20AC";
         }
 
         @Override
@@ -98,7 +100,11 @@ public class UserDebtCtrl {
             int payeeId = Integer.parseInt(scanner.next());
             double amount = Double.parseDouble(scanner.next());
             String in = service.getString("you-owe")+ " " +
-                    service.getServer().getUserById(payeeId).getUsername() + " " + amount + " \u20AC";
+                    service
+                            .getServer()
+                            .getUserById(payeeId)
+                            .getUsername()
+                    + " " + amount + " \u20AC";
             if (payerId == user.getUserID())
                 this.instructions.add(st);
         }
@@ -216,7 +222,8 @@ public class UserDebtCtrl {
                 int payeeId = Integer.parseInt(scanner.next());
                 double amount = Double.parseDouble(scanner.next());
                 User payee = service.getServer().getUserById(payeeId);
-                Label contentLabel = new Label(payee.getUsername() + "\n" + service.getString("iban")+ ":" + payee.getIban()
+                Label contentLabel = new Label(payee.getUsername()
+                        + "\n" + service.getString("iban")+ ":" + payee.getIban()
                         + "\n" + service.getString("bic")+ ":" + payee.getBic());
                 showedDetails.setContent(contentLabel);
                 showedDetails.setExpanded(true);

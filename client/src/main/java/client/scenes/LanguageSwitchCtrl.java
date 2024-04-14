@@ -195,7 +195,9 @@ public class LanguageSwitchCtrl implements Initializable {
             System.out.println(bundleSet);
             properties.store(new FileOutputStream(file), "TEMPLATE FILE OF SPLITTY");
 
-            System.out.println(service.getString("file-created-successfully-at") + ": " + file.getAbsolutePath());
+            System.out.println(service
+                    .getString("file-created-successfully-at")
+                    + ": " + file.getAbsolutePath());
             downloadTemplate.setText(service.getString("download_successful"));
         } catch (IOException ex) {
             throw new RuntimeException(ex);

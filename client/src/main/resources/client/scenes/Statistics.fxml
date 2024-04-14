@@ -14,7 +14,7 @@
             <Font size="28.0" />
          </font>
       </Label>
-      <Label fx:id="totalSum" layoutX="127.0" layoutY="322.0" prefHeight="48.0" prefWidth="327.0" text="Total sum of expenses: " textAlignment="CENTER">
+      <Label fx:id="totalSum" layoutX="127.0" layoutY="322.0" prefHeight="48.0" prefWidth="327.0" text="%total-sum-of-expenses" textAlignment="CENTER">
          <font>
             <Font size="22.0" />
          </font>

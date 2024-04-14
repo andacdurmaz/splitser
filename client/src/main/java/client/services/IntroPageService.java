@@ -1,7 +1,6 @@
 package client.services;
 
 import client.scenes.MainCtrl;
-import client.utils.ServerUtils;
 
 
 import javax.inject.Inject;
@@ -19,7 +18,6 @@ public class IntroPageService {
     /**
      * Constructor
      *
-     * @param server server connection
      * @param mainCtrl  mainctrl instance
      */
     @Inject

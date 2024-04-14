@@ -92,7 +92,8 @@ public class AddEventCtrl {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle(service.getString("event-created-successfully"));
             alert.setHeaderText(null);
-            alert.setContentText(service.getString("event-created-successfully") + ": " + newEvent.getTitle());
+            alert.setContentText(service.getString("event-created-successfully") + ": "
+                    + newEvent.getTitle());
             alert.showAndWait();
             service.writeToConfig(newEvent);
         } catch (WebApplicationException e) {

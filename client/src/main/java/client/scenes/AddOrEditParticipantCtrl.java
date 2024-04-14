@@ -196,7 +196,8 @@ public class AddOrEditParticipantCtrl {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle(service.getString("new-user-added-successfully"));
             alert.setHeaderText(null);
-            alert.setContentText(service.getString("successfully-added-new-participant-to-the-event") + ": "
+            alert.setContentText(service
+                    .getString("successfully-added-new-participant-to-the-event") + ": "
                     + temp.getUsername());
             alert.showAndWait();
         } catch (WebApplicationException e) {
