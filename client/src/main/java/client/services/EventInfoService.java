@@ -97,6 +97,12 @@ public class EventInfoService {
      * sends event for client client comm
      */
     public void send(String s, Event e){
-        server.send(s, e);;
+        server.send(s, e);
+    /*
+     * @param s String
+     * @return string
+     */
+    public String getString(String s){
+        return mainCtrl.getBundle().getString(s);
     }
 }

@@ -10,10 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -71,12 +68,12 @@ public class StartPageCtrl implements Initializable {
     private EventHandler<MouseEvent> joinJoinedEvents = new EventHandler<MouseEvent>() {
         public void handle(MouseEvent mouseEvent) {
             Event event;
-            if(mouseEvent.getSource() == joinedEvents && mouseEvent.getClickCount() == 2){
+            if (mouseEvent.getSource() == joinedEvents && mouseEvent.getClickCount() == 2) {
                 event = joinedEvents.getSelectionModel().getSelectedItem();
             } else {
                 return;
             }
-            if(event != null){
+            if (event != null) {
                 service.showEventInfo(event);
             }
         }
@@ -90,7 +87,7 @@ public class StartPageCtrl implements Initializable {
         joinedEvents.setCellFactory(param -> new TextFieldListCell<>(new StringConverter<Event>() {
             @Override
             public String toString(Event object) {
-                if(object != null)
+                if (object != null)
                     return object.getTitle();
                 return "null";
             }
@@ -116,40 +113,40 @@ public class StartPageCtrl implements Initializable {
     /**
      * Sets the image of the liveLanguage button
      */
-    public void imageset(){
+    public void imageset() {
         Image newImage;
-        switch(service.getLang()){
-            case("en"):
+        switch (service.getLang()) {
+            case ("en"):
                 newImage = new Image(getClass()
                         .getResourceAsStream("/client/images/englishIcon.png"));
                 flagDisplay.setImage(newImage);
                 break;
-            case("nl"):
+            case ("nl"):
                 newImage = new Image(getClass()
                         .getResourceAsStream("/client/images/dutchIcon.png"));
                 flagDisplay.setImage(newImage);
                 break;
-            case("tr"):
+            case ("tr"):
                 newImage = new Image(getClass()
                         .getResourceAsStream("/client/images/turkishIcon.png"));
                 flagDisplay.setImage(newImage);
                 break;
-            case("de"):
+            case ("de"):
                 newImage = new Image(getClass()
                         .getResourceAsStream("/client/images/germanyIcon.png"));
                 flagDisplay.setImage(newImage);
                 break;
-            case("fr"):
+            case ("fr"):
                 newImage = new Image(getClass()
                         .getResourceAsStream("/client/images/franceIcon.png"));
                 flagDisplay.setImage(newImage);
                 break;
-            case("zh"):
+            case ("zh"):
                 newImage = new Image(getClass()
                         .getResourceAsStream("/client/images/chinaIcon.png"));
                 flagDisplay.setImage(newImage);
                 break;
-            case("es"):
+            case ("es"):
                 newImage = new Image(getClass()
                         .getResourceAsStream("/client/images/spainIcon.png"));
                 flagDisplay.setImage(newImage);
@@ -160,7 +157,7 @@ public class StartPageCtrl implements Initializable {
     /**
      * refreshes the data of the page
      */
-    public void refresh()  {
+    public void refresh() {
         var events = service.getEvents();
         events = FXCollections.observableList(events);
         try {
@@ -191,7 +188,6 @@ public class StartPageCtrl implements Initializable {
 
     /**
      * when create  button is clicked on, the addEvent page opens
-     *
      */
 
     public void createEvent() {
@@ -207,7 +203,7 @@ public class StartPageCtrl implements Initializable {
         try {
             Long errorCatch = Long.parseLong(eventid.getText());
         } catch (NumberFormatException nfe) {
-            if(noCode.isVisible()) noCode.setVisible(false);
+            if (noCode.isVisible()) noCode.setVisible(false);
             badFormat.setVisible(true);
             PauseTransition pt = new PauseTransition(Duration.seconds(3.0));
             pt.setOnFinished(e -> {
@@ -221,12 +217,11 @@ public class StartPageCtrl implements Initializable {
                 .findFirst();
         if (event.isPresent()) {
             service.showEventInfo(event.get());
-            if(!service.isEventInConfig(event.get())){
+            if (!service.isEventInConfig(event.get())) {
                 service.writeToConfig(event.get());
             }
-        }
-        else {
-            if(badFormat.isVisible()) {
+        } else {
+            if (badFormat.isVisible()) {
                 badFormat.setVisible(false);
             }
             noCode.setVisible(true);
@@ -243,32 +238,44 @@ public class StartPageCtrl implements Initializable {
      * if the delete button is clicked on, the event is deleted from the config file
      */
     public void deleteEvent() {
-        Event event = joinedEvents.getSelectionModel().getSelectedItem();
-        service.deleteFromConfig(event);
-        try {
-            getJoinedEvents();
-        } catch (IOException e) {
-            e.printStackTrace();
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle(service.getString("confirmation-dialog"));
+        alert.setContentText(service.getString("are-you-sure-you-want-to-delete-this-event"));
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            Event event = joinedEvents.getSelectionModel().getSelectedItem();
+            service.deleteFromConfig(event);
+            try {
+                getJoinedEvents();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Alert confirmation = new Alert(Alert.AlertType.INFORMATION);
+            confirmation.setTitle(service.getString("removed-event"));
+            confirmation.setHeaderText(null);
+            confirmation.setContentText(service.getString("successfully-removed-event"));
+            confirmation.showAndWait();
         }
     }
 
     /**
      * Method to show the languageSwitch
      */
-    public void languageSwitch(){
+    public void languageSwitch() {
         service.showLanguageSwitch('s');
     }
 
     /**
      * gets current key pressed
+     *
      * @param e
      */
     public void keyPressed(KeyEvent e) {
         KeyCombination addEventShortCut =
-                new KeyCodeCombination(KeyCode.E,KeyCombination.CONTROL_DOWN);
+                new KeyCodeCombination(KeyCode.E, KeyCombination.CONTROL_DOWN);
 
         if (addEventShortCut.match(e)) {
-            System.out.println("Combination Pressed: " + addEventShortCut);
+            System.out.println(service.getString("combination-pressed") + ": " + addEventShortCut);
             createEvent();
         }
     }

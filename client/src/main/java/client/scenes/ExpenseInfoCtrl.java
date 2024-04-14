@@ -1,28 +1,33 @@
 package client.scenes;
 
-import client.utils.ServerUtils;
+import client.services.ExpenseInfoService;
 import commons.Debt;
 import commons.Event;
 import commons.Expense;
 import commons.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.paint.Color;
 import javafx.util.StringConverter;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class ExpenseInfoCtrl  {
 
-    private final ServerUtils server;
-    private final MainCtrl mainCtrl;
     private Event event;
     private Expense expense;
+    private final ExpenseInfoService service;
 
     @FXML
     private Label title;
@@ -40,16 +45,19 @@ public class ExpenseInfoCtrl  {
     private Label payer;
 
     @FXML
+    private Label expenseTag;
+
+    @FXML
     private AnchorPane warning;
+
     /**
-     * constructor for the page
-     * @param server for accessing the server
-     * @param mainCtrl for accessing the other pages
+     * Constructor
+     *
+     * @param service DI service
      */
     @Inject
-    public ExpenseInfoCtrl(ServerUtils server, MainCtrl mainCtrl) {
-        this.server = server;
-        this.mainCtrl = mainCtrl;
+    public ExpenseInfoCtrl(ExpenseInfoService service) {
+        this.service = service;
     }
 
     /**
@@ -65,7 +73,7 @@ public class ExpenseInfoCtrl  {
      * @param actionEvent when the button is clicked
      */
     public void back(ActionEvent actionEvent) {
-        mainCtrl.showEventInfo(event);
+        service.getMainCtrl().showEventInfo(event);
     }
 
     /**
@@ -92,8 +100,10 @@ public class ExpenseInfoCtrl  {
                 new TextFieldListCell<>(new StringConverter<>() {
                     @Override
                     public String toString(User user) {
-                        double total = expense.getAmount()/(expense.getPayingParticipants().size());
-                        return user.getUsername() + " owes " + total + " \u20AC";
+                        double total = expense.getAmount()/
+                                (expense.getPayingParticipants().size()+1);
+                        return user.getUsername() + " " + service
+                                .getString("owes") + " " + total + " \u20AC";
                     }
                     @Override
                     public User fromString(String string) {
@@ -104,6 +114,13 @@ public class ExpenseInfoCtrl  {
             title.setText(expense.getName());
             amount.setText(expense.getAmount() + " \u20AC");
             payer.setText(expense.getPayer().getUsername());
+            if(expense.getExpenseTag()!=null){
+                Color color = Color.valueOf(expense.getExpenseTag().getColour());
+                expenseTag.setBackground(new Background(
+                        new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
+                expenseTag.setText(expense.getExpenseTag().getName());
+            }
+            else expenseTag.setText("This is a debt");
             date.setText(String.valueOf(expense.getDate()));
             payingParticipantsList.getItems().setAll(expense.getPayingParticipants());
         }
@@ -117,19 +134,19 @@ public class ExpenseInfoCtrl  {
      */
     public void delete(ActionEvent actionEvent) {
         for (User u : expense.getPayingParticipants()) {
-            double debtAmount = expense.getAmount()/expense.getPayingParticipants().size();
+            double debtAmount = expense.getAmount()/(expense.getPayingParticipants().size() + 1);
             Debt debt = new Debt(expense.getPayer(), u, debtAmount, event);
-            server.addDebt(debt);
+            service.getServer().addDebt(debt);
             List<Debt> debts = new ArrayList<>(u.getDebts());
             debts.add(debt);
             u.setDebts(debts);
-            server.updateUser(u);
+            service.getServer().updateUser(u);
         }
         event.getExpenses().remove(expense);
-        server.updateEvent(event);
-        server.deleteExpense(expense);
+        service.getServer().updateEvent(event);
+        service.getServer().deleteExpense(expense);
         warning.setVisible(false);
-        mainCtrl.showEventInfo(event);
+        service.getMainCtrl().showEventInfo(event);
     }
 
     /**

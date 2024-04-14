@@ -122,22 +122,6 @@ public class UserTest {
     }
 
 
-//    @Test
-//    public void debtTest() throws EmailFormatException,
-//            IBANFormatException, BICFormatException {
-//        User user = new User("andac", "andac@gmail.com",
-//                "GB94BARC10201530093459",
-//                "AABNNL2AXXX");
-//        User user2 = new User("ivan", "ivan@gmail.com",
-//                "GB94BARC10201530093459",
-//                "AABNNL2AXXX");
-//        Debt debt = new Debt(user, user2, 15.0);
-//        List<Debt> debts = new ArrayList<>();
-//        debts.add(debt);
-//        user.setDebts(debts);
-//        assertEquals(debts, user.getDebts());
-//    }
-
     @Test
     public void toStringTest() throws IBANFormatException,
             BICFormatException, EmailFormatException {

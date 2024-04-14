@@ -23,16 +23,18 @@
       <ListView fx:id="payingParticipantsList" layoutX="202.0" layoutY="139.0" prefHeight="200.0" prefWidth="200.0" />
       <Label layoutX="14.0" layoutY="130.0" text="Date:" />
       <Label fx:id="date" layoutX="54.0" layoutY="130.0" text="date" />
-      <Button layoutX="351.0" layoutY="350.0" mnemonicParsing="false" onAction="#deleteExpense" text="Delete" />
-      <Button layoutX="202.0" layoutY="350.0" mnemonicParsing="false" onAction="#back" prefHeight="26.0" prefWidth="50.0" text="Back" />
-      <Label layoutX="14.0" layoutY="148.0" text="Payer:" />
-      <Label fx:id="payer" layoutX="54.0" layoutY="148.0" text="payer" />
+      <Button layoutX="351.0" layoutY="350.0" mnemonicParsing="false" onAction="#deleteExpense" style="-fx-background-color: red;" text="%delete" textFill="WHITE" />
+      <Button layoutX="202.0" layoutY="350.0" mnemonicParsing="false" onAction="#back" prefHeight="26.0" prefWidth="50.0" text="%back" />
+      <Label layoutX="14.0" layoutY="148.0" text="%payer" />
+      <Label fx:id="payer" layoutX="54.0" layoutY="148.0" text="%payer" />
       <AnchorPane fx:id="warning" layoutX="178.0" layoutY="123.0" prefHeight="154.0" prefWidth="200.0">
          <children>
-            <Button layoutX="138.0"  onAction="#delete" layoutY="103.0" mnemonicParsing="false" style="-fx-background-color: #FFC0CB;" text="Delete" />
-            <Label layoutX="11.0" layoutY="68.0" text="The expense will be removed. Are you sure?" />
-            <Button layoutX="68.0" onAction="#goBack" layoutY="103.0" mnemonicParsing="false" text="Cancel" />
+            <Button layoutX="138.0" layoutY="103.0" mnemonicParsing="false" onAction="#delete" style="-fx-background-color: #FFC0CB;" text="%delete" />
+            <Label layoutX="11.0" layoutY="68.0" text="%the-expense-will-be-removed-are-you-sure" />
+            <Button layoutX="68.0" layoutY="103.0" mnemonicParsing="false" onAction="#goBack" text="Cancel" />
          </children>
       </AnchorPane>
+      <Label layoutX="14.0" layoutY="172.0" text="ExpenseTag:" />
+      <Label fx:id="expenseTag" layoutX="84.0" layoutY="172.0" prefHeight="17.0" prefWidth="104.0" text="expenseTag" />
    </children>
 </AnchorPane>

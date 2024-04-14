@@ -57,14 +57,6 @@ public class AdminServiceTest {
         assertEquals(expectedResponse, actualResponse);
     }
 
-//    @Test
-//    public void testGetAdminByEmail(){
-//        ResponseEntity<Admin> expectedResponse = new ResponseEntity<>(admin1, HttpStatus.OK);
-//
-//        ResponseEntity<Admin> actualResponse = adminService.getAdminByEmail(admin1.getEmail());
-//
-//        assertEquals(expectedResponse, actualResponse);
-//    }
 
     @Test
     public void testGetAdminByEmailNotExists(){
@@ -75,14 +67,7 @@ public class AdminServiceTest {
         assertEquals(expectedResponse, actualResponse);
     }
 
-//    @Test
-//    public void testChangePassword(){
-//        ResponseEntity<Admin> expectedResponse = new ResponseEntity<>(HttpStatus.OK);
-//
-//        ResponseEntity<Admin> actualResponse = adminService.changePassword(admin1.getEmail());
-//
-//        assertEquals(expectedResponse, actualResponse);
-//    }
+
 
     @Test
     public void testChangePasswordNotExists(){

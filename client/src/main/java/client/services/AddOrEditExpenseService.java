@@ -108,5 +108,13 @@ public class AddOrEditExpenseService {
         return mainCtrl.getBundle().getString(s);
     }
 
+    /**
+     * gets the main controller
+     * @return main controller
+     */
+    public MainCtrl getMainCtrl() {
+        return mainCtrl;
+    }
+
 
 }

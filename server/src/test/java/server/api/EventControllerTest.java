@@ -60,17 +60,7 @@ public class EventControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string("Title"));
     }
-/*
-    @Test
-    public void testGetCreatorById() throws Exception {
-        Event event = new Event("Title", 4, "Description");
-        when(eventService.getCreatorById(1)).thenReturn(new User("username", "password"));
 
-        mockMvc.perform(get("/api/event/1/creator"))
-                .andExpect(status().isOk())
-                .andExpect(content().string(new User("username", "password").toString()));
-    }
-*/
 
     @Test
     public void testGetExpensesById() throws Exception {
@@ -115,11 +105,5 @@ public class EventControllerTest {
                 .andExpect(content().string(event.toString()));
     }
 
-//    @Test
-//    public void testDeleteEvent() throws Exception {
-//        Event event = new Event("Title", 4, "Description");
-//        eventService.addEvent(event);
-//        assertEquals(ResponseEntity.ok().build(), eventService.deleteEvent(event.getId()));
-//    }
 
 }

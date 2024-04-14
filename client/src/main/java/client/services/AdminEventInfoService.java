@@ -58,6 +58,10 @@ public class AdminEventInfoService {
      * @param e Event
      */
     public void deleteEvent(Event e){
+        server.getDebts().stream()
+                .filter(debt -> debt.getEvent().getId() == e.getId())
+                .forEach(server::deleteDebts);
+
         server.deleteEvent(e);
     }
 
@@ -68,6 +72,14 @@ public class AdminEventInfoService {
      */
     public String getString(String s){
         return mainCtrl.getBundle().getString(s);
+    }
+
+    /**
+     * gets the main controller
+     * @return main controller
+     */
+    public MainCtrl getMainCtrl() {
+        return mainCtrl;
     }
 
 }

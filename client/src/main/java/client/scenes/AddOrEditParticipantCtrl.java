@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+
 public class AddOrEditParticipantCtrl {
     private final AddOrEditParticipantService service;
 
@@ -144,7 +145,7 @@ public class AddOrEditParticipantCtrl {
         if (email.getText() == null || !EmailValidator.getInstance().isValid(email.getText())) {
 
             ((Label) wrongEmail.getChildren().get(0))
-                    .setText("  Invalid E-mail.\nPlease try again.");
+                    .setText(service.getString("invalid-email-please-try-again"));
             errorMessage();
             participants.add(old);
             user = old;
@@ -154,7 +155,7 @@ public class AddOrEditParticipantCtrl {
         if(iban.getText() != null && !iban.getText().isEmpty()){
             if (!Iban.isValid(iban.getText())) {
                 ((Label) wrongEmail.getChildren().get(0))
-                        .setText("  Invalid IBAN.\nPlease try again.");
+                        .setText(service.getString("invalid-iban-please-try-again"));
                 errorMessage();
                 participants.add(old);
                 user = old;
@@ -168,7 +169,7 @@ public class AddOrEditParticipantCtrl {
         if (bic.getText() != null && !bic.getText().isEmpty()) {
             if (!Bic.isValid(bic.getText())) {
                 ((Label) wrongEmail.getChildren().get(0))
-                        .setText("  Invalid BIC.\nPlease try again.");
+                        .setText(service.getString("invalid-bic-please-try-again"));
                 errorMessage();
                 participants.add(old);
                 user = old;
@@ -193,9 +194,10 @@ public class AddOrEditParticipantCtrl {
             User temp = service.addUser(getUser());
             user.setUserID(temp.getUserID());
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("New User Added Successfully!");
+            alert.setTitle(service.getString("new-user-added-successfully"));
             alert.setHeaderText(null);
-            alert.setContentText("Successfully added new participant to the event: "
+            alert.setContentText(service
+                    .getString("successfully-added-new-participant-to-the-event") + ": "
                     + temp.getUsername());
             alert.showAndWait();
         } catch (WebApplicationException e) {
@@ -225,7 +227,7 @@ public class AddOrEditParticipantCtrl {
             if (email.getText() == null || email.getText().length() == 0
                     || !EmailValidator.getInstance().isValid(email.getText())) {
                 ((Label) wrongEmail.getChildren().get(0))
-                        .setText("  Invalid E-mail.\nPlease try again.");
+                        .setText(service.getString("invalid-email-please-try-again"));
                 errorMessage();
                 return null;
             } else {
@@ -235,7 +237,7 @@ public class AddOrEditParticipantCtrl {
             if(iban.getText() != null && !iban.getText().isEmpty()){
                 if (!Iban.isValid(iban.getText())) {
                     ((Label) wrongEmail.getChildren().get(0))
-                            .setText("  Invalid IBAN.\nPlease try again.");
+                            .setText(service.getString("invalid-iban-please-try-again"));
                     errorMessage();
                     return null;
                 } else
@@ -243,7 +245,7 @@ public class AddOrEditParticipantCtrl {
             } if (bic.getText() != null && !bic.getText().isEmpty()) {
                 if (!Bic.isValid(bic.getText())) {
                     ((Label) wrongEmail.getChildren().get(0))
-                            .setText("  Invalid BIC.\nPlease try again.");
+                            .setText(service.getString("invalid-bic-please-try-again"));
                     errorMessage();
                     return null;
                 } else

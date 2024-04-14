@@ -1,6 +1,6 @@
 package client.scenes;
 
-import client.utils.ServerUtils;
+import client.services.SettleDebtsService;
 import commons.Debt;
 import commons.Event;
 import commons.User;
@@ -16,9 +16,8 @@ import java.util.*;
 import java.util.List;
 
 public class SettleDebtsCtrl {
-    private final ServerUtils server;
-    private final MainCtrl mainCtrl;
     private Event event;
+    private final SettleDebtsService service;
     private User selectedParticipant;
 
     @FXML
@@ -45,13 +44,13 @@ public class SettleDebtsCtrl {
     /**
      * Constructor
      *
-     * @param server   serverUtils
-     * @param mainCtrl mainCtrl
+     * @param event    event of expense
+     * @param service service
      */
     @Inject
-    public SettleDebtsCtrl(ServerUtils server, MainCtrl mainCtrl) {
-        this.server = server;
-        this.mainCtrl = mainCtrl;
+    public SettleDebtsCtrl(Event event, SettleDebtsService service) {
+        this.event = event;
+        this.service = service;
     }
 
 
@@ -124,7 +123,7 @@ public class SettleDebtsCtrl {
     private void handleSettleDebt() {
         List<String> list = resolveDebts(participantDebts);
         if (selectedParticipant != null) {
-            mainCtrl.showUserDebts(list, event, selectedParticipant);
+            service.getMainCtrl().showUserDebts(list, event, selectedParticipant);
         }
     }
 
@@ -134,12 +133,12 @@ public class SettleDebtsCtrl {
     private void settleDebtUser() {
         for (User u: event.getParticipants()) {
             double totalDebt = 0.0;
-            List<Debt> payerDebts =  server.getDebts().stream()
+            List<Debt> payerDebts = service.getServer().getDebts().stream()
                     .filter(q -> q.getPayer().equals(u)).toList();
             for (Debt d: payerDebts) {
                 totalDebt += d.getAmount();
             }
-            List<Debt> payeeDebts =  server.getDebts().stream()
+            List<Debt> payeeDebts =  service.getServer().getDebts().stream()
                     .filter(q -> q.getPayee().equals(u)).toList();
             for (Debt d: payeeDebts) {
                 totalDebt -= d.getAmount();
@@ -153,7 +152,7 @@ public class SettleDebtsCtrl {
      */
     @FXML
     private void handleBack() {
-        mainCtrl.showEventInfo(this.event);
+        service.getMainCtrl().showEventInfo(this.event);
     }
 
     /**
@@ -175,7 +174,7 @@ public class SettleDebtsCtrl {
             debtsListView.getItems().setAll(showedDebts);
         }
         else {
-            selectedDebtLabel.setText("No participant selected.");
+            selectedDebtLabel.setText(service.getString("no-participant-selected"));
         }
     }
 
@@ -214,7 +213,7 @@ public class SettleDebtsCtrl {
             }
         });
 
-        for (Debt d: server.getDebts()) {
+        for (Debt d: service.getServer().getDebts()) {
             if (d.getEvent().equals(event)) {
                 this.debts.add(d);
             }

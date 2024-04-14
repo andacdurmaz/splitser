@@ -67,6 +67,24 @@ public class User {
     }
 
     /**
+     * Constructor method for user
+     * @param username
+     * @param email
+     * @param iban
+     * @param bic
+     * @param debts
+     */
+    public User(String username, String email, String iban, String bic, ArrayList<Debt> debts) {
+        this.username = username;;
+        this.email = email;
+        this.iban = iban;
+        this.bic = bic;
+        this.language = Language.EN;
+        this.wallet = 0;
+        this.debts = debts;
+    }
+
+    /**
      * Getter method for User username
      *
      * @return the username of the User

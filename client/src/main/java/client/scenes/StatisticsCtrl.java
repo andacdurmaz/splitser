@@ -13,12 +13,11 @@ import javafx.scene.chart.PieChart.Data;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class StatisticsCtrl {
     private final StatisticsService service;
+
     private Event event;
     private ObservableList<Data> data;
     private double totalSumOfExpenses;
@@ -76,14 +75,16 @@ public class StatisticsCtrl {
         Map<String, Double> totalPrices = new HashMap<>();
 
         for (Expense expense : expenses) {
-            String expenseType = expense.getExpenseTag().getName();
-            double expenseAmount = expense.getAmount();
+            if(expense.getExpenseTag()!=null) {
+                String expenseType = expense.getExpenseTag().getName();
+                double expenseAmount = expense.getAmount();
 
-            if (totalPrices.containsKey(expenseType)) {
-                double currentTotal = totalPrices.get(expenseType);
-                totalPrices.put(expenseType, currentTotal + expenseAmount);
-            } else {
-                totalPrices.put(expenseType, expenseAmount);
+                if (totalPrices.containsKey(expenseType)) {
+                    double currentTotal = totalPrices.get(expenseType);
+                    totalPrices.put(expenseType, currentTotal + expenseAmount);
+                } else {
+                    totalPrices.put(expenseType, expenseAmount);
+                }
             }
         }
 
@@ -110,7 +111,7 @@ public class StatisticsCtrl {
         pieChart.setData(data);
         pieChart.setLabelLineLength(10);
         pieChart.setLegendSide(Side.RIGHT);
-        totalSum.setText("Total sum of expenses : " + totalSumOfExpenses);
+        totalSum.setText(service.getString("total-sum-of-expenses") + " : " + totalSumOfExpenses);
 
         pieChart.getData().forEach(data ->
         {

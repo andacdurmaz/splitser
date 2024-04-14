@@ -35,12 +35,12 @@
          </font>
       </Label>
         <TextField fx:id="iban" layoutX="192.0" layoutY="245.0" prefHeight="36.0" prefWidth="213.0" promptText="%enter-your-iban" />
-        <Label layoutX="129.0" layoutY="314.0" prefHeight="18.0" prefWidth="51.0" text="BIC">
+        <Label layoutX="129.0" layoutY="314.0" prefHeight="18.0" prefWidth="51.0" text="%bic">
          <font>
             <Font name="System Bold" size="16.0" />
          </font></Label>
       <TextField fx:id="bic" layoutX="192.0" layoutY="309.0" prefHeight="36.0" prefWidth="213.0" promptText="%enter-your-bic-number" />
-        <Button layoutX="432.0" layoutY="346.0" mnemonicParsing="false" onAction="#cancel" onMouseClicked="#cancel" prefHeight="36.0" prefWidth="62.0" text="%cancel" />
-        <Button layoutX="507.0" layoutY="346.0" mnemonicParsing="false" onAction="#ok" onMouseClicked="#ok" prefHeight="36.0" prefWidth="62.0" text="%ok" />
+        <Button layoutX="432.0" layoutY="346.0" mnemonicParsing="false" onAction="#cancel" onMouseClicked="#cancel" prefHeight="36.0" prefWidth="62.0" style="-fx-background-color: red;" text="%cancel" textFill="WHITE" />
+        <Button layoutX="507.0" layoutY="346.0" mnemonicParsing="false" onAction="#ok" onMouseClicked="#ok" prefHeight="36.0" prefWidth="62.0" style="-fx-background-color: green;" text="%ok" textFill="WHITE" />
     </children>
 </AnchorPane>

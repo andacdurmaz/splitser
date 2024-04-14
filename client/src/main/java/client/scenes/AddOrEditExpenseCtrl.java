@@ -1,6 +1,5 @@
 package client.scenes;
 
-
 import client.services.AddOrEditExpenseService;
 import commons.Event;
 import commons.Expense;
@@ -27,10 +26,7 @@ import javafx.util.StringConverter;
 import java.net.URL;
 import java.time.Instant;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class AddOrEditExpenseCtrl implements Initializable {
     private final AddOrEditExpenseService service;
@@ -66,7 +62,7 @@ public class AddOrEditExpenseCtrl implements Initializable {
      * Constructor
      *
      * @param service service
-     * @param event    event of expense
+     * @param event   event of expense
      */
     @Inject
     public AddOrEditExpenseCtrl(AddOrEditExpenseService service, Event event) {
@@ -76,6 +72,7 @@ public class AddOrEditExpenseCtrl implements Initializable {
 
     /**
      * removes a participant from the vbox options
+     *
      * @param payer the removed participant
      */
     private void excludePayerFromVBox(User payer) {
@@ -93,6 +90,7 @@ public class AddOrEditExpenseCtrl implements Initializable {
         }
 
     }
+
     /**
      * during each page load, makes sure
      * the participant combobox display only usernames
@@ -139,6 +137,7 @@ public class AddOrEditExpenseCtrl implements Initializable {
 
     /**
      * checks if a participant is in the vbox
+     *
      * @param payer the checked user
      * @return true if the user is present
      */
@@ -156,6 +155,7 @@ public class AddOrEditExpenseCtrl implements Initializable {
         }
         return false;
     }
+
     /**
      * Clears fields
      */
@@ -228,8 +228,7 @@ public class AddOrEditExpenseCtrl implements Initializable {
             try {
                 Expense temp = service.addExpense(getExpense());
                 expense.setId(temp.getId());
-            }
-            catch (WebApplicationException e) {
+            } catch (WebApplicationException e) {
                 var alert = new Alert(Alert.AlertType.ERROR);
                 alert.initModality(Modality.APPLICATION_MODAL);
                 alert.setContentText(e.getMessage());
@@ -242,7 +241,8 @@ public class AddOrEditExpenseCtrl implements Initializable {
             }
             event.setExpenses(expenses);
             for (User u : expense.getPayingParticipants()) {
-                double debtAmount = expense.getAmount()/expense.getPayingParticipants().size();
+                double debtAmount = expense.getAmount() /
+                        (expense.getPayingParticipants().size() + 1);
                 Debt debt = new Debt(u, expense.getPayer(), debtAmount, event);
                 service.addDebt(debt);
                 List<Debt> debts = new ArrayList<>(u.getDebts());
@@ -274,6 +274,11 @@ public class AddOrEditExpenseCtrl implements Initializable {
     private void selectedExpense() {
         try {
             List<Expense> expenses = new ArrayList<>(event.getExpenses());
+            Expense oldExpense = new Expense();
+            oldExpense.setAmount(expense.getAmount());
+            oldExpense.setExpenseDate(expense.getDate());
+            oldExpense.setPayer(expense.getPayer());
+            oldExpense.setPayingParticipants(new ArrayList<>(expense.getPayingParticipants()));
             expenses.remove(expense);
             expense.setExpenseTag(expenseTag.getValue());
             expense.setAmount(Double.parseDouble(howMuch.getText()));
@@ -288,8 +293,19 @@ public class AddOrEditExpenseCtrl implements Initializable {
             service.updateExpense(expense);
             expenses.add(expense);
             event.setExpenses(expenses);
+            for (User u : oldExpense.getPayingParticipants()) {
+                double debtAmount = oldExpense.getAmount() /
+                        (oldExpense.getPayingParticipants().size() + 1);
+                Debt debt = new Debt(oldExpense.getPayer(), u, debtAmount, event);
+                service.addDebt(debt);
+                List<Debt> debts = new ArrayList<>(u.getDebts());
+                debts.add(debt);
+                u.setDebts(debts);
+                service.updateUser(u);
+            }
             for (User u : expense.getPayingParticipants()) {
-                double debtAmount = expense.getAmount()/expense.getPayingParticipants().size();
+                double debtAmount = expense.getAmount() /
+                        (expense.getPayingParticipants().size() + 1);
                 Debt debt = new Debt(u, expense.getPayer(), debtAmount, event);
                 service.addDebt(debt);
                 List<Debt> debts = new ArrayList<>(u.getDebts());
@@ -315,16 +331,39 @@ public class AddOrEditExpenseCtrl implements Initializable {
         var p = new Expense(event);
         p.setPayer(payer.getValue());
         if (whatFor.getText().isEmpty()) {
-            ((Label) error.getChildren().get(0)).setText(" The expense should have a title.");
+            ((Label) error
+                    .getChildren()
+                    .get(0))
+                    .setText(service
+                            .getString("the-expense-should-have-a-title"));
             errorMessage();
             return null;
         }
         p.setName(whatFor.getText());
         try {
-            p.setAmount(Double.parseDouble(howMuch.getText()));
+            Double d = Double.parseDouble(howMuch.getText());
+            if(d < 0)
+            {
+                ((Label) error.getChildren().get(0))
+                    .setText(service.getString("expense-value-negative"));
+                errorMessage();
+                return null;
+            }
+            else if(d == 0)
+            {
+                ((Label) error.getChildren().get(0))
+                    .setText(service.getString("expense-value-zero") );
+                errorMessage();
+                return null;
+            }
+            p.setAmount(d);
         }
         catch (NumberFormatException n){
-            ((Label) error.getChildren().get(0)).setText("  The amount should be a number.");
+            ((Label) error
+                    .getChildren()
+                    .get(0))
+                    .setText(service
+                            .getString("the-amount-should-be-a-number"));
             errorMessage();
             return null;
         }
@@ -339,7 +378,8 @@ public class AddOrEditExpenseCtrl implements Initializable {
         payingParticipants.addAll(selectedParticipants());
         if (payingParticipants.size() == 0) {
             ((Label) error.getChildren().get(0))
-                    .setText("The expense should have at least\n     one paying participant.");
+                    .setText(service
+                            .getString("the-expense-should-have-at-least-one-paying-participant"));
             errorMessage();
             return null;
         }
@@ -359,11 +399,10 @@ public class AddOrEditExpenseCtrl implements Initializable {
             List<User> selected = new ArrayList<>(event.getParticipants());
             selected.remove(payer.getValue());
             return selected;
-        }
-        else {
-            List <User> selected = new ArrayList<>();
-            for(Node n : someParticipantsSelector.getChildren()) {
-                if(((CheckBox) n).isSelected()) {
+        } else {
+            List<User> selected = new ArrayList<>();
+            for (Node n : someParticipantsSelector.getChildren()) {
+                if (((CheckBox) n).isSelected()) {
                     String text = ((CheckBox) n).getText();
                     int index = text.indexOf("(id: ");
                     long id = Long.parseLong(text.substring(index + 5, text.length() - 1));
@@ -420,6 +459,7 @@ public class AddOrEditExpenseCtrl implements Initializable {
 
     /**
      * Setup method
+     *
      * @param event   event where the expense exists
      * @param expense expense to add or edit
      */
@@ -453,16 +493,14 @@ public class AddOrEditExpenseCtrl implements Initializable {
         if (expense != null) {
             payer.setValue(expense.getPayer());
             expenseTag.getSelectionModel().select(expense.getExpenseTag());
-            okButton.setText("Edit");
-        }
-        else {
+            okButton.setText(service.getString("edit"));
+        } else {
             payer.setValue(event.getParticipants().get(0));
             expenseTag.setValue(event.getExpenseTags().get(0));
             okButton.setText(service.getString("add"));
         }
 
     }
-
 
 
     /**
@@ -481,8 +519,7 @@ public class AddOrEditExpenseCtrl implements Initializable {
                 when.setValue(Instant.ofEpochMilli(
                                 expense.getDate().getTime())
                         .atZone(ZoneId.systemDefault()).toLocalDate());
-            }
-            else
+            } else
                 when.setValue(null);
 
             if (expense.getPayingParticipants().size() == event.getParticipants().size() - 1) {
@@ -499,6 +536,7 @@ public class AddOrEditExpenseCtrl implements Initializable {
 
     /**
      * every time new payer is selected, the list is changed
+     *
      * @param actionEvent changing of the payer
      */
     public void handlePayerSelection(ActionEvent actionEvent) {
@@ -512,9 +550,9 @@ public class AddOrEditExpenseCtrl implements Initializable {
         payer.getSelectionModel().selectedItemProperty()
                 .addListener((observable, oldValue, newValue) -> {
                     if (oldValue != null && !isPayerInVBox(oldValue)) {
-                        someParticipantsSelector.getChildren().add
-                            (new CheckBox(oldValue.getUsername() +
-                                "(id: " + oldValue.getUserID() + ")"));
+                        someParticipantsSelector.getChildren()
+                                .add(new CheckBox(oldValue.getUsername()
+                                        + "(id: " + oldValue.getUserID() + ")"));
                     }
                     if (newValue != null && (oldValue == null || !newValue.equals(oldValue))) {
                         excludePayerFromVBox(newValue);
@@ -524,6 +562,7 @@ public class AddOrEditExpenseCtrl implements Initializable {
 
     /**
      * closes the error message
+     *
      * @param actionEvent when the button is clicked
      */
     public void goBack(ActionEvent actionEvent) {

@@ -51,7 +51,7 @@ public class AdminEventInfoCtrl {
     private EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
         public void handle(ActionEvent e) {
             DirectoryChooser directoryChooser = new DirectoryChooser();
-            directoryChooser.setTitle("Select Directory");
+            directoryChooser.setTitle(service.getString("select-directory"));
             Stage stage = (Stage) adminDownloadButton.getScene().getWindow();
             File selectedDirectory = directoryChooser.showDialog(stage);
             File file = new File(selectedDirectory,
@@ -70,7 +70,9 @@ public class AdminEventInfoCtrl {
 
                 alert.showAndWait();
 
-                System.out.println("File created successfully at: " + file.getAbsolutePath());
+                System.out.println(service.
+                        getString("file-created-successfully-at") + ": " +
+                        file.getAbsolutePath());
             } catch (Exception ex) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle(service.getString("download"));
@@ -107,6 +109,7 @@ public class AdminEventInfoCtrl {
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == buttonTypeOK){
+            System.out.println(currentEvent.getId());
             String eventTitle = currentEvent.getTitle();
             service.deleteEvent(currentEvent);
             Alert message = new Alert(Alert.AlertType.INFORMATION);

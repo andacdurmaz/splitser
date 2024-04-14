@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -17,7 +17,7 @@
                 <TableColumn fx:id="colEventDescription" prefWidth="344.0" text="%event_description" />
             </columns>
         </TableView>
-        <ChoiceBox fx:id="sortMenu" layoutX="436.0" layoutY="14.0" prefWidth="150.0" />
       <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#back" prefHeight="25.0" prefWidth="70.0" text="%back" />
+      <ComboBox fx:id="sortMenu" layoutX="433.0" layoutY="14.0" prefWidth="150.0" promptText="Sort by" />
     </children>
 </AnchorPane>

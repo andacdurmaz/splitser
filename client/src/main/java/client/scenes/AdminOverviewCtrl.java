@@ -18,9 +18,7 @@ package client.scenes;
 import client.services.AdminOverviewService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Inject;
-import commons.Event;
-import commons.Expense;
-import commons.User;
+import commons.*;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -28,10 +26,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -60,11 +55,12 @@ public class AdminOverviewCtrl implements Initializable {
     @FXML
     private TableColumn<Event, String> colEventDescription;
     @FXML
-    private ChoiceBox<String> sortMenu;
+    private ComboBox<String> sortMenu;
     @FXML
     private Button adminAddEventButton;
     @FXML
     private Button back;
+    private Map<Long, User> ids;
 
     /**
      * Constructor for AdminOverview
@@ -97,6 +93,7 @@ public class AdminOverviewCtrl implements Initializable {
         colEventDescription.setCellValueFactory(q ->
                 new SimpleStringProperty(q.getValue().getDescription()));
         sortMenu.getItems().addAll(optionTitle, optionDate, optionActivity);
+        sortMenu.setPromptText(service.getString("sort-by"));
         sortMenu.setOnAction(sortEvent);
         table.setOnMouseClicked(getEvent);
     }
@@ -106,13 +103,13 @@ public class AdminOverviewCtrl implements Initializable {
      * This method asks for a file and then creates a new event from that.
      */
     public void adminAddEvent(){
+        ids = new HashMap<>();
         FileChooser.ExtensionFilter onlyJson =
                 new FileChooser.ExtensionFilter("JSON Files", "*.json");
         FileChooser.ExtensionFilter allFiles =
                 new FileChooser.ExtensionFilter("All Files", "*.*");
-
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Select your JSON file");
+        fileChooser.setTitle(service.getString("select-your-json-file"));
         fileChooser.getExtensionFilters().addAll(onlyJson,allFiles);
         Stage stage = new Stage();
         File selectedFile = fileChooser.showOpenDialog(stage);
@@ -123,12 +120,17 @@ public class AdminOverviewCtrl implements Initializable {
 
             Event newEvent = objectMapper.readValue(selectedJson, Event.class);
 
-            ArrayList<Expense> newExpenses = createNewExpenses(newEvent);
-            newEvent.setExpenses(newExpenses);
-
+            ArrayList<ExpenseTag> newExpenseTags = new ArrayList<>();
+            for(ExpenseTag expenseTag: newEvent.getExpenseTags()){
+                ExpenseTag newExpenseTag = new ExpenseTag(expenseTag.getName(),
+                        expenseTag.getColour());
+                ExpenseTag newExpenseTag2 = service.addExpenseTag(newExpenseTag);
+                newExpenseTags.add(newExpenseTag2);
+            }
             ArrayList<User> newParticipants = createNewParticipants(newEvent);
+            ArrayList<Expense> newExpenses = createNewExpenses(newEvent,newExpenseTags);
+            newEvent.setExpenses(newExpenses);
             newEvent.setParticipants(newParticipants);
-
             List<Long> eventCodes = service.getEvents()
                     .stream().map(q -> q.getEventCode()).toList();
             Random random = new Random();
@@ -139,44 +141,63 @@ public class AdminOverviewCtrl implements Initializable {
             while (eventCodes.contains(eventCode));
 
             newEvent.setEventCode(eventCode);
+            newEvent.setExpenseTags(newExpenseTags);
 
-            service.addEvent(newEvent);
-            System.out.println("Event added successfully");
-
+            Event addedEvent = service.addEvent(newEvent);
+            setDebts(addedEvent);
             refresh();
         }catch (IOException ex) {
-            System.out.println("There was a problem with adding a event (Admin)");
             ex.printStackTrace();
         }
+    }
 
+    private void setDebts(Event addedEvent) {
+        for(Expense expense : addedEvent.getExpenses()) {
+            for(User u : expense.getPayingParticipants()) {
+                double debtAmount = expense.getAmount() / expense.getPayingParticipants().size();
+                Debt debt = new Debt(u, expense.getPayer(), debtAmount, addedEvent);
+                service.addDebt(debt);
+                List<Debt> debts = new ArrayList<>(u.getDebts());
+                debts.add(debt);
+                u.setDebts(debts);
+                service.updateUser(u);
+            }
+        }
     }
 
     /**
      * Method which creates new expenses from an existing event
      * @param newEvent the original event
      * @return returns the created expenses
+     * @param newExpenseTags the new expense tags
      */
-    public ArrayList<Expense> createNewExpenses(Event newEvent) {
+    public ArrayList<Expense> createNewExpenses(Event newEvent,
+                                                ArrayList<ExpenseTag> newExpenseTags) {
         ArrayList<Expense> newExpenses = new ArrayList<>();
         for (Expense expense : newEvent.getExpenses()) {
 
-            User newPayer = new User(expense.getPayer().getUsername(),
-                    expense.getPayer().getEmail(), expense.getPayer().getIban(),
-                    expense.getPayer().getBic());
-            User newPayingParticipant = service.addUser(newPayer);
+            User newPayer = ids.get(expense.getPayer().getUserID());
 
             ArrayList<User> newPayingParticipants = new ArrayList<>();
 
+            ExpenseTag oldTag = expense.getExpenseTag();
+//            ExpenseTag newTag = new ExpenseTag();
+            for(ExpenseTag expenseTag: newExpenseTags){
+                if(expenseTag.equals(oldTag)){
+                    oldTag = expenseTag;
+                    break;
+                }
+            }
+
             for(User payingParticipant : expense.getPayingParticipants()){
-                User newPayingParticipant2 = new User(payingParticipant.getUsername(),
-                        payingParticipant.getEmail(),
-                        payingParticipant.getIban(), payingParticipant.getBic());
-                User newPayingParticipant3 = service.addUser(newPayingParticipant2);
-                newPayingParticipants.add(newPayingParticipant3);
+                User newPayingParticipant2 = ids.get(payingParticipant.getUserID());
+                newPayingParticipants.add(newPayingParticipant2);
             }
 
             Expense expense2 = new Expense(expense.getName(), expense.getAmount(),
-                    newPayingParticipant, newPayingParticipants, expense.getDate());
+                    newPayer, newPayingParticipants, expense.getDate());
+            expense2.setExpenseTag(oldTag);
+
             Expense expense3 = service.addExpense(expense2);
             newExpenses.add(expense3);
         }
@@ -189,14 +210,17 @@ public class AdminOverviewCtrl implements Initializable {
      * @return returns the created participants
      */
     public ArrayList<User> createNewParticipants(Event newEvent) {
-        ArrayList<User> newParticipants = new ArrayList<>();
-        for(User user : newEvent.getParticipants()){
+        ArrayList<User> participants = new ArrayList<>();
+        List<User> oldParticipants = newEvent.getParticipants();
+        for(User user : oldParticipants){
+            long firstId = user.getUserID();
             User newUser = new User(user.getUsername(),
                     user.getEmail(), user.getIban(), user.getBic());
             User newUser2 = service.addUser(newUser);
-            newParticipants.add(newUser2);
+            ids.put(firstId, newUser2);
+            participants.add(newUser2);
         }
-        return newParticipants;
+        return participants;
     }
 
     /**
