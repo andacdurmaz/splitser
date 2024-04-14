@@ -60,7 +60,7 @@ public class AdminOverviewTest{
         ArrayList<Expense> expenses = new ArrayList<>(List.of());
         event.setExpenses(expenses);
 
-        assertEquals(expenses, adminOverviewCtrl.createNewExpenses(event));
+        assertEquals(expenses, adminOverviewCtrl.createNewExpenses(event, new ArrayList<>()));
     }
 
 //    @Test

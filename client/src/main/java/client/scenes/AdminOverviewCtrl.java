@@ -18,9 +18,7 @@ package client.scenes;
 import client.services.AdminOverviewService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Inject;
-import commons.Event;
-import commons.Expense;
-import commons.User;
+import commons.*;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -28,10 +26,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -60,7 +55,7 @@ public class AdminOverviewCtrl implements Initializable {
     @FXML
     private TableColumn<Event, String> colEventDescription;
     @FXML
-    private ChoiceBox<String> sortMenu;
+    private ComboBox<String> sortMenu;
     @FXML
     private Button adminAddEventButton;
     @FXML
@@ -123,12 +118,17 @@ public class AdminOverviewCtrl implements Initializable {
 
             Event newEvent = objectMapper.readValue(selectedJson, Event.class);
 
-            ArrayList<Expense> newExpenses = createNewExpenses(newEvent);
+            ArrayList<ExpenseTag> newExpenseTags = new ArrayList<>();
+            for(ExpenseTag expenseTag: newEvent.getExpenseTags()){
+                ExpenseTag newExpenseTag = new ExpenseTag(expenseTag.getName(),
+                        expenseTag.getColour());
+                ExpenseTag newExpenseTag2 = service.addExpenseTag(newExpenseTag);
+                newExpenseTags.add(newExpenseTag2);
+            }
+            ArrayList<Expense> newExpenses = createNewExpenses(newEvent,newExpenseTags);
             newEvent.setExpenses(newExpenses);
-
             ArrayList<User> newParticipants = createNewParticipants(newEvent);
             newEvent.setParticipants(newParticipants);
-
             List<Long> eventCodes = service.getEvents()
                     .stream().map(q -> q.getEventCode()).toList();
             Random random = new Random();
@@ -139,10 +139,10 @@ public class AdminOverviewCtrl implements Initializable {
             while (eventCodes.contains(eventCode));
 
             newEvent.setEventCode(eventCode);
+            newEvent.setExpenseTags(newExpenseTags);
 
             service.addEvent(newEvent);
             System.out.println("Event added successfully");
-
             refresh();
         }catch (IOException ex) {
             System.out.println("There was a problem with adding a event (Admin)");
@@ -155,8 +155,10 @@ public class AdminOverviewCtrl implements Initializable {
      * Method which creates new expenses from an existing event
      * @param newEvent the original event
      * @return returns the created expenses
+     * @param newExpenseTags the new expense tags
      */
-    public ArrayList<Expense> createNewExpenses(Event newEvent) {
+    public ArrayList<Expense> createNewExpenses(Event newEvent,
+                                                ArrayList<ExpenseTag> newExpenseTags) {
         ArrayList<Expense> newExpenses = new ArrayList<>();
         for (Expense expense : newEvent.getExpenses()) {
 
@@ -166,6 +168,15 @@ public class AdminOverviewCtrl implements Initializable {
             User newPayingParticipant = service.addUser(newPayer);
 
             ArrayList<User> newPayingParticipants = new ArrayList<>();
+
+            ExpenseTag oldTag = expense.getExpenseTag();
+//            ExpenseTag newTag = new ExpenseTag();
+            for(ExpenseTag expenseTag: newExpenseTags){
+                if(expenseTag.equals(oldTag)){
+                    oldTag = expenseTag;
+                    break;
+                }
+            }
 
             for(User payingParticipant : expense.getPayingParticipants()){
                 User newPayingParticipant2 = new User(payingParticipant.getUsername(),
@@ -177,10 +188,37 @@ public class AdminOverviewCtrl implements Initializable {
 
             Expense expense2 = new Expense(expense.getName(), expense.getAmount(),
                     newPayingParticipant, newPayingParticipants, expense.getDate());
+            expense2.setExpenseTag(oldTag);
             Expense expense3 = service.addExpense(expense2);
             newExpenses.add(expense3);
         }
         return newExpenses;
+    }
+
+    private List<Debt> createNewDebt(User newUser, User oldUser) {
+        List<Debt> newDebts = new ArrayList<>();
+        for(Debt debt : oldUser.getDebts()){
+            User payer = newUser;
+            User payee = debt.getPayee();
+
+            User newPayer = new User(payer.getUsername(), payer.getEmail(),
+                    payer.getIban(), payer.getBic());
+            User newPayer2 = service.addUser(newPayer);
+
+            User newPayee = new User(payee.getUsername(), payee.getEmail(),
+                    payee.getIban(), payee.getBic());
+            User newPayee2 = service.addUser(newPayee);
+
+            Debt newDebt = new Debt();
+            newDebt.setAmount(debt.getAmount());
+            newDebt.setPayer(newPayer2);
+            newDebt.setPayee(newPayee2);
+
+            Debt addedDebt = service.addDebt(newDebt);
+
+            newDebts.add(addedDebt);
+        }
+        return newDebts;
     }
 
     /**
@@ -189,14 +227,16 @@ public class AdminOverviewCtrl implements Initializable {
      * @return returns the created participants
      */
     public ArrayList<User> createNewParticipants(Event newEvent) {
-        ArrayList<User> newParticipants = new ArrayList<>();
-        for(User user : newEvent.getParticipants()){
+        ArrayList<User> participants = new ArrayList<>();
+        List<User> oldParticipants = newEvent.getParticipants();
+        for(User user : oldParticipants){
             User newUser = new User(user.getUsername(),
                     user.getEmail(), user.getIban(), user.getBic());
+            user.setDebts(createNewDebt(newUser,user));
             User newUser2 = service.addUser(newUser);
-            newParticipants.add(newUser2);
+            participants.add(newUser2);
         }
-        return newParticipants;
+        return participants;
     }
 
     /**
