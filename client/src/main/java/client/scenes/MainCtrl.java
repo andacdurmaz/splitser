@@ -375,7 +375,7 @@ public class MainCtrl {
      * and functionality
      */
     public void login() {
-        var loginScreen = Main.FXML.load(LoginCtrl.class,
+        var loginScreen = Main.FXML.load(LoginCtrl.class, bundle,
                 "client", "scenes", "Login.fxml");
 
         LoginCtrl loginCtrl = loginScreen.getKey();

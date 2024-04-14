@@ -1,1 +1,1 @@
-{"User":{"Language":"nl","Events":[],"Currency":"USD","name":"John Doe","ServerAddress":"localhost:8080"}}
+{"User":{"Language":"en","Events":[{"eventCode":18651105,"expenseTags":[{"colour":"#008000","name":"Food","id":7552},{"colour":"#0000FF","name":"Entrance fees","id":7553},{"colour":"#FF0000","name":"Travel","id":7554},{"colour":"#808080","name":"Others","id":7555}],"sumOfExpenses":0,"amountOfParticipants":0,"description":"","id":15302,"title":"name","expenses":[],"participants":[]}],"Currency":"USD","name":"John Doe","ServerAddress":"localhost:8080"}}
