@@ -75,14 +75,16 @@ public class StatisticsCtrl {
         Map<String, Double> totalPrices = new HashMap<>();
 
         for (Expense expense : expenses) {
-            String expenseType = expense.getExpenseTag().getName();
-            double expenseAmount = expense.getAmount();
+            if(expense.getExpenseTag()!=null) {
+                String expenseType = expense.getExpenseTag().getName();
+                double expenseAmount = expense.getAmount();
 
-            if (totalPrices.containsKey(expenseType)) {
-                double currentTotal = totalPrices.get(expenseType);
-                totalPrices.put(expenseType, currentTotal + expenseAmount);
-            } else {
-                totalPrices.put(expenseType, expenseAmount);
+                if (totalPrices.containsKey(expenseType)) {
+                    double currentTotal = totalPrices.get(expenseType);
+                    totalPrices.put(expenseType, currentTotal + expenseAmount);
+                } else {
+                    totalPrices.put(expenseType, expenseAmount);
+                }
             }
         }
 
