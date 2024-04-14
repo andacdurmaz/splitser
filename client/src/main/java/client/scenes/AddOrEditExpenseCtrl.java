@@ -321,7 +321,20 @@ public class AddOrEditExpenseCtrl implements Initializable {
         }
         p.setName(whatFor.getText());
         try {
-            p.setAmount(Double.parseDouble(howMuch.getText()));
+            Double d = Double.parseDouble(howMuch.getText());
+            if(d < 0)
+            {
+                ((Label) error.getChildren().get(0)).setText("The amount cannot be negative.");
+                errorMessage();
+                return null;
+            }
+            else if(d == 0)
+            {
+                ((Label) error.getChildren().get(0)).setText("The amount cannot be equal to zero.");
+                errorMessage();
+                return null;
+            }
+            p.setAmount(d);
         }
         catch (NumberFormatException n){
             ((Label) error.getChildren().get(0)).setText("  The amount should be a number.");
