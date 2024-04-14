@@ -90,4 +90,13 @@ public class EventInfoService {
     public void setSession(){
         server.setSession();
     }
+
+    /**
+     * @param e event to update
+     * @param s address to send update
+     * sends event for client client comm
+     */
+    public void send(String s, Event e){
+        server.send(s, e);;
+    }
 }
