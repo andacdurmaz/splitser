@@ -54,8 +54,7 @@ public class AddOrEditExpenseService {
      * @param e Event
      */
     public void updateAndShow(Event e){
-        //server.updateEvent(e);
-        server.send("/app/event", e);
+        server.updateEvent(e);
         mainCtrl.showEventInfo(e);
     }
 
