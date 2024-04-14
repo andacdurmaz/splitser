@@ -31,7 +31,7 @@
       </Label>
 
       <ComboBox fx:id="expenseComboBox" layoutX="209.0" layoutY="262.0" onAction="#selectExpense" prefWidth="150.0" promptText="%participants" />
-      <Button layoutX="99.0" layoutY="307.0" mnemonicParsing="false" onAction="#editExpense" prefHeight="55.0" prefWidth="150.0" text="%add/edit-expense" />
+      <Button layoutX="268.0" layoutY="306.0" mnemonicParsing="false" onAction="#editExpense" prefHeight="55.0" prefWidth="150.0" text="%edit-expense" />
       <Button fx:id="invitation" layoutX="475.0" layoutY="60.0" mnemonicParsing="false" onAction="#sendInvitations" prefHeight="25.0" prefWidth="116.0" text="%invitations" />
       <Button fx:id="statistics" layoutX="474.0" layoutY="27.0" mnemonicParsing="false" onAction="#showStatistics" prefHeight="25.0" prefWidth="116.0" text="%statistics" />
       <Button fx:id="expenseTag" layoutX="475.0" layoutY="91.0" mnemonicParsing="false" onAction="#addExpenseTag" prefHeight="25.0" prefWidth="116.0" text="%add-expense-tag" />
@@ -89,6 +89,7 @@
             <Font name="Dubai Bold" size="18.0" />
          </font>
       </Label>
+      <Button layoutX="102.0" layoutY="306.0" mnemonicParsing="false" onAction="#addExpense" prefHeight="55.0" prefWidth="150.0" text="%add-expense" />
 
 
    </children>
