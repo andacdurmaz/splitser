@@ -109,7 +109,7 @@ public class StatisticsCtrl {
         pieChart.setData(data);
         pieChart.setLabelLineLength(10);
         pieChart.setLegendSide(Side.RIGHT);
-        totalSum.setText("Total sum of expenses : " + totalSumOfExpenses);
+        totalSum.setText(service.getString("total-sum-of-expenses") + " : " + totalSumOfExpenses);
 
         pieChart.getData().forEach(data ->
         {

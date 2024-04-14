@@ -62,8 +62,8 @@ public class UserDebtCtrl {
             int payerId = Integer.parseInt(scanner.next());
             int payeeId = Integer.parseInt(scanner.next());
             double amount = Double.parseDouble(scanner.next());
-            return  "You owe " +
-                    service.getServer().getUserById(payeeId).getUsername() + " " + amount + " euros";
+            return  service.getString("you-owe") + " " +
+                    service.getServer().getUserById(payeeId).getUsername() + " " + amount + " \u20AC";
         }
 
         @Override
@@ -97,8 +97,8 @@ public class UserDebtCtrl {
             int payerId = Integer.parseInt(scanner.next());
             int payeeId = Integer.parseInt(scanner.next());
             double amount = Double.parseDouble(scanner.next());
-            String in = "You owe " +
-                    service.getServer().getUserById(payeeId).getUsername() + " " + amount + " euros";
+            String in = service.getString("you-owe")+ " " +
+                    service.getServer().getUserById(payeeId).getUsername() + " " + amount + " \u20AC";
             if (payerId == user.getUserID())
                 this.instructions.add(st);
         }

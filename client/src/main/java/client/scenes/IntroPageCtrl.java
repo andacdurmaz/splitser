@@ -83,8 +83,8 @@ public class IntroPageCtrl implements Initializable {
         String address = serverAddress.getText();
 
         Alert conf = new Alert(Alert.AlertType.CONFIRMATION);
-        conf.setTitle("Confirmation Dialog");
-        conf.setContentText("Are you sure you want to connect to the server : " + address + " ?");
+        conf.setTitle(service.getString("confirmation-dialog"));
+        conf.setContentText(service.getString("are-you-sure-you-want-to-connect-to-the-server")+ " " + address + " ?");
         Optional<ButtonType> result = conf.showAndWait();
         if (result.get() == ButtonType.OK) {
             if (server.setServerAddress(address)) {

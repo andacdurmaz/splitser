@@ -208,9 +208,9 @@ public class EventInfoCtrl {
     public void addExpense() {
         if (this.event.getParticipants().size() < 2) {
             Alert confirmation = new Alert(Alert.AlertType.INFORMATION);
-            confirmation.setTitle("Invalid");
-            confirmation.setHeaderText("Not Enough Participants");
-            confirmation.setContentText("You must have 2 participants to add an expense");
+            confirmation.setTitle(service.getString("invalid"));
+            confirmation.setHeaderText(service.getString("not-enough-participants"));
+            confirmation.setContentText(service.getString("you-must-have-2-participants-to-add-an-expense"));
             confirmation.showAndWait();
         } else {
             selectedExpense = null;
@@ -234,9 +234,9 @@ public class EventInfoCtrl {
     public void editExpense(ActionEvent actionEvent) {
         if (selectedExpense == null) {
             Alert confirmation = new Alert(Alert.AlertType.INFORMATION);
-            confirmation.setTitle("Invalid");
-            confirmation.setHeaderText("No Selected Expense");
-            confirmation.setContentText("Please select an expense to edit");
+            confirmation.setTitle(service.getString("invalid"));
+            confirmation.setHeaderText(service.getString("no-selected-expense"));
+            confirmation.setContentText(service.getString("please-select-an-expense-to-edit"));
             confirmation.showAndWait();
         } else {
             service.getMainCtrl().showAddOrEditExpense(event, selectedExpense);

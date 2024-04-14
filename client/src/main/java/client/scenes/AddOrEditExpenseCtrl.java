@@ -493,7 +493,7 @@ public class AddOrEditExpenseCtrl implements Initializable {
         if (expense != null) {
             payer.setValue(expense.getPayer());
             expenseTag.getSelectionModel().select(expense.getExpenseTag());
-            okButton.setText("Edit");
+            okButton.setText(service.getString("edit"));
         } else {
             payer.setValue(event.getParticipants().get(0));
             expenseTag.setValue(event.getExpenseTags().get(0));

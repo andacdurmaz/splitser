@@ -51,7 +51,7 @@ public class AdminEventInfoCtrl {
     private EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
         public void handle(ActionEvent e) {
             DirectoryChooser directoryChooser = new DirectoryChooser();
-            directoryChooser.setTitle("Select Directory");
+            directoryChooser.setTitle(service.getString("select-directory"));
             Stage stage = (Stage) adminDownloadButton.getScene().getWindow();
             File selectedDirectory = directoryChooser.showDialog(stage);
             File file = new File(selectedDirectory,

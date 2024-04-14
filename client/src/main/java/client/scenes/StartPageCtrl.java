@@ -239,8 +239,8 @@ public class StartPageCtrl implements Initializable {
      */
     public void deleteEvent() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Confirmation Dialog");
-        alert.setContentText("Are you sure you want to delete this event?");
+        alert.setTitle(service.getString("confirmation-dialog"));
+        alert.setContentText(service.getString("are-you-sure-you-want-to-delete-this-event"));
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
             Event event = joinedEvents.getSelectionModel().getSelectedItem();
@@ -251,9 +251,9 @@ public class StartPageCtrl implements Initializable {
                 e.printStackTrace();
             }
             Alert confirmation = new Alert(Alert.AlertType.INFORMATION);
-            confirmation.setTitle("Removed event");
+            confirmation.setTitle(service.getString("removed-event"));
             confirmation.setHeaderText(null);
-            confirmation.setContentText("Successfully removed event");
+            confirmation.setContentText(service.getString("successfully-removed-event"));
             confirmation.showAndWait();
         }
     }
