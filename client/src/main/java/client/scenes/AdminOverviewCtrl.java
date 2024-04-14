@@ -60,6 +60,7 @@ public class AdminOverviewCtrl implements Initializable {
     private Button adminAddEventButton;
     @FXML
     private Button back;
+    private Map<Long, User> ids;
 
     /**
      * Constructor for AdminOverview
@@ -101,11 +102,11 @@ public class AdminOverviewCtrl implements Initializable {
      * This method asks for a file and then creates a new event from that.
      */
     public void adminAddEvent(){
+        ids = new HashMap<>();
         FileChooser.ExtensionFilter onlyJson =
                 new FileChooser.ExtensionFilter("JSON Files", "*.json");
         FileChooser.ExtensionFilter allFiles =
                 new FileChooser.ExtensionFilter("All Files", "*.*");
-
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select your JSON file");
         fileChooser.getExtensionFilters().addAll(onlyJson,allFiles);
@@ -125,9 +126,9 @@ public class AdminOverviewCtrl implements Initializable {
                 ExpenseTag newExpenseTag2 = service.addExpenseTag(newExpenseTag);
                 newExpenseTags.add(newExpenseTag2);
             }
+            ArrayList<User> newParticipants = createNewParticipants(newEvent);
             ArrayList<Expense> newExpenses = createNewExpenses(newEvent,newExpenseTags);
             newEvent.setExpenses(newExpenses);
-            ArrayList<User> newParticipants = createNewParticipants(newEvent);
             newEvent.setParticipants(newParticipants);
             List<Long> eventCodes = service.getEvents()
                     .stream().map(q -> q.getEventCode()).toList();
@@ -142,24 +143,27 @@ public class AdminOverviewCtrl implements Initializable {
             newEvent.setExpenseTags(newExpenseTags);
 
             Event addedEvent = service.addEvent(newEvent);
-            for(Expense expense : addedEvent.getExpenses()) {
-                for(User u : expense.getPayingParticipants()) {
-                    double debtAmount = expense.getAmount() / expense.getPayingParticipants().size();
-                    Debt debt = new Debt(u, expense.getPayer(), debtAmount, addedEvent);
-                    service.addDebt(debt);
-                    List<Debt> debts = new ArrayList<>(u.getDebts());
-                    debts.add(debt);
-                    u.setDebts(debts);
-                    service.updateUser(u);
-                }
-            }
+            setDebts(addedEvent);
             System.out.println("Event added successfully");
             refresh();
         }catch (IOException ex) {
             System.out.println("There was a problem with adding a event (Admin)");
             ex.printStackTrace();
         }
+    }
 
+    private void setDebts(Event addedEvent) {
+        for(Expense expense : addedEvent.getExpenses()) {
+            for(User u : expense.getPayingParticipants()) {
+                double debtAmount = expense.getAmount() / expense.getPayingParticipants().size();
+                Debt debt = new Debt(u, expense.getPayer(), debtAmount, addedEvent);
+                service.addDebt(debt);
+                List<Debt> debts = new ArrayList<>(u.getDebts());
+                debts.add(debt);
+                u.setDebts(debts);
+                service.updateUser(u);
+            }
+        }
     }
 
     /**
@@ -173,10 +177,7 @@ public class AdminOverviewCtrl implements Initializable {
         ArrayList<Expense> newExpenses = new ArrayList<>();
         for (Expense expense : newEvent.getExpenses()) {
 
-            User newPayer = new User(expense.getPayer().getUsername(),
-                    expense.getPayer().getEmail(), expense.getPayer().getIban(),
-                    expense.getPayer().getBic());
-            User newPayingParticipant = service.addUser(newPayer);
+            User newPayer = ids.get(expense.getPayer().getUserID());
 
             ArrayList<User> newPayingParticipants = new ArrayList<>();
 
@@ -190,47 +191,18 @@ public class AdminOverviewCtrl implements Initializable {
             }
 
             for(User payingParticipant : expense.getPayingParticipants()){
-                User newPayingParticipant2 = new User(payingParticipant.getUsername(),
-                        payingParticipant.getEmail(),
-                        payingParticipant.getIban(), payingParticipant.getBic());
-                User newPayingParticipant3 = service.addUser(newPayingParticipant2);
-                newPayingParticipants.add(newPayingParticipant3);
+                User newPayingParticipant2 = ids.get(payingParticipant.getUserID());
+                newPayingParticipants.add(newPayingParticipant2);
             }
 
             Expense expense2 = new Expense(expense.getName(), expense.getAmount(),
-                    newPayingParticipant, newPayingParticipants, expense.getDate());
+                    newPayer, newPayingParticipants, expense.getDate());
             expense2.setExpenseTag(oldTag);
 
             Expense expense3 = service.addExpense(expense2);
             newExpenses.add(expense3);
         }
         return newExpenses;
-    }
-
-    private List<Debt> createNewDebt(User newUser, User oldUser) {
-        List<Debt> newDebts = new ArrayList<>();
-        for(Debt debt : oldUser.getDebts()){
-            User payer = newUser;
-            User payee = debt.getPayee();
-
-            User newPayer = new User(payer.getUsername(), payer.getEmail(),
-                    payer.getIban(), payer.getBic());
-            User newPayer2 = service.addUser(newPayer);
-
-            User newPayee = new User(payee.getUsername(), payee.getEmail(),
-                    payee.getIban(), payee.getBic());
-            User newPayee2 = service.addUser(newPayee);
-
-            Debt newDebt = new Debt();
-            newDebt.setAmount(debt.getAmount());
-            newDebt.setPayer(newPayer2);
-            newDebt.setPayee(newPayee2);
-
-            Debt addedDebt = service.addDebt(newDebt);
-
-            newDebts.add(addedDebt);
-        }
-        return newDebts;
     }
 
     /**
@@ -242,10 +214,11 @@ public class AdminOverviewCtrl implements Initializable {
         ArrayList<User> participants = new ArrayList<>();
         List<User> oldParticipants = newEvent.getParticipants();
         for(User user : oldParticipants){
+            long firstId = user.getUserID();
             User newUser = new User(user.getUsername(),
                     user.getEmail(), user.getIban(), user.getBic());
-//            user.setDebts(createNewDebt(newUser,user));
             User newUser2 = service.addUser(newUser);
+            ids.put(firstId, newUser2);
             participants.add(newUser2);
         }
         return participants;
