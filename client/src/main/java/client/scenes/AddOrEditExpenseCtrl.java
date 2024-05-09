@@ -135,6 +135,7 @@ public class AddOrEditExpenseCtrl implements Initializable {
                 return null;
             }
         });
+        service.getServer().setSession();
     }
 
     /**

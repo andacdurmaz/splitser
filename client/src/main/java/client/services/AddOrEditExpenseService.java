@@ -78,6 +78,7 @@ public class AddOrEditExpenseService {
      */
     public void updateExpense(Expense e){
         server.updateExpense(e);
+        server.updateEvent(e.getEvent());
     }
 
     /**
@@ -105,4 +106,10 @@ public class AddOrEditExpenseService {
     }
 
 
+    /**
+     * @return server instance
+     */
+    public ServerUtils getServer() {
+        return this.server;
+    }
 }
