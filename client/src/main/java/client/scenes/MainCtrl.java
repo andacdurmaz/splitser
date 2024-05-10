@@ -36,7 +36,7 @@ import java.util.ResourceBundle;
 
 
 public class MainCtrl {
-    private static final String CONFIG_PATH = "src/main/resources/CONFIG.json";
+    private static final String CONFIG_PATH = "C:/Users/andac/oopp-team-06/client/src/main/resources/CONFIG.json";
 
     private Stage primaryStage;
     private Stage popupStage;

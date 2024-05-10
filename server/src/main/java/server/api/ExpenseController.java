@@ -91,6 +91,8 @@ public class ExpenseController {
             return ResponseEntity.badRequest().build();
         }
 
+        addMap.forEach((k, l) -> l.accept(expense));
+
         Expense saved = service.save(expense);
         return ResponseEntity.ok(saved);
     }
@@ -184,6 +186,7 @@ public class ExpenseController {
      */
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Expense> deleteExpense(@PathVariable("id") long id) {
+
         return service.deleteExpense(id);
     }
 }

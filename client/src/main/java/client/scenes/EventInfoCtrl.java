@@ -356,6 +356,12 @@ public class EventInfoCtrl {
     public void setData(Event event) {
         updateDesc(event);
         updateLabelText(event);
+        service.registerForEventUpdates(expense -> {
+            if (!event.getExpenses().contains(expense))
+                event.addExpense(expense);
+            service.updateEvent(event);
+            expenseList.getItems().setAll(event.getExpenses());
+        });
         expenseList.getItems().setAll(event.getExpenses());
         if (event.getParticipants() != null && !event.getParticipants().isEmpty()) {
             String label = "";

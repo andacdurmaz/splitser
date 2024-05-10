@@ -247,6 +247,32 @@ public class ServerUtils extends Util {
                 .put(Entity.entity(expense, APPLICATION_JSON), Expense.class);
     }
 
+    private static final ExecutorService EXEC = Executors.newSingleThreadExecutor();
+
+    /**
+     * Register a consumer (function) to execute when new event is added to the db
+     * @param consumer
+     */
+    public void registerForEventUpdates(Consumer<Expense> consumer) {
+        EXEC.submit(() -> {
+            while (!Thread.interrupted()) {
+                var res = ClientBuilder.newClient(new ClientConfig())
+                        .target(serverAddress).path("api/expenses/add/updates")
+                        .request(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON)
+                        .get(Response.class);
+
+                if (res.getStatus() == 204) { // NO_CONTENT
+                    continue;
+                }
+
+                var e = res.readEntity(Expense.class);
+                consumer.accept(e);
+            }
+        });
+    }
+
+
 
     /**
      * adds expense tag
