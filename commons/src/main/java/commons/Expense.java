@@ -7,6 +7,8 @@ import java.util.Date;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import commons.Event;
+import org.springframework.messaging.handler.annotation.SendTo;
 
 @Entity
 public class Expense {
