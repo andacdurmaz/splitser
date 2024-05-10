@@ -457,8 +457,7 @@ public class ServerUtils extends Util {
     }
 
 
-
-    private static final ExecutorService DELEXPENSE = Executors.newSingleThreadExecutor();
+    //private static final ExecutorService DELEXPENSE = Executors.newSingleThreadExecutor();
 
     /**
      * Creates the long polling connection that registers
@@ -466,59 +465,51 @@ public class ServerUtils extends Util {
      * @param consumer buffer that keeps created expenses
      */
     public void regDeleteExpenses(Consumer<Expense> consumer) {
-        DELEXPENSE.submit(() -> {
-            while(!Thread.interrupted()) {
-                var result = ClientBuilder
-                        .newClient(new ClientConfig())
-                        .target(serverAddress).path("api/expenses/delete/updates")
-                        .request(APPLICATION_JSON)
-                        .accept(APPLICATION_JSON)
-                        .get(Response.class);
+        session.subscribe("/updates/delete/expenses", new StompFrameHandler() {
 
-                if (result.getStatus() == 204) {
-                    continue;
-                }
-                var expense = result.readEntity(Expense.class);
-                consumer.accept(expense);
+            @Override
+            public Type getPayloadType(StompHeaders headers) {
+                return Expense.class;
+            }
+
+            @Override
+            public void handleFrame(StompHeaders headers, Object payload) {
+                consumer.accept((Expense) payload);
             }
         });
     }
 
 
-    private static final ExecutorService ADDEXPENSE = Executors.newSingleThreadExecutor();
+    //private static final ExecutorService ADDEXPENSE = Executors.newSingleThreadExecutor();
 
     /**
      * Creates the long polling connection that registers
      * and notifies when new expenses are created
      * @param consumer buffer that keeps created expenses
      */
-    public void regAddExpenses(Consumer<Expense> consumer) {
-        ADDEXPENSE.submit(() -> {
-            while(!Thread.interrupted()) {
-                var result = ClientBuilder
-                        .newClient(new ClientConfig())
-                        .target(serverAddress).path("api/expenses/add/updates")
-                        .request(APPLICATION_JSON)
-                        .accept(APPLICATION_JSON)
-                        .get(Response.class);
+    public void regEditExpenses(Consumer<Expense> consumer) {
+        session.subscribe("/updates/edit/expenses", new StompFrameHandler() {
 
-                if(result.getStatus() == 204) {
-                    continue;
-                }
-                var expense = result.readEntity(Expense.class);
-                consumer.accept(expense);
+            @Override
+            public Type getPayloadType(StompHeaders headers) {
+                return Expense.class;
+            }
+
+            @Override
+            public void handleFrame(StompHeaders headers, Object payload) {
+                consumer.accept((Expense) payload);
             }
         });
     }
 
     /**
      * shuts down the listeners
+     *
+     public void stop(){
+     ADDEXPENSE.shutdownNow();
+     DELEXPENSE.shutdownNow();
+     }
      */
-    public void stop(){
-        ADDEXPENSE.shutdownNow();
-        DELEXPENSE.shutdownNow();
-    }
-
     /**
      * adds a debt to the database
      * @param debt the added debt

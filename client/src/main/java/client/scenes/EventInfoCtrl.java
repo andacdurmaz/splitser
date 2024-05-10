@@ -135,10 +135,10 @@ public class EventInfoCtrl {
         imageView2.setFitHeight(17);
         editDescription.setGraphic(imageView2);
         service.setSession();
-        service.getServer().regDeleteExpenses(deleteOp -> {
+        service.getServer().regDeleteExpenses(expense -> {
             Platform.runLater(() -> refresh());
         });
-        service.getServer().regAddExpenses(addOp -> {
+        service.getServer().regEditExpenses(editOp -> {
             Platform.runLater(() -> refresh());
         });
         service.getServer().registerForSocketMessages("/updates/events", Event.class, e -> {

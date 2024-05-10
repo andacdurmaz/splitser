@@ -18,6 +18,8 @@ package server.api;
 import commons.Expense;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.async.DeferredResult;
 import server.service.ExpenseService;
@@ -118,39 +120,45 @@ public class ExpenseController {
      * @return updated expense or bad request
      */
     @PutMapping("/update/{id}")
-    public ResponseEntity<Expense> updateExpense(@PathVariable("id") long id,
+    public Expense updateExpense(@PathVariable("id") long id,
                                                  @RequestBody Expense expense) {
         if (!service.existsById(id)) {
             ResponseEntity.badRequest().build();
         }
         Expense updatedExpense = service.updateExpense(id, expense);
-        return ResponseEntity.ok(updatedExpense);
+        return updatedExpense;
     }
 
 
-    private Map<Object, Consumer<Expense>> delMap = new HashMap<>();
+    //private Map<Object, Consumer<Expense>> delMap = new HashMap<>();
 
     /**
-     * Creates a 1000 ms connection to the server
-     * Returns a NO CONTENT entity when no updates
-     * have been done, or the expense that was deleted
-     * when it is deleted
-     * @return defferedResult
+     * Creates a ws connection to the client
+     * Returns a notification with
+     * the expense that was edited
+     * when it is edited by a client
+     * @param e expense to update
+     * @return expense
      */
-    @GetMapping("/delete/updates")
-    public DeferredResult<ResponseEntity<Expense>> getDeleteUpdates() {
-        var result = new DeferredResult<ResponseEntity<Expense>>(1000L,
-                ResponseEntity.status(HttpStatus.NO_CONTENT).build());
+    @MessageMapping("/expenses/edit")
+    @SendTo("/updates/edit/expenses")
+    public Expense getExUpdates(Expense e) {
+        return updateExpense(e.getId(), e);
+    }
 
-        var key = new Object();
-        delMap.put(key, expense -> {
-            result.setResult(ResponseEntity.ok(expense));
-        });
-        result.onCompletion(() -> {
-            delMap.remove(key);
-        });
-
-        return result;
+    /**
+     * Creates a ws connection to the client
+     * Returns a notification with
+     * the expense that was deleted
+     * when it is edited by a client
+     * @param e expense to delete
+     * @return expense
+     */
+    @MessageMapping("/expenses/del")
+    @SendTo("/updates/delete/expenses")
+    public Expense getExDeletes(Expense e) {
+        deleteExpense(e.getId());
+        return e;
     }
 
 

@@ -65,7 +65,6 @@ public class AddOrEditExpenseService {
      */
     public Expense addExpense(Expense e){
         Expense expense = server.addExpense(e);
-        server.send("/app/event", e);
         return expense;
     }
 
@@ -81,7 +80,7 @@ public class AddOrEditExpenseService {
      */
     public void updateExpense(Expense e){
         server.updateExpense(e);
-        server.send("/app/event", e);
+        server.send("/app/expenses/edit", e);
     }
 
     /**
