@@ -93,9 +93,19 @@ public class ExpenseController {
 
         Expense saved = service.save(expense);
         addMap.forEach((k, l) -> l.accept(saved));
+        eventUpdate(saved.getEvent());
         return ResponseEntity.ok(saved);
     }
 
+
+    /**
+     * @param e event
+     * @return event refresh
+     */
+    @SendTo("/updates/events")
+    public Event eventUpdate(Event e){
+        return e;
+    }
     /**
      * Get method
      *
