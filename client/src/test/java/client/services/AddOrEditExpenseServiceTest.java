@@ -60,14 +60,19 @@ class AddOrEditExpenseServiceTest {
 
     @Test
     void addExpense() {
-
-        Expense e = new Expense("Test", 1.0);
+        Event event = new Event("bruh");
+        Expense e = new Expense(event);
+        e.setName("n1");
+        e.setAmount(100);
         service.addExpense(e);
     }
 
     @Test
     void updateExpense() {
-        Expense e = new Expense("Test", 1.0);
+        Event event = new Event("bruh");
+        Expense e = new Expense(event);
+        e.setName("n1");
+        e.setAmount(100);
         service.updateExpense(e);
     }
 
