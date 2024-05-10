@@ -297,4 +297,12 @@ public class Expense {
     public void setDebts(List<Debt> debts) {
         this.debts = debts;
     }
+
+     /**
+     * Getter method for debts
+     * @return debts list
+     */
+    public Event getEvent() {
+        return event;
+    }
 }
