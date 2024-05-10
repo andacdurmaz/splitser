@@ -297,11 +297,4 @@ public class Expense {
     public void setDebts(List<Debt> debts) {
         this.debts = debts;
     }
-
-    /**
-     * @return parent event
-     */
-    public long getEventCode() {
-        return event.getEventCode();
-    }
 }

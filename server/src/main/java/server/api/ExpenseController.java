@@ -92,6 +92,7 @@ public class ExpenseController {
         }
 
         Expense saved = service.save(expense);
+        addMap.forEach((k, l) -> l.accept(saved));
         return ResponseEntity.ok(saved);
     }
 

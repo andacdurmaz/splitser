@@ -444,7 +444,7 @@ public class ServerUtils extends Util {
             while(!Thread.interrupted()) {
                 var result = ClientBuilder
                         .newClient(new ClientConfig())
-                        .target(serverAddress).path("api/card/delete/updates")
+                        .target(serverAddress).path("api/expenses/delete/updates")
                         .request(APPLICATION_JSON)
                         .accept(APPLICATION_JSON)
                         .get(Response.class);
@@ -471,7 +471,7 @@ public class ServerUtils extends Util {
             while(!Thread.interrupted()) {
                 var result = ClientBuilder
                         .newClient(new ClientConfig())
-                        .target(serverAddress).path("api/card/delete/updates")
+                        .target(serverAddress).path("api/expenses/add/updates")
                         .request(APPLICATION_JSON)
                         .accept(APPLICATION_JSON)
                         .get(Response.class);

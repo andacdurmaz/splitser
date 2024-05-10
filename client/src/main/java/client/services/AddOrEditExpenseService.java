@@ -65,13 +65,6 @@ public class AddOrEditExpenseService {
      */
     public Expense addExpense(Expense e){
         Expense expense =  server.addExpense(e);
-        List<Event> events = server.getEvents();
-        for(Event ce : events)
-            if(ce.getEventCode() == e.getEventCode())
-            {
-                ce.addExpense(e);
-                server.updateEvent(ce);
-            }
         return expense;
     }
 
