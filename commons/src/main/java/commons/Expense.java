@@ -301,7 +301,7 @@ public class Expense {
     /**
      * @return parent event
      */
-    public Event getEvent(){
-        return  this.event;
+    public long getEventId(){
+        return  event.getId();
     }
 }

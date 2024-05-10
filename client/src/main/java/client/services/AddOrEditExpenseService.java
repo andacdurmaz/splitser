@@ -65,7 +65,7 @@ public class AddOrEditExpenseService {
      */
     public Expense addExpense(Expense e){
         Expense expense =  server.addExpense(e);
-        server.updateEvent(e.getEvent());
+        server.updateEvent(server.getEventById(e.getEventId()));
         return expense;
     }
 
@@ -81,7 +81,7 @@ public class AddOrEditExpenseService {
      */
     public void updateExpense(Expense e){
         server.updateExpense(e);
-        server.updateEvent(e.getEvent());
+        server.updateEvent(server.getEventById(e.getEventId()));
     }
 
     /**
