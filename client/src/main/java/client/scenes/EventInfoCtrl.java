@@ -357,10 +357,11 @@ public class EventInfoCtrl {
         updateDesc(event);
         updateLabelText(event);
         service.registerForEventUpdates(expense -> {
-            if (!event.getExpenses().contains(expense))
-                event.addExpense(expense);
-            service.updateEvent(event);
-            expenseList.getItems().setAll(event.getExpenses());
+            this.event = service.getEventById(event.getId());
+            if (!this.event.getExpenses().contains(expense))
+                this.event.addExpense(expense);
+            service.updateEvent(this.event);
+            expenseList.getItems().setAll(this.event.getExpenses());
         });
         expenseList.getItems().setAll(event.getExpenses());
         if (event.getParticipants() != null && !event.getParticipants().isEmpty()) {
