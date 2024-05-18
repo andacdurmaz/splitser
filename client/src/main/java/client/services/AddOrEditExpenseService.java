@@ -54,6 +54,9 @@ public class AddOrEditExpenseService {
      * @param e Event
      */
     public void updateAndShow(Event e){
+        for (Expense expense : e.getExpenses()) {
+            server.updateExpense(expense);
+        }
         server.updateEvent(e);
         server.send("/app/event", e);
         mainCtrl.showEventInfo(e);
