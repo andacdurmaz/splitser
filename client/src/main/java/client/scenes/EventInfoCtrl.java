@@ -279,6 +279,7 @@ public class EventInfoCtrl {
      * show statistics
      */
     public void showStatistics() {
+        event = service.getEventById(event.getId());
         service.getMainCtrl().showStatistics(event);
     }
 
