@@ -151,8 +151,8 @@ public class EventController {
             return ResponseEntity.status(404).build();
         }
 
-        Event updatedEvent = eventService.updateEvent(event);
-        return ResponseEntity.ok(updatedEvent);
+        eventService.updateEvent(event);
+        return ResponseEntity.ok(event);
     }
 
     /**
