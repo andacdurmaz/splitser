@@ -361,9 +361,9 @@ public class EventInfoCtrl {
         updateLabelText(this.event);
         service.registerForEventUpdates(expense -> {
             this.event = service.getEventById(event.getId());
-            if (!this.event.getExpenses().contains(expense))
+            /*if (!this.event.getExpenses().contains(expense))
                 this.event.addExpense(expense);
-            service.updateEvent(this.event);
+            service.updateEvent(this.event);*/
             expenseList.getItems().setAll(this.event.getExpenses());
         });
         expenseList.getItems().setAll(this.event.getExpenses());
