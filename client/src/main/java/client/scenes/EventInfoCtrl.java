@@ -142,7 +142,8 @@ public class EventInfoCtrl {
             Platform.runLater(() -> refresh());
         });
         service.getServer().registerForSocketMessages("/updates/events", Event.class, e -> {
-            Platform.runLater(() -> refresh());
+            Platform.runLater(() -> {if(e.getEventCode() == event.getEventCode())
+                 refresh(); });
         });
 
     }
