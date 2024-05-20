@@ -143,7 +143,7 @@ public class EventInfoCtrl {
         });
         service.getServer().registerForSocketMessages("/updates/events", Event.class, e -> {
             Platform.runLater(() -> {if(e.getEventCode() == event.getEventCode())
-                 refresh(); });
+                    refresh(); });
         });
 
     }
@@ -373,7 +373,8 @@ public class EventInfoCtrl {
             for (int i = 0; i < this.event.getParticipants().size() - 1; i++) {
                 label += this.event.getParticipants().get(i).getUsername() + ", ";
             }
-            label += this.event.getParticipants().get(this.event.getParticipants().size() - 1).getUsername();
+            label += this.event.getParticipants().get(
+                    this.event.getParticipants().size() - 1).getUsername();
             participantsLabel.setText(label);
         } else {
             participantsLabel.setText(service.getString("no-available-participants"));

@@ -51,7 +51,7 @@ public class StatisticsCtrl {
         service.setSession();
         service.getServer().registerForSocketMessages("/updates/events", Event.class, e -> {
             Platform.runLater(() -> {if(e.getEventCode() == event.getEventCode())
-                refresh(); });
+                    refresh(); });
         });
         service.getServer().regDeleteExpenses(expense -> {
             Platform.runLater(() -> refresh());
