@@ -419,7 +419,8 @@ public class EventInfoCtrl {
             List<User> oldParticipants = event.getParticipants();
             oldParticipants = oldParticipants.stream().filter(q -> !q.equals(temp)).toList();
             event.setParticipants(oldParticipants);
-            service.updateEvent(event);
+            //service.updateEvent(event);
+            service.send("/app/event", event);
             setData(event);
         }
 
