@@ -48,9 +48,16 @@ public class StatisticsCtrl {
      * done on a singleton process
      */
     public void initialize() {
+        service.setSession();
         service.getServer().registerForSocketMessages("/updates/events", Event.class, e -> {
             Platform.runLater(() -> {if(e.getEventCode() == event.getEventCode())
                 refresh(); });
+        });
+        service.getServer().regDeleteExpenses(expense -> {
+            Platform.runLater(() -> refresh());
+        });
+        service.getServer().regEditExpenses(editOp -> {
+            Platform.runLater(() -> refresh());
         });
     }
 

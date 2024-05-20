@@ -50,4 +50,11 @@ public class StatisticsService {
         return this.server;
     }
 
+    /**
+     * starts a new websocket session
+     */
+    public void setSession(){
+        server.setSession();
+    }
+
 }
