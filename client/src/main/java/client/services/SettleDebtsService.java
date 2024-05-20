@@ -2,6 +2,7 @@ package client.services;
 
 import client.scenes.MainCtrl;
 import client.utils.ServerUtils;
+import commons.Event;
 
 
 import javax.inject.Inject;

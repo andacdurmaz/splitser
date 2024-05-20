@@ -43,4 +43,11 @@ public class StatisticsService {
         return mainCtrl.getBundle().getString(s);
     }
 
+    /**
+     * @return get server instance
+     */
+    public ServerUtils getServer(){
+        return this.server;
+    }
+
 }
