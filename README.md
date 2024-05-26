@@ -30,5 +30,5 @@ We implemented the following HCI requirements:
 to see the total sum of expenses, you need to press the statistics button in the event info.
 
 Websockets and Long Polling:
-Long Polling is used for the adding and deleting of expenses, this can mainly be seen in the file : client/src/main/java/client/utils/ServerUtils.java and server\src\main\java\server\api\ExpenseController.java\
+Long Polling is used for the adding of expenses, this can mainly be seen in the files : client/src/main/java/client/utils/ServerUtils.java and server\src\main\java\server\api\ExpenseController.java\. A method called registerForEventUpdates in serverUtils will make sure all clients are updated once a new expense has been added.
 Websockets are used for everything else and can mainly be found in the file : server/src/main/java/server/WebSocketConfig.java as well as in the server controllers and client side fxml controllers.
