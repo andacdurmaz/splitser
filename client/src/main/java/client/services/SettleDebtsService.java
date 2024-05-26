@@ -2,6 +2,7 @@ package client.services;
 
 import client.scenes.MainCtrl;
 import client.utils.ServerUtils;
+import commons.Event;
 
 
 import javax.inject.Inject;
@@ -49,6 +50,15 @@ public class SettleDebtsService {
      */
     public String getString(String s){
         return mainCtrl.getBundle().getString(s);
+    }
+
+     /**
+     * @param e event to update
+     * @param s address to send update
+     * sends event for client comm
+     */
+    public void send(String s, Event e){
+        server.send(s, e);
     }
 
 

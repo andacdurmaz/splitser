@@ -247,6 +247,32 @@ public class ServerUtils extends Util {
                 .put(Entity.entity(expense, APPLICATION_JSON), Expense.class);
     }
 
+    private static final ExecutorService EXEC = Executors.newSingleThreadExecutor();
+
+    /**
+     * Register a consumer (function) to execute when new event is added to the db
+     * @param consumer
+     */
+    public void registerForEventUpdates(Consumer<Expense> consumer) {
+        EXEC.submit(() -> {
+            while (!Thread.interrupted()) {
+                var res = ClientBuilder.newClient(new ClientConfig())
+                        .target(serverAddress).path("api/expenses/add/updates")
+                        .request(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON)
+                        .get(Response.class);
+
+                if (res.getStatus() == 204) { // NO_CONTENT
+                    continue;
+                }
+
+                var e = res.readEntity(Expense.class);
+                consumer.accept(e);
+            }
+        });
+    }
+
+
 
     /**
      * adds expense tag
@@ -431,8 +457,7 @@ public class ServerUtils extends Util {
     }
 
 
-
-    private static final ExecutorService DELEXPENSE = Executors.newSingleThreadExecutor();
+    //private static final ExecutorService DELEXPENSE = Executors.newSingleThreadExecutor();
 
     /**
      * Creates the long polling connection that registers
@@ -440,59 +465,51 @@ public class ServerUtils extends Util {
      * @param consumer buffer that keeps created expenses
      */
     public void regDeleteExpenses(Consumer<Expense> consumer) {
-        DELEXPENSE.submit(() -> {
-            while(!Thread.interrupted()) {
-                var result = ClientBuilder
-                        .newClient(new ClientConfig())
-                        .target(serverAddress).path("api/card/delete/updates")
-                        .request(APPLICATION_JSON)
-                        .accept(APPLICATION_JSON)
-                        .get(Response.class);
+        session.subscribe("/updates/delete/expenses", new StompFrameHandler() {
 
-                if (result.getStatus() == 204) {
-                    continue;
-                }
-                var expense = result.readEntity(Expense.class);
-                consumer.accept(expense);
+            @Override
+            public Type getPayloadType(StompHeaders headers) {
+                return Expense.class;
+            }
+
+            @Override
+            public void handleFrame(StompHeaders headers, Object payload) {
+                consumer.accept((Expense) payload);
             }
         });
     }
 
 
-    private static final ExecutorService ADDEXPENSE = Executors.newSingleThreadExecutor();
+    //private static final ExecutorService ADDEXPENSE = Executors.newSingleThreadExecutor();
 
     /**
      * Creates the long polling connection that registers
      * and notifies when new expenses are created
      * @param consumer buffer that keeps created expenses
      */
-    public void regAddExpenses(Consumer<Expense> consumer) {
-        ADDEXPENSE.submit(() -> {
-            while(!Thread.interrupted()) {
-                var result = ClientBuilder
-                        .newClient(new ClientConfig())
-                        .target(serverAddress).path("api/card/delete/updates")
-                        .request(APPLICATION_JSON)
-                        .accept(APPLICATION_JSON)
-                        .get(Response.class);
+    public void regEditExpenses(Consumer<Expense> consumer) {
+        session.subscribe("/updates/edit/expenses", new StompFrameHandler() {
 
-                if(result.getStatus() == 204) {
-                    continue;
-                }
-                var expense = result.readEntity(Expense.class);
-                consumer.accept(expense);
+            @Override
+            public Type getPayloadType(StompHeaders headers) {
+                return Expense.class;
+            }
+
+            @Override
+            public void handleFrame(StompHeaders headers, Object payload) {
+                consumer.accept((Expense) payload);
             }
         });
     }
 
     /**
      * shuts down the listeners
+     *
+     public void stop(){
+     ADDEXPENSE.shutdownNow();
+     DELEXPENSE.shutdownNow();
+     }
      */
-    public void stop(){
-        ADDEXPENSE.shutdownNow();
-        DELEXPENSE.shutdownNow();
-    }
-
     /**
      * adds a debt to the database
      * @param debt the added debt

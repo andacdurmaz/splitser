@@ -138,7 +138,7 @@ public class ExpenseInfoCtrl  {
         }
         event.getExpenses().remove(expense);
         service.getServer().updateEvent(event);
-        service.getServer().deleteExpense(expense);
+        service.getServer().send("/app/expenses/del", expense);
         warning.setVisible(false);
         service.getMainCtrl().showEventInfo(event);
     }

@@ -135,14 +135,15 @@ public class EventInfoCtrl {
         imageView2.setFitHeight(17);
         editDescription.setGraphic(imageView2);
         service.setSession();
-        service.getServer().regDeleteExpenses(deleteOp -> {
+        service.getServer().regDeleteExpenses(expense -> {
             Platform.runLater(() -> refresh());
         });
-        service.getServer().regAddExpenses(addOp -> {
+        service.getServer().regEditExpenses(editOp -> {
             Platform.runLater(() -> refresh());
         });
         service.getServer().registerForSocketMessages("/updates/events", Event.class, e -> {
-            Platform.runLater(() -> refresh());
+            Platform.runLater(() -> {if(e.getEventCode() == event.getEventCode())
+                    refresh(); });
         });
 
     }
@@ -279,6 +280,7 @@ public class EventInfoCtrl {
      * show statistics
      */
     public void showStatistics() {
+        event = service.getEventById(event.getId());
         service.getMainCtrl().showStatistics(event);
     }
 
@@ -354,22 +356,32 @@ public class EventInfoCtrl {
      * @param event of the page
      */
     public void setData(Event event) {
-        updateDesc(event);
-        updateLabelText(event);
-        expenseList.getItems().setAll(event.getExpenses());
-        if (event.getParticipants() != null && !event.getParticipants().isEmpty()) {
+        this.event = service.getEventById(event.getId());
+        updateDesc(this.event);
+        updateLabelText(this.event);
+        service.registerForEventUpdates(expense -> {
+            this.event = service.getEventById(event.getId());
+            if(event.getExpenses().size() != 0)
+            /*if (!this.event.getExpenses().contains(expense))
+                this.event.addExpense(expense);
+            service.updateEvent(this.event);*/
+                expenseList.getItems().setAll(this.event.getExpenses());
+        });
+        expenseList.getItems().setAll(this.event.getExpenses());
+        if (this.event.getParticipants() != null && !this.event.getParticipants().isEmpty()) {
             String label = "";
 
-            for (int i = 0; i < event.getParticipants().size() - 1; i++) {
-                label += event.getParticipants().get(i).getUsername() + ", ";
+            for (int i = 0; i < this.event.getParticipants().size() - 1; i++) {
+                label += this.event.getParticipants().get(i).getUsername() + ", ";
             }
-            label += event.getParticipants().get(event.getParticipants().size() - 1).getUsername();
+            label += this.event.getParticipants().get(
+                    this.event.getParticipants().size() - 1).getUsername();
             participantsLabel.setText(label);
         } else {
             participantsLabel.setText(service.getString("no-available-participants"));
         }
-        participantCombobox.getItems().setAll(event.getParticipants());
-        expenseComboBox.getItems().setAll(event.getParticipants());
+        participantCombobox.getItems().setAll(this.event.getParticipants());
+        expenseComboBox.getItems().setAll(this.event.getParticipants());
 
     }
 
@@ -409,7 +421,8 @@ public class EventInfoCtrl {
             List<User> oldParticipants = event.getParticipants();
             oldParticipants = oldParticipants.stream().filter(q -> !q.equals(temp)).toList();
             event.setParticipants(oldParticipants);
-            service.updateEvent(event);
+            //service.updateEvent(event);
+            service.send("/app/event", event);
             setData(event);
         }
 

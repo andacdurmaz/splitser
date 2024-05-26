@@ -65,7 +65,7 @@ public class ExpenseControllerTest {
         assertNull(added1.getName());
         added1.setName("changed");
         long id1 = added1.getId();
-        assertEquals(ResponseEntity.ok(added1), sut.updateExpense(id1, added1));
+        assertEquals(added1, sut.updateExpense(id1, added1));
     }
 
 }

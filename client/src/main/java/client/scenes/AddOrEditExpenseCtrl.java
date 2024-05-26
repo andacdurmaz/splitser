@@ -93,6 +93,7 @@ public class AddOrEditExpenseCtrl implements Initializable {
      * the participant combobox display only usernames
      */
     public void initialize() {
+        service.getServer().setSession();
         updatePayingParticipants();
         if (!expenseTag.getItems().isEmpty()) {
             expenseTag.setCellFactory(param -> new TextFieldListCell<>(new StringConverter<>() {

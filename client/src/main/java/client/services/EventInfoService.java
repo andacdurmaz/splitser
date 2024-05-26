@@ -3,10 +3,12 @@ package client.services;
 import client.scenes.MainCtrl;
 import client.utils.ServerUtils;
 import commons.Event;
+import commons.Expense;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 import java.util.List;
+import java.util.function.Consumer;
 
 @Service
 public class EventInfoService {
@@ -56,6 +58,14 @@ public class EventInfoService {
     }
 
     /**
+     * Register a consumer (function) to execute when new event is added to the db
+     * @param consumer
+     */
+    public void registerForEventUpdates(Consumer<Expense> consumer) {
+        server.registerForEventUpdates(consumer);
+    }
+
+    /**
      *
      */
     public void login() {
@@ -94,7 +104,7 @@ public class EventInfoService {
     /**
      * @param e event to update
      * @param s address to send update
-     * sends event for client client comm
+     * sends event for client comm
      */
     public void send(String s, Event e){
         server.send(s, e);

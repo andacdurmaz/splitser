@@ -4,6 +4,7 @@ import client.services.StatisticsService;
 import com.google.inject.Inject;
 import commons.Event;
 import commons.Expense;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -41,6 +42,36 @@ public class StatisticsCtrl {
         this.service = service;
         this.event = event;
     }
+
+    /**
+     * intitialization
+     * done on a singleton process
+     */
+    public void initialize() {
+        service.setSession();
+        service.getServer().registerForSocketMessages("/updates/events", Event.class, e -> {
+            Platform.runLater(() -> {if(e.getEventCode() == event.getEventCode())
+                    refresh(); });
+        });
+        service.getServer().regDeleteExpenses(expense -> {
+            Platform.runLater(() -> refresh());
+        });
+        service.getServer().regEditExpenses(editOp -> {
+            Platform.runLater(() -> refresh());
+        });
+    }
+
+    /**
+     * refreshes the page
+     */
+    public void refresh() {
+        Event e = service.getServer().getEventById(event.getId());
+
+        totalSumOfExpenses = 0;
+        setEvent(e);
+        setData(e);
+    }
+
 
     /**
      * Set event

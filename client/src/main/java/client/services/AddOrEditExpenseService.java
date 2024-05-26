@@ -54,7 +54,10 @@ public class AddOrEditExpenseService {
      * @param e Event
      */
     public void updateAndShow(Event e){
-        //server.updateEvent(e);
+        for (Expense expense : e.getExpenses()) {
+            server.updateExpense(expense);
+        }
+        server.updateEvent(e);
         server.send("/app/event", e);
         mainCtrl.showEventInfo(e);
     }
@@ -64,8 +67,7 @@ public class AddOrEditExpenseService {
      * @return the added expense
      */
     public Expense addExpense(Expense e){
-        Expense expense =  server.addExpense(e);
-        server.send("/app/event", e);
+        Expense expense = server.addExpense(e);
         return expense;
     }
 
@@ -81,7 +83,7 @@ public class AddOrEditExpenseService {
      */
     public void updateExpense(Expense e){
         server.updateExpense(e);
-        server.send("/app/event", e);
+        server.send("/app/expenses/edit", e);
     }
 
     /**
@@ -116,5 +118,12 @@ public class AddOrEditExpenseService {
         return mainCtrl;
     }
 
+    /**
+     * getter method for the server utils
+     * @return the server utils
+     */
+    public ServerUtils getServer() {
+        return server;
 
+    }
 }

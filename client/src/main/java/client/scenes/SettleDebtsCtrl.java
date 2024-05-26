@@ -123,6 +123,7 @@ public class SettleDebtsCtrl {
     private void handleSettleDebt() {
         List<String> list = resolveDebts(participantDebts);
         if (selectedParticipant != null) {
+            service.send("/app/event", event);
             service.getMainCtrl().showUserDebts(list, event, selectedParticipant);
         }
     }
