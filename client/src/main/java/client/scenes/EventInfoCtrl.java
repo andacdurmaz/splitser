@@ -559,9 +559,9 @@ public class EventInfoCtrl {
      * refreshes the page
      */
     public void refresh() {
-        Event e = service.getEventById(event.getId());
-        setEvent(e);
-        setData(e);
+        event = service.getEventById(event.getId());
+        setEvent(event);
+        setData(event);
     }
 
 
@@ -571,6 +571,7 @@ public class EventInfoCtrl {
      * @param actionEvent when the button is clicked
      */
     public void settleDebts(ActionEvent actionEvent) {
+        event = service.getEventById(event.getId());
         service.getMainCtrl().showSettleDebts(event);
     }
 

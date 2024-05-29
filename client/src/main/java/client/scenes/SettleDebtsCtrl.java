@@ -4,6 +4,7 @@ import client.services.SettleDebtsService;
 import commons.Debt;
 import commons.Event;
 import commons.User;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -53,13 +54,52 @@ public class SettleDebtsCtrl {
         this.service = service;
     }
 
+    /**
+     * intitialization
+     * done on a singleton process
+     */
+    public void initialize() {
+        service.setSession();
+        service.getServer().registerForSocketMessages("/updates/events", Event.class, e -> {
+            Platform.runLater(() -> {if(e.getEventCode() == event.getEventCode())
+                    refresh(); });
+        });
+        service.getServer().regDeleteExpenses(expense -> {
+            Platform.runLater(() -> refresh());
+        });
+        service.getServer().regEditExpenses(editOp -> {
+            Platform.runLater(() -> refresh());
+        });
+    }
+
+    /**
+     * refreshes the page
+     */
+
+    public void refresh() {
+        event = service.getServer().getEventById(event.getId());
+        resetList();
+        setData();
+    }
+
+    /**
+     * resets the list of debts
+     */
+
+    public void resetList(){
+        debtsListView.getItems().clear();
+        participants.getItems().clear();
+        debts.clear();
+        participantDebts.clear();
+    }
+
 
     /**
      * determines who must pay how much to each person
      * @param participants mappings for each participant's total debt
      * @return the ids of the payers, payees, and the amount
      */
-    public List<String> resolveDebts(Map<User, Double> participants) {
+    public List<String>resolveDebts(Map<User, Double> participants) {
         List<String> paymentInstructions = new ArrayList<>();
 
         List<User> debtors = new ArrayList<>();
@@ -121,6 +161,7 @@ public class SettleDebtsCtrl {
      */
     @FXML
     private void handleSettleDebt() {
+        event = service.getServer().getEventById(event.getId());
         List<String> list = resolveDebts(participantDebts);
         if (selectedParticipant != null) {
             service.send("/app/event", event);

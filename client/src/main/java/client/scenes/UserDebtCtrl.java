@@ -5,6 +5,7 @@ import commons.Debt;
 import commons.Event;
 import commons.Expense;
 import commons.User;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -49,6 +50,24 @@ public class UserDebtCtrl {
     @Inject
     public UserDebtCtrl(UserDebtService service){
         this.service = service;
+    }
+
+    /**
+     * intitialization
+     * done on a singleton process
+     */
+    public void initialize() {
+        service.setSession();
+        service.getServer().registerForSocketMessages("/updates/events", Event.class, e -> {
+            Platform.runLater(() -> {if(e.getEventCode() == event.getEventCode())
+                    exit(); });
+        });
+        service.getServer().regDeleteExpenses(expense -> {
+            Platform.runLater(() -> exit());
+        });
+        service.getServer().regEditExpenses(editOp -> {
+            Platform.runLater(() -> exit());
+        });
     }
 
     /**
@@ -113,9 +132,8 @@ public class UserDebtCtrl {
 
     /**
      * returns to the settle debts page of the event
-     * @param actionEvent when the button is clicked
      */
-    public void exit(ActionEvent actionEvent) {
+    public void exit() {
         service.getMainCtrl().showSettleDebts(event);
     }
 
