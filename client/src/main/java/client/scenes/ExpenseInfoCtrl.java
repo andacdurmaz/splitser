@@ -61,7 +61,7 @@ public class ExpenseInfoCtrl  {
                     refresh(); });
         });
         service.getServer().regDeleteExpenses(expense -> {
-            Platform.runLater(() -> refresh());
+            Platform.runLater(() -> cancel());
         });
         service.getServer().regEditExpenses(editOp -> {
             Platform.runLater(() -> refresh());
@@ -184,5 +184,12 @@ public class ExpenseInfoCtrl  {
      */
     public void goBack(ActionEvent actionEvent) {
         warning.setVisible(false);
+    }
+
+    /**
+     *  return back to event info
+     */
+    public void cancel() {
+        service.getMainCtrl().showEventInfo(event);
     }
 }
