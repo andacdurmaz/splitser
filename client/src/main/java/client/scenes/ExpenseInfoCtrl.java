@@ -5,6 +5,7 @@ import commons.Debt;
 import commons.Event;
 import commons.Expense;
 import commons.User;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -19,6 +20,7 @@ import javafx.scene.paint.Color;
 import javafx.util.StringConverter;
 
 import javax.inject.Inject;
+import java.util.List;
 
 
 public class ExpenseInfoCtrl  {
@@ -47,6 +49,39 @@ public class ExpenseInfoCtrl  {
 
     @FXML
     private AnchorPane warning;
+
+    /**
+     * intitialization
+     * done on a singleton process
+     */
+    public void initialize() {
+        service.setSession();
+        service.getServer().registerForSocketMessages("/updates/events", Event.class, e -> {
+            Platform.runLater(() -> {if(e.getEventCode() == event.getEventCode())
+                    refresh(); });
+        });
+        service.getServer().regDeleteExpenses(expense -> {
+            Platform.runLater(() -> refresh());
+        });
+        service.getServer().regEditExpenses(editOp -> {
+            Platform.runLater(() -> refresh());
+        });
+    }
+
+    /**
+     * refreshes the page
+     */
+    public void refresh() {
+        event = service.getServer().getEventById(event.getId());
+        List<Expense> expenseList = event.getExpenses();
+        for(Expense e : expenseList){
+            if(e.getId() == expense.getId()){
+                expense = e;
+                break;
+            }
+        }
+        setData();
+    }
 
     /**
      * Constructor
