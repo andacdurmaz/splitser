@@ -194,6 +194,7 @@ public class SettleDebtsCtrl {
      */
     @FXML
     private void handleBack() {
+        service.getServer().closeSession();
         service.getMainCtrl().showEventInfo(this.event);
     }
 

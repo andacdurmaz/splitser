@@ -73,6 +73,13 @@ public class ServerUtils extends Util {
     }
 
     /**
+     * Sets session
+     */
+    public void closeSession() {
+        session.disconnect();
+    }
+
+    /**
      * Adding javadoc for checkstyle
      *
      * @throws IOException        exception

@@ -134,6 +134,7 @@ public class UserDebtCtrl {
      * returns to the settle debts page of the event
      */
     public void exit() {
+        service.getServer().closeSession();
         service.getMainCtrl().showSettleDebts(event);
     }
 
@@ -179,6 +180,7 @@ public class UserDebtCtrl {
             if (payments.getItems().size() == 0) {
                 noDebtsLeft();
             }
+            service.getServer().send("/app/event", event);
         }
         else
             errorMessage();
