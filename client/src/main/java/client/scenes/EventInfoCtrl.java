@@ -145,6 +145,11 @@ public class EventInfoCtrl {
             Platform.runLater(() -> {if(e.getEventCode() == event.getEventCode())
                     refresh(); });
         });
+        service.registerForEventUpdates(expense -> Platform.runLater(() -> {
+            this.event = service.getEventById(event.getId());
+            if(event.getExpenses().size() != 0)
+                expenseList.getItems().setAll(this.event.getExpenses());
+        }));
 
     }
 
@@ -359,14 +364,6 @@ public class EventInfoCtrl {
         this.event = service.getEventById(event.getId());
         updateDesc(this.event);
         updateLabelText(this.event);
-        service.registerForEventUpdates(expense -> Platform.runLater(() -> {
-            this.event = service.getEventById(event.getId());
-            if(event.getExpenses().size() != 0)
-            /*if (!this.event.getExpenses().contains(expense))
-                this.event.addExpense(expense);
-            service.updateEvent(this.event);*/
-                expenseList.getItems().setAll(this.event.getExpenses());
-        }));
         expenseList.getItems().setAll(this.event.getExpenses());
         if (this.event.getParticipants() != null && !this.event.getParticipants().isEmpty()) {
             String label = "";
@@ -559,9 +556,9 @@ public class EventInfoCtrl {
      * refreshes the page
      */
     public void refresh() {
-        event = service.getEventById(event.getId());
-        setEvent(event);
-        setData(event);
+        Event e = service.getEventById(event.getId());
+        setEvent(e);
+        setData(e);
     }
 
 
@@ -571,8 +568,8 @@ public class EventInfoCtrl {
      * @param actionEvent when the button is clicked
      */
     public void settleDebts(ActionEvent actionEvent) {
-        event = service.getEventById(event.getId());
-        service.getMainCtrl().showSettleDebts(event);
+        Event e = service.getEventById(event.getId());
+        service.getMainCtrl().showSettleDebts(e);
     }
 
     /**
