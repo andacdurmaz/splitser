@@ -4,6 +4,7 @@ import client.services.StartPageService;
 import com.google.inject.Inject;
 import commons.Event;
 import javafx.animation.PauseTransition;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -100,6 +101,16 @@ public class StartPageCtrl implements Initializable {
 
         List<Event> events = service.getJoinedEvents();
         joinedEvents.getItems().setAll(events);
+        service.setSession();
+
+        service.getServer().registerForSocketMessages("/updates/events", Event.class, e -> {
+            Platform.runLater(() -> {
+                for(Event event : joinedEvents.getItems()) {
+                    if (e.getEventCode() == event.getEventCode())
+                        refresh();
+                }
+            });
+        });
 
         try {
             getJoinedEvents();
