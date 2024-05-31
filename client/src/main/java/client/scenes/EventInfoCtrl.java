@@ -359,14 +359,14 @@ public class EventInfoCtrl {
         this.event = service.getEventById(event.getId());
         updateDesc(this.event);
         updateLabelText(this.event);
-        service.registerForEventUpdates(expense -> {
+        service.registerForEventUpdates(expense -> Platform.runLater(() -> {
             this.event = service.getEventById(event.getId());
             if(event.getExpenses().size() != 0)
             /*if (!this.event.getExpenses().contains(expense))
                 this.event.addExpense(expense);
             service.updateEvent(this.event);*/
                 expenseList.getItems().setAll(this.event.getExpenses());
-        });
+        }));
         expenseList.getItems().setAll(this.event.getExpenses());
         if (this.event.getParticipants() != null && !this.event.getParticipants().isEmpty()) {
             String label = "";
