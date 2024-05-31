@@ -104,12 +104,12 @@ public class StartPageCtrl implements Initializable {
         service.setSession();
 
         service.getServer().registerForSocketMessages("/updates/events", Event.class, e -> {
-                Platform.runLater(() -> {
-                    for(Event event : joinedEvents.getItems()) {
-                        if (e.getEventCode() == event.getEventCode())
-                            refresh();
-                    }
-                });
+            Platform.runLater(() -> {
+                for(Event event : joinedEvents.getItems()) {
+                    if (e.getEventCode() == event.getEventCode())
+                        refresh();
+                }
+            });
         });
 
         try {
