@@ -280,8 +280,8 @@ public class EventInfoCtrl {
      * show statistics
      */
     public void showStatistics() {
-        Event e = service.getEventById(event.getId());
-        service.getMainCtrl().showStatistics(e);
+        event = service.getEventById(event.getId());
+        service.getMainCtrl().showStatistics(event);
     }
 
     /**
@@ -571,8 +571,8 @@ public class EventInfoCtrl {
      * @param actionEvent when the button is clicked
      */
     public void settleDebts(ActionEvent actionEvent) {
-        Event e = service.getEventById(event.getId());
-        service.getMainCtrl().showSettleDebts(e);
+        event = service.getEventById(event.getId());
+        service.getMainCtrl().showSettleDebts(event);
     }
 
     /**

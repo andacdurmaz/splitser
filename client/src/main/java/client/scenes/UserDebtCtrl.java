@@ -179,7 +179,6 @@ public class UserDebtCtrl {
             if (payments.getItems().size() == 0) {
                 noDebtsLeft();
             }
-            service.getServer().send("/app/event", event);
         }
         else
             errorMessage();
@@ -226,8 +225,7 @@ public class UserDebtCtrl {
      * @param actionEvent when the button is clicked
      */
     public void goToDebts(ActionEvent actionEvent) {
-        event = service.getServer().getEventById(event.getId());
-        service.getMainCtrl().showSettleDebts(event);
+        service.getMainCtrl().removeOpenDebt(event, user);
     }
 
     /**
