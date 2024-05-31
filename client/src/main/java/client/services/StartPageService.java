@@ -104,6 +104,20 @@ public class StartPageService {
     }
 
     /**
+     * @return get server instance
+     */
+    public ServerUtils getServer(){
+        return this.server;
+    }
+
+    /**
+     * starts a new websocket session
+     */
+    public void setSession(){
+        server.setSession();
+    }
+
+    /**
      * @param s String
      * @return string
      */
